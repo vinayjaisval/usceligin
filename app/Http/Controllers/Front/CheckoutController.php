@@ -236,7 +236,9 @@ class CheckoutController extends FrontBaseController
         if (!Session::has('cart')) {
             return redirect()->route('front.cart')->with('success', __("You don't have any product to checkout."));
         }
-    
+        
+      
+
         $dp = 1;
         $vendor_shipping_id = 0;
         $vendor_packing_id = 0;
@@ -279,7 +281,7 @@ class CheckoutController extends FrontBaseController
                 // dd($refferal_discount);
                 $total -= $refferal_discount;
             }
-    
+//    dd   ($refferal_discount);
             return view('frontend.checkout', [
                 'products' => $products,
                 'refferal_discount' => $refferal_discount,

@@ -11,6 +11,10 @@ $billingAddressCount = App\Models\Address::where('is_billing', '1')->where('user
 $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('user_id', auth()->id())->count();
 @endphp
 <style>
+    .mybtn1, .mybtn2 {
+         padding: 0px 12px; 
+         margin-bottom: 00px;
+   }
    .form-control {
       border: 1px solid #c4c4c4;
    }
@@ -121,13 +125,21 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
                                
                                  <div class="bb-customer-card-footer d-flex gap-2 justify-content-end">
                                   
-                                    <form method="GET" action="" accept-charset="UTF-8" onsubmit="return confirm('Are you sure you want to delete this address?')"><button type="submit" class="btn btn-sm btn-danger"><svg class="icon me-1 svg-icon-ti-ti-trash" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 <form method="POST" action="{{ route('user-address-delete', $billing->id) }}" accept-charset="UTF-8" onsubmit="return confirm('Are you sure you want to delete this address?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="">
+                                       <svg class="icon me-1 svg-icon-ti-ti-trash" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round">
                                              <path d="M4 7l16 0"></path>
                                              <path d="M10 11l0 6"></path>
                                              <path d="M14 11l0 6"></path>
                                              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
                                              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                                          </svg></button></form>
+                                       </svg>
+                                    </button>
+                                 </form>
                                  </div>
                               </div>
                            </div>
@@ -180,7 +192,7 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
                                  <form method="POST" action="{{ route('user-address-delete', $shipping->id) }}" accept-charset="UTF-8" onsubmit="return confirm('Are you sure you want to delete this address?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">
+                                    <button type="submit" class="">
                                        <svg class="icon me-1 svg-icon-ti-ti-trash" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round">
@@ -279,13 +291,14 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
                               <input type="hidden" name="coupon_discount" class="coupon_discount">
                               <input type="hidden" name="total" id="grandtotal" value="0">
                               <input type="hidden" name="shippingCost" id="shippingCost" class ="shippingCost" value="0">
+                              <input type="hidden" name="refferal_discount" value="{{$refferal_discount}}">
 
-                              <input type="hidden" name="billingAddress" value="{{ $billing->id ?? '' }}">
+                              <input type="hidden" name="billingAddress" class="billingAddress" value="{{ $billing->id ?? '' }}">
                               <input type="hidden" name="shippingAddress" value="{{ $shipping->id ?? '' }}">
                               <!-- Action Buttons -->
                               <div class="d-flex gap-2 mt-4">
-                                 <button class="btn btn-secondary" type="button" onclick="goBackToAddress()">Back</button>
-                                 <button type="submit" id="pay-now-btn" class="btn btn-danger">{{ __('Pay Now') }}</button>
+                                 <button class="btn btn-secondary mybtn11" type="button" onclick="goBackToAddress()">Back</button>
+                                 <button type="submit" id="pay-now-btn" class="btn btn-danger mybtn2">{{ __('Pay Now') }}</button>
                               </div>
                            </div>
                         </div>
@@ -301,6 +314,7 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
          @if(Session::has('cart'))
          @php
          $cartTotal = Session::get('cart')->totalPrice;
+         
          $user = App\Models\User::where('id', Auth::id())->select('reffered_by')->first();
          $orderCount = App\Models\Order::where('user_id', Auth::id())->count();
 
@@ -319,6 +333,8 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
          <input type="hidden" class="tgrandtotal" value="{{ $finalTotal }}">
          <input type="hidden" id="original_tax" value="0">
          <input type="hidden" id="wallet-price" name="wallet_price" value="0">
+         <input type="hidden" id="refferal_discount" name="refferal_discount" value="{{$refferal_discount}}">
+
          <input type="hidden" id="ttotal" value="{{ App\Models\Product::convertPrice($totalPrice) }}">
          <input type="hidden" name="coupon_code" id="coupon_code" value="{{ Session::get('coupon_code') ?? '' }}">
          <input type="hidden" name="coupon_discount" class="coupon_discount" value="{{ Session::get('coupon') ?? '' }}">
@@ -326,11 +342,7 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
          <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
 
          {{-- Referral Discount --}}
-         @php
-            $user = App\Models\User::where('id', Auth::user()->id)->select('reffered_by')->first();
-      
-         
-            @endphp
+        
          @if($orderCount == 0 && $user && $user->reffered_by)
          <input type="hidden" id="refferal_discount" name="refferal_discount" value="{{ $refferal_discount ?? '0' }}">
          @endif
@@ -368,7 +380,7 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
 
                   <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
                      <span>Total Amount</span>
-                     <span id="total">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
+                     <span id="total"></span>
                   </div>
 
                   <button class="btn btn-primary w-100 rounded" onclick="showPaymentForm()">CONTINUE TO PAYMENT</button>
@@ -551,11 +563,19 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
    function showPaymentForm() {
       
       let shippingCost = parseFloat($(".shippingCost").text().replace(/[^\d.-]/g, ''));
+   
+      let billingAddress = parseFloat($(".billingAddress").val());
+     
+
   
 
     // Validate
     if (isNaN(shippingCost) || shippingCost <= 0) {
         alert("Please select a valid shipping method before continuing to payment.");
+        return;
+    }
+    if (isNaN(billingAddress) || billingAddress <= null) {
+        alert("Please select a valid billing method before continuing to payment.");
         return;
     }
 
@@ -612,11 +632,15 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
       const $removeBtn = $("#removeCouponBtn");
       const $discountAmount = $(".coupon_discount");
       const $total = $("#total");
+     
+     
       const $grandTotal = $("#grandtotal");
       const $tGrandTotal = $(".tgrandtotal");
       const $shippingCostInput = $(".shippingCost");
 
       const $subTotal = $("#subTotal");
+      const $refferal_discount = $("#refferal_discount");
+
       const $coupon_discount = $(".coupon_discount");
 
 
@@ -637,6 +661,7 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
          }
 
          const formatted = "₹ " + parsedTotal.toFixed(2);
+         console.log(formatted);
 
          // Update visible span
          $("#total").text(formatted);
@@ -776,9 +801,11 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
 
                   // Recalculate total
                   const subtotal = parseCurrency($subTotal.text());
-                  const discount = parseCurrency($discountAmount.text());
-                  const final = subtotal - discount + parseFloat(cost);
+                  const referral_discount = parseCurrency($refferal_discount.val());
 
+                  const discount = parseCurrency($discountAmount.text());
+                  const final = subtotal - referral_discount - discount + parseFloat(cost);
+                  console.log('Final:', referral_discount);
                   updateTotalDisplay(final);
                }
             },
@@ -869,7 +896,7 @@ $(document).on("click", "#pay-now-btn", function (e) {
       form: selectedPayment.data("form"),
       href: selectedPayment.data("href") || null
    };
-
+console.log("Selected Payment Method:", paymentData);
    // Set hidden fields
    $("#selected_payment_method").val(paymentData.method);
    $("#selected_payment_form").val(paymentData.form);

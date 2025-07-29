@@ -127,7 +127,7 @@
                                                         $affiliateUrl = url('/'). '/?reff=' . $user->affilate_code;
                                                         @endphp
 
-                                                        @if($user_affiliated_times >= 5)
+                                                        @if($user_affiliated_times >= 3)
                                                         <textarea id="affilate_address" class="input-field affilate form-control border h--150" name="address" readonly rows="5">{{ $affiliateUrl }}</textarea>
 
                                                         <!-- Social Media Share Buttons -->

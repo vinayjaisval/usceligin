@@ -33,6 +33,7 @@ class PaymentGetways implements ShouldQueue
     public function handle(): void
     {
         $order = Order::where('status', 'pending')->where('order_number', $this->input)->get();
+       
         foreach ($order as $key => $value) {
             $value1 = Order::where('id', $value->id)->first();
             $data=$value1->cart;
@@ -57,7 +58,7 @@ class PaymentGetways implements ShouldQueue
                 // $total_cod =  Helpers::delevery_currency_converter(($total_cod_price + $totaltex + $totalshipping-$totaldiscount));
                
                 // $total_cod=$total_cod_price + $totaltex + $totalshipping-$totaldiscount;
-
+                $paid = 0;
                 $total_cod= $total_cod_price - $totaldiscount;
                 if($value['method']=='Razorpay'){
                     $paid='Prepaid';

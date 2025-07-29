@@ -146,7 +146,7 @@ class RazorpayController extends CheckoutBaseControlller
     public function store(Request $request)
     {
         $input = $request->all();
-
+        // dd($input);
         // Check currency
         if ($this->curr->name !== "INR") {
             return redirect()->back()->with('unsuccess', __('Please Select INR Currency For This Payment.'));
@@ -186,7 +186,7 @@ class RazorpayController extends CheckoutBaseControlller
         // Create Razorpay order
         $razorpayOrder = $this->api->order->create([
             'receipt'         => $order['item_number'],
-            'amount'          => $total * 100, // Amount in paise
+            'amount'          => (int) round($total * 100), // Cast to int
             'currency'        => 'INR',
             'payment_capture' => 1,
         ]);
@@ -234,8 +234,8 @@ class RazorpayController extends CheckoutBaseControlller
 
         $json = json_encode($data);
         $displayCurrency = $this->displayCurrency;
-        
-        
+
+
         view()->share('langg', $this->language);
 
         return view('frontend.razorpay-checkout', compact('data', 'displayCurrency', 'json', 'notify_url'));
@@ -244,7 +244,7 @@ class RazorpayController extends CheckoutBaseControlller
 
     // public function notify1(Request $request)
     // {
-      
+
     //     $input = Session::get('input_data');
     //     $order_data = Session::get('order_data');
     //     $success_url = route('front.payment.return');
@@ -256,7 +256,7 @@ class RazorpayController extends CheckoutBaseControlller
     //     $success = true;
 
     //     if (empty($input_data['razorpay_payment_id']) === false) {
-            
+
     //         try {
     //             $attributes = array(
     //                 'razorpay_order_id' => $payment_id,
@@ -273,7 +273,7 @@ class RazorpayController extends CheckoutBaseControlller
     //     if ($success === true) {
 
     //         $oldCart = Session::get('cart');
-            
+
     //         // $cart = new Cart($oldCart);
 
     //         $cart = Cart::restoreCart($oldCart);
@@ -490,163 +490,209 @@ class RazorpayController extends CheckoutBaseControlller
     // }
 
     public function notify(Request $request)
-{
+    {
 
-  
-    $input = Session::get('input_data');
-    $order_data = Session::get('order_data');
-    $success_url = route('front.payment.return');
-    $cancel_url = route('front.payment.cancle');
-    $input_data = $request->all();
-    $payment_id = Session::get('order_payment_id');
-    $success = true;
 
-    if (!empty($input_data['razorpay_payment_id'])) {
-        try {
-            $attributes = [
-                'razorpay_order_id'   => $payment_id,
-                'razorpay_payment_id' => $input_data['razorpay_payment_id'],
-                'razorpay_signature'  => $input_data['razorpay_signature'],
-            ];
-            // $this->api->utility->verifyPaymentSignature($attributes);
-        } catch (SignatureVerificationError $e) {
-            $success = false;
-        }
-    }
+        $input = Session::get('input_data');
 
-    if ($success === true) {
-        $cart = Cart::restoreCart(Session::get('cart'));
-        $new_cart = json_encode([
-            'totalQty'   => $cart->totalQty,
-            'totalPrice' => $cart->totalPrice,
-            'items'      => $cart->items,
-        ]);
+        $order_data = Session::get('order_data');
+        $success_url = route('front.payment.return');
+        $cancel_url = route('front.payment.cancle');
+        $input_data = $request->all();
+        //  dd($input_data);
+        $payment_id = Session::get('order_payment_id');
+        $success = true;
 
-        $temp_affilate_users = OrderHelper::product_affilate_check($cart);
-        $affilate_users = $temp_affilate_users ? json_encode($temp_affilate_users) : null;
-
-        // Calculate final order total
-        $shippingCost = $input['shippingCost'] ?? 0;
-        $couponDiscount = $input['coupon_discount'] ?? 0;
-        $orderTotal = $cart->totalPrice + $shippingCost - $couponDiscount;
-        
-        // Create order
-        $order = new Order;
-        $input['cart'] = $new_cart;
-        $input['user_id'] = Auth::check() ? Auth::id() : null;
-        $input['billing_address_id'] = $input['billingAddress'] ?? null;
-        $input['shipping_address_id'] = $input['shippingAddress'] ?? null;
-        $input['method'] = $input['selected_payment_method'] ?? null;
-
-        $input['shipping_cost'] = $input['shippingCost'] ?? 0;
-        $input['coupon_discount'] = $input['coupon_discount'] ?? 0;
-        $input['coupon_code'] = $input['coupon_code'] ?? null;
-        $input['totalQty'] =  $cart->totalQty;
-        $input['affilate_users'] = $affilate_users;
-        $input['pay_amount'] = $orderTotal;
-        $input['order_number'] = $order_data['item_number'];
-        $input['wallet_price'] = ($input['wallet_price'] ?? 0) / $this->curr->value;
-        $input['payment_status'] = "Completed";
-        $input['txnid'] = $input_data['razorpay_payment_id'];
-        // $input['status'] = $input['dp'] == 1 ? 'completed' : 'pending';
-        $input['status'] = 'completed' ;
-
-        // dd($input);
-        if ($request->filled('refferal_discount')) {
-            $input['refferal_discount'] = $request->refferal_discount;
+        if (!empty($input_data['razorpay_payment_id'])) {
+            try {
+                $attributes = [
+                    'razorpay_order_id'   => $payment_id,
+                    'razorpay_payment_id' => $input_data['razorpay_payment_id'],
+                    'razorpay_signature'  => $input_data['razorpay_signature'],
+                ];
+                // $this->api->utility->verifyPaymentSignature($attributes);
+            } catch (SignatureVerificationError $e) {
+                $success = false;
+            }
         }
 
-        // Affiliate/referral check
-        foreach (['refferel_user_id', 'affilate'] as $key) {
-            if (Session::has($key)) {
-                $val = ((float) preg_replace('/\D/', '', $request->total)) / $this->curr->value / 100;
-                $sub = $val * $this->gs->affilate_charge;
+        if ($success === true) {
+            $cart = Cart::restoreCart(Session::get('cart'));
+            $new_cart = json_encode([
+                'totalQty'   => $cart->totalQty,
+                'totalPrice' => $cart->totalPrice,
+                'items'      => $cart->items,
+            ]);
 
-                if ($temp_affilate_users) {
-                    foreach ($temp_affilate_users as $t_cost) {
-                        $sub -= $t_cost['charge'];
+            $temp_affilate_users = OrderHelper::product_affilate_check($cart);
+
+            $affilate_users = $temp_affilate_users ? json_encode($temp_affilate_users) : null;
+
+            // Calculate final order total
+            $shippingCost = $input['shippingCost'] ?? 0;
+            $couponDiscount = $input['coupon_discount'] ?? 0;
+            $refferal_discount = $input['refferal_discount'] ?? 0;
+
+            $orderTotal = $cart->totalPrice + $shippingCost - $couponDiscount - $refferal_discount;
+
+            // Create order
+            $order = new Order;
+            $input['cart'] = $new_cart;
+            $input['user_id'] = Auth::check() ? Auth::id() : null;
+            $input['billing_address_id'] = $input['billingAddress'] ?? null;
+            $input['shipping_address_id'] = $input['shippingAddress'] ?? null;
+            $input['method'] = $input['selected_payment_method'] ?? null;
+
+            $input['shipping_cost'] = $input['shippingCost'] ?? 0;
+            $input['coupon_discount'] = $input['coupon_discount'] ?? 0;
+            $input['coupon_code'] = $input['coupon_code'] ?? null;
+            $input['totalQty'] =  $cart->totalQty;
+            $input['affilate_user'] = $affilate_users ?? Auth::user()->reffered_by;
+            $input['affilate_users'] = $affilate_users ?? Auth::user()->affiliated_by;
+
+            $input['pay_amount'] = $orderTotal;
+            $input['order_number'] = $order_data['item_number'];
+            $input['wallet_price'] = ($input['wallet_price'] ?? 0) / $this->curr->value;
+            $input['payment_status'] = "Completed";
+            $input['txnid'] = $input_data['razorpay_payment_id'];
+            // $input['status'] = $input['dp'] == 1 ? 'completed' : 'pending';
+            $input['status'] = 'pending';
+
+            // dd($input);
+            if ($request->filled('refferal_discount')) {
+                $input['refferal_discount'] = $request->refferal_discount;
+            }
+
+            // if (Session::has('refferel_user_id')) {
+            //     $val = (int) preg_replace('/\D/', '', $input['total']) / $this->curr->value;
+            //     $val = $val / 100;
+            //     $sub = $val * $this->gs->affilate_charge;
+            //     if ($temp_affilate_users != null) {
+            //         $t_sub = 0;
+            //         foreach ($temp_affilate_users as $t_cost) {
+            //             $t_sub += $t_cost['charge'];
+            //         }
+            //         $sub = $sub - $t_sub;
+            //     }
+            //     if ($sub > 0) {
+            //         // $user = OrderHelper::affilate_check(Session::get('refferel_user_id'), $sub, $input['dp']); // For Affiliate Checking
+            //         $input['affilate_user'] = Session::get('refferel_user_id');
+            //         $input['affilate_charge'] = $sub;
+            //     }
+            //     Session::forget('refferel_user_id');
+            // }
+            // if (Session::has('affilate')) {
+            //     $val = $input['total'] / $this->curr->value;
+            //     $val = $val / 100;
+            //     $sub = $val * $this->gs->affilate_charge;
+            //     if ($temp_affilate_users != null) {
+            //         $t_sub = 0;
+            //         foreach ($temp_affilate_users as $t_cost) {
+            //             $t_sub += $t_cost['charge'];
+            //         }
+            //         $sub = $sub - $t_sub;
+            //     }
+            //     if ($sub > 0) {
+            //         $user = OrderHelper::affilate_check(Session::get('affilate'), $sub, $input['dp']); // For Affiliate Checking
+            //         $input['affilate_user'] = Session::get('affilate');
+            //         $input['affilate_charge'] = $sub;
+            //     }
+            //     Session::forget('affilate');
+            // }
+
+           // Affiliate/referral check
+            foreach (['refferel_user_id', 'affilate'] as $key) {
+                if (Session::has($key)) {
+                    $val = (float) preg_replace('/[^\d.]/', '', $input['total']); // Keep decimal
+                    $percentage = $this->gs->affilate_charge; // e.g., 10
+                    $sub = $val * ($percentage / 100); // convert to decimal
+                    
+                    
+                    if ($temp_affilate_users) {
+                        foreach ($temp_affilate_users as $t_cost) {
+                            $sub -= $t_cost['charge'];
+                        }
+                    }
+
+                    if ($sub > 0) {
+
+                        // $user = OrderHelper::affilate_check(Session::get($key), $sub, $input['dp']);
+                        $input['affilate_user'] = Session::get($key);
+                        $input['affilate_charge'] = $sub;
+                    }
+
+                    Session::forget($key);
+                }
+            }
+             
+            $order->fill($input)->save();
+            $order->tracks()->create([
+                'title' => 'Pending',
+                'text'  => 'You have successfully placed your order.',
+            ]);
+            $order->notifications()->create();
+
+            PaymentGetways::dispatch($order_data['item_number']);
+
+            if (!empty($input['coupon_id'])) {
+                OrderHelper::coupon_check($input['coupon_id']);
+            }
+
+            OrderHelper::size_qty_check($cart);
+            OrderHelper::stock_check($cart);
+            OrderHelper::vendor_order_check($cart, $order);
+
+            // Clear cart & coupon session
+            Session::put('temporder', $order);
+            Session::put('tempcart', $cart);
+            Session::forget(['cart', 'already', 'coupon', 'coupon_total', 'coupon_total1', 'coupon_percentage']);
+
+            // Wallet transaction
+            if ($order->user_id && $order->wallet_price > 0) {
+                OrderHelper::add_to_transaction($order, $order->wallet_price);
+            }
+
+            // Reward logic
+            if (Auth::check() && $this->gs->is_reward == 1) {
+                $rewards = Reward::all();
+                $num = $order->pay_amount;
+                $closest = null;
+
+                foreach ($rewards as $reward) {
+                    $diff = abs($reward->order_amount - $num);
+                    if ($closest === null || $diff < $closest['diff']) {
+                        $closest = ['reward' => $reward, 'diff' => $diff];
                     }
                 }
 
-                if ($sub > 0) {
-                    $user = OrderHelper::affilate_check(Session::get($key), $sub, $input['dp']);
-                    $input['affilate_user'] = Session::get($key);
-                    $input['affilate_charge'] = $sub;
-                }
-
-                Session::forget($key);
-            }
-        }
-
-        $order->fill($input)->save();
-        $order->tracks()->create([
-            'title' => 'Pending',
-            'text'  => 'You have successfully placed your order.',
-        ]);
-        $order->notifications()->create();
-
-        PaymentGetways::dispatch($order_data['item_number']);
-
-        if (!empty($input['coupon_id'])) {
-            OrderHelper::coupon_check($input['coupon_id']);
-        }
-
-        OrderHelper::size_qty_check($cart);
-        OrderHelper::stock_check($cart);
-        OrderHelper::vendor_order_check($cart, $order);
-
-        // Clear cart & coupon session
-        Session::put('temporder', $order);
-        Session::put('tempcart', $cart);
-        Session::forget(['cart', 'already', 'coupon', 'coupon_total', 'coupon_total1', 'coupon_percentage']);
-
-        // Wallet transaction
-        if ($order->user_id && $order->wallet_price > 0) {
-            OrderHelper::add_to_transaction($order, $order->wallet_price);
-        }
-
-        // Reward logic
-        if (Auth::check() && $this->gs->is_reward == 1) {
-            $rewards = Reward::all();
-            $num = $order->pay_amount;
-            $closest = null;
-
-            foreach ($rewards as $reward) {
-                $diff = abs($reward->order_amount - $num);
-                if ($closest === null || $diff < $closest['diff']) {
-                    $closest = ['reward' => $reward, 'diff' => $diff];
+                if (isset($closest['reward'])) {
+                    Auth::user()->increment('reward', $closest['reward']->reward);
                 }
             }
 
-            if (isset($closest['reward'])) {
-                Auth::user()->increment('reward', $closest['reward']->reward);
-            }
+            // Send emails
+            $mailer = new GeniusMailer();
+
+            // $mailer->sendAutoOrderMail([
+            //     'to'       => $order->customer_email,
+            //     'type'     => "new_order",
+            //     'cname'    => $order->customer_name,
+            //     'oamount'  => "",
+            //     'aname'    => "",
+            //     'aemail'   => "",
+            //     'wtitle'   => "",
+            //     'onumber'  => $order->order_number,
+            // ], $order->id);
+
+            $mailer->sendCustomMail([
+                'to'      => $this->ps->contact_email,
+                'subject' => "New Order Recieved!!",
+                'body'    => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ". Please login to your panel to check.<br>Thank you.",
+            ]);
+
+            return redirect($success_url);
         }
 
-        // Send emails
-        $mailer = new GeniusMailer();
-
-        // $mailer->sendAutoOrderMail([
-        //     'to'       => $order->customer_email,
-        //     'type'     => "new_order",
-        //     'cname'    => $order->customer_name,
-        //     'oamount'  => "",
-        //     'aname'    => "",
-        //     'aemail'   => "",
-        //     'wtitle'   => "",
-        //     'onumber'  => $order->order_number,
-        // ], $order->id);
-
-        $mailer->sendCustomMail([
-            'to'      => $this->ps->contact_email,
-            'subject' => "New Order Recieved!!",
-            'body'    => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ". Please login to your panel to check.<br>Thank you.",
-        ]);
-
-        return redirect($success_url);
+        return redirect($cancel_url);
     }
-
-    return redirect($cancel_url);
-}
-
 }

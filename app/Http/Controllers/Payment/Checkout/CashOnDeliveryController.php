@@ -127,7 +127,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
 
 
 
-        $orderTotal = $t_cart->totalPrice  + $input['shippingCost']  - $input['coupon_discount'];
+        $orderTotal = $t_cart->totalPrice  + $input['shippingCost']  - $input['coupon_discount'] - $input['refferal_discount'];
         
         $order = new Order;
        
@@ -175,7 +175,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
                 $sub = $sub - $t_sub;
             }
             if ($sub > 0) {
-                $user = OrderHelper::affilate_check(Session::get('refferel_user_id'), $sub, $input['dp']); // For Affiliate Checking
+               // $user = OrderHelper::affilate_check(Session::get('refferel_user_id'), $sub, $input['dp']); // For Affiliate Checking
                 $input['affilate_user'] = Session::get('refferel_user_id');
                 $input['affilate_charge'] = $sub;
             }
@@ -194,13 +194,13 @@ class CashOnDeliveryController extends CheckoutBaseControlller
                 $sub = $sub - $t_sub;
             }
             if ($sub > 0) {
-                $user = OrderHelper::affilate_check(Session::get('affilate'), $sub, $input['dp']); // For Affiliate Checking
+                // $user = OrderHelper::affilate_check(Session::get('affilate'), $sub, $input['dp']); // For Affiliate Checking
                 $input['affilate_user'] = Session::get('affilate');
                 $input['affilate_charge'] = $sub;
             }
             Session::forget('affilate');
         }   
-        //   dd($input);
+          
        
         $order->fill($input)->save();
         $order->tracks()->create(['title' => 'Pending', 'text' => 'You have successfully placed your order.']);

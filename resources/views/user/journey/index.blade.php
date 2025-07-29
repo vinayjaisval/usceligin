@@ -33,7 +33,7 @@
                             <div class="card card-color h-100">
                                 <div class="card-body">
                                     <div class="card-icon bg-primary"><i class="fa fa-user"></i></div>
-                                    <h5 class="card-title">User</h5>
+                                    <!-- <h5 class="card-title">User</h5> -->
                                     <!-- <div class="status-badge">New</div> -->
                                     <p class="card-text mt-3">
                                         @if ($completedOrdersCount <= 0)
@@ -52,7 +52,7 @@
                             <div class="card card-color h-100">
                                 <div class="card-body">
                                     <div class="card-icon bg-success"><i class="fa fa-link"></i></div>
-                                    <h5 class="card-title">Affiliate</h5>
+                                    <!-- <h5 class="card-title">Affiliate</h5> -->
                                     <!-- <div class="status-badge">Eligible</div> -->
                                     <p class="card-text mt-3">
                                         @if ($completedOrdersCount <= 3)
@@ -70,7 +70,7 @@
                             <div class="card card-color h-100">
                                 <div class="card-body">
                                     <div class="card-icon bg-warning"><i class="fa fa-briefcase"></i></div>
-                                    <h5 class="card-title">Business Manager</h5>
+                                    <!-- <h5 class="card-title">Business Manager</h5> -->
                                     <!-- <div class="status-badge">Active</div> -->
                                     <p class="card-text mt-3">
                                         @if ($totalPrice < 50000)
@@ -90,7 +90,7 @@
                             <div class="card card-color h-100">
                                 <div class="card-body">
                                     <div class="card-icon bg-danger"><i class="fa fa-star"></i></div>
-                                    <h5 class="card-title">Celigin Partner</h5>
+                                    <!-- <h5 class="card-title">Celigin Partner</h5> -->
                                     <!-- <div class="status-badge">Elite</div> -->
                                     <p class="card-text mt-3">
                                         Celigin Partners use POS, grow their network, and earn extra incentives by achieving the ₹5,00,000 quarterly target.

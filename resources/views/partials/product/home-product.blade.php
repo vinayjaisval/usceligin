@@ -44,7 +44,7 @@
             </div>
             @else
             <div class="wishlist-button">
-               <a class="add_to_wishlist button add_to_cart_button" href="{{ route('user.login') }}" data-bs-toggle="tooltip" data-bs-placement="right" title="{{ __('Wishlist') }}" data-bs-original-title="{{ __('Wishlist') }}" aria-label="{{ __('Wishlist') }}">{{ __('Wishlist') }}</a>
+               <a class="add_to_wishlist button add_to_cart_button" href="{{ route('loginotp') }}" data-bs-toggle="tooltip" data-bs-placement="right" title="{{ __('Wishlist') }}" data-bs-original-title="{{ __('Wishlist') }}" aria-label="{{ __('Wishlist') }}">{{ __('Wishlist') }}</a>
             </div>
             @endif
 

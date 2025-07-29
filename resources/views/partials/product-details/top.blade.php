@@ -310,11 +310,11 @@
               </div>
               @endif
 
-              @if ($productt->type != "Listing")
+              <!-- @if ($productt->type != "Listing")
               <div class="compare-button">
                 <a class="compare button" data-href="{{ route('product.compare.add',$productt->id) }}" href="javascrit:;" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Compare" aria-label="Compare">{{ __('Compare') }}</a>
               </div>
-              @endif
+              @endif -->
 
             </div>
 

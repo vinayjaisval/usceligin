@@ -108,7 +108,7 @@
 </section>
 
 
-<Section>
+    <Section>
         <div class="natural-item-deeply">
             <div class="container">
                 <div class="row">

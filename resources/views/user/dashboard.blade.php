@@ -83,7 +83,7 @@
 
 
             <div class="row row-cards-one">
-               <div class="col-md-3">
+            <div class="col-md-3 col-sm-6 col-6">
                   <div class="mycard bg1">
                      <div class="left">
                         <h5 class="title">Total Orders! </h5>
@@ -96,7 +96,7 @@
                      </div>
                   </div>
                </div>
-               <div class="col-md-3">
+               <div class="col-md-3 col-sm-6 col-6">
                   <div class="mycard bg2">
                      <div class="left">
                         <h5 class="title">Completed Orders!</h5>
@@ -109,7 +109,7 @@
                      </div>
                   </div>
                </div>
-               <div class="col-md-3">
+               <div class="col-md-3 col-sm-6 col-6">
                   <div class="mycard bg3">
                      <div class="left">
                         <h5 class="title">Pending Orders!</h5>
@@ -122,7 +122,7 @@
                      </div>
                   </div>
                </div>
-               <div class="col-md-3">
+               <div class="col-md-3 col-sm-6 col-6">
                   <div class="mycard bg4">
                      <div class="left">
                         <h5 class="title">Cancelled Orders!</h5>
