@@ -1015,7 +1015,7 @@ table.dataTable td {
 	padding: 4px 15px !important;
 }
 .table-responsive .table tr td {
-	padding: 14px 18px;
+	padding: 5px 5px;
 }
 
 .table-responsive .table tr:last-child {
@@ -1120,7 +1120,7 @@ table.dataTable td {
 .btn-warning,
 .badge-warning,
 .bg-warning {
-	background-color: #f99f0b !important;
+	background-color: #c68888 !important;
 }
 
 .btn-info,
@@ -1132,7 +1132,7 @@ table.dataTable td {
 .btn-dark,
 .badge-dark,
 .bg-dark {
-	background-color: #192a56 !important;
+	background-color: #9f8181 !important;
 }
 
 .btn-white,

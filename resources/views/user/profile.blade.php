@@ -43,7 +43,7 @@
                                     @if($user->is_provider != 1)
                                     <div class="file-upload-area">
                                        <div class="upload-file">
-                                          <label>{{ __('Upload') }}
+                                          <label class="rounded">{{ __('Upload') }}
                                              <input type="file" size="60" name="photo" class="upload form-control">
                                           </label>
                                        </div>
@@ -126,7 +126,7 @@
                                     </div>
                                  </div>
                                  <div class="form-links">
-                                    <button class="submit-btn btn btn-primary" type="submit">{{ __('Save') }}</button>
+                                    <button class="submit-btn btn btn-primary rounded" type="submit">{{ __('Save') }}</button>
                                  </div>
                               </form>
                            </div>

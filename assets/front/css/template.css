@@ -849,6 +849,7 @@ a.text-dark:focus {
 	text-align: center;
 	z-index: 100;
 	display: none;
+	border-radius: 6px;
 }
 
 .top-header .media-widget a {
@@ -1767,7 +1768,7 @@ ul.product_list_widget li a:hover,
 .widget_categories ul li,
 .widget_product_categories ul li {
 	padding: 6px 0;
-	border-bottom: 1px solid #e1e1e1; 
+	/* border-bottom: 1px solid #e1e1e1;  */
 	font-size: 12px;
 }
 
@@ -2127,11 +2128,11 @@ ul.product_list_widget li {
 
 .star-rating i {
 	letter-spacing: -2px;
-	color: #f6b70c;
+	color: #bb8a8a;
 }
 
 .star-rating i::before {
-	font-size: 10px;
+	font-size: 14px;
 }
 
 /* .add_to_cart_button {

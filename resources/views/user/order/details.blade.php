@@ -52,7 +52,7 @@
                      <!-- Title & Print -->
                      <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="mb-0">{{ __('Purchased Items') }}</h4>
-                        <a href="{{ route('user-order-print', $order->id) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                        <a href="{{ route('user-order-print', $order->id) }}" target="_blank" class="btn btn-sm btn-primary rounded">
                            <i class="fa fa-print me-1"></i> {{ __('Print Order') }}
                         </a>
                      </div>
@@ -60,7 +60,7 @@
                      <!-- Order Meta -->
                      <div class="mb-4">
                         <h5 class="text-muted">{{ __('Order#') }} <span class="text-dark">{{ $order->order_number }}</span> 
-                           <span class="badge bg-dark text-white">{{ $order->status }}</span>
+                           <span class="badge bg-primary text-white">{{ $order->status }}</span>
                         </h5>
                         <p class="text-muted">{{ __('Order Date') }}: {{ date('d-M-Y', strtotime($order->created_at)) }}</p>
                      </div>
@@ -169,7 +169,7 @@
                         <h6 class="fw-bold">{{ __('Payment Information') }}</h6>
                         <p><strong>{{ __('Status:') }}</strong>
                            @if($order->payment_status == 'Pending')
-                           <span class="badge bg-warning text-dark">{{ __('Unpaid') }}</span>
+                           <span class="badge bg-primary text-white">{{ __('Unpaid') }}</span>
                            @else
                            <span class="badge bg-success">{{ __('Paid') }}</span>
                            @endif
@@ -188,7 +188,7 @@
 
                      <!-- Back Button -->
                      <div class="text-end">
-                        <a href="{{ route('user-orders') }}" class="btn normal-secondry">
+                        <a href="{{ route('user-orders') }}" class="btn normal-secondry rounded">
                            {{ __('Back to Orders') }}
                         </a>
                      </div>

@@ -56,8 +56,8 @@
          </div>
       </div>
       <div class="product-info">
-         <h3 class="product-title"><a href="{{ route('front.product', $prod->slug) }}">{{ ucfirst(mb_strtolower($prod->showName())) }}</a></h3>
-         <div class="product-price d-flex justify-content-between px-4">
+         <h3 class="product-title text-start"><a href="{{ route('front.product', $prod->slug) }}">{{ ucfirst(mb_strtolower($prod->showName())) }}</a></h3>
+         <div class="product-price">
             <div class="price">
                <ins>{{ $prod->showPrice() }} </ins>
                <del>{{ $prod->showPreviousPrice() }}</del>
@@ -65,7 +65,13 @@
             <div class="shipping-feed-back">
                <div class="star-rating">
                   <div class="rating-wrap">
-                     <p><i class="fas fa-star"></i><span> {{ number_format($prod->ratings_avg_rating,1) }} </span></p>
+                     <p>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                     </p>
+
+                     <!-- <span> {{ number_format($prod->ratings_avg_rating,1) }} </span></p> -->
                   </div>
                </div>
             </div>
