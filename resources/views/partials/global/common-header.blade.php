@@ -2,114 +2,113 @@
 
 
 <style>
-   .pdng{
-    padding: 8px 1px !important;
+    .pdng {
+        padding: 8px 1px !important;
     }
 
     .text-general {
-    padding: 0px 12px;
-    color: #000000 !important;
-}
+        padding: 0px 12px;
+        color: #000000 !important;
+    }
 
-.hedrspn{
-    color:white !important;;
-    text-decoration: none !important;
-}
-
-
+    .hedrspn {
+        color: white !important;
+        ;
+        text-decoration: none !important;
+    }
 </style>
-<div class="top-header d-none d-lg-block py-2 border-0 font-400"style="background-color: #bb8a8a;" >
-        <div class="container-fluid">
-            <div class="row align-items-center" >
-                <div class="col-lg-4 sm-mx-none">
-                    <a href="javascript:;" class="text-general">
-                        <span class="hedrspn">{{__('Contact & Support')}} :
-                            {{$ps->phone}}</span></a>
-                </div>
-                <div class="col-lg-8 d-flex">
-                    <ul class="top-links d-flex ms-auto align-items-center gap-2">
-                       
-                        <li class="my-account-dropdown">
-                            @php
-                            $languges = App\Models\Language::all();
-                            $user=Auth::user();
-                            @endphp
-                            <div class="language-selector nice-select">
-                                <!-- <i class="fas fa-globe-americas text-dark"></i> -->
-                                <select name="language" class="language selectors nice select2-js-init">
-                                    @foreach($languges as $language)
-                                    <option value="{{route('front.language',$language->id)}}" {{
+<div class="top-header d-none d-lg-block py-2 border-0 font-400" style="background-color: #bb8a8a;">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-4 sm-mx-none">
+                <a href="javascript:;" class="text-general">
+                    <span class="hedrspn">{{__('Contact & Support')}} :
+                        {{$ps->phone}}</span></a>
+            </div>
+            <div class="col-lg-8 d-flex">
+                <ul class="top-links d-flex ms-auto align-items-center gap-2">
+
+                    <li class="my-account-dropdown">
+                        @php
+                        $languges = App\Models\Language::all();
+                        $user=Auth::user();
+                        @endphp
+                        <div class="language-selector nice-select">
+                            <!-- <i class="fas fa-globe-americas text-dark"></i> -->
+                            <select name="language" class="language selectors nice select2-js-init">
+                                @foreach($languges as $language)
+                                <option value="{{route('front.language',$language->id)}}" {{
                                         Session::has('language') ? ( Session::get('language')==$language->id ?
                                         'selected' : '' ) : ($languges->where('is_default','=',1)->first()->id ==
-                                        $language->id ? 'selected' : '') }} >
-                                        {{$language->language}}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </li>
-                        @php
-                        $currencies = App\Models\Currency::all();
-                        @endphp
-                        <li class="my-account-dropdown">
-                            <div class="currency-selector nice-select">
-                               
-                                <select name="currency" class="currency selectors nice select2-js-init">
-                                    @foreach($currencies as $currency)
-                                    <option value="{{route('front.currency',$currency->id)}}" {{
+                                        $language->id ? 'selected' : '') }}>
+                                    {{$language->language}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </li>
+                    @php
+                    $currencies = App\Models\Currency::all();
+                    @endphp
+                    <li class="my-account-dropdown">
+                        <div class="currency-selector nice-select">
+
+                            <select name="currency" class="currency selectors nice select2-js-init">
+                                @foreach($currencies as $currency)
+                                <option value="{{route('front.currency',$currency->id)}}" {{
                                         Session::has('currency') ? ( Session::get('currency')==$currency->id ?
                                         'selected' : '' ) : ($currencies->where('is_default','=',1)->first()->id ==
                                         $currency->id ? 'selected' : '') }}>
-                                        {{$currency->name}}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </li>
+                                    {{$currency->name}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </li>
 
 
-                        <li class="my-account-dropdown">
-                            <a href="" class="has-dropdown hedrspn"><i
-                                    class="flaticon-user-3 flat-mini me-1 hedrspn"></i></a>
-                            <ul class="my-account-popup">
-                                @if (Auth::guard('web')->check())
-                                <li><a href="{{ route('user-dashboard') }}"><span class="menu-item-text">{{ ('User
+                    <li class="my-account-dropdown">
+                        <a href="" class="has-dropdown hedrspn"><i
+                                class="flaticon-user-3 flat-mini me-1 hedrspn"></i></a>
+                        <ul class="my-account-popup">
+                            @if (Auth::guard('web')->check())
+                            <li><a href="{{ route('user-dashboard') }}"><span class="menu-item-text">{{ ('User
                                             Panel') }}</span></a></li>
-                                @if (Auth::guard('web')->user()->IsVendor())
-                                <li><a href="{{ route('vendor.dashboard') }}"><span class="menu-item-text">{{ __('Vendor
+                            @if (Auth::guard('web')->user()->IsVendor())
+                            <li><a href="{{ route('vendor.dashboard') }}"><span class="menu-item-text">{{ __('Vendor
                                             Panel') }}</span></a></li>
-                                @endif
-                                <li><span class="menu-item-text">{{ __('Wallet Balance') }} {{ App\Models\Product::vendorConvertPrice(Auth::user()->balance) }}</span></li>
+                            @endif
+                            <li><span class="menu-item-text">{{ __('Wallet Balance') }} {{ App\Models\Product::vendorConvertPrice(Auth::user()->balance) }}</span></li>
                             <li><span class="menu-item-text">{{ __('Affiliate Bonus')}} {{ App\Models\Product::vendorConvertPrice($user->affilate_income) }}</span></li>
                             <li><span class="menu-item-text">{{ __('Referral Bonus') }} {{ App\Models\Product::vendorConvertPrice($user->referral_income) }}</span></li>
-                                <li><a href="{{ route('user-profile') }}"><span class="menu-item-text">{{ __('Edit
+                            <li><a href="{{ route('user-profile') }}"><span class="menu-item-text">{{ __('Edit
                                             Profile') }}</span></a></li>
-                                <li><a href="{{ route('user-logout') }}"><span class="menu-item-text">{{ __('Logout')
+                            <li><a href="{{ route('user-logout') }}"><span class="menu-item-text">{{ __('Logout')
                                             }}</span></a></li>
 
-                                @elseif(Auth::guard('rider')->check())
-                                <li><a href="{{ route('rider-dashboard') }}"><span class="menu-item-text">{{ ('Rider
+                            @elseif(Auth::guard('rider')->check())
+                            <li><a href="{{ route('rider-dashboard') }}"><span class="menu-item-text">{{ ('Rider
                                             Panel') }}</span></a></li>
-                                <li><a href="{{ route('rider-profile') }}"><span class="menu-item-text">{{ __('Edit
+                            <li><a href="{{ route('rider-profile') }}"><span class="menu-item-text">{{ __('Edit
                                             Profile') }}</span></a></li>
-                                <li><a href="{{ route('rider-logout') }}"><span class="menu-item-text">{{ __('Logout')
+                            <li><a href="{{ route('rider-logout') }}"><span class="menu-item-text">{{ __('Logout')
                                             }}</span></a></li>
 
-                                @else
-                                <li><a href="{{ route('loginotp') }}"><span class="menu-item-text sign-in">{{ __('User
+                            @else
+                            <li><a href="{{ route('loginotp') }}"><span class="menu-item-text sign-in">{{ __('User
                                             Login') }}</span></a></li>
-                                
-                                <!-- <li><a href="{{ route('user.register') }}"><span class="menu-item-text join">{{
+
+                            <!-- <li><a href="{{ route('user.register') }}"><span class="menu-item-text join">{{
                                             __('Register') }}</span></a></li> -->
 
-                                @endif
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+                            @endif
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
 
 
 <header class="ecommerce-header px-lg-5">
@@ -145,8 +144,8 @@
                                     <a class="nav-link dropdown-toggle" href="{{ route('front.category') }}">{{ __('shop')
                                         }}</a>
                                 </li>
-                                
-                                
+
+
 
 
                                 <!-- <li class="nav-item dropdown ">
@@ -175,7 +174,7 @@
                                     <a class="nav-link dropdown-toggle" href="{{ route('front.cell-for-education') }}">{{ __('Cell for Education')}}</a>
                                 </li>
 
-                               
+
                             </ul>
                         </div>
                     </nav>
@@ -198,7 +197,7 @@
                                 @endif
                                 <input type="text" id="prod_name" class="col form-control search-field " name="search"
                                     placeholder="Search Product For" value="{{ request()->input('search') }}">
-                                
+
                                 <button type="submit" name="submit" class="search-submit"><i
                                         class="flaticon-search flat-mini text-white"></i></button>
 
@@ -238,9 +237,9 @@
                             </a>
                         </div> -->
 
-                        <div class="header-cart-1" >
-                   
-                            <a href="{{ route('front.cart') }}" class="cart " title="View Cart">   <!-- // has-cart-data /// by vinay remove class poppup  --> 
+                        <div class="header-cart-1">
+
+                            <a href="{{ route('front.cart') }}" class="cart " title="View Cart"> <!-- // has-cart-data /// by vinay remove class poppup  -->
                                 <div class="cart-icon clickable"><i class="flaticon-shopping-cart flat-mini"></i> <span
                                         class="header-cart-count" id="cart-count1">{{ Session::has('cart') ?
                                         count(Session::get('cart')->items) : '0' }}</span></div>
@@ -250,15 +249,15 @@
                                         count(Session::get('cart')->items) : '0' }}</span>
                                 </div>
                             </a>
-                            @include('load.cart')
+                            <!-- @include('load.cart') -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  
-     <div class="main-nav-sticky py-4  pdng bg-white">
+
+    <div class="main-nav-sticky py-4  pdng bg-white">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-xxl-2 col-xl-2 col-lg-3 col-6 order-lg-1">
@@ -289,7 +288,7 @@
                                             <div class="tab-pane fade show active woocommerce-Tabs-panel woocommerce-Tabs-panel--description" id="pills-push-menu" role="tabpanel" aria-labelledby="pills-push-menu-tab">
                                                 <div class="push-navbar">
                                                     <ul class="navbar-nav">
-                                                         <li class="nav-item">
+                                                        <li class="nav-item">
                                                             <a class="nav-link" href="{{ route('front.index') }}">{{
                                                                 __('Home') }}</a>
                                                         </li>
@@ -320,7 +319,7 @@
                                                         <li class="nav-item ">
                                                             <a class="nav-link " href="{{ route('front.cell-for-education') }}">{{ __('Cell for Education')}}</a>
                                                         </li>
-                                                        
+
                                                     </ul>
 
                                                 </div>
@@ -342,14 +341,14 @@
                                 </div>
                             </nav>
                         </div>
-                         <a class="navbar-brand" href="{{route('front.index')}}"><img class="nav-logo"
+                        <a class="navbar-brand" href="{{route('front.index')}}"><img class="nav-logo"
                                 src="{{asset('assets/images/'.$gs->logo)}}" alt="Image not found !"></a>
-                    
+
                     </div>
                 </div>
                 <div class="col-xxl-3 col-xl-4 col-lg-3 col-6 order-lg-3">
                     <div class="margin-right-1 d-flex align-items-center justify-content-end h-100 md-py-10">
-                    <div class="search-view  d-none d-xl-block">
+                        <div class="search-view  d-none d-xl-block">
                             <a href="#" class="search-pop top-quantity d-flex align-items-center text-decoration-none">
                                 <i class="flaticon-search flat-mini text-dark mx-auto"></i>
                             </a>
@@ -358,24 +357,30 @@
                             <a href="my-account.html"
                                 class="has-dropdown d-flex align-items-center text-dark text-decoration-none"
                                 title="My Account">
-                                <i class="flaticon-user-3 flat-mini me-1 mx-auto" ></i>
+                                <i class="flaticon-user-3 flat-mini me-1 mx-auto"></i>
                             </a>
                             <ul class="my-account-popup">
                                 @if (Auth::guard('web')->check())
                                 <li><a href="{{ route('user-dashboard') }}"><span class="menu-item-text">{{ ('User
                                             Panel') }}</span></a></li>
-                                @if (Auth::guard('web')->user()->IsVendor())
-                                <li><a href="{{ route('vendor.dashboard') }}"><span class="menu-item-text">{{ __('Vendor
-                                            Panel') }}</span></a></li>
-                                @endif
-                                <li><a href="{{ route('user-profile') }}"><span class="menu-item-text">{{ __('Edit
-                                            Profile') }}</span></a></li>
-                                <li><a href="{{ route('user-logout') }}"><span class="menu-item-text">{{ __('Logout')
-                                            }}</span></a></li>
+                                        @if (Auth::guard('web')->user()->IsVendor())
+                                        <li><a href="{{ route('vendor.dashboard') }}"><span class="menu-item-text">{{ __('Vendor
+                                                    Panel') }}</span></a></li>
+                                        @endif
+                                        <li><span class="menu-item-text">{{ __('Wallet Balance') }} {{ App\Models\Product::vendorConvertPrice(Auth::user()->balance) }}</span></li>
+                                        <li><span class="menu-item-text">{{ __('Affiliate Bonus')}} {{ App\Models\Product::vendorConvertPrice($user->affilate_income) }}</span></li>
+                                        <li><span class="menu-item-text">{{ __('Referral Bonus') }} {{ App\Models\Product::vendorConvertPrice($user->referral_income) }}</span></li>
+                                        <li><a href="{{ route('user-profile') }}"><span class="menu-item-text">{{ __('Edit
+                                                        Profile') }}</span></a></li>
+                                        <li><a href="{{ route('user-logout') }}"><span class="menu-item-text">{{ __('Logout')
+                                                        }}</span></a></li>
+                                
 
                                 @elseif(Auth::guard('rider')->check())
                                 <li><a href="{{ route('rider-dashboard') }}"><span class="menu-item-text">{{ ('User
                                             Panel') }}</span></a></li>
+
+                                            
                                 <li><a href="{{ route('rider-profile') }}"><span class="menu-item-text">{{ __('Edit
                                             Profile') }}</span></a></li>
                                 <li><a href="{{ route('rider-logout') }}"><span class="menu-item-text">{{ __('Logout')
@@ -383,7 +388,7 @@
                                 @else
                                 <li><a href="{{ route('user.login') }}"><span class="menu-item-text sign-in">{{ __('User
                                             Login') }}</span></a></li>
-                             
+
                                 <!-- <li><a href="{{ route('user.register') }}"><span class="menu-item-text join">{{
                                             __('Register') }}</span></a></li> -->
                                 @endif
@@ -407,17 +412,19 @@
                         </div>
                         @endif
 
-                        <div class="refresh-view">
+                        <!-- <div class="refresh-view">
                             <a href="{{ route('product.compare') }}"
                                 class="position-relative top-quantity d-flex align-items-center text-dark text-decoration-none">
                                 <i class="flaticon-shuffle flat-mini text-dark mx-auto"></i>
                             </a>
-                        </div>
+                        </div> -->
                         <div class="header-cart-1">
                             <a href="{{ route('front.cart') }}" class="cart has-cart-data" title="View Cart">
-                                <div class="cart-icon"><i class="flaticon-shopping-cart flat-mini"></i> <span
+                                <div class="cart-icon">
+                                    <i class="flaticon-shopping-cart flat-mini"></i> <span
                                         class="header-cart-count" id="cart-count">{{ Session::has('cart') ?
-                                        count(Session::get('cart')->items) : '0' }}</span></div>
+                                        count(Session::get('cart')->items) : '0' }}</span>
+                                    </div>
                                 <div class="cart-wrap">
                                     <div class="cart-text">Cart</div>
                                     <span class="header-cart-count">{{ Session::has('cart') ?
@@ -430,8 +437,8 @@
                 </div>
                 <div class="col-xxl-6 col-xl-6 col-lg-3 col-12 order-lg-2">
                     <nav class="navbar navbar-expand-lg nav-dark nav-primary-hover nav-line-active">
-                         <!--<a class="navbar-brand" href="{{ asset('assets/images/'.$gs->logo) }}"><img class="nav-logo " src="{{ asset('assets/images/'.$gs->logo) }}" alt="Image not found !"></a> -->
-                      
+                        <!--<a class="navbar-brand" href="{{ asset('assets/images/'.$gs->logo) }}"><img class="nav-logo " src="{{ asset('assets/images/'.$gs->logo) }}" alt="Image not found !"></a> -->
+
                         <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <i class="flaticon-menu-2 flat-small text-primary"></i>
                         </button> -->
@@ -439,7 +446,7 @@
                             <ul class="navbar-nav ms-md-5">
 
 
-                               
+
                                 @if ($ps->testimonial == 1)
                                 <li class="nav-item dropdown {{ request()->path()=='testimonial' ? 'active' : '' }}">
                                     <a class="nav-link dropdown-toggle" href="{{ route('front.brand-story') }}">{{ __('Brand')
@@ -462,7 +469,7 @@
                                         }}</a>
                                 </li>
                                 @endif
-                           
+
                                 <li class="nav-item dropdown {{ request()->path()=='celigin-join-club' ? 'active' : '' }}">
                                     <a class="nav-link dropdown-toggle" href="{{ route('front.celigin-join-club') }}">{{ __('Celigin Now Club')
                                         }}</a>
@@ -470,7 +477,7 @@
                                 <li class="nav-item dropdown {{ request()->path()=='cell-for-education' ? 'active' : '' }}">
                                     <a class="nav-link dropdown-toggle" href="{{ route('front.cell-for-education') }}">{{ __('Cell for Education')}}</a>
                                 </li>
-                              
+
 
                             </ul>
                         </div>
@@ -492,7 +499,7 @@
                             @endif
                             <input type="text" id="prod_name" class="col form-control search-field " name="search"
                                 placeholder="Search Product For" value="{{ request()->input('search') }}">
-                             <!-- <div class=" categori-container select-appearance-none " id="catSelectForm">
+                            <!-- <div class=" categori-container select-appearance-none " id="catSelectForm">
                                 <select name="category" class="form-control categoris select2-js-search-init">
                                     <option selected="">{{ __('All Categories') }}</option>
                                     @foreach($categories->where('status',1) as $data)
