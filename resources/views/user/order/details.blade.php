@@ -174,8 +174,18 @@
                            <span class="badge bg-success">{{ __('Paid') }}</span>
                            @endif
                         </p>
+                        @if($order->refferal_discount)
+                        <p><strong>{{ __('Referral Discount :') }}</strong> 
+                           {{ \PriceHelper::showOrderCurrencyPrice($order->refferal_discount,$order->currency_sign)}}
+                        </p>
+                        @endif
+
+                        <p>
+                        <strong> {{ __('Discount Coupon :') }}</strong>
+                              {{ \PriceHelper::showOrderCurrencyPrice(($order->coupon_discount ), $order->currency_sign) }}
+                        </p>
                         <p><strong>{{ __('Paid Amount:') }}</strong>
-                           {{ \PriceHelper::showOrderCurrencyPrice($order->pay_amount * $order->currency_value, $order->currency_sign) }}
+                           {{ \PriceHelper::showOrderCurrencyPrice($order->pay_amount , $order->currency_sign) }}
                         </p>
                         <p><strong>{{ __('Method:') }}</strong> {{ $order->method }}</p>
                         @if($order->method != 'Cash On Delivery')

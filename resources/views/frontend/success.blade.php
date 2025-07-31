@@ -23,6 +23,7 @@
     </div>
 </div>
 </div> --}}
+
 <!-- breadcrumb -->
 <section class="tempcart">
 
@@ -171,7 +172,7 @@
 
                                                             @if ($gs->multiple_shipping == 0)
                                                                 @if($order->shipping_cost != 0)
-                                                                <p>{{ __('Shipping Cost') }}:
+                                                                <p>{{ __('Shipping Cost') }}: ₹
                                                                     {{
                                                                     \PriceHelper::showOrderCurrencyPrice($order->shipping_cost,$order->currency_sign)
                                                                     }}
@@ -204,22 +205,21 @@
 
                                                             @endif
                                                             @if($order->refferal_discount)
-                                                            <p>{{ __('Referral Discount :') }}
+                                                            <p>{{ __('Referral Discount :') }} ₹ 
                                                                 {{ \PriceHelper::showOrderCurrencyPrice($order->refferal_discount,$order->currency_sign)}}
                                                             </p>
                                                             @endif
 
                                                             <p>
-                                                                {{ __('Discount Coupon :') }}
+                                                                {{ __('Discount Coupon :') }} ₹
                                                                 {{ \PriceHelper::showOrderCurrencyPrice(($order->coupon_discount ), $order->currency_sign) }}
                                                             </p>
 
 
-                                                            <p>{{ __('Paid Amount:') }}
+                                                            <p>{{ __('Paid Amount:') }} ₹
                                                                 @if($order->method != "Wallet")
 
-                                                                {{
-                                                                \PriceHelper::showOrderCurrencyPrice((($order->pay_amount + $order->wallet_price )
+                                                                {{\PriceHelper::showOrderCurrencyPrice((($order->pay_amount + $order->wallet_price )
                                                                ),$order->currency_sign) }}
 
                                                                 @else
