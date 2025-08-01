@@ -71,6 +71,8 @@
    .join-recently-title-update button {
       background-color: #BB8A8A;
       font-family: 'Open Sans';
+      font-size: 16px;
+      outline: none;
    }
 
    .join-recently-title-update a {
@@ -236,7 +238,7 @@
                <div class="col-lg-6">
                   <div class="shop-now-lady ">
                      <h1>Your Skin, Your Radiance, </h1>
-                     <h2 class="px-3 d-flex justify-content-between align-items-center gap-5 pb-2">Your Celigin <span class="mt-2"><a href="{{ route('front.join-now-club') }}"> Join Now </a></span></h2>
+                     <h2 class="px-3 d-flex justify-content-between align-items-center gap-5 pb-2">Your Celigin <span class="mt-2 rounded"><a href="{{ route('front.join-now-club') }}"> Join Now </a></span></h2>
                      <p>Experience Celigin—where skincare is an expression of your natural radiance.
                         Our curated selection of premium Korean skincare is designed to meet your unique needs,
                         helping you achieve glowing, confident skin.
@@ -268,7 +270,7 @@
             <div class="col-lg-3">
                <div class="join-recently-title-update text-end">
                   <a href=" {{ route('front.join-now-club') }}">
-                     <button class="px-3 py-2 rounded fw-bold text-uppercase text-white">join Now</button></a>
+                     <button class="px-3 py-2 rounded fw-bold text-uppercase text-white ">join Now</button></a>
                </div>
             </div>
          </div>
@@ -461,7 +463,7 @@
             </div>
          </div>
          <div class="convert-sale-title text-center pb-5">
-            <button class="bg-white condition-apply py-2 px-4">*T&Cs</button>
+            <button class="bg-white condition-apply py-2 px-4 rounded">*T&Cs</button>
          </div>
       </div>
    </div>

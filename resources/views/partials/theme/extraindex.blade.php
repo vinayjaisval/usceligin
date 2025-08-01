@@ -1,4 +1,3 @@
-
 <!--==================== Service Section Start ====================-->
 <!-- <div class="full-row bg-light py-4">
     <div class="container">
@@ -36,27 +35,27 @@
     </div>
 </div> -->
 <section>
-  <div class="slide-container">
-    <div class="slide-track">
-      
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-     
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
-      <div class="slide-image"><span>10% off on first order</span></div>
+    <div class="slide-container">
+        <div class="slide-track">
+
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+            <div class="slide-image"><span>10% off on first order</span></div>
+        </div>
     </div>
-  </div>
 </section>
 <section>
     <div class="natural-title py-5">
@@ -64,12 +63,12 @@
             <div class="row">
                 <div class="col-lg-3 text-center">
                     <div class="natural-item">
-                        <img src="assets/images/image3__1_-removebg-preview.png" >
+                        <img src="assets/images/image3__1_-removebg-preview.png">
                     </div>
                     <div class="heading-pure pt-3">
                         <h3>Celigin Is Against On Animal Test</h3>
                         <!-- <p>We’re here for you anytime, anywhere!</p> -->
-                 
+
                     </div>
                 </div>
                 <div class="col-lg-3 text-center">
@@ -79,7 +78,7 @@
                     <div class="heading-pure pt-3">
                         <h3>European Cosmetics Certifier Registered With CNP</h3>
                         <!-- <p>Enjoy our easy returns and exchanges policy</p> -->
-                   
+
                     </div>
                 </div>
                 <div class="col-lg-3 text-center">
@@ -89,7 +88,7 @@
                     <div class="heading-pure pt-3">
                         <h3>Exclusive Member Discounts</h3>
                         <!-- <p>Join our loyalty program for exclusive discounts</p> -->
-                    
+
                     </div>
                 </div>
                 <div class="col-lg-3 text-center">
@@ -99,7 +98,7 @@
                     <div class="heading-pure pt-3">
                         <h3>First-Time Buyer Discount</h3>
                         <!-- <p>Get an exclusive 10% off on your first purchase</p> -->
-                     
+
                     </div>
                 </div>
             </div>
@@ -108,70 +107,70 @@
 </section>
 
 
-    <Section>
-        <div class="natural-item-deeply">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <div class="cream-title">
-                            <img src="assets/images/cream.png">
-                        </div>
+<Section>
+    <div class="natural-item-deeply">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="cream-title">
+                        <img src="assets/images/cream.png">
                     </div>
-                    <div class="col-lg-7">
-                        <div class="deeply-pure pt-5">
-                            <span class="text-uppercase">PURE AND GENTLE</span>
-                            <h3 class="fw-bold"> Celigin Radiant Foam Cleanser (150ml)
-                                <br>
-                                 ultimate cleanser for radiant, healthy skin</h3>
-                            <p>Effortlessly removes impurities and dead skin cells while being gentle to your skin.</p>
+                </div>
+                <div class="col-lg-7">
+                    <div class="deeply-pure pt-5">
+                        <span class="text-uppercase">PURE AND GENTLE</span>
+                        <h3 class="fw-bold"> Celigin Radiant Foam Cleanser (150ml)
+                            <br>
+                            ultimate cleanser for radiant, healthy skin
+                        </h3>
+                        <p>Effortlessly removes impurities and dead skin cells while being gentle to your skin.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="main-pure-cream d-flex  align-items-center gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/links.png">
+                                </div>
+                                <div class="smooth-item">
+                                    <h4>Gentle Cleansing</h4>
+                                </div>
+                            </div>
+                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/Link → SVG (2).png">
+                                </div>
+                                <div class="smooth-item">
+                                    <h4>Soft & Rich Foam</h4>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="main-pure-cream d-flex  align-items-center gap-3">
-                                    <div class="pure-icon">
-                                        <img src="assets/images/links.png">
-                                    </div>
-                                    <div class="smooth-item">
-                                        <h4>Gentle Cleansing</h4>
-                                    </div>
+                        <div class="col-lg-6">
+                            <div class="main-pure-cream d-flex  align-items-center gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/Link → SVG.png">
                                 </div>
-                                <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
-                                    <div class="pure-icon">
-                                        <img src="assets/images/Link → SVG (2).png">
-                                    </div>
-                                    <div class="smooth-item">
-                                        <h4>Soft & Rich Foam</h4>
-                                    </div>
+                                <div class="smooth-item">
+                                    <h4>Calming & Soothing</h4>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="main-pure-cream d-flex  align-items-center gap-3">
-                                    <div class="pure-icon">
-                                        <img src="assets/images/Link → SVG.png">
-                                    </div>
-                                    <div class="smooth-item">
-                                        <h4>Calming & Soothing</h4>
-                                    </div>
+                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/Link → SVG (3).png">
                                 </div>
-                                <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
-                                    <div class="pure-icon">
-                                        <img src="assets/images/Link → SVG (3).png">
-                                    </div>
-                                    <div class="smooth-item">
-                                        <h4>Deep Hydration</h4>
-                                    </div>
+                                <div class="smooth-item">
+                                    <h4>Deep Hydration</h4>
                                 </div>
                             </div>
-                            <div class="chat-title d-flex align-items-center gap-5">
-                                <a href="{{url('item/celigin-all-day-perfect-sunscreen-50ml-with-coscor-1000ppm-jgu3897e53')}}" class="shop-lilac mt-4 text-uppercase">SHOP NOW</a>
-                                <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
-                                    <div class="pure-icon">
-                                        <img src="assets/images/Link → SVG (4).png">
-                                    </div>
-                                    <div class="smooth-item">
-                                        <h5>Chat Us Anytime</h5>
-                                        <span>+91 96670 54665</span>
-                                    </div>
+                        </div>
+                        <div class="chat-title d-flex align-items-center gap-5">
+                            <a href="{{url('item/celigin-all-day-perfect-sunscreen-50ml-with-coscor-1000ppm-jgu3897e53')}}" class="shop-lilac mt-4 text-uppercase">SHOP NOW</a>
+                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/Link → SVG (4).png">
+                                </div>
+                                <div class="smooth-item">
+                                    <h5>Chat Us Anytime</h5>
+                                    <span>+91 96670 54665</span>
                                 </div>
                             </div>
                         </div>
@@ -179,11 +178,12 @@
                 </div>
             </div>
         </div>
-    </Section>
+    </div>
+</Section>
 
 
-     <!-- ========================================fourth-banner======================================================== -->
- 
+<!-- ========================================fourth-banner======================================================== -->
+
 
 
 
@@ -194,22 +194,22 @@
 
 @if($ps->top_big_trending==1)
 <!--==================== Top Collection Section Start ====================-->
-<div class="full-row bg-white mt-5">
+<div class="full-row bg-white mt-4">
     <div class="container">
         <div class="row">
             <div class="col">
                 <div class="top-collection-tab nav-tab-active-secondary">
-                    <ul class="nav nav-pills list-color-general justify-content-center mb-5">
+                    <ul class="nav nav-pills list-color-general justify-content-center mb-4">
                         <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="pill" href="#pills-new-arrival-two">{{ __('
+                            <a class="nav-link active font-data" data-bs-toggle="pill" href="#pills-new-arrival-two">{{ __('
                                 All Product') }}</a>
                         </li>
-                       
+
                         <!-- <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="pill" href="#pills-best-selling-two">{{ __('Best
                                 Selling') }}</a>
                         </li> -->
-                      
+
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="pills-new-arrival-two">
@@ -272,61 +272,61 @@
 <!--==================== Top Collection Section End ====================-->
 @endif
 <section>
-        <div class="bodys-product-title">
+    <div class="bodys-product-title">
 
-        </div>
-     </section>
+    </div>
+</section>
 
 <section>
-        <div class="trending-title py-5">
-            <div class="text-center hint-across">
-                <span class="text-uppercase">Top Picks</span>
-                <h3 class="fw-bold">New & Trending Products</h3>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <a href="{{url('item/celigin-all-day-perfect-sunscreen-50ml-with-coscor-1000ppm-jgu3897e53')}}"><img src="assets/images/Group-3.png" height="100%" class="bd-x"></a>
-                                    </div>
-                                    <div class="col-lg-8 mtd">
-                                        <a href="{{url('how-to-use/night')}}"><img src="assets/images/Link.png" class="bd-x">
-                                    </div>
-                                    <div class="col-lg-8 mt-4">
-                                        <a href="{{url('item/celigin-all-day-perfect-sunscreen-50ml-with-coscor-1000ppm-jgu3897e53')}}"><img src="assets/images/Frame 1.png" class="bd-x"></a>
-                                    </div>
-                                    <div class="col-lg-4 mt-4">
-                                        <a href="{{url('item/celigin-signature-cell-biome-duo-cell-up-first-essence-50ml-with-coscor-10000ppm-vital-serum-50ml-with-coscor-30000ppm-lgt2449gis')}}">
+    <div class="trending-title py-4">
+        <div class="text-center hint-across">
+            <span class="text-uppercase">Top Picks</span>
+            <h3 class="fw-bold">New & Trending Products</h3>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row mt-4">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <a href="{{url('item/celigin-all-day-perfect-sunscreen-50ml-with-coscor-1000ppm-jgu3897e53')}}"><img src="assets/images/Group-3.png" height="100%" class="bd-x"></a>
+                                </div>
+                                <div class="col-lg-8 mtd">
+                                    <a href="{{url('how-to-use/night')}}"><img src="assets/images/Link.png" class="bd-x">
+                                </div>
+                                <div class="col-lg-8 mt-4">
+                                    <a href="{{url('item/celigin-all-day-perfect-sunscreen-50ml-with-coscor-1000ppm-jgu3897e53')}}"><img src="assets/images/Frame 1.png" class="bd-x"></a>
+                                </div>
+                                <div class="col-lg-4 mt-4">
+                                    <a href="{{url('item/celigin-signature-cell-biome-duo-cell-up-first-essence-50ml-with-coscor-10000ppm-vital-serum-50ml-with-coscor-30000ppm-lgt2449gis')}}">
                                         <img src="assets/images/Group-9.png" height="100%" class="bd-x"></a>
-                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 mtd">
-                               <a href="{{url('item/celigin-daily-sun-finish-50ml-with-coscor-1000ppm-pon3478klj')}}"><img src="assets/images/ffff.png" height="100%" class="bd-x"></a> 
-                            </div>
+                        </div>
+                        <div class="col-lg-4 mtd">
+                            <a href="{{url('item/celigin-daily-sun-finish-50ml-with-coscor-1000ppm-pon3478klj')}}"><img src="assets/images/ffff.png" height="100%" class="bd-x"></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
 @if($ps->category==1)
-<div class="full-row">
+<div class="full-row mt-4">
     <div class="container">
         <div class="row justify-content-center">
-        <div class="text-center hint-across">
-           
-           <h3 class="fw-bold">The Hottest Seller This Month!</h3>
-       </div>
+            <div class="text-center hint-across">
+
+                <h3 class="fw-bold">The Hottest Seller This Month!</h3>
+            </div>
         </div>
         <div class="products product-style-1">
             <div
-                class="row g-4 row-cols-xl-4 row-cols-md-3 row-cols-sm-2 row-cols-2 e-title-general e-title-hover-primary e-image-bg-light e-hover-image-zoom e-info-center">
+                class="row mt-3 row-cols-xl-4 row-cols-md-3 row-cols-sm-2 row-cols-2 e-title-general e-title-hover-primary e-image-bg-light e-hover-image-zoom e-info-center">
 
                 @foreach($popular_products as $prod)
                 <div class="col">
@@ -424,25 +424,25 @@
                
                 <h2 class="main-title mb-5 text-center text-secondary">{{ __('Best Selling Products') }}</h2>
 
-            </div>
-        </div>
+</div>
+</div>
 
-        <div class="row">
-            <div class="col-12">
+<div class="row">
+    <div class="col-12">
 
-                <div class="products product-style-1 owl-mx-15">
-                    <div
-                        class="four-carousel owl-carousel dot-disable nav-arrow-middle-show e-title-general e-title-hover-primary e-image-bg-light  e-info-center e-title-general e-title-hover-primary e-image-bg-light e-hover-image-zoom e-info-center">
-                        @foreach($best_products as $prod)
-                        <div class="item">
-                            @include('partials.product.home-product')
-                        </div>
-                        @endforeach
-                    </div>
+        <div class="products product-style-1 owl-mx-15">
+            <div
+                class="four-carousel owl-carousel dot-disable nav-arrow-middle-show e-title-general e-title-hover-primary e-image-bg-light  e-info-center e-title-general e-title-hover-primary e-image-bg-light e-hover-image-zoom e-info-center">
+                @foreach($best_products as $prod)
+                <div class="item">
+                    @include('partials.product.home-product')
                 </div>
+                @endforeach
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 @endif--}}
 <!--==================== Top Products Section End ====================-->
@@ -479,7 +479,7 @@
                         <div class="buy-now">
                             <img src="assets/images/celigin4.jpg.png">
                             <div class="shopping-click text-center">
-                            <a href="{{url('item/celigin-cells-queen-61gm-oxn32826v2')}}">Buy Now</a>
+                                <a href="{{url('item/celigin-cells-queen-61gm-oxn32826v2')}}">Buy Now</a>
                             </div>
                         </div>
                     </div>
@@ -489,9 +489,9 @@
                         <div class="under-cream">
                             <h3 class="fw-bold">CLEANSE, HYDRATE AND GLOW WITH CELIGIN</h3>
                             <p class="pt-5 text-black">Together, the Brightening Peeling Toner Pad and Refresh Gelling Mask create
-                                 a skincare experience that will leave you feeling pampered and rejuvenated.
-                                  Exfoliate and brighten, then hydrate and glow — it’s the ultimate skincare duo.
-                                   Whether you're getting ready for a special moment or simply treating yourself to a dose of luxury, this duo will leave you with skin that’s glowing with radiance.</p>
+                                a skincare experience that will leave you feeling pampered and rejuvenated.
+                                Exfoliate and brighten, then hydrate and glow — it’s the ultimate skincare duo.
+                                Whether you're getting ready for a special moment or simply treating yourself to a dose of luxury, this duo will leave you with skin that’s glowing with radiance.</p>
                         </div>
                         <!-- <div class="order-title-text mt-4">
                             <div class="order-nigam-plan">
@@ -510,111 +510,198 @@
 
 
 
-<section>
-        <main>
-            <!-- <section class="testimonial-hero"> -->
-            <div class="container-xxl py-5">
-                <div class="container py-5">
-                    <div class="testimonial-text g-5">
-                        <section class="carousel-landmark wow fadeIn" data-wow-delay="0.5s">
-                            <div id="carouselExampleCaptions"
-                                class="carousel slide testimonial-carousel border-start border-primary">
-                             
-                                <div class="carousel-indicators">
-                                    @if($testimonials->count() > 0)
-                                     @foreach ($testimonials as $key => $itesms)
-                                       <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{$key}}"
-                                        class="@if($key == 0) {{'active'}} @endif" aria-current="true" aria-label="Slide {{$key+1}}"></button>
-                                 @endforeach
-                                    @endif
-                                </div>
-                                {{-- @dd($testimonials); --}}
-                                <div class="carousel-inner"><!--The Carousel Container-->
-                                  @if($testimonials->count() > 0)
-                                   @foreach($testimonials as  $key => $testi)
-                                    <div class="carousel-item carousel-item-{{$key+1}} {{ $key == 0 ? 'active' : '' }} ">
-                                        <div class="testimonial-item ps-5 text-center">
-                                            <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                                            <span class="text-uppercase">Testimonial</span>
-                                            <p class="fs-4 textimal-text says-title fw-bold">{{$testi->title ?? ""}}</p>
-                                            {{-- <div class="start-star mt-3">
+<!-- <section>
+    <main>
+        <div class="container-xxl py-5">
+            <div class="container py-5">
+                <div class="testimonial-text g-5">
+                    <section class="carousel-landmark wow fadeIn" data-wow-delay="0.5s">
+                        <div id="carouselExampleCaptions"
+                            class="carousel slide testimonial-carousel border-start border-primary">
+
+                            <div class="carousel-indicators">
+                                @if($testimonials->count() > 0)
+                                @foreach ($testimonials as $key => $itesms)
+                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{$key}}"
+                                    class="@if($key == 0) {{'active'}} @endif" aria-current="true" aria-label="Slide {{$key+1}}"></button>
+                                @endforeach
+                                @endif
+                            </div>
+                            {{-- @dd($testimonials); --}}
+                            <div class="carousel-inner">
+                                @if($testimonials->count() > 0)
+                                @foreach($testimonials as $key => $testi)
+                                <div class="carousel-item carousel-item-{{$key+1}} {{ $key == 0 ? 'active' : '' }} ">
+                                    <div class="testimonial-item ps-5 text-center">
+                                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                                        <span class="text-uppercase">Testimonial</span>
+                                        <p class="fs-4 textimal-text says-title fw-bold">{{$testi->title ?? ""}}</p>
+                                        {{-- <div class="start-star mt-3">
                                                 <i class="flaticon-star"></i>
                                                 <i class="flaticon-star"></i>
                                                 <i class="flaticon-star"></i>
                                                 <i class="flaticon-star"></i>
                                                 <i class="flaticon-star"></i>
                                             </div> --}}
-                                            <div class="slider-test mt-3">
-                                                <p>{{ Str::limit($testi->details ?? "",200) }}</p>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-center mt-4">
-                                                <a href="{{url('testimonial').'/'.$testi->slug ?? ""}}"><img class="img-fluid flex-shrink-0 rounded-circle"
+                                        <div class="slider-test mt-3">
+                                            <p>{{ Str::limit($testi->details ?? "",200) }}</p>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-center mt-4">
+                                            <a href="{{url('testimonial').'/'.$testi->slug ?? ""}}"><img class="img-fluid flex-shrink-0 rounded-circle"
                                                     src="{{ $testi->photo ? url('assets/images/blogs/'.$testi->photo) : url('assets/images/noimage.png') }}"
                                                     style="width: 60px; height: 60px;"></a>
-                                                {{-- <div class="ps-3">
+                                            {{-- <div class="ps-3">
                                                     <h5 class="mb-1">{{ $testi->name }}</h5>
-                                                    <span class="at">{{ $testi->email }}</span>
-                                                </div> --}}
-                                            </div>
-                                        </div>
+                                            <span class="at">{{ $testi->email }}</span>
+                                        </div> --}}
                                     </div>
-                                    @endforeach
-                                  @endif
-                                    <!-- Control Buttons -->
-                                    <div class="control-btn">
-                                        <button class="carousel-control-prev" type="button"
-                                            data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                                            <i class="fa fa-arrow-left"></i>
-                                            <span class="carousel-control-prev-icon visually-hidden"
-                                                aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button"
-                                            data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                                            <i class="fa fa-arrow-right"></i>
-                                            <span class="carousel-control-next-icon visually-hidden"
-                                                aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
-                                    </div><!--[carousel-item-3]-->
-                                </div><!--[End of Container]-->
+                                </div>
                             </div>
-                        </section><!--End of Carousel Landmark-->
-                    </div><!--End of row g-5-->
-                </div><!-- container py-5 -->
-            </div><!--End of Container-xxl py-5 -->
-        </main>
-    </section>
-
-
-   <!-- ==================================================updated blog-================================================ -->
-   <section>
-        <div class="blogs-title-update py-5">
-            <div class="text-center hint-across">
-                <span class="text-uppercase">Instant</span>
-                <h3 class="fw-bold">News & Updated Blogs</h3>
-            </div>
-            <div class="container">
-                <div class="row">
-                  @foreach($blogs as $blog)
-                    <div class="col-lg-4">
-                        <div class="making-cbd">
-                        <a href="{{ route('front.blogshow',$blog->slug) }}"><img src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}" alt="Image not found!"></a>
+                            @endforeach
+                            @endif
+                        
+                            <div class="control-btn">
+                                <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                    <i class="fa fa-arrow-left"></i>
+                                    <span class="carousel-control-prev-icon visually-hidden"
+                                        aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span class="carousel-control-next-icon visually-hidden"
+                                        aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
                         </div>
-                       
-                         <!-- assets/images/blogs -->
-                        <hr>
-                        <div class="cbd-confo">
-                            <h2>{{ Str::limit($blog->title, 25) }}</h2>
-                            <p>{!! Str::limit(strip_tags($blog->details), 48) !!}...</p>
-                            <a href="{{ route('front.blogshow',$blog->slug) }}">Read more</a>
-                        </div>
-                    </div>
-                @endforeach
                 </div>
+</section>
+</div>
+</div>
+</div>
+</main>
+</section> -->
+
+<section class="py-4 back-color-title">
+  <div class="container">
+    <div class="Testimonial fs-2 text-black text-center fw-bold">Testimonial</div>
+    <div id="testimonialCarousel" class="carousel slide mt-3" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-inner">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active ">
+          <div class="testimonial-card row align-items-center">
+            <div class="col-md-5 text-center mb-3 mb-md-0">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="testimonial-img">
+            </div>
+            <div class="col-md-7">
+              <div class="testimonial-title">Excellent Service</div>
+              <p class="testimonial-content mt-2">
+                I had an amazing experience. The service was smooth and communication was <br>  top-notch. Highly recommended!
+              </p>
+              <div class="testimonial-user mt-3">
+                <h6>Priya Sharma</h6>
+                <small>priya.sharma@example.com</small>
+              </div>
+              <div class="testimonial-rating mt-2">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <i class="fas fa-star"></i><i class="far fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <div class="testimonial-card row align-items-center">
+            <div class="col-md-5 text-center mb-3 mb-md-0">
+              <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="testimonial-img">
+            </div>
+            <div class="col-md-7">
+              <div class="testimonial-title">Very Helpful</div>
+              <p class="testimonial-content mt-2">
+                The support team resolved my issue quickly. Everything was handled professionally <br>  and with great care.
+              </p>
+              <div class="testimonial-user mt-3">
+                <h6>Ravi Kumar</h6>
+                <small>ravi.kumar@example.com</small>
+              </div>
+              <div class="testimonial-rating mt-2">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <i class="far fa-star"></i><i class="far fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+          <div class="testimonial-card row align-items-center">
+            <div class="col-md-5 text-center mb-3 mb-md-0">
+              <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="User" class="testimonial-img">
+            </div>
+            <div class="col-md-7">
+              <div class="testimonial-title">Loved It!</div>
+              <p class="testimonial-content mt-2">
+                Truly the best experience I've had in a while. Everything worked perfectly and I felt <br>  supported the entire time.
+              </p>
+              <div class="testimonial-user mt-3">
+                <h6>Sneha Verma</h6>
+                <small>sneha.verma@example.com</small>
+              </div>
+              <div class="testimonial-rating mt-2">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+       <!-- Carousel Controls  -->
+       <!-- <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>  -->
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================================================updated blog-================================================ -->
+<section>
+    <div class="blogs-title-update py-5">
+        <div class="text-center hint-across">
+            <span class="text-uppercase">Instant</span>
+            <h3 class="fw-bold">News & Updated Blogs</h3>
+        </div>
+        <div class="container mt-4">
+            <div class="row">
+                @foreach($blogs as $blog)
+                <div class="col-lg-4">
+                    <div class="making-cbd">
+                        <a href="{{ route('front.blogshow',$blog->slug) }}"><img src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}" alt="Image not found!"></a>
+                    </div>
+
+                    <!-- assets/images/blogs -->
+                    <hr>
+                    <div class="cbd-confo">
+                        <h2>{{ Str::limit($blog->title, 25) }}</h2>
+                        <p>{!! Str::limit(strip_tags($blog->details), 48) !!}...</p>
+                        <a href="{{ route('front.blogshow',$blog->slug) }}">Read more</a>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
 <!-- ==================================================instagram-section-================================================ -->

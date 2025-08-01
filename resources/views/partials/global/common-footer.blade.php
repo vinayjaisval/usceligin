@@ -4,7 +4,7 @@ $pages = App\Models\Page::get();
 @endphp
 @if($ps->newsletter==1)
     <!--==================== Newsleter Section Start ====================-->
-    <div class="full-row bg-dark py-30 mt-5">
+    <div class="full-row bg-darks-title py-3 ">
         <div class="container">
             <div class="row mx-auto">
                 <div class="col-lg-7 col-md-6 ">
@@ -16,7 +16,7 @@ $pages = App\Models\Page::get();
                 <div class="col-lg-5 col-md-12">
                     <form action="{{route('front.subscribe')}}" class="subscribe-form subscribeform  position-relative md-mt-20" method="POST">
                         @csrf
-                        <input class="form-control rounded-pill mb-0" type="text" placeholder="Enter your email" aria-label="Address" name="email">
+                        <input class="form-control rounded-pill mb-0 " type="text" placeholder="Enter your email" aria-label="Address" name="email" required>
                         <button type="submit" class="btn btn-secondary rounded-right-pill text-white">{{ __('Send') }}</button>
                     </form>
                 </div>

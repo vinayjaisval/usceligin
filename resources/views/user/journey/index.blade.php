@@ -29,7 +29,7 @@
                         $convertedTotal = (float) App\Models\Product::vendorConvertPrice($totalPrice);
                         @endphp
                         <!-- User Card -->
-                        <div class="col-md-4 col-lg-4 col-sm-6 mb-4">
+                        <div class="col-md-6 col-lg-3 col-xs-3 col-sm-6 mb-4">
                             <div class="card card-color h-100">
                                 <div class="card-body">
                                     <div class="card-icon bg-primary"><i class="fa fa-user"></i></div>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <!-- Affiliate User Card -->
-                        <div class="col-md-4 col-lg-4 col-sm-6 mb-4">
+                        <div class="col-md-6 col-lg-3 col-xs-3 col-sm-6 mb-4">
                             <div class="card card-color h-100">
                                 <div class="card-body">
                                     <div class="card-icon bg-success"><i class="fa fa-link"></i></div>
@@ -63,10 +63,13 @@
                                             </p>
                                             <!-- <div class="arrow-icon">:arrow_right:</div> -->
                                 </div>
+                                <div class="icon-right-connect">
+                                    <i class="fa fa-angle-right"></i>
+                                </div>
                             </div>
                         </div>
                         <!-- Business Manager Card -->
-                        <div class="col-md-4 col-lg-4 col-sm-6 mb-4">
+                        <div class="col-md-6 col-lg-3 col-xs-3 col-sm-6 mb-4">
                             <div class="card card-color h-100">
                                 <div class="card-body">
                                     <div class="card-icon bg-warning"><i class="fa fa-briefcase"></i></div>
@@ -83,10 +86,13 @@
                                                 </p>
                                                 <!-- <div class="arrow-icon">:arrow_right:</div> -->
                                 </div>
+                                <div class="icon-right-connect">
+                                    <i class="fa fa-angle-right"></i>
+                                </div>
                             </div>
                         </div>
                         <!-- Celigin Partner Card -->
-                        <div class="col-md-4 col-lg-4 col-sm-6 mb-4">
+                        <div class="col-md-6 col-lg-3 col-xs-3 col-sm-6 mb-4">
                             <div class="card card-color h-100">
                                 <div class="card-body">
                                     <div class="card-icon bg-danger"><i class="fa fa-star"></i></div>
@@ -96,6 +102,9 @@
                                         Celigin Partners use POS, grow their network, and earn extra incentives by achieving the ₹5,00,000 quarterly target.
                                     </p>
                                     <!-- <div class="arrow-icon">:arrow_right:</div> -->
+                                </div>
+                                <div class="icon-right-connect">
+                                    <i class="fa fa-angle-right"></i>
                                 </div>
                             </div>
                         </div>

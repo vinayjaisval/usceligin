@@ -184,8 +184,8 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
                                     </label>
                                  </div>
                                  <p class="mb-1">{{ $shipping->address }}</p>
-                                 <p class="mb-3">Mobile No.: {{ $shipping->phone }}</p>
-                                 <p class="mb-3">Pincode: {{ $shipping->zip }}</p>
+                                 <p class="mb-1">Mobile No.: {{ $shipping->phone }}</p>
+                                 <p class="mb-1">Pincode: {{ $shipping->zip }}</p>
 
                                  <div class="bb-customer-card-footer d-flex gap-2 justify-content-end">
                                    

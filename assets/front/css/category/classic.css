@@ -194,7 +194,7 @@ h6,
 
 .product-wrapper .product-info .product-title,
 .product-wrapper .product-info .product-title a {
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
     color: var(--theme-secondary-color) !important
 }

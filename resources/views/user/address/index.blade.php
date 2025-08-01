@@ -37,7 +37,7 @@
                                         <div class="bb-customer-card">
                                             <div class="bb-customer-card-header">
                                                 <div class="bb-customer-card-title"><span class="value">{{ $user->name }}</span></div>
-                                                <div class="bb-customer-card-status"><span class="badge bg-info text-info-fg"> Default</span></div>
+                                                <div class="bb-customer-card-status"><span class="badge bg-primary text-info-primary "> Default</span></div>
                                             </div>
                                             <div class="bb-customer-card-body">
                                                 <div class="bb-customer-card-info text-start">
@@ -59,7 +59,7 @@
                                                         <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
                                                         <path d="M16 5l3 3"></path>
                                                     </svg> Edit </a> -->
-                                                <form method="GET" action="{{ route('user-address-delete', $addresss->id) }}" accept-charset="UTF-8" onsubmit="return confirm('Are you sure you want to delete this address?')"><button type="submit" class="btn btn-sm btn-danger"><svg class="icon me-1 svg-icon-ti-ti-trash" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <form method="GET" action="{{ route('user-address-delete', $addresss->id) }}" accept-charset="UTF-8" onsubmit="return confirm('Are you sure you want to delete this address?')"><button type="submit" class=""><svg class="icon me-1 svg-icon-ti-ti-trash" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                             <path d="M4 7l16 0"></path>
                                                             <path d="M10 11l0 6"></path>
                                                             <path d="M14 11l0 6"></path>

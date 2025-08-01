@@ -6,7 +6,13 @@
 <style>
    .input-group-text {
       padding: 11px;
-      border-radius: 0px;
+      border-radius: 5px 0px 0px 5px;
+   }
+   .send-otp, #verify-otp{
+          border-radius: 0px 5px 5px 0px;
+   }
+   .radius-opt{
+       border-radius: 5px 0px 0px 5px !important;
    }
 
    .smaller {
@@ -29,16 +35,16 @@
 
                <!-- Tab Buttons -->
                <div class="d-flex justify-content-center mb-3">
-                  <button class="tab-btn btn btn-outline-primary me-2 active" id="phone-tab">Phone</button>
+                  <button class="tab-btn btn btn-outline-primary border-rds me-2 active" id="phone-tab">Phone</button>
 
-                  <button class="tab-btn btn btn-outline-primary " id="email-tab">Email</button>
+                  <button class="tab-btn btn btn-outline-primary border-rdss" id="email-tab">Email</button>
                </div>
 
                <!-- Input Forms -->
                <div id="input-form">
                   <div class="mb-3 d-none" id="email-group">
                      <div class="d-flex input-width">
-                        <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                        <input type="email" id="email" class="form-control radius-opt" placeholder="Enter your email">
                         <button id="send-otp" class=" send-otp btn btn-primary smaller">Send OTP</button>
                      </div>
                   </div>
@@ -64,8 +70,8 @@
                <!-- OTP Section -->
                <div class="mt-4 d-none" id="otp-section">
                   <div class="mb-3 d-flex input-width">
-                     <input type="text" id="otp" class="form-control" placeholder="Enter OTP">
-                     <button id="verify-otp" class="btn btn-success smaller">Verify OTP</button>
+                     <input type="text" id="otp" class="form-control radius-opt" placeholder="Enter OTP">
+                     <button id="verify-otp" class="btn btn-primary smaller">Verify OTP</button>
                   </div>
 
                </div>
