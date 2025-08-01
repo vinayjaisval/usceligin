@@ -181,10 +181,10 @@
                         @endif
 
                         <p>
-                        <strong> {{ __('Discount Coupon :') }}</strong>
+                        <strong> {{ __('Discount Coupon :') }}</strong>₹
                               {{ \PriceHelper::showOrderCurrencyPrice(($order->coupon_discount ), $order->currency_sign) }}
                         </p>
-                        <p><strong>{{ __('Paid Amount:') }}</strong>
+                        <p><strong>{{ __('Paid Amount:') }}</strong>₹
                            {{ \PriceHelper::showOrderCurrencyPrice($order->pay_amount , $order->currency_sign) }}
                         </p>
                         <p><strong>{{ __('Method:') }}</strong> {{ $order->method }}</p>

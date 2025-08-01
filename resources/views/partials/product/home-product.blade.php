@@ -32,7 +32,8 @@
 
                <a href="javascript:;"
                   data-bs-toggle="modal" {{$prod->cross_products ? 'data-bs-target=#exampleModal' : ''}} data-href="{{ route('product.cart.add',$prod->id) }}" data-cross-href="{{route('front.show.cross.product',$prod->id)}}" class="add-cart button add_to_cart_button {{$prod->cross_products ? 'view_cross_product' : ''}}" data-bs-placement="right" title="Add To Cart" data-bs-original-title="{{ __('Add To Cart') }}" aria-label="{{ __('Add To Cart') }}"></a>
-            </div>
+           
+               </div>
 
 
             @endif

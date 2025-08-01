@@ -109,7 +109,7 @@
             href="{{ route('user-journey') }}">
             <i class="fas fa-flag mr-2 mx-1"></i>
 
-            {{ __('Journey') }}
+            {{ __('Affiliate Journey') }}
           </a>
         </li>
 

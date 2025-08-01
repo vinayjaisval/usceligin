@@ -34,7 +34,7 @@
         </div>
     </div>
 </div> -->
-<section>
+<!-- <section>
     <div class="slide-container">
         <div class="slide-track">
 
@@ -56,7 +56,7 @@
             <div class="slide-image"><span>10% off on first order</span></div>
         </div>
     </div>
-</section>
+</section> -->
 <section>
     <div class="natural-title py-5">
         <div class="container">
@@ -107,79 +107,6 @@
 </section>
 
 
-<Section>
-    <div class="natural-item-deeply">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="cream-title">
-                        <img src="assets/images/cream.png">
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="deeply-pure pt-5">
-                        <span class="text-uppercase">PURE AND GENTLE</span>
-                        <h3 class="fw-bold"> Celigin Radiant Foam Cleanser (150ml)
-                            <br>
-                            ultimate cleanser for radiant, healthy skin
-                        </h3>
-                        <p>Effortlessly removes impurities and dead skin cells while being gentle to your skin.</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="main-pure-cream d-flex  align-items-center gap-3">
-                                <div class="pure-icon">
-                                    <img src="assets/images/links.png">
-                                </div>
-                                <div class="smooth-item">
-                                    <h4>Gentle Cleansing</h4>
-                                </div>
-                            </div>
-                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
-                                <div class="pure-icon">
-                                    <img src="assets/images/Link → SVG (2).png">
-                                </div>
-                                <div class="smooth-item">
-                                    <h4>Soft & Rich Foam</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="main-pure-cream d-flex  align-items-center gap-3">
-                                <div class="pure-icon">
-                                    <img src="assets/images/Link → SVG.png">
-                                </div>
-                                <div class="smooth-item">
-                                    <h4>Calming & Soothing</h4>
-                                </div>
-                            </div>
-                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
-                                <div class="pure-icon">
-                                    <img src="assets/images/Link → SVG (3).png">
-                                </div>
-                                <div class="smooth-item">
-                                    <h4>Deep Hydration</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat-title d-flex align-items-center gap-5">
-                            <a href="{{url('item/celigin-all-day-perfect-sunscreen-50ml-with-coscor-1000ppm-jgu3897e53')}}" class="shop-lilac mt-4 text-uppercase">SHOP NOW</a>
-                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
-                                <div class="pure-icon">
-                                    <img src="assets/images/Link → SVG (4).png">
-                                </div>
-                                <div class="smooth-item">
-                                    <h5>Chat Us Anytime</h5>
-                                    <span>+91 96670 54665</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</Section>
 
 
 <!-- ========================================fourth-banner======================================================== -->
@@ -276,6 +203,79 @@
 
     </div>
 </section>
+<Section>
+    <div class="natural-item-deeply">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="cream-title">
+                        <img src="assets/images/cream.png">
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="deeply-pure pt-5">
+                        <span class="text-uppercase">PURE AND GENTLE</span>
+                        <h3 class="fw-bold"> Celigin Radiant Foam Cleanser (150ml)
+                            <br>
+                            ultimate cleanser for radiant, healthy skin
+                        </h3>
+                        <p>Effortlessly removes impurities and dead skin cells while being gentle to your skin.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="main-pure-cream d-flex  align-items-center gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/links.png">
+                                </div>
+                                <div class="smooth-item">
+                                    <h4>Gentle Cleansing</h4>
+                                </div>
+                            </div>
+                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/Link → SVG (2).png">
+                                </div>
+                                <div class="smooth-item">
+                                    <h4>Soft & Rich Foam</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="main-pure-cream d-flex  align-items-center gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/Link → SVG.png">
+                                </div>
+                                <div class="smooth-item">
+                                    <h4>Calming & Soothing</h4>
+                                </div>
+                            </div>
+                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/Link → SVG (3).png">
+                                </div>
+                                <div class="smooth-item">
+                                    <h4>Deep Hydration</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-title d-flex align-items-center gap-5">
+                            <a href="{{url('item/celigin-all-day-perfect-sunscreen-50ml-with-coscor-1000ppm-jgu3897e53')}}" class="shop-lilac mt-4 text-uppercase">SHOP NOW</a>
+                            <div class="main-pure-cream d-flex  align-items-center mt-4 gap-3">
+                                <div class="pure-icon">
+                                    <img src="assets/images/Link → SVG (4).png">
+                                </div>
+                                <div class="smooth-item">
+                                    <h5>Chat Us Anytime</h5>
+                                    <span>+91 96670 54665</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</Section>
 
 <section>
     <div class="trending-title py-4">
@@ -509,169 +509,92 @@
 
 
 
-
-<!-- <section>
+<section>
     <main>
         <div class="container-xxl py-5">
             <div class="container py-5">
                 <div class="testimonial-text g-5">
                     <section class="carousel-landmark wow fadeIn" data-wow-delay="0.5s">
                         <div id="carouselExampleCaptions"
-                            class="carousel slide testimonial-carousel border-start border-primary">
+                            class="carousel slide testimonial-carousel border-start border-primary"
+                            data-bs-ride="carousel"
+                            data-bs-interval="5000">
 
-                            <div class="carousel-indicators">
+                            <!-- Indicators -->
+                            <!-- <div class="carousel-indicators">
                                 @if($testimonials->count() > 0)
-                                @foreach ($testimonials as $key => $itesms)
-                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{$key}}"
-                                    class="@if($key == 0) {{'active'}} @endif" aria-current="true" aria-label="Slide {{$key+1}}"></button>
-                                @endforeach
+                                    @foreach ($testimonials as $key => $item)
+                                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{$key}}"
+                                            class="@if($key == 0) active @endif" aria-current="true" aria-label="Slide {{$key+1}}"></button>
+                                    @endforeach
                                 @endif
-                            </div>
-                            {{-- @dd($testimonials); --}}
+                            </div> -->
+
+                            <!-- Carousel Items -->
                             <div class="carousel-inner">
                                 @if($testimonials->count() > 0)
-                                @foreach($testimonials as $key => $testi)
-                                <div class="carousel-item carousel-item-{{$key+1}} {{ $key == 0 ? 'active' : '' }} ">
-                                    <div class="testimonial-item ps-5 text-center">
-                                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                                        <span class="text-uppercase">Testimonial</span>
-                                        <p class="fs-4 textimal-text says-title fw-bold">{{$testi->title ?? ""}}</p>
-                                        {{-- <div class="start-star mt-3">
-                                                <i class="flaticon-star"></i>
-                                                <i class="flaticon-star"></i>
-                                                <i class="flaticon-star"></i>
-                                                <i class="flaticon-star"></i>
-                                                <i class="flaticon-star"></i>
-                                            </div> --}}
-                                        <div class="slider-test mt-3">
-                                            <p>{{ Str::limit($testi->details ?? "",200) }}</p>
+                                    @foreach($testimonials as $key => $testi)
+                                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                            <div class="row align-items-center px-4">
+                                                
+                                                <!-- Left: Image -->
+                                                <div class="col-md-6 text-center mb-4 mb-md-0">
+                                                    <a href="{{ url('testimonial').'/'.$testi->slug ?? "" }}">
+                                                        <img class="img-fluid rounded-circle shadow"
+                                                            src="{{ $testi->photo ? url('assets/images/blogs/'.$testi->photo) : url('assets/images/noimage.png') }}"
+                                                            style="width: 200px; height: 200px; object-fit: cover;">
+                                                    </a>
+                                                </div>
+
+                                                <!-- Right: Text -->
+                                                <div class="col-md-6">
+                                                    <div class="testimonial-item ps-md-4">
+                                                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                                                        <span class="text-uppercase d-block mb-2">Testimonial</span>
+                                                        <h5 class="fs-4 textimal-text says-title fw-bold">{{ $testi->title ?? "" }}</h5>
+                                                        <p>{{ Str::limit($testi->details ?? "", 200) }}</p>
+                                                        <h6>{{ $testi->source ?? "" }}</h6>
+                                                        <div class="testimonial-rating mt-2">
+                                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i><i class="far fa-star"></i>
+                                                    </div>
+                                                    </div>
+                                                    
+                                                   
+                                                </div>
+
+                                            </div>
                                         </div>
-                                        <div class="d-flex align-items-center justify-content-center mt-4">
-                                            <a href="{{url('testimonial').'/'.$testi->slug ?? ""}}"><img class="img-fluid flex-shrink-0 rounded-circle"
-                                                    src="{{ $testi->photo ? url('assets/images/blogs/'.$testi->photo) : url('assets/images/noimage.png') }}"
-                                                    style="width: 60px; height: 60px;"></a>
-                                            {{-- <div class="ps-3">
-                                                    <h5 class="mb-1">{{ $testi->name }}</h5>
-                                            <span class="at">{{ $testi->email }}</span>
-                                        </div> --}}
-                                    </div>
-                                </div>
+                                    @endforeach
+                                @endif
                             </div>
-                            @endforeach
-                            @endif
-                        
-                            <div class="control-btn">
-                                <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                                    <i class="fa fa-arrow-left"></i>
-                                    <span class="carousel-control-prev-icon visually-hidden"
-                                        aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                                    <i class="fa fa-arrow-right"></i>
-                                    <span class="carousel-control-next-icon visually-hidden"
-                                        aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
+
+                            <!-- Optional Prev/Next Controls -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+
                         </div>
+                    </section>
                 </div>
+            </div>
+        </div>
+    </main>
 </section>
+
+
 </div>
 </div>
 </div>
 </main>
-</section> -->
-
-<section class="py-4 back-color-title">
-  <div class="container">
-    <div class="Testimonial fs-2 text-black text-center fw-bold">Testimonial</div>
-    <div id="testimonialCarousel" class="carousel slide mt-3" data-bs-ride="carousel" data-bs-interval="5000">
-      <div class="carousel-inner">
-
-        <!-- Slide 1 -->
-        <div class="carousel-item active ">
-          <div class="testimonial-card row align-items-center">
-            <div class="col-md-5 text-center mb-3 mb-md-0">
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="testimonial-img">
-            </div>
-            <div class="col-md-7">
-              <div class="testimonial-title">Excellent Service</div>
-              <p class="testimonial-content mt-2">
-                I had an amazing experience. The service was smooth and communication was <br>  top-notch. Highly recommended!
-              </p>
-              <div class="testimonial-user mt-3">
-                <h6>Priya Sharma</h6>
-                <small>priya.sharma@example.com</small>
-              </div>
-              <div class="testimonial-rating mt-2">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                <i class="fas fa-star"></i><i class="far fa-star"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-          <div class="testimonial-card row align-items-center">
-            <div class="col-md-5 text-center mb-3 mb-md-0">
-              <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="testimonial-img">
-            </div>
-            <div class="col-md-7">
-              <div class="testimonial-title">Very Helpful</div>
-              <p class="testimonial-content mt-2">
-                The support team resolved my issue quickly. Everything was handled professionally <br>  and with great care.
-              </p>
-              <div class="testimonial-user mt-3">
-                <h6>Ravi Kumar</h6>
-                <small>ravi.kumar@example.com</small>
-              </div>
-              <div class="testimonial-rating mt-2">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                <i class="far fa-star"></i><i class="far fa-star"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-          <div class="testimonial-card row align-items-center">
-            <div class="col-md-5 text-center mb-3 mb-md-0">
-              <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="User" class="testimonial-img">
-            </div>
-            <div class="col-md-7">
-              <div class="testimonial-title">Loved It!</div>
-              <p class="testimonial-content mt-2">
-                Truly the best experience I've had in a while. Everything worked perfectly and I felt <br>  supported the entire time.
-              </p>
-              <div class="testimonial-user mt-3">
-                <h6>Sneha Verma</h6>
-                <small>sneha.verma@example.com</small>
-              </div>
-              <div class="testimonial-rating mt-2">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                <i class="fas fa-star"></i><i class="fas fa-star"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-       <!-- Carousel Controls  -->
-       <!-- <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>  -->
-    </div>
-  </div>
 </section>
+
+
 
 
 <!-- ==================================================updated blog-================================================ -->
@@ -777,3 +700,16 @@
 @includeIf('partials.global.common-footer')
 
 <script src="{{ asset('assets/front/js/extraindex.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const carousel = document.querySelector('#carouselExampleCaptions');
+        if (carousel) {
+            new bootstrap.Carousel(carousel, {
+                interval: 5000, // 5 seconds
+                ride: 'carousel',
+                pause: false,
+                wrap: true
+            });
+        }
+    });
+</script>
