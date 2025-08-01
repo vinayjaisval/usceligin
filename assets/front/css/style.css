@@ -7174,6 +7174,7 @@ form#contact-form label {
 	padding: 5px 20px;
 	border: 1px solid var(--theme-gray-color);
 	border-radius: 0;
+	border-left: none;
 }
 
 .woocommerce .woocommerce-form-login .woocommerce-form-login__submit {
@@ -11539,6 +11540,16 @@ body *::-webkit-scrollbar-thumb {
 }
 
 @media(max-width:425px) {
+	.send-otp{
+		padding: 0px 10px ;
+	}
+	.input-form, .input-width {
+    width: 100% !important;
+    margin: auto;
+}
+.send-otp {
+	line-height: 46px;
+}
 	.widget-title-bordered-full{
 		background-color: #fff;
 	}

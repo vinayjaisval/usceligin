@@ -5,8 +5,12 @@
 
 <style>
    .input-group-text {
-      padding: 11px;
+      padding: 10px;
       border-radius: 5px 0px 0px 5px;
+      background: #f8f8f8;
+    border: 1px solid #e7e7e8;
+   
+
    }
    .send-otp, #verify-otp{
           border-radius: 0px 5px 5px 0px;
