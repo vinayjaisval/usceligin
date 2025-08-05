@@ -9,13 +9,14 @@
   <div class="d-flex align-items-center gap-3 p-4">
     <div class="position-relative">
       <div class="wrapper-image">
-        <img src="https://affiliate-pro.botble.com/storage/customers/5-150x150.jpg" data-bb-lazy="true"class="rounded-circle border border-2 border-white shadow-sm"loading="lazy"alt="Billy Dicki">
+        <img src="{{ $user->photo ? asset('assets/images/users/'.$user->photo):asset('assets/images/'.$gs->user_image) }}" data-bb-lazy="true"class="rounded-circle border border-2 border-white shadow-sm"loading="lazy"alt="Billy Dicki">
+      
       </div>
       <div class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-2 border-white"></div>
     </div>
     <div class="flex-1 min-w-0">
-      <div class="name fw-semibold text-truncate">Billy Dicki</div>
-      <div class="email text-muted small text-truncate">customer@botble.com</div>
+    <div class="name fw-semibold text-truncate"> {{ $user->name ?: $user->phone }}</div>
+    <div class="email text-muted small text-truncate"> {{ $user->email ?? null }}</div>
     </div>
   </div>
 

@@ -698,7 +698,8 @@
 <!-- @endif -->
 
 @includeIf('partials.global.common-footer')
-
+<!-- ✅ Load jQuery first -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('assets/front/js/extraindex.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -8,6 +8,7 @@ else
 		$language = DB::table('languages')->where('is_default','=',1)->first();
 	}
 @endphp
+
 @foreach($prods as $prod)
 	{{-- @if ($language->id == $prod->language_id) --}}
 	<div class="docname">

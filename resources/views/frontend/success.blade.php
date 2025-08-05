@@ -43,15 +43,16 @@
                                 {{ __("We'll email you an order confirmation with details and tracking info.") }}
                             </p>
                             <a href="{{ route('front.index') }}" style="color:green;font-weight: bold" class="link">{{
-                                __('Get Back Continue Shopping') }}</a>
-                                @for ($i = 0; $i < 10; $i++)
-    &nbsp;
-@endfor
+                                __('Continue Shopping') }}</a>
+                            @for ($i = 0; $i < 10; $i++)
+                                &nbsp;
+                                &nbsp;
+                                @endfor
                                 <a href="{{ route('user-dashboard') }}" style="font-weight: bold" class="link">{{
                             __('Go to Dashboard') }}</a>
-                    </div>
                         </div>
-                        
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-12">
 
@@ -84,9 +85,15 @@
                                                         <tbody>
 
                                                             @foreach($tempcart->items as $product)
-                                                            <tr>
 
-                                                                <td>{{ $product['item']['name'] }}</td>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="{{ route('front.product', $product['item']['slug']) }}">
+                                                                        <img src="{{ $product['item']['photo'] ? asset('assets/images/products/'.$product['item']['photo']) : asset('assets/images/noimage.png') }}" height="50" width="50" alt="Product image">
+
+                                                                    </a>
+                                                                </td>
                                                                 <td>
                                                                     <b>{{ __('Quantity') }}</b>: {{$product['qty']}}
                                                                     <br>
@@ -142,10 +149,10 @@
 
                                                 @else
                                                 @php
-                                                    $billingAddress = \App\Models\Address::find($order->billing_address_id);
-                                                    $shippingAddress = \App\Models\Address::find($order->shipping_address_id);
-                                                    $shippingAddress = \App\Models\User::find($order->shipping_address_id);
-                                                    
+                                                $billingAddress = \App\Models\Address::find($order->billing_address_id);
+                                                $shippingAddress = \App\Models\Address::find($order->shipping_address_id);
+                                                $shippingAddress = \App\Models\User::find($order->shipping_address_id);
+
 
                                                 @endphp
                                                 <div class="billing-add-area">
@@ -158,7 +165,7 @@
                                                                 {{ __('Email:') }} {{$billingAddress->email}}<br>
                                                                 {{ __('Phone:') }} {{$billingAddress->phone}}<br>
                                                                 {{ __('Country:') }} {{$billingAddress->country_id ?? '--'}}<br>
-                                                               
+
                                                                 {{ __('State:') }} {{$billingAddress->state_id ?? '--'}}<br>
                                                                 {{ __('City:') }} {{$billingAddress->city ?? '--'}}<br>
                                                                 {{ __('Flat No:') }} {{$billingAddress->flat_no ?? '--'}}<br>
@@ -171,41 +178,41 @@
                                                             <h5>{{ __('Payment Information') }}</h5>
 
                                                             @if ($gs->multiple_shipping == 0)
-                                                                @if($order->shipping_cost != 0)
-                                                                <p>{{ __('Shipping Cost') }}: ₹
-                                                                    {{
+                                                            @if($order->shipping_cost != 0)
+                                                            <p>{{ __('Shipping Cost') }}: ₹
+                                                                {{
                                                                     \PriceHelper::showOrderCurrencyPrice($order->shipping_cost,$order->currency_sign)
                                                                     }}
-                                                                </p>
-                                                                @endif
+                                                            </p>
+                                                            @endif
 
 
-                                                                   
 
-                                                          
+
+
 
                                                             @endif
 
                                                             @if($order->wallet_price != 0)
-                                                                    <p>{{ __('Paid From Wallet') }}:
-                                                                        {{
+                                                            <p>{{ __('Paid From Wallet') }}:
+                                                                {{
                                                                         \PriceHelper::showOrderCurrencyPrice(($order->wallet_price
                                                                         ),$order->currency_sign) }}
-                                                                    </p>
+                                                            </p>
 
-                                                                    @if($order->method != "Wallet")
+                                                            @if($order->method != "Wallet")
 
-                                                                    <p>{{$order->method}}:
-                                                                        {{
+                                                            <p>{{$order->method}}:
+                                                                {{
                                                                         \PriceHelper::showOrderCurrencyPrice(($order->pay_amount
                                                                         ),$order->currency_sign) }}
-                                                                    </p>
+                                                            </p>
 
-                                                                    @endif
+                                                            @endif
 
                                                             @endif
                                                             @if($order->refferal_discount)
-                                                            <p>{{ __('Referral Discount :') }} ₹ 
+                                                            <p>{{ __('Referral Discount :') }} ₹
                                                                 {{ \PriceHelper::showOrderCurrencyPrice($order->refferal_discount,$order->currency_sign)}}
                                                             </p>
                                                             @endif
@@ -241,7 +248,7 @@
                                                                 {{$order->charge_id}}
                                                             </p>
                                                             @else
-                                                             {{ __('Transaction ID:') }}
+                                                            {{ __('Transaction ID:') }}
                                                             <p id="ttn">
                                                                 {{$order->txnid}}
                                                             </p>
@@ -254,7 +261,7 @@
                                                 </div>
                                                 @endif
                                                 <br>
-                                               
+
                                             </div>
                                         </div>
                                     </div>

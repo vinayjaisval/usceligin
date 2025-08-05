@@ -801,7 +801,16 @@ class FrontendController extends FrontBaseController
     {
         if (mb_strlen($slug, 'UTF-8') > 0) {
             $search = ' ' . $slug;
-            $prods = Product::where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $slug . '%')->where('status', '=', 1)->orderby('id', 'desc')->take(10)->get();
+            // $prods = Product::where('nasme', 'like', '%' . $search . '%')->orWhere('name', 'like', $slug . '%')->where('status', '=', 1)->orderby('id', 'desc')->take(10)->get();
+            $prods = Product::where(function ($query) use ($search, $slug) {
+                $query->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('name', 'like', $slug . '%');
+            })
+            ->where('status', '=', 1)
+            ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
+        
             return view('load.suggest', compact('prods', 'slug'));
         }
         return "";
