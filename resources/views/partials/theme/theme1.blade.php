@@ -108,7 +108,8 @@
                         <div class="middle-content">
                             <span class="up-to-sale">{{$arrivals[0]['up_sale']}}</span>
                             <h3><a href="{{$arrivals[0]['url']}}"
-                                    class="text-dark text-decoration-none">{{$arrivals[0]['title']}}</a></h3>
+                                    class="text-dark text-decoration-none">{{$arrivals[0]['title']}}</a>
+                                </h3>
                             <a href="{{$arrivals[0]['url']}}" class="category">{{$arrivals[0]['header']}}</a>
                         </div>
                     </div>

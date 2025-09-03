@@ -40,11 +40,11 @@
                   </div>
                   @endif
 
-                  @if ($product->type != "Listing")
+                  <!-- @if ($product->type != "Listing")
                   <div class="compare-button">
                      <a class="compare button button add_to_cart_button" data-href="{{ route('product.compare.add',$product->id) }}" href="javascrit:;" data-bs-toggle="tooltip" data-bs-placement="right" title="{{ __('Compare') }}" data-bs-original-title="Compare" aria-label="Compare">{{ __('Compare') }}</a>
                   </div>
-                  @endif
+                  @endif -->
                </div>
             </div>
             <div class="product-info">
@@ -108,11 +108,11 @@
                      <a class="add_to_wishlist button add_to_cart_button" href="{{ route('user.login') }}" data-bs-toggle="tooltip" data-bs-placement="right" title="" data-bs-original-title="Add to Wishlist" aria-label="Add to Wishlist">{{ __('Wishlist') }}</a>
                   </div>
                   @endif
-                  @if ($product->type != "Listing")
+                  <!-- @if ($product->type != "Listing")
                   <div class="compare-button">
                      <a class="compare button button add_to_cart_button" data-href="{{ route('product.compare.add',$product->id) }}" href="javascrit:;" data-bs-toggle="tooltip" data-bs-placement="right" title="" data-bs-original-title="Compare" aria-label="Compare">{{ __('Compare') }}</a>
                   </div>
-                  @endif
+                  @endif -->
                </div>
 
 

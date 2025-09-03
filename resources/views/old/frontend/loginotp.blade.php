@@ -74,7 +74,9 @@
                <!-- OTP Section -->
                <div class="mt-4 d-none" id="otp-section">
                   <div class="mb-3 d-flex input-width">
-                     <input type="text" id="otp" class="form-control radius-opt" placeholder="Enter OTP">
+                     <input type="text" id="otp" class="form-control radius-opt" placeholder="Enter OTP"  maxlength="6"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);"
+                           required>
                      <button id="verify-otp" class="btn btn-primary smaller">Verify OTP</button>
                   </div>
 
