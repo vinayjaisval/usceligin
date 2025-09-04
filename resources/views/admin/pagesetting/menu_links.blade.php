@@ -38,7 +38,7 @@
               <div class="row justify-content-center">
 
                 <div class="col-lg-4 d-flex justify-content-between">
-                  <label class="control-label" for="home">{{ __('Product') }} *</label>
+                  <label class="control-label" for="home">{{ __('Shop') }} *</label>
                   <label class="switch">
                     <input type="checkbox" name="home" value="1" {{$data->home==1?"checked":""}}>
                     <span class="slider round"></span>

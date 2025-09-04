@@ -372,7 +372,7 @@ class Product extends Model
 
     public function showName()
     {
-        $name = mb_strlen($this->name, 'UTF-8') > 30 ? mb_substr($this->name, 0, 30, 'UTF-8') . '...' : $this->name;
+        $name = mb_strlen($this->name, 'UTF-8') > 30 ? mb_substr($this->name, 0, 50, 'UTF-8') . '...' : $this->name;
         return $name;
     }
 
