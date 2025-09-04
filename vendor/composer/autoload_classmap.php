@@ -290,6 +290,7 @@ return array(
     'App\\Jobs\\SendEmailJob' => $baseDir . '/app/Jobs/SendEmailJob.php',
     'App\\Jobs\\ShippedToDelivery' => $baseDir . '/app/Jobs/ShippedToDelivery.php',
     'App\\Models\\Addon' => $baseDir . '/app/Models/Addon.php',
+    'App\\Models\\Address' => $baseDir . '/app/Models/Address.php',
     'App\\Models\\Admin' => $baseDir . '/app/Models/Admin.php',
     'App\\Models\\AdminLanguage' => $baseDir . '/app/Models/AdminLanguage.php',
     'App\\Models\\AdminUserConversation' => $baseDir . '/app/Models/AdminUserConversation.php',

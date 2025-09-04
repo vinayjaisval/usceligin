@@ -1119,6 +1119,7 @@ class ComposerStaticInitaea44eb4b3ba1fc150ea8ff2f204e977
         'App\\Jobs\\SendEmailJob' => __DIR__ . '/../..' . '/app/Jobs/SendEmailJob.php',
         'App\\Jobs\\ShippedToDelivery' => __DIR__ . '/../..' . '/app/Jobs/ShippedToDelivery.php',
         'App\\Models\\Addon' => __DIR__ . '/../..' . '/app/Models/Addon.php',
+        'App\\Models\\Address' => __DIR__ . '/../..' . '/app/Models/Address.php',
         'App\\Models\\Admin' => __DIR__ . '/../..' . '/app/Models/Admin.php',
         'App\\Models\\AdminLanguage' => __DIR__ . '/../..' . '/app/Models/AdminLanguage.php',
         'App\\Models\\AdminUserConversation' => __DIR__ . '/../..' . '/app/Models/AdminUserConversation.php',

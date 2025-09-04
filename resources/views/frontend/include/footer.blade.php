@@ -1,4 +1,9 @@
-
+@php
+    $phpArray = \App\Models\Product::orderBy('name','ASC')->pluck('name');
+    //dd($phpArray);
+    $jsonArray = json_encode($phpArray);
+@endphp
+<input type="hidden" id="myPhpValue" value="{{$jsonArray}}" />
     <!-- Footer -->
     <footer class="main-footer" role="contentinfo">
       <div class="container">
@@ -199,6 +204,8 @@
     </footer>
 
     <!-- SwiperJS JavaScript -->
+      
+     
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="{{asset('assets/frontend/js/script.js')}}"></script>
   </body>
