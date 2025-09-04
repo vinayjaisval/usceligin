@@ -192,12 +192,13 @@ class CartController extends FrontBaseController
 
         
         // $cart = new Cart($oldCart);
-        $cart = Cart::restoreCart($oldCart);
+          $cart = Cart::restoreCart($oldCart);
 
             //if ($cart->items != null && @$cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
            // return 'digital';
           //  }
-         $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
+
+          $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
         if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
             
             return 'digital';

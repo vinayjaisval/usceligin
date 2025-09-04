@@ -208,6 +208,7 @@ class PageSettingController extends AdminBaseController
     public function menu_links()
     {
         $data = Pagesetting::find(1);
+       
         return view('admin.pagesetting.menu_links',compact('data'));
     }
 

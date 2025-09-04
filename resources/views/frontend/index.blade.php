@@ -2,11 +2,12 @@
 <!-- Main Content -->
 <main id="main-content" role="main">
   <!-- Hero Carousel -->
+  @if($ps->slider == 1)
   <section class="hero-section" aria-label="Featured products and offers">
     <div class="container">
       <div class="hero-swiper swiper">
         <div class="swiper-wrapper">
-
+     
           @foreach($sliders as $data)
           <!-- Slide 1 -->
           <div class="swiper-slide">
@@ -20,7 +21,7 @@
                 <a href="{{$data->link}}" class="cta-btn">Shop Now</a>
                 <div class="hero-badges">
                   <img
-                    src="{{asset('assets/images/sliders/'.$data->photo)}}"
+                    src="{{asset('assets/frontend/images/carousel-bg-1.png')}}"
                     alt="Certification badge"
                     width="120"
                     height="60" />
@@ -34,7 +35,7 @@
             </div>
           </div>
           @endforeach
-
+         
         </div>
 
         <!-- Navigation arrows -->
@@ -50,7 +51,7 @@
       </div>
     </div>
   </section>
-
+  @endif
   <!-- Category Banners -->
   <section class="category-banners" aria-label="Shop by category">
     <div class="container">
@@ -145,7 +146,7 @@
       </div>
     </div>
   </section>
-
+  @if($ps->best_sellers==1)
   <!-- Best Sellers -->
   <section class="product-section" aria-labelledby="bestsellers-title">
     <div class="container">
@@ -195,6 +196,9 @@
                         d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                     </svg>
                   </button>
+
+                 
+
                   <button class="cart-btn" aria-label="Add to cart">
                     <svg
                       width="18"
@@ -208,7 +212,7 @@
                       <line x1="3" y1="6" x2="21" y2="6"></line>
                       <path d="M16 10c0 2.2-1.8 4-4 4s-4-1.8-4-4"></path>
                     </svg>
-                  </button>
+                  </button> 
                 </div>
               </div>
               <div class="product-info">
@@ -216,7 +220,7 @@
                   <span class="current-price">{{ $prod->showPrice() }}</span>
                   <span class="original-price">{{ $prod->showPreviousPrice() }}</span>
                 </div>
-                <h3 class="product-name">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
+                <h3 class="product-name" title="{{$prod->name}}">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
               </div>
             </article>
           </div>
@@ -234,7 +238,8 @@
       </div>
     </div>
   </section>
-
+@endif
+@if($ps->deal_of_the_day==1)
   <!-- Special Offer Banner -->
   <section class="special-offer" aria-labelledby="special-offer-title">
     <div class="container">
@@ -280,8 +285,10 @@
       </div>
     </div>
   </section>
-
+@endif
   <!-- Hot Deals (Similar structure to Best Sellers) -->
+
+  
   <section
     class="product-section hot-deals"
     aria-labelledby="hotdeals-title">
@@ -356,7 +363,7 @@
                   <span class="current-price">{{ $prod->showPrice() }}</span>
                   <span class="original-price">{{ $prod->showPreviousPrice() }}</span>
                 </div>
-                <h3 class="product-name">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
+                <h3 class="product-name" title="{{$prod->name}}">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
               </div>
             </article>
           </div>
@@ -434,7 +441,7 @@
             </svg>
           </div>
         </article>
-@endforeach
+        @endforeach
       </div>
     </div>
   </section>
@@ -462,7 +469,7 @@
       </div>
     </div>
   </section>
-
+  @if($ps->blog==1)
   <!-- Blog Section -->
   <section class="blog-section" aria-labelledby="blog-title">
     <div class="container">
@@ -516,5 +523,6 @@
       </div>
     </div>
   </section>
+  @endif
 </main>
 @include('frontend.include.footer')

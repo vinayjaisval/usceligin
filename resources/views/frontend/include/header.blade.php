@@ -27,13 +27,53 @@
   <!-- Promotion Bar -->
   <div class="promo-bar" role="banner" aria-label="Promotional announcement">
     <div class="container">
+
+      @php
+      use App\Models\Coupon;
+      $available_coupons = Coupon::where('id', 1)->select('id', 'code', 'price')->get();
+      @endphp
+
       <p class="promo-text">
         <strong>10% off for new customers</strong>
         <span
           class="promo-code"
-          onclick="window.celiginApp?.copyPromoCode('FREESHIP50')"
-          title="Click to copy code">FREESHIP50✨</span>
+          data-code="{{ $available_coupons[0]->code }}"
+          onclick="copyPromoCode(this)"
+          title="Click to copy code">{{ $available_coupons[0]->code }}</span>
       </p>
+
+      <script>
+        function copyPromoCode(element) {
+          const code = element.getAttribute('data-code');
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(code)
+              .then(() => {
+                alert('Promo code copied: ' + code);
+              })
+              .catch(err => {
+                alert('Failed to copy promo code');
+                console.error(err);
+              });
+          } else {
+            // fallback for older browsers
+            const textarea = document.createElement('textarea');
+            textarea.value = code;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              alert('Promo code copied: ' + code);
+            } catch (err) {
+              alert('Failed to copy promo code');
+              console.error(err);
+            }
+            document.body.removeChild(textarea);
+          }
+        }
+      </script>
+
+
+
       <button class="close-btn" aria-label="Close promotional banner">
         <svg
           width="24"
@@ -148,7 +188,8 @@
                 d="M9 22h6c2 0 3-1 3-3v-6c0-2-1-3-3-3H9c-2 0-3 1-3 3v6c0 2 1 3 3 3z"></path>
               <path d="M16 7V5a4 4 0 0 0-8 0v2"></path>
             </svg>
-            <span class="cart-count" aria-label="0 items in cart">0</span>
+            <span class="cart-count" aria-label="0 items in cart">{{ Session::has('cart') ?
+              count(Session::get('cart')->items) : '0' }}</span>
           </button>
           <button class="theme-toggle" aria-label="Toggle dark mode">
             <svg
@@ -187,8 +228,12 @@
       <!-- Main Navigation -->
       <nav class="main-nav" role="navigation" aria-label="Main navigation">
         <ul class="nav-list">
+         
           <li><a href="/" aria-current="page">Home</a></li>
+        
+          @if ($ps->home == 1)
           <li><a href="/shop">Shop</a></li>
+          @endif
           <li><a href="/new-arrivals">New Arrivals
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6,9 12,15 18,9"></polyline>

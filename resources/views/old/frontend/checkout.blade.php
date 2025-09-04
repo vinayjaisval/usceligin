@@ -414,6 +414,8 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
                   @php
                   $coupon_use = App\Models\Order::where('user_id', Auth::id())->whereNotNull('coupon_code')->count();
                   $available_coupons = App\Models\Coupon::where('id', 1)->select('id', 'code', 'price')->get();
+                
+                
                   @endphp
 
                   @if($coupon_use == 0 && $available_coupons->count())
