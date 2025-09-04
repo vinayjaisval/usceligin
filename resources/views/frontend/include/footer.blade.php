@@ -1,29 +1,11 @@
-<<<<<<< HEAD
+
+
 @php
     $phpArray = \App\Models\Product::orderBy('name','ASC')->pluck('name');
     //dd($phpArray);
     $jsonArray = json_encode($phpArray);
 @endphp
 <input type="hidden" id="myPhpValue" value="{{$jsonArray}}" />
-    <!-- Footer -->
-    <footer class="main-footer" role="contentinfo">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-section company-info">
-            <h3>Company</h3>
-            <div class="company-details">
-              <address>
-                3rd floor, A-78, Block A, Sector 4, Noida, Uttar Pradesh 201301
-              </address>
-              <p class="phone">
-                <strong>+91 966-705-4665</strong><br />
-                <a href="mailto:info@celiginglobal.com"
-                  >info@celiginglobal.com</a
-                >
-              </p>
-            </div>
-          </div>
-=======
 <!-- Footer -->
 <footer class="main-footer" role="contentinfo">
   <div class="container">
@@ -41,7 +23,6 @@
             <strong>{{ $ps->phone }}</strong><br />
 
             @endif
->>>>>>> f57264f978cbe9c0d7e81f6f5a3503f766af4269
 
             @if($ps->email != null) 
             <a href="mailto:info@celiginglobal.com">{{ $ps->email }}</a>
@@ -50,15 +31,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-    <!-- SwiperJS JavaScript -->
-      
-     
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="{{asset('assets/frontend/js/script.js')}}"></script>
-  </body>
-</html>
-=======
       <div class="footer-section useful-links">
         <h3>Useful Links</h3>
         <ul>
@@ -232,4 +204,3 @@
 </body>
 
 </html>
->>>>>>> f57264f978cbe9c0d7e81f6f5a3503f766af4269
