@@ -3,33 +3,168 @@
 class CeliginWebsite {
     constructor() {
         this.searchData = [
-            'skin care',
-            'skin care set',
-            'skin care for kids',
-            'skin care organizer', 
-            'skin care fridge',
-            'skin care kit',
-            'skin care tools',
-            'skin care headband',
-            'skin care coreano',
-            'skin care bubble',
-            'vitamin c serum',
-            'vitamin c brightening',
-            'retinol serum',
-            'hyaluronic acid',
-            'face cream',
-            'moisturizer',
-            'sunscreen',
-            'cleansing oil',
-            'toner',
-            'face mask',
-            'anti aging cream',
-            'eye cream',
-            'body lotion',
-            'foundation',
-            'concealer',
-            'mascara',
-            'lipstick'
+            {
+                name: 'skin care',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Skincare',
+                description: 'Complete skincare solutions'
+            },
+            {
+                name: 'skin care set',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Skincare',
+                description: 'Curated skincare sets'
+            },
+            {
+                name: 'skin care for kids',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Skincare',
+                description: 'Gentle kids skincare'
+            },
+            {
+                name: 'skin care organizer',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Accessories',
+                description: 'Storage solutions'
+            },
+            {
+                name: 'skin care fridge',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Accessories',
+                description: 'Beauty refrigerator'
+            },
+            {
+                name: 'skin care kit',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Skincare',
+                description: 'Essential skincare kit'
+            },
+            {
+                name: 'skin care tools',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Tools',
+                description: 'Professional skincare tools'
+            },
+            {
+                name: 'skin care headband',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Accessories',
+                description: 'Beauty headbands'
+            },
+            {
+                name: 'skin care coreano',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Skincare',
+                description: 'Korean skincare products'
+            },
+            {
+                name: 'skin care bubble',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Skincare',
+                description: 'Bubble skincare products'
+            },
+            {
+                name: 'vitamin c serum',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Serums',
+                description: 'Brightening vitamin C serum'
+            },
+            {
+                name: 'vitamin c brightening',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Serums',
+                description: 'Vitamin C brightening products'
+            },
+            {
+                name: 'retinol serum',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Serums',
+                description: 'Anti-aging retinol serum'
+            },
+            {
+                name: 'hyaluronic acid',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Serums',
+                description: 'Hydrating hyaluronic acid'
+            },
+            {
+                name: 'face cream',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Moisturizers',
+                description: 'Daily face cream'
+            },
+            {
+                name: 'moisturizer',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Moisturizers',
+                description: 'Hydrating moisturizers'
+            },
+            {
+                name: 'sunscreen',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Sun Protection',
+                description: 'SPF protection products'
+            },
+            {
+                name: 'cleansing oil',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Cleansers',
+                description: 'Deep cleansing oil'
+            },
+            {
+                name: 'toner',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Toners',
+                description: 'Balancing toners'
+            },
+            {
+                name: 'face mask',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Masks',
+                description: 'Treatment face masks'
+            },
+            {
+                name: 'anti aging cream',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Anti-Aging',
+                description: 'Anti-aging skincare'
+            },
+            {
+                name: 'eye cream',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Eye Care',
+                description: 'Specialized eye cream'
+            },
+            {
+                name: 'body lotion',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Body Care',
+                description: 'Nourishing body lotion'
+            },
+            {
+                name: 'foundation',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Makeup',
+                description: 'Full coverage foundation'
+            },
+            {
+                name: 'concealer',
+                image: '/assets/images/main-banner-1.png',
+                category: 'Makeup',
+                description: 'High coverage concealer'
+            },
+            {
+                name: 'mascara',
+                image: '/assets/images/main-banner-2.png',
+                category: 'Makeup',
+                description: 'Lengthening mascara'
+            },
+            {
+                name: 'lipstick',
+                image: '/assets/images/main-banner-3.png',
+                category: 'Makeup',
+                description: 'Long-lasting lipstick'
+            }
         ];
         this.currentSearchIndex = -1;
         this.searchResults = [];
@@ -114,7 +249,9 @@ class CeliginWebsite {
     generateSuggestions(query) {
         const lowercaseQuery = query.toLowerCase();
         return this.searchData
-            .filter(suggestion => suggestion.toLowerCase().includes(lowercaseQuery))
+            .filter(item => item.name.toLowerCase().includes(lowercaseQuery) || 
+                          item.category.toLowerCase().includes(lowercaseQuery) ||
+                          item.description.toLowerCase().includes(lowercaseQuery))
             .slice(0, 8); // Limit to 8 suggestions
     }
 
@@ -122,20 +259,22 @@ class CeliginWebsite {
         const searchSuggestionsList = document.getElementById('search-suggestions-list');
         const lowercaseQuery = query.toLowerCase();
 
-        searchSuggestionsList.innerHTML = suggestions.map((suggestion, index) => {
-            // Highlight matching text
-            const highlightedText = suggestion.replace(
+        searchSuggestionsList.innerHTML = suggestions.map((item, index) => {
+            // Highlight matching text in name
+            const highlightedName = item.name.replace(
                 new RegExp(`(${query})`, 'gi'),
                 '<strong>$1</strong>'
             );
 
             return `
-                <div class="search-suggestion-item" data-index="${index}" data-suggestion="${suggestion}">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
-                    </svg>
-                    <span class="suggestion-text">${highlightedText}</span>
+                <div class="search-suggestion-item" data-index="${index}" data-suggestion="${item.name}">
+                    <div class="suggestion-img">
+                        <img src="${item.image}" alt="${item.name}" width="35" height="35" loading="lazy">
+                    </div>
+                    <div class="suggestion-content">
+                        <div class="suggestion-name">${highlightedName}</div>
+                        <div class="suggestion-category">${item.category}</div>
+                    </div>
                 </div>
             `;
         }).join('');
@@ -201,14 +340,14 @@ class CeliginWebsite {
     }
 
     selectSuggestion(index) {
-        const suggestion = this.searchResults[index];
-        if (suggestion) {
+        const suggestionItem = this.searchResults[index];
+        if (suggestionItem) {
             const searchInput = document.getElementById('search-input');
-            searchInput.value = suggestion;
+            searchInput.value = suggestionItem.name;
             this.hideSearchDropdown();
             
             // Perform search (placeholder for actual search functionality)
-            this.performSearch(suggestion);
+            this.performSearch(suggestionItem.name);
         }
     }
 
@@ -443,7 +582,7 @@ class CeliginWebsite {
                 speed: 400,
                 
                 // Grab cursor
-                grabCursor: true,
+                grabCursor: false,
                 
                 // Accessibility
                 a11y: {
@@ -499,7 +638,7 @@ class CeliginWebsite {
                 speed: 400,
                 
                 // Grab cursor
-                grabCursor: true,
+                grabCursor: false,
                 
                 // Accessibility
                 a11y: {
@@ -512,7 +651,6 @@ class CeliginWebsite {
 }
 
 // Initialize when DOM is ready
-
 document.addEventListener('DOMContentLoaded', () => {
     window.celiginApp = new CeliginWebsite();
 });
