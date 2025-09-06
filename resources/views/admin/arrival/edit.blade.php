@@ -55,7 +55,7 @@
                           </div>
                         </div>
                         <div class="col-lg-7">
-                          <input type="text" class="input-field" name="header" placeholder="{{ __('Add Text here') }}" required="" value="{{$data->header}}">
+                          <input type="text" class="input-field" name="header" placeholder="{{ __('Add Text here') }}"  value="{{$data->header}}">
                         </div>
                       </div>
 
