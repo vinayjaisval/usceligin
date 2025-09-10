@@ -66,7 +66,7 @@
           <li><a href="{{ route('front.vendor',$data->slug) }}">{{ $data->title }}</a></li>
 
           @endforeach
-          <!-- <li><a href="/terms">Terms of Service</a></li> -->
+          <li><a href="{{ route('front.blog') }}">Blogs</a></li>
           @if($ps->faq == 1)
           <li>
               <a href="{{ route('front.faq') }}">{{ __('FAQ') }}</a>
@@ -201,6 +201,10 @@
 <!-- SwiperJS JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{{asset('assets/frontend/js/script.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
 
 </html>

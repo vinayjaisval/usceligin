@@ -28,7 +28,9 @@ class ProductDetailsController extends FrontBaseController
 
     public function product(Request $request, $slug)
     {
-    //    dd($slug);
+       
+
+     
         $affilate_user = 0;
         $gs = $this->gs;
         if ($gs->product_affilate == 1) {
@@ -55,11 +57,7 @@ class ProductDetailsController extends FrontBaseController
 
         $productt = Product::with('user', 'galleries')->where('slug', '=', $slug)->firstOrFail();
         // dd($productt);
-        $vendor_products = Product::where('user_id', $productt->user_id)->where('id', '!=', $productt->id)->where('status', 1)->orderBy('id', 'desc')
-            ->withCount('ratings')
-            ->withAvg('ratings', 'rating')
-            ->take(9)->get()
-            ->chunk(3);
+        
           
         if ($productt->status == 0) {
             return response()->view('errors.404')->setStatusCode(404);
@@ -75,7 +73,7 @@ class ProductDetailsController extends FrontBaseController
         $product_click->date = Carbon::now()->format('Y-m-d');
         $product_click->save();
 
-        return view('frontend.product', compact('productt', 'curr', 'affilate_user', 'vendor_products'));
+        return view('frontend.product-detail', compact('productt', 'curr', 'affilate_user'));
     }
 
     public function report(Request $request)

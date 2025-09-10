@@ -1749,6 +1749,18 @@ Route::group(['middleware' => 'maintenance'], function () {
         // CATEGORY SECTION
         Route::get('/categories', 'Front\CatalogController@categories')->name('front.categories');
         Route::get('/category/{category?}/{subcategory?}/{childcategory?}', 'Front\CatalogController@category')->name('front.category');
+
+        // vinay 
+
+        Route::get('/new-arrivals', 'Front\CatalogController@new_arrivals')->name('front.new-arrivals');
+        Route::get('/best-sellers', 'Front\CatalogController@best_sellers')->name('front.best-sellers');
+        Route::get('/sales', 'Front\CatalogController@sales')->name('front.sales');
+        Route::get('/skin-care', 'Front\CatalogController@skin_care')->name('front.skin-care');
+
+
+
+
+
         // CATEGORY SECTION ENDS
 
         // TAG SECTION
@@ -1791,9 +1803,21 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/carts', 'Front\CartController@cart')->name('front.cart');
         Route::get('/addcart/{id}', 'Front\CartController@addcart')->name('product.cart.add');
         Route::get('/addtocart/{id}', 'Front\CartController@addtocart')->name('product.cart.quickadd');
-        Route::get('/addnumcart', 'Front\CartController@addnumcart')->name('details.cart');
+        Route::post('/addnumcart', 'Front\CartController@addnumcart')->name('details.cart');
         Route::get('/addtonumcart', 'Front\CartController@addtonumcart');
         Route::post('add-multiple-product-cart', 'Front\CartController@multiAddToCart')->name('product.cart.add.multiple');
+        
+        // wishlist by vinay 
+        Route::get('/wishlist/view', 'Front\WishlistController@wishlistview');
+        Route::get('/wishlist', 'Front\WishlistController@wishlist')->name('front.wishlist');
+        Route::get('/addwishlist/{id}', 'Front\WishlistController@addwishlist')->name('product.wishlist.add');
+        Route::get('/addtowishlist/{id}', 'Front\WishlistController@addtowishlist')->name('product.wishlist.quickadd');
+        Route::get('/addnumwishlist', 'Front\WishlistController@addnumwishlist')->name('details.wishlist');
+        Route::get('/addtonumwishlist', 'Front\WishlistController@addtonumwishlist');
+        Route::post('add-multiple-product-wishlist', 'Front\WishlistController@multiAddTowishlist')->name('product.wishlist.add.multiple');
+        
+
+        
         // aad multiple project
 
         Route::get('/addbyone', 'Front\CartController@addbyone');

@@ -13,14 +13,14 @@ use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class CartController extends FrontBaseController
+class WishlistController extends FrontBaseController
 {
 
-    public function cart(Request $request)
+    public function wishlist(Request $request)
     {
         
         if (!Session::has('cart')) {
-            return view('frontend.add-to-cart');
+            return view('frontend.my-wishlist');
         }
         if (Session::has('already')) {
             Session::forget('already');
@@ -48,17 +48,17 @@ class CartController extends FrontBaseController
         if ($request->ajax()) {
             return view('frontend.ajax.cart-page', compact('products', 'totalPrice', 'mainTotal'));
         }
-        return view('frontend.add-to-cart', compact('products', 'totalPrice', 'mainTotal'));
+        return view('frontend.my-wishlist', compact('products', 'totalPrice', 'mainTotal'));
     }
 
-    public function cartview()
+    public function wishlistview()
     {
         return view('load.cart');
     }
     public function view_cart()
     {
         if (!Session::has('cart')) {
-            return view('frontend.cart');
+            return view('my-wishlist');
         }
         if (Session::has('already')) {
             Session::forget('already');
@@ -85,226 +85,148 @@ class CartController extends FrontBaseController
         return view('frontend.ajax.cart-page', compact('products', 'totalPrice', 'mainTotal'));
     }
 
-    // public function addcart($id)
-    // {
+    public function addcart($id)
+    {
 
   
 
-    //     $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'size_all', 'color_all']);
+        $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'size_all', 'color_all']);
 
-    //     // Set Attrubutes
+        // Set Attrubutes
 
-    //     $keys = '';
-    //     $values = '';
-    //     if (!empty($prod->license_qty)) {
-    //         $lcheck = 1;
-    //         foreach ($prod->license_qty as $ttl => $dtl) {
-    //             if ($dtl < 1) {
-    //                 $lcheck = 0;
-    //             } else {
-    //                 $lcheck = 1;
-    //                 break;
-    //             }
-    //         }
-    //         if ($lcheck == 0) {
-    //             return 0;
-    //         }
-    //     }
-
-    //     // Set Size
-
-    //     $size = '';
-    //     if (!empty($prod->size)) {
-    //         $size = trim($prod->size[0]);
-    //     }
-    //     $size = str_replace(' ', '-', $size);
-
-    //     // Set Color
-
-    //     $color = '';
-    //     if (!empty($prod->color)) {
-    //         $color = $prod->color[0];
-    //         $color = str_replace('#', '', $color);
-    //     }
-
-    //     if ($prod->stock_check == 0) {
-    //         if (empty($size)) {
-
-    //             if (!empty($prod->size_all)) {
-    //                 $size = trim(explode(',', $prod->size_all)[0]);
-    //             }
-    //             $size = str_replace(' ', '-', $size);
-    //         }
-
-    //         if (empty($color)) {
-    //             if (!empty($prod->color_all)) {
-    //                 $color = str_replace('#', '', explode(',', $prod->color_all)[0]);
-    //             }
-    //         }
-    //     }
-
-    //     // Vendor Comission
-
-    //     if ($prod->user_id != 0) {
-    //         $gs = Generalsetting::findOrFail(1);
-    //         $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
-    //         $prod->price = $prc;
-    //     }
-
-
-    //     // Set Attribute
-
-
-    //     if (!empty($prod->attributes)) {
-    //         $attrArr = json_decode($prod->attributes, true);
-
-    //         $count = count($attrArr);
-    //         $i = 0;
-    //         $j = 0;
-    //         if (!empty($attrArr)) {
-    //             foreach ($attrArr as $attrKey => $attrVal) {
-
-    //                 if (is_array($attrVal) && array_key_exists("details_status", $attrVal) && $attrVal['details_status'] == 1) {
-    //                     if ($j == $count - 1) {
-    //                         $keys .= $attrKey;
-    //                     } else {
-    //                         $keys .= $attrKey . ',';
-    //                     }
-    //                     $j++;
-
-    //                     foreach ($attrVal['values'] as $optionKey => $optionVal) {
-
-    //                         $values .= $optionVal . ',';
-    //                         $prod->price += $attrVal['prices'][$optionKey];
-    //                         break;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     $keys = rtrim($keys, ',');
-    //     $values = rtrim($values, ',');
-
-
-
-
-    //     $oldCart = Session::has('cart') ? Session::get('cart') : null;
-
-        
-    //     // $cart = new Cart($oldCart);
-    //       $cart = Cart::restoreCart($oldCart);
-
-    //         //if ($cart->items != null && @$cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
-    //        // return 'digital';
-    //       //  }
-
-    //       $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
-    //     if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
-            
-    //         return 'digital';
-    //     }
-    //     if (!empty($cart->items[$cartKey])) {
-           
-    //         return response()->json(['status' => 'already_added']);
-    //     }
-
-    //     $cart->add($prod, $prod->id, $size, $color, $keys, $values);
-    //     if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
-    //         return 0;
-    //     }
-
-    //     if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
-    //         if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
-    //             return 0;
-    //         }
-    //     }
-    //     $cart->totalPrice = 0;
-    //     foreach ($cart->items as $data)
-    //         $cart->totalPrice += $data['price'];
-    //     Session::put('cart', $cart);
-    //     $data[0] = count($cart->items);
-    //     return response()->json($data);
-    // }
-
-    public function addcart($id)
-    {
-        $prod = Product::where('id', '=', $id)->first([
-            'id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price',
-            'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty',
-            'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'size_all', 'color_all'
-        ]);
-    
-        if (!$prod) {
-            return response()->json(['success' => false, 'message' => 'Product not found.']);
-        }
-    
-        // Set Attributes
         $keys = '';
         $values = '';
+        if (!empty($prod->license_qty)) {
+            $lcheck = 1;
+            foreach ($prod->license_qty as $ttl => $dtl) {
+                if ($dtl < 1) {
+                    $lcheck = 0;
+                } else {
+                    $lcheck = 1;
+                    break;
+                }
+            }
+            if ($lcheck == 0) {
+                return 0;
+            }
+        }
+
+        // Set Size
+
+        $size = '';
+        if (!empty($prod->size)) {
+            $size = trim($prod->size[0]);
+        }
+        $size = str_replace(' ', '-', $size);
+
+        // Set Color
+
+        $color = '';
+        if (!empty($prod->color)) {
+            $color = $prod->color[0];
+            $color = str_replace('#', '', $color);
+        }
+
+        if ($prod->stock_check == 0) {
+            if (empty($size)) {
+
+                if (!empty($prod->size_all)) {
+                    $size = trim(explode(',', $prod->size_all)[0]);
+                }
+                $size = str_replace(' ', '-', $size);
+            }
+
+            if (empty($color)) {
+                if (!empty($prod->color_all)) {
+                    $color = str_replace('#', '', explode(',', $prod->color_all)[0]);
+                }
+            }
+        }
+
+        // Vendor Comission
+
+        if ($prod->user_id != 0) {
+            $gs = Generalsetting::findOrFail(1);
+            $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
+            $prod->price = $prc;
+        }
+
+
+        // Set Attribute
+
+
         if (!empty($prod->attributes)) {
             $attrArr = json_decode($prod->attributes, true);
+
             $count = count($attrArr);
+            $i = 0;
             $j = 0;
-            foreach ($attrArr as $attrKey => $attrVal) {
-                if (is_array($attrVal) && isset($attrVal['details_status']) && $attrVal['details_status'] == 1) {
-                    $keys .= ($j == $count - 1) ? $attrKey : $attrKey . ',';
-                    $j++;
-    
-                    foreach ($attrVal['values'] as $optionKey => $optionVal) {
-                        $values .= $optionVal . ',';
-                        $prod->price += $attrVal['prices'][$optionKey]; // Adjust price
-                        break;
+            if (!empty($attrArr)) {
+                foreach ($attrArr as $attrKey => $attrVal) {
+
+                    if (is_array($attrVal) && array_key_exists("details_status", $attrVal) && $attrVal['details_status'] == 1) {
+                        if ($j == $count - 1) {
+                            $keys .= $attrKey;
+                        } else {
+                            $keys .= $attrKey . ',';
+                        }
+                        $j++;
+
+                        foreach ($attrVal['values'] as $optionKey => $optionVal) {
+
+                            $values .= $optionVal . ',';
+                            $prod->price += $attrVal['prices'][$optionKey];
+                            break;
+                        }
                     }
                 }
             }
         }
         $keys = rtrim($keys, ',');
         $values = rtrim($values, ',');
-    
-        $cartKey = $id . str_replace(str_split(' ,'), '', $values);
+
+
+
+
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = Cart::restoreCart($oldCart);
-    
+
+        
+        // $cart = new Cart($oldCart);
+          $cart = Cart::restoreCart($oldCart);
+
+            //if ($cart->items != null && @$cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
+           // return 'digital';
+          //  }
+
+          $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
         if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
-            return response()->json(['success' => false, 'message' => 'Digital product already in cart.']);
+            
+            return 'digital';
         }
-    
         if (!empty($cart->items[$cartKey])) {
-            return response()->json(['success' => false, 'message' => 'Product already in cart.']);
+           
+            return response()->json(['status' => 'already_added']);
         }
-    
-        $size = '';
-        $color = '';
+
         $cart->add($prod, $prod->id, $size, $color, $keys, $values);
-    
-        // Stock Check
-        $item = $cart->items[$cartKey] ?? null;
-        if ($item) {
-            if (isset($item['stock']) && $item['stock'] < 0) {
-                return response()->json(['success' => false, 'message' => 'Product is out of stock.']);
+        if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
+            return 0;
+        }
+
+        if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
+            if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
+                return 0;
             }
-    
-            // if (isset($item['size_qty']) && $item['qty'] > $item['size_qty']) {
-            //     return response()->json(['success' => false, 'message' => 'Not enough stock available.']);
-            // }
         }
-    
-        // Recalculate total
         $cart->totalPrice = 0;
-        foreach ($cart->items as $data) {
+        foreach ($cart->items as $data)
             $cart->totalPrice += $data['price'];
-        }
-    
         Session::put('cart', $cart);
-    
-        return response()->json([
-            'success' => true,
-            'message' => 'Successfully added to cart.',
-            'cart_count' => count($cart->items)
-        ]);
+        $data[0] = count($cart->items);
+        return response()->json($data);
     }
 
-    public function addtocart($id)
+    public function addtowishlist($id)
     {
 
         $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'minimum_qty', 'size_all', 'color_all']);
@@ -449,7 +371,7 @@ class CartController extends FrontBaseController
     }
 
 
-     public function addnumcart(Request $request)
+     public function addnumwishlist(Request $request)
     {
         
 
@@ -625,7 +547,7 @@ class CartController extends FrontBaseController
         return response()->json($data);
     }
 
-    public function addtonumcart(Request $request)
+    public function addtonumwishlist(Request $request)
     {
 
         $id = $_GET['id'];
@@ -1024,7 +946,7 @@ class CartController extends FrontBaseController
     
    
     
-    public function multiAddToCart(Request $request)
+    public function multiAddTowishlist(Request $request)
     {
         $ids = $request->input('ids');
 

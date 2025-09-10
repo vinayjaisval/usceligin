@@ -533,14 +533,14 @@ class FrontendController extends FrontBaseController
         $bcats = BlogCategory::withCount('blogs')->get();
 
 
-
+        $arrivals  = ArrivalSection::get()->toArray();
 
         // BLOGS
         $blogs = Blog::latest()->paginate($this->gs->post_count);
         if ($request->ajax()) {
             return view('frontend.ajax.blog', compact('blogs'));
         }
-        return view('frontend.blog', compact('blogs', 'bcats', 'tags'));
+        return view('frontend.blog', compact('blogs', 'bcats', 'tags','arrivals'));
     }
 
     public function blogcategory(Request $request, $slug)
