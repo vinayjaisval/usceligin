@@ -1334,7 +1334,7 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/vendor-register', 'User\RegisterController@showVendorRegisterForm')->name('vendor.register');
         // User Login
         Route::post('/login', 'Auth\User\LoginController@login')->name('user.login.submit');
-        Route::get('/loginotp', 'Auth\User\LoginController@loginotp')->name('loginotp');
+        Route::get('/sign-in', 'Auth\User\LoginController@sign_in')->name('sign-in');
         Route::post('/send-otp', 'Auth\User\LoginController@send_otp')->name('send-otp');
         Route::post('/verify-otp', 'Auth\User\LoginController@verify_otp')->name('verify-otp');
 
@@ -1802,6 +1802,7 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/carts/view', 'Front\CartController@cartview');
         Route::get('/carts', 'Front\CartController@cart')->name('front.cart');
         Route::get('/addcart/{id}', 'Front\CartController@addcart')->name('product.cart.add');
+        
         Route::get('/addtocart/{id}', 'Front\CartController@addtocart')->name('product.cart.quickadd');
         Route::post('/addnumcart', 'Front\CartController@addnumcart')->name('details.cart');
         Route::get('/addtonumcart', 'Front\CartController@addtonumcart');

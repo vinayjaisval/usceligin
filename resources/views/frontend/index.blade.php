@@ -120,7 +120,7 @@
         </article>
 
         <article class="category-banner">
-          <a href="/first-time-buyer" class="banner-link-full">
+          <a href="{{$arrivals[2]['url']}}" class="banner-link-full">
             <div class="banner-image">
               <img
                 src="{{asset('assets/images/arrival/'.$arrivals[2]['photo'])}}"
@@ -157,7 +157,7 @@
     <div class="container">
       <div class="section-header">
         <h2 id="bestsellers-title">Our Bestsellers</h2>
-        <a href="/best-sellers" class="view-all-link">
+        <a href="{{ route('front.best-sellers') }}" class="view-all-link">
           Shop all best sellers
           <svg
             width="16"
@@ -200,8 +200,9 @@
                 </div>
               </a>
               <div class="product-actions">
-                <a href="#" class="wishlist-btn" aria-label="Add to wishlist" title="Add to Wishlist" role="button">
-                  <svg
+              <a href="#" class="wishlist-btn add-wishlist-btn" data-id="{{ $prod->id }}" aria-label="Add to wishlist" title="Add to Wishlist" role="button">
+                    
+                <svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -212,7 +213,7 @@
                       d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                   </svg>
                 </a>
-                
+
                 <a href="javascript:void(0);" class="cart-btn add-to-cart-btn"
                   data-id="{{ $prod->id }}"
                   aria-label="Add to cart"
@@ -306,7 +307,7 @@
     <div class="container">
       <div class="section-header">
         <h2 id="hotdeals-title">Hot Deals</h2>
-        <a href="/hot-deals" class="view-all-link">
+        <a href="{{ route('front.sales') }}" class="view-all-link">
           Shop all hot deals
           <svg
             width="16"
@@ -353,8 +354,9 @@
                 </div>
               </a>
               <div class="product-actions">
-                <a href="#" class="wishlist-btn" aria-label="Add to wishlist" title="Add to Wishlist" role="button">
-                  <svg
+                <a href="#" class="wishlist-btn add-wishlist-btn" data-id="{{ $prod->id }}" aria-label="Add to wishlist" title="Add to Wishlist" role="button">
+                  
+                <svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -362,9 +364,11 @@
                     stroke="currentColor"
                     stroke-width="2">
                     <path
-                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                    </path>
                   </svg>
                 </a>
+
                 <a href="javascript:void(0);" class="cart-btn add-to-cart-btn"
                   data-id="{{ $prod->id }}"
                   aria-label="Add to cart"
@@ -684,74 +688,61 @@
 
 @section('scripts')
 
-<!-- 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
-        const productId = this.dataset.id;
+  document.addEventListener('DOMContentLoaded', function () {
 
-        fetch('/celiginus/addcart/' + productId, {
-          method: 'GET',
-          headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Not really needed for GET, but harmless
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data);
-            if (data.success) {
-              alert('Product added to cart!');
-              // Optionally update cart counter here
-            } else {
-              alert('Failed to add product to cart.');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-      });
-    });
-  });
-</script> -->
+    const csrfToken = '{{ csrf_token() }}'; // Store once, use multiple times
 
-<!-- Include toastr CSS & JS in your layout -->
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.add-to-cart-btn').forEach(function (button) {
-    button.addEventListener('click', function (e) {
-      e.preventDefault();
-      const productId = this.dataset.id;
-
-      fetch('/celiginus/addcart/' + productId, {
+    // Utility function to handle fetch requests
+    function handleAction(url, successCallback) {
+      fetch(url, {
         method: 'GET',
         headers: {
-          'X-CSRF-TOKEN': '{{ csrf_token() }}' // Optional for GET
+          'X-CSRF-TOKEN': csrfToken
         }
       })
-      .then(res => res.json())
-      .then(data => {
-        
-        if (data.success) {
-          console.log(data.success);
-          toastr.success(data.message);
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            toastr.success(data.message || 'Success');
+            successCallback(data);
+          } else {
+            toastr.warning(data.message || 'Something went wrong.');
+          }
+        })
+        .catch(error => {
+          console.error('Request Error:', error);
+          toastr.error('Unexpected error occurred.');
+        });
+    }
+
+    // Add to Cart
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const productId = this.dataset.id;
+        handleAction(`/celiginus/addcart/${productId}`, data => {
           if (data.cart_count !== undefined) {
             document.getElementById('cart-count').innerText = data.cart_count;
           }
-        } else {
-          toastr.warning(data.message || 'Something went wrong.');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        toastr.error('Unexpected error occurred.');
+        });
       });
     });
+
+    // Add to Wishlist
+    document.querySelectorAll('.add-wishlist-btn').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const productId = this.dataset.id;
+        handleAction(`/celiginus/addwishlist/${productId}`, data => {
+          if (data.wishlist_count !== undefined) {
+            document.getElementById('wishlist-count').innerText = data.wishlist_count;
+          }
+        });
+      });
+    });
+
   });
-});
 </script>
 
 @endSection

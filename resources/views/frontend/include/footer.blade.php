@@ -66,7 +66,7 @@
           <li><a href="{{ route('front.vendor',$data->slug) }}">{{ $data->title }}</a></li>
 
           @endforeach
-          <li><a href="{{ route('front.blog') }}">Blogs</a></li>
+          <li><a href="{{ route('front.blog') }}">Blog</a></li>
           @if($ps->faq == 1)
           <li>
               <a href="{{ route('front.faq') }}">{{ __('FAQ') }}</a>
@@ -81,20 +81,21 @@
       </div>
 
       <div class="footer-section newsletter">
-        <h3>Good emails.</h3>
-        <p>
-          Enter your email below to be the first to know about new
-          collections and product launches.
-        </p>
-        <form class="newsletter-form" aria-label="Newsletter signup">
-          <input
-            type="email"
-            placeholder="Enter your email address"
-            required
-            aria-label="Email address" />
-          <!-- <button type="submit">Subscribe</button> -->
-        </form>
-      </div>
+            <h3>Good emails.</h3>
+            <p>
+              Enter your email below to be the first to know about new
+              collections and product launches.
+            </p>
+            <form class="newsletter-form" aria-label="Newsletter signup">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                required
+                aria-label="Email address"
+              />
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
     </div>
 
     <div class="footer-bottom">
@@ -197,6 +198,18 @@
     </div>
   </div>
 </footer>
+<button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <polyline points="18,15 12,9 6,15"></polyline>
+      </svg>
+    </button>
 
 <!-- SwiperJS JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -205,6 +218,9 @@
 
 <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- Toastify JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </body>
 
 </html>

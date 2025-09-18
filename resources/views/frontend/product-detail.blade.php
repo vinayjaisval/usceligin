@@ -444,7 +444,7 @@
                   itemscope
                   itemtype="https://schema.org/Product">
                   <a
-                    href="{{ route('front.product', $item->slug) }}"
+                    href="{{ url('/item', $item->slug) }}"
                     class="product-link"
                     aria-label="View Vitamin C Brightening Serum details">
                     <div class="product-image">
@@ -469,12 +469,8 @@
                     </div>
                   </a>
                   <div class="product-actions">
-                    <a
-                      href="#"
-                      class="wishlist-btn"
-                      aria-label="Add to wishlist"
-                      title="Add to Wishlist"
-                      role="button">
+                  <a href="#" class="wishlist-btn add-wishlist-btn" data-id="{{ $item->id }}" aria-label="Add to wishlist" title="Add to Wishlist" role="button">
+           
                       <svg
                         width="20"
                         height="20"
@@ -528,3 +524,71 @@
 </main>
 
 @endsection
+@section('scripts')
+
+<script>
+  document.getElementById('sort-select').addEventListener('change', function () {
+    document.getElementById('filters-form').submit();
+  });
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const csrfToken = '{{ csrf_token() }}'; // Store once, use multiple times
+
+    // Utility function to handle fetch requests
+    function handleAction(url, successCallback) {
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            toastr.success(data.message || 'Success');
+            successCallback(data);
+          } else {
+            toastr.warning(data.message || 'Something went wrong.');
+          }
+        })
+        .catch(error => {
+          console.error('Request Error:', error);
+          toastr.error('Unexpected error occurred.');
+        });
+    }
+
+    // Add to Cart
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const productId = this.dataset.id;
+        handleAction(`/celiginus/addcart/${productId}`, data => {
+          if (data.cart_count !== undefined) {
+            document.getElementById('cart-count').innerText = data.cart_count;
+          }
+        });
+      });
+    });
+
+    // Add to Wishlist
+    document.querySelectorAll('.add-wishlist-btn').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const productId = this.dataset.id;
+        handleAction(`/celiginus/addwishlist/${productId}`, data => {
+          if (data.wishlist_count !== undefined) {
+            document.getElementById('wishlist-count').innerText = data.wishlist_count;
+          }
+        });
+      });
+    });
+
+  });
+</script>
+
+@endSection
+

@@ -83,10 +83,10 @@ class LoginController extends Controller
   }
 
 
-  public function loginotp()
+  public function sign_in()
   {
 
-    return view('frontend.loginotp');
+    return view('frontend.sign-in');
   }
 
 

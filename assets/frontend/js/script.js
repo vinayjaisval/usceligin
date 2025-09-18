@@ -177,6 +177,8 @@ class CeliginWebsite {
         this.initializePromoBar();
         this.initializeMobileMenu();
         this.initializeSwipers();
+        this.initializeScrollToTop();
+        this.initializeCategoryPage();
     }
 
     // Search Functionality - Amazon Style
@@ -647,6 +649,416 @@ class CeliginWebsite {
             });
         } catch (error) {
         }
+    }
+
+    // Scroll to Top Functionality
+    initializeScrollToTop() {
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        if (!scrollToTopBtn) return;
+
+        // Show/hide button based on scroll position
+        const toggleScrollButton = () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        };
+
+        // Smooth scroll to top
+        const scrollToTop = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        };
+
+        // Event listeners
+        window.addEventListener('scroll', toggleScrollButton);
+        scrollToTopBtn.addEventListener('click', scrollToTop);
+
+        // Initial check
+        toggleScrollButton();
+    }
+
+    // Category Page Lazy Loading
+    initializeCategoryPage() {
+        if (!document.querySelector('.products-grid')) return;
+        
+        this.initializeProductGrid();
+        this.initializeFilters();
+    }
+
+    initializeProductGrid() {
+        const productsGrid = document.getElementById('productsGrid');
+        if (!productsGrid) return;
+
+        // Sample product data for demonstration
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Vitamin C Brightening Serum",
+                price: 45.99,
+                originalPrice: 55.99,
+                image: "assets/images/product-1.jpg",
+                category: "serums",
+                rating: 4.8,
+                reviews: 124,
+                badge: "Best Seller",
+                discount: 18
+            },
+            {
+                id: 2,
+                name: "Hydrating Face Cream",
+                price: 32.99,
+                originalPrice: 39.99,
+                image: "assets/images/product-2.jpg",
+                category: "moisturizers",
+                rating: 4.6,
+                reviews: 89,
+                badge: "New",
+                discount: 18
+            },
+            {
+                id: 3,
+                name: "Gentle Cleansing Foam",
+                price: 24.99,
+                originalPrice: null,
+                image: "assets/images/product-3.jpg",
+                category: "cleansers",
+                rating: 4.7,
+                reviews: 156,
+                badge: null,
+                discount: 0
+            },
+            {
+                id: 4,
+                name: "Anti-Aging Night Cream",
+                price: 65.99,
+                originalPrice: 79.99,
+                image: "assets/images/product-4.jpg",
+                category: "anti-aging",
+                rating: 4.9,
+                reviews: 67,
+                badge: "Premium",
+                discount: 18
+            },
+            {
+                id: 5,
+                name: "Nourishing Face Oil",
+                price: 38.99,
+                originalPrice: 45.99,
+                image: "assets/images/product-5.jpg",
+                category: "oils",
+                rating: 4.5,
+                reviews: 92,
+                badge: "Organic",
+                discount: 15
+            },
+            {
+                id: 6,
+                name: "Exfoliating Scrub",
+                price: 28.99,
+                originalPrice: 34.99,
+                image: "assets/images/product-6.jpg",
+                category: "exfoliants",
+                rating: 4.4,
+                reviews: 78,
+                badge: "Sale",
+                discount: 17
+            },
+            {
+                id: 7,
+                name: "Rejuvenating Eye Cream",
+                price: 42.99,
+                originalPrice: 49.99,
+                image: "assets/images/product-1.jpg",
+                category: "eye-care",
+                rating: 4.6,
+                reviews: 103,
+                badge: "Trending",
+                discount: 14
+            },
+            {
+                id: 8,
+                name: "Brightening Toner",
+                price: 26.99,
+                originalPrice: 31.99,
+                image: "assets/images/product-2.jpg",
+                category: "toners",
+                rating: 4.3,
+                reviews: 145,
+                badge: "New",
+                discount: 16
+            },
+            {
+                id: 9,
+                name: "Hydrating Face Mask",
+                price: 19.99,
+                originalPrice: 24.99,
+                image: "assets/images/product-3.jpg",
+                category: "masks",
+                rating: 4.7,
+                reviews: 189,
+                badge: "Popular",
+                discount: 20
+            },
+            {
+                id: 10,
+                name: "Repair Serum Duo",
+                price: 89.99,
+                originalPrice: 109.99,
+                image: "assets/images/product-4.jpg",
+                category: "sets",
+                rating: 4.8,
+                reviews: 56,
+                badge: "Bundle",
+                discount: 18
+            },
+            {
+                id: 11,
+                name: "Daily Sunscreen SPF 50",
+                price: 34.99,
+                originalPrice: 39.99,
+                image: "assets/images/product-5.jpg",
+                category: "sunscreen",
+                rating: 4.9,
+                reviews: 234,
+                badge: "Essential",
+                discount: 13
+            },
+            {
+                id: 12,
+                name: "Lip Care Treatment",
+                price: 16.99,
+                originalPrice: 19.99,
+                image: "assets/images/product-6.jpg",
+                category: "lip-care",
+                rating: 4.5,
+                reviews: 167,
+                badge: "Travel Size",
+                discount: 15
+            }
+        ];
+
+        // Simulate loading delay
+        setTimeout(() => {
+            this.renderProducts(sampleProducts, productsGrid);
+            this.setupLazyLoading();
+        }, 1000);
+    }
+
+    renderProducts(products, container) {
+        // Remove loading placeholder
+        container.innerHTML = '';
+
+        products.forEach((product, index) => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card lazy-loading';
+            productCard.setAttribute('data-product-id', product.id);
+            productCard.style.animationDelay = `${index * 100}ms`;
+
+            const badgeHtml = product.badge ? `<span class="product-badge">${product.badge}</span>` : '';
+            const discountHtml = product.discount > 0 ? `<span class="discount-badge">-${product.discount}%</span>` : '';
+            const originalPriceHtml = product.originalPrice ? `<span class="original-price">$${product.originalPrice}</span>` : '';
+
+            productCard.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}" loading="lazy">
+                    ${badgeHtml}
+                    ${discountHtml}
+                    <div class="product-overlay">
+                        <button class="quick-view-btn" data-product-id="${product.id}">Quick View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">${product.name}</h3>
+                    <div class="product-rating">
+                        <div class="stars" data-rating="${product.rating}">
+                            ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                        </div>
+                        <span class="rating-count">(${product.reviews})</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$${product.price}</span>
+                        ${originalPriceHtml}
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <button class="wishlist-btn" data-product-id="${product.id}" aria-label="Add to Wishlist">
+                        <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button class="cart-btn" data-product-id="${product.id}">
+                        Add to Cart
+                    </button>
+                </div>
+            `;
+
+            container.appendChild(productCard);
+        });
+
+        // Update products count
+        const productsCount = document.querySelector('.products-count');
+        if (productsCount) {
+            productsCount.textContent = `Showing ${products.length} products`;
+        }
+    }
+
+    setupLazyLoading() {
+        const productCards = document.querySelectorAll('.product-card.lazy-loading');
+        
+        // Use Intersection Observer for smooth lazy loading animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.remove('lazy-loading');
+                        entry.target.classList.add('lazy-loaded');
+                        observer.unobserve(entry.target);
+                    }, index * 100);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+
+        productCards.forEach(card => {
+            observer.observe(card);
+        });
+
+        // Setup product interactions
+        this.setupProductInteractions();
+    }
+
+    setupProductInteractions() {
+        // Quick view functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-view-btn')) {
+                const productId = e.target.getAttribute('data-product-id');
+                this.showQuickView(productId);
+            }
+
+            // Wishlist functionality
+            if (e.target.closest('.wishlist-btn')) {
+                const button = e.target.closest('.wishlist-btn');
+                const productId = button.getAttribute('data-product-id');
+                this.toggleWishlist(button, productId);
+            }
+
+            // Add to cart functionality
+            if (e.target.classList.contains('cart-btn')) {
+                const productId = e.target.getAttribute('data-product-id');
+                this.addToCart(productId);
+            }
+        });
+    }
+
+    showQuickView(productId) {
+        // Placeholder for quick view modal
+        console.log(`Opening quick view for product ${productId}`);
+        // In a real implementation, this would open a modal with product details
+    }
+
+    toggleWishlist(button, productId) {
+        button.classList.toggle('active');
+        const isActive = button.classList.contains('active');
+        
+        if (isActive) {
+            button.setAttribute('aria-label', 'Remove from Wishlist');
+            console.log(`Added product ${productId} to wishlist`);
+        } else {
+            button.setAttribute('aria-label', 'Add to Wishlist');
+            console.log(`Removed product ${productId} from wishlist`);
+        }
+    }
+
+    addToCart(productId) {
+        console.log(`Added product ${productId} to cart`);
+        // Show success message or update cart count
+        this.showAddToCartNotification();
+    }
+
+    showAddToCartNotification() {
+        // Create temporary notification
+        const notification = document.createElement('div');
+        notification.className = 'cart-notification';
+        notification.innerHTML = '✓ Product added to cart!';
+        notification.style.cssText = `
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--accent-primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-none);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    initializeFilters() {
+        const filterSelect = document.querySelector('.filter-select');
+        if (!filterSelect) return;
+
+        filterSelect.addEventListener('change', (e) => {
+            const sortBy = e.target.value;
+            this.sortProducts(sortBy);
+        });
+    }
+
+    sortProducts(sortBy) {
+        const productsGrid = document.getElementById('productsGrid');
+        const productCards = Array.from(productsGrid.querySelectorAll('.product-card'));
+
+        productCards.sort((a, b) => {
+            switch (sortBy) {
+                case 'price-low':
+                    return this.getProductPrice(a) - this.getProductPrice(b);
+                case 'price-high':
+                    return this.getProductPrice(b) - this.getProductPrice(a);
+                case 'rating':
+                    return this.getProductRating(b) - this.getProductRating(a);
+                case 'discount':
+                    return this.getProductDiscount(b) - this.getProductDiscount(a);
+                case 'newest':
+                    return this.getProductId(b) - this.getProductId(a);
+                default:
+                    return 0;
+            }
+        });
+
+        // Re-append sorted elements
+        productCards.forEach(card => productsGrid.appendChild(card));
+    }
+
+    getProductPrice(card) {
+        const priceText = card.querySelector('.current-price').textContent;
+        return parseFloat(priceText.replace('$', ''));
+    }
+
+    getProductRating(card) {
+        const rating = card.querySelector('.stars').getAttribute('data-rating');
+        return parseFloat(rating);
+    }
+
+    getProductDiscount(card) {
+        const discountBadge = card.querySelector('.discount-badge');
+        if (!discountBadge) return 0;
+        return parseInt(discountBadge.textContent.replace(/[-%]/g, ''));
+    }
+
+    getProductId(card) {
+        return parseInt(card.getAttribute('data-product-id'));
     }
 }
 

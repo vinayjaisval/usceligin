@@ -10,6 +10,7 @@ use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Generalsetting;
 use App\Models\State;
+use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -18,8 +19,10 @@ class WishlistController extends FrontBaseController
 
     public function wishlist(Request $request)
     {
-        
-        if (!Session::has('cart')) {
+       
+        $oldCart ='';
+        if (!Session::has('wishlist')) {
+           
             return view('frontend.my-wishlist');
         }
         if (Session::has('already')) {
@@ -37,18 +40,24 @@ class WishlistController extends FrontBaseController
         if (Session::has('coupon_percentage')) {
             Session::forget('coupon_percentage');
         }
-        $oldCart = Session::get('cart');
+      
+        $oldCart = Session::get('wishlist');
+      
+        // foreach ($oldCart as $item) {
+        //     dd($item['name']); // this will dump the name of the first item
+        // }
+      
         // $cart = new Cart($oldCart);
-        $cart = Cart::restoreCart($oldCart);
+        // $cart = Cart::restoreCart($oldCart);
 
-        $products = $cart->items;
-        $totalPrice = $cart->totalPrice;
-        $mainTotal = $totalPrice;
+        // $products = $oldCart->items;
+        // $totalPrice = $oldCart->totalPrice;
+        // $mainTotal = $oldCart;
 
         if ($request->ajax()) {
-            return view('frontend.ajax.cart-page', compact('products', 'totalPrice', 'mainTotal'));
+            return view('frontend.ajax.cart-page', compact('oldCart'));
         }
-        return view('frontend.my-wishlist', compact('products', 'totalPrice', 'mainTotal'));
+        return view('frontend.my-wishlist', compact('oldCart'));
     }
 
     public function wishlistview()
@@ -85,147 +94,51 @@ class WishlistController extends FrontBaseController
         return view('frontend.ajax.cart-page', compact('products', 'totalPrice', 'mainTotal'));
     }
 
-    public function addcart($id)
+    public function addwishlist($id)
     {
-
-  
-
-        $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'size_all', 'color_all']);
-
-        // Set Attrubutes
-
-        $keys = '';
-        $values = '';
-        if (!empty($prod->license_qty)) {
-            $lcheck = 1;
-            foreach ($prod->license_qty as $ttl => $dtl) {
-                if ($dtl < 1) {
-                    $lcheck = 0;
-                } else {
-                    $lcheck = 1;
-                    break;
-                }
-            }
-            if ($lcheck == 0) {
-                return 0;
-            }
-        }
-
-        // Set Size
-
-        $size = '';
-        if (!empty($prod->size)) {
-            $size = trim($prod->size[0]);
-        }
-        $size = str_replace(' ', '-', $size);
-
-        // Set Color
-
-        $color = '';
-        if (!empty($prod->color)) {
-            $color = $prod->color[0];
-            $color = str_replace('#', '', $color);
-        }
-
-        if ($prod->stock_check == 0) {
-            if (empty($size)) {
-
-                if (!empty($prod->size_all)) {
-                    $size = trim(explode(',', $prod->size_all)[0]);
-                }
-                $size = str_replace(' ', '-', $size);
-            }
-
-            if (empty($color)) {
-                if (!empty($prod->color_all)) {
-                    $color = str_replace('#', '', explode(',', $prod->color_all)[0]);
-                }
-            }
-        }
-
-        // Vendor Comission
-
-        if ($prod->user_id != 0) {
-            $gs = Generalsetting::findOrFail(1);
-            $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
-            $prod->price = $prc;
-        }
-
-
-        // Set Attribute
-
-
-        if (!empty($prod->attributes)) {
-            $attrArr = json_decode($prod->attributes, true);
-
-            $count = count($attrArr);
-            $i = 0;
-            $j = 0;
-            if (!empty($attrArr)) {
-                foreach ($attrArr as $attrKey => $attrVal) {
-
-                    if (is_array($attrVal) && array_key_exists("details_status", $attrVal) && $attrVal['details_status'] == 1) {
-                        if ($j == $count - 1) {
-                            $keys .= $attrKey;
-                        } else {
-                            $keys .= $attrKey . ',';
-                        }
-                        $j++;
-
-                        foreach ($attrVal['values'] as $optionKey => $optionVal) {
-
-                            $values .= $optionVal . ',';
-                            $prod->price += $attrVal['prices'][$optionKey];
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        $keys = rtrim($keys, ',');
-        $values = rtrim($values, ',');
-
-
-
-
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-
         
-        // $cart = new Cart($oldCart);
-          $cart = Cart::restoreCart($oldCart);
-
-            //if ($cart->items != null && @$cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
-           // return 'digital';
-          //  }
-
-          $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
-        if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
-            
-            return 'digital';
+        $product = Product::find($id, [
+            'id', 'user_id', 'slug', 'name', 'photo', 'price', 'stock', 'type'
+        ]);
+    
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product not found.'
+            ]);
         }
-        if (!empty($cart->items[$cartKey])) {
-           
-            return response()->json(['status' => 'already_added']);
+    
+        // Get existing wishlist from session
+        $wishlist = Session::get('wishlist', []);
+    
+    
+        // Avoid duplicates
+        if (array_key_exists($id, $wishlist)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product is already in your wishlist.'
+            ]);
         }
-
-        $cart->add($prod, $prod->id, $size, $color, $keys, $values);
-        if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
-            return 0;
-        }
-
-        if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
-            if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
-                return 0;
-            }
-        }
-        $cart->totalPrice = 0;
-        foreach ($cart->items as $data)
-            $cart->totalPrice += $data['price'];
-        Session::put('cart', $cart);
-        $data[0] = count($cart->items);
-        return response()->json($data);
+    
+        // Add product to wishlist
+        $wishlist[$id] = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'slug' => $product->slug,
+            'photo' => $product->photo,
+            'price' => $product->price,
+        ];
+    
+        // Store updated wishlist in session
+        Session::put('wishlist', $wishlist);
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully added to wishlist.',
+            'wishlist_count' => count($wishlist)
+        ]);
     }
-
+    
     public function addtowishlist($id)
     {
 

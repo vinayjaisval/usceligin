@@ -7,26 +7,25 @@
     <!-- Breadcrumb Navigation -->
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <ol class="breadcrumb-list">
-        <li class="breadcrumb-item">
-          <a href="index.html">Home</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-          Add to Cart
-        </li>
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add to Cart</li>
       </ol>
     </nav>
 
     <!-- Loading Spinner -->
-    <div class="loading-section" id="loading-section">
+    <div class="loading-section" id="loading-section" style="display: none;">
       <div class="loading-spinner"></div>
       <p>Loading add to cart...</p>
     </div>
+
     @if(Session::has('cart'))
     <!-- Shopping Cart Section -->
     <section class="cart-section" role="main">
       <div class="cart-layout">
+
         <!-- Cart Items Section -->
         <div class="cart-items">
+
           <!-- Rewards Section -->
           <div class="rewards-banner">
             <div class="rewards-content">
@@ -121,21 +120,14 @@
 
           <div class="cart-header">
             <h2>Bag</h2>
-            <span class="item-count">{{ Session::has('cart') ?
-                  count(Session::get('cart')->items) : '0' }} items</span>
+            <span class="item-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }} items</span>
           </div>
 
           <!-- Shipping Section -->
           <div class="shipping-section">
             <div class="shipping-header">
-              <svg
-                class="shipping-icon"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2">
+              <!-- Icon and shipping info -->
+              <svg class="shipping-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="1" y="3" width="15" height="13"></rect>
                 <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
                 <circle cx="5.5" cy="18.5" r="2.5"></circle>
@@ -144,60 +136,47 @@
               <div class="shipping-info">
                 <h3>Ship</h3>
                 <p>You've earned <strong>FREE shipping</strong></p>
-                <span class="item-count">{{ Session::has('cart') ?
-                      count(Session::get('cart')->items) : '0' }} items</span>
+                <span class="item-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }} items</span>
               </div>
               <a href="#" class="edit-btn">Edit all</a>
             </div>
 
-            <!-- Cart Item 1 -->
+            <!-- Cart Items -->
             @foreach ($products as $product)
-            <div class="cart-item">
+            <div class="cart-item cremove{{ $product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'), '', $product['values']) }}">
               <section>
                 <div class="item-image">
-                  <img
-                    src="{{ $product['item']['photo'] ? asset('assets/images/products/'.$product['item']['photo']) : asset('assets/images/noimage.png') }}"
-                    alt="Celigin timeless oil mist (50ml) with coscor 5,000ppm"
-                    width="80"
-                    height="80" />
+                  <img src="{{ $product['item']['photo'] ? asset('assets/images/products/'.$product['item']['photo']) : asset('assets/images/noimage.png') }}"
+                    alt="{{ $product['item']['name'] }}" width="80" height="80" />
                 </div>
                 <div class="item-info">
                   <h5 class="product-name">
                     {{ mb_strlen($product['item']['name'], 'UTF-8') > 35 ? mb_substr($product['item']['name'], 0, 35, 'UTF-8').'...' : $product['item']['name'] }}
                   </h5>
                   <div class="replenish-save">
-                    <svg
-                      class="refresh-icon"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2">
+                    <svg class="refresh-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <polyline points="23,4 23,10 17,10"></polyline>
                       <polyline points="1,20 1,14 7,14"></polyline>
-                      <path
-                        d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                      <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
                     </svg>
                     <span>Replenish and save</span>
                     <a href="#" class="add-btn">Add</a>
                   </div>
                 </div>
               </section>
+
               <div class="item-details">
                 <div class="item-controls">
-                <div class="quantity-price">
-                    <select class="quantity-select" aria-label="Quantity" data-price="{{ $product['item_price'] }}">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <option value="{{ $i }}" {{ $i == 1 ? 'selected' : '' }}>{{ $i }}</option>
+                  <div class="quantity-price">
+                    <select class="quantity-select" data-id="{{ $product['item']['id'] }}">
+                      @for ($i = 1; $i <= 10; $i++)
+                        <option value="{{ $i }}" {{ $product['qty'] == $i ? 'selected' : '' }}>{{ $i }}</option>
                         @endfor
                     </select>
-                    
-                    <span class="price">
-                        {{ App\Models\Product::convertPrice($product['item_price']) }}
-                    </span>
-                </div>
+                    <span class="price">{{ App\Models\Product::convertPrice($product['price']) }}</span>
+                  </div>
 
+                  <!-- Delivery Options -->
                   <div class="delivery-options">
                     <a href="#" class="delivery-option active" aria-label="Ship delivery option">
                       <svg
@@ -241,36 +220,36 @@
                       <span>Same day</span>
                     </a>
                   </div>
+
+                 
+
                   <div class="item-actions">
                     <a href="javascript:void(0);"
-                      class="remove cart-remove"
+                      class="remove cart-remove remove-btn"
                       data-class="cremove{{ $product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'), '', $product['values']) }}"
                       data-href="{{ route('product.cart.remove', $product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'), '', $product['values'])) }}">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="3,6 5,6 21,6"></polyline>
-                        <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
-                      </svg>
-                      Remove
-                    </a>
 
-                    <a href="#" class="save-later-btn" aria-label="Save for later">
-                       <button class="save-later-btn" aria-label="Save for later">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
+                      <!-- <button class="remove-btn" aria-label="Remove item"> -->
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                           stroke-width="2">
-                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                          <polyline points="3,6 5,6 21,6"></polyline>
+                          <path
+                            d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2">
+                          </path>
                         </svg>
-                        Save for Later
+                        Remove
                     </a>
+                    <button class="save-later-btn" aria-label="Save for later">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                      </svg>
+                      Save for Later
+                      </a>
                   </div>
                 </div>
               </div>
             </div>
-
             @endforeach
           </div>
 
@@ -287,77 +266,41 @@
           <div class="summary-card">
             <h3>Order summary</h3>
             <div class="summary-line">
-              <span>Subtotal ({{ Session::has('cart') ?
-                    count(Session::get('cart')->items) : '0' }} item)</span>
+              <span>Subtotal ({{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }} item)</span>
               <span>{{ App\Models\Product::convertPrice($totalPrice) }}</span>
             </div>
-            <div class="summary-line">
-              <span>Shipping</span>
-              <span>₹6.95</span>
-            </div>
-            <div class="shipping-note">
-              <span>You are ₹15.00 away from free shipping</span>
-            </div>
-            <div class="summary-line">
-              <span>Estimated tax
-                <button class="info-btn" aria-label="Tax information">
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                  </svg></button></span>
-              <span>Calculated at checkout</span>
-            </div>
-            <div class="summary-total">
-              <span>Estimated total</span>
-              <span>{{ App\Models\Product::convertPrice($mainTotal) }}</span>
-            </div>
+            <div class="summary-line"><span>Shipping</span><span>₹6.95</span></div>
+            <div class="shipping-note"><span>You are ₹15.00 away from free shipping</span></div>
+            <div class="summary-line"><span>Estimated tax</span><span>Calculated at checkout</span></div>
+            <div class="summary-total"><span>Estimated total</span><span>{{ App\Models\Product::convertPrice($mainTotal) }}</span></div>
             <button class="checkout-btn primary">Checkout</button>
 
             <div class="promo-section">
-              <button class="promo-toggle">
-                <div>
-                  <p>Add a coupon code</p>
-                  <p class="promo-note">(enjoy 1 coupon per order)</p>
-                </div>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-            </div>
-            <div class="gift-section">
-              <button class="gift-toggle">
-                <div>
-                  <p>Make this order a gift</p>
-                  <p class="gift-note">
-                    (available for eligible ship items only)
-                  </p>
-                </div>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-            </div>
+                <button class="promo-toggle">
+                  <div>
+                    <p>Add a coupon code</p>
+                    <p class="promo-note">(enjoy 1 coupon per order)</p>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+              <div class="gift-section">
+                <button class="gift-toggle">
+                  <div>
+                    <p>Make this order a gift</p>
+                    <p class="gift-note">
+                      (available for eligible ship items only)
+                    </p>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
           </div>
           <div class="help-section">
             <h4>Need help?</h4>
@@ -368,26 +311,50 @@
         </div>
       </div>
     </section>
+    @else
 
+    <!-- 🧺 Empty Cart Message -->
+    <section class="empty-cart-section">
+      <div class="empty-cart-content" style="text-align: center; padding: 60px 20px;">
+        <img src="{{ asset('assets/frontend/images/cart1.jpg') }}" alt="Empty Cart" style="width: 150px; margin-bottom: 20px;">
+
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven’t added anything to your cart yet.</p>
+        <a href="{{ route('front.index') }}" class="btn btn-primary" style="margin-top: 20px;">Continue Shopping</a>
+      </div>
+    </section>
     @endif
+
+
   </div>
 </main>
-
 @endsection
 
-
 @section('scripts')
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const removeButtons = document.querySelectorAll('.cart-remove');
+  function showLoader() {
+    const loader = document.getElementById('loading-section');
+    if (loader) loader.style.display = 'block';
+  }
 
+  function hideLoader() {
+    const loader = document.getElementById('loading-section');
+    if (loader) loader.style.display = 'none';
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    hideLoader(); // hide on load
+
+    // Remove cart item
+    const removeButtons = document.querySelectorAll('.cart-remove');
     removeButtons.forEach(button => {
       button.addEventListener('click', function() {
         const href = this.dataset.href;
         const itemClass = this.dataset.class;
 
         if (!href) return;
+
+        showLoader();
 
         fetch(href, {
             method: 'GET',
@@ -398,23 +365,71 @@
           })
           .then(res => res.json())
           .then(data => {
+            hideLoader();
             if (data.success) {
-              // Remove the cart item from DOM
               const element = document.querySelector('.' + itemClass);
               if (element) element.remove();
 
-              // Optionally, reload to update totals
-              window.location.reload();
+              Toastify({
+                text: data.message || "Product removed from your cart",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#f44336"
+              }).showToast();
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
             } else {
               alert('Failed to remove item.');
             }
           })
           .catch(err => {
+            hideLoader();
+            alert('Something went wrong while removing the item.');
             console.error('Remove error:', err);
+          });
+      });
+    });
+
+    // Update quantity
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    document.querySelectorAll('.quantity-select').forEach(select => {
+      select.addEventListener('change', function() {
+        const id = this.dataset.id;
+        const qty = this.value;
+
+        showLoader();
+
+        fetch('/celiginus/addnumcart', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+              'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({
+              id,
+              qty
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            hideLoader();
+            if (data.success) {
+              window.location.reload();
+            } else {
+              alert('Failed to update quantity');
+            }
+          })
+          .catch(err => {
+            hideLoader();
+            console.error('Error updating quantity:', err);
           });
       });
     });
   });
 </script>
-
 @endsection

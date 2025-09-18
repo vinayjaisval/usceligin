@@ -298,6 +298,8 @@ class FrontendController extends FrontBaseController
             ->withAvg('ratings', 'rating')
             ->orderby('id', 'desc')
             ->get();
+           
+
         $data['blogs'] =  Blog::latest()->take(3)->get();
         $data['testimonials'] = Testimonial::latest()->take(15)->get();
         $data['allProducts'] = Product::select('*')->where('status', 1)->get();
@@ -543,7 +545,7 @@ class FrontendController extends FrontBaseController
         return view('frontend.blog', compact('blogs', 'bcats', 'tags','arrivals'));
     }
 
-    public function blogcategory(Request $request, $slug)
+    public function blogcategory(Request $request, $slug) 
     {
 
         // BLOG TAGS

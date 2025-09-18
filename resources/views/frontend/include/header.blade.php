@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <meta
     name="description"
     content="CELIGIN - Premium cosmetics and skincare products. Discover your glow with our science-backed beauty solutions." />
@@ -18,7 +20,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+  <!-- Toastify CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 
 </head>
 
@@ -155,7 +160,7 @@
 
         <div class="utility-buttons">
           <button class="account-btn" aria-label="My account">
-            <svg
+          <a href="{{ route('sign-in') }}">   <svg
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -165,39 +170,42 @@
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
+            </a>
           </button>
-          <button class="wishlist-btn" aria-label="Wishlist">
-          <a href="{{ route('front.wishlist') }}"> <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2">
-              <path
-                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
-            <span class="wishlist-count" aria-label="0 items in wishlist">{{ Session::has('wish') ?
-              count(Session::get('wish')->items) : '0' }}</span></a>
+          <button class="wishlist-btn " aria-label="Wishlist">
+            <a href="{{ route('front.wishlist') }}"> <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+              <span id="wishlist-count" class="wishlist-count" aria-label="0 items in wishlist">
+                {{ Session::has('wishlist') ? count(Session::get('wishlist')) : '0' }}
+              </span>
+            </a>
 
           </button>
           <button class="cart-btn" aria-label="Shopping cart">
-          <a href="{{ route('front.cart') }}">  <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2">
-              <path
-                d="M9 22h6c2 0 3-1 3-3v-6c0-2-1-3-3-3H9c-2 0-3 1-3 3v6c0 2 1 3 3 3z"></path>
-              <path d="M16 7V5a4 4 0 0 0-8 0v2"></path>
-            </svg>
-            <span class="cart-count" id="cart-count" aria-label="0 items in cart">{{ Session::has('cart') ?
+            <a href="{{ route('front.cart') }}"> <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2">
+                <path
+                  d="M9 22h6c2 0 3-1 3-3v-6c0-2-1-3-3-3H9c-2 0-3 1-3 3v6c0 2 1 3 3 3z"></path>
+                <path d="M16 7V5a4 4 0 0 0-8 0v2"></path>
+              </svg>
+              <span class="cart-count" id="cart-count" aria-label="0 items in cart">{{ Session::has('cart') ?
               count(Session::get('cart')->items) : '0' }}</span>
-            
-              
-              </a>
+
+
+            </a>
           </button>
           <button class="theme-toggle" aria-label="Toggle dark mode">
             <svg
@@ -236,8 +244,8 @@
       <!-- Main Navigation -->
       <nav class="main-nav" role="navigation" aria-label="Main navigation">
         <ul class="nav-list">
-         
-        
+
+
           <li><a href="{{route('front.new-arrivals')}}">New Arrivals
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6,9 12,15 18,9"></polyline>
