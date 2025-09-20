@@ -8,10 +8,19 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
 
-    protected $fillable = ['name', 'photo', 'zip', 'city_id', 'state_id', 'country','address', 'phone', 'fax', 'email', 'password', 'affilate_code', 'verification_link', 'shop_name', 'owner_name', 'shop_number', 'shop_address', 'reg_number', 'shop_message', 'is_vendor', 'shop_details', 'shop_image', 'shipping_cost', 'date', 'mail_sent', 'email_verified', 'email_token', 'reward','reffered_by','refferel_code','reffered_times','affiliated_by','referral_income','seller_id'];
+    protected $fillable = ['name', 'photo', 'zip', 'city_id', 'state_id', 'country','address', 'phone', 'fax', 'email', 'password', 'affilate_code', 'verification_link', 'shop_name', 'owner_name', 'shop_number', 'shop_address', 'reg_number', 'shop_message', 'is_vendor', 'shop_details', 'shop_image', 'shipping_cost', 'date', 'mail_sent', 'email_verified', 'email_token', 'reward','reffered_by','refferel_code','reffered_times','affiliated_by','referral_income','seller_id', 'phone_verified_at', 'last_otp_sent_at', 'otp_attempts_count', 'is_phone_primary'];
 
     protected $hidden = [
         'password', 'remember_token'
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
+        'last_otp_sent_at' => 'datetime',
+        'is_phone_primary' => 'boolean',
+        'email_verified' => 'boolean',
+        'is_vendor' => 'integer',
     ];
 
 
@@ -189,5 +198,69 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Check if phone number is verified
+     */
+    public function hasVerifiedPhone(): bool
+    {
+        return !is_null($this->phone_verified_at);
+    }
+
+    /**
+     * Check if email is verified
+     */
+    public function hasVerifiedEmail(): bool
+    {
+        return !is_null($this->email_verified_at) || $this->email_verified;
+    }
+
+    /**
+     * Mark phone as verified
+     */
+    public function markPhoneAsVerified(): bool
+    {
+        return $this->update([
+            'phone_verified_at' => now(),
+            'otp_attempts_count' => 0
+        ]);
+    }
+
+    /**
+     * Mark email as verified
+     */
+    public function markEmailAsVerified(): bool
+    {
+        return $this->update([
+            'email_verified_at' => now(),
+            'email_verified' => true
+        ]);
+    }
+
+    /**
+     * Get OTP verifications for this user
+     */
+    public function otpVerifications()
+    {
+        return $this->hasMany('App\Models\OtpVerification', 'phone', 'phone')
+                    ->orWhere('email', $this->email);
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        // Implement based on your admin logic
+        return false; // Placeholder
+    }
+
+    /**
+     * Get user's preferred contact method
+     */
+    public function getPreferredContactMethod(): string
+    {
+        return $this->is_phone_primary ? 'phone' : 'email';
     }
 }

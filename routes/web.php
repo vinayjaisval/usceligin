@@ -1,5 +1,23 @@
 <?php
 
+// ************************************ OTP AUTHENTICATION SECTION **********************************************
+
+// OTP Login Routes
+Route::get('/sign-in', 'Auth\OtpController@showLoginForm')->name('otp.login.form');
+
+// OTP Routes with rate limiting
+Route::middleware('throttle:5,1')->group(function () {
+    Route::post('/otp/send', 'Auth\OtpController@sendOtp')->name('otp.send');
+    Route::post('/otp/resend', 'Auth\OtpController@resendOtp')->name('otp.resend');
+});
+
+Route::middleware('throttle:10,1')->group(function () {
+    Route::post('/otp/verify', 'Auth\OtpController@verifyOtp')->name('otp.verify');
+    Route::post('/user/check', 'Auth\OtpController@checkUser')->name('user.check');
+});
+
+Route::post('/logout', 'Auth\OtpController@logout')->name('logout')->middleware('auth');
+
 // ************************************ ADMIN SECTION **********************************************
 Route::get('/under-maintenance', 'Front\FrontendController@maintenance')->name('front-maintenance');
 
