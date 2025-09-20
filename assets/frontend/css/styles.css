@@ -7141,14 +7141,10 @@ fieldset legend {
 
 .back-btn,
 #backToLogin {
-  position: absolute;
-  left: 0;
   background: none;
   border: none;
   color: var(--accent-primary);
   cursor: pointer;
-  display: flex;
-  align-items: center;
   gap: var(--spacing-xs);
   font-size: var(--font-size-sm);
   transition: color var(--transition-fast);
@@ -7200,6 +7196,11 @@ fieldset legend {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
   line-height: var(--line-height-relaxed);
+}
+
+.otp-back {
+  text-align: center;
+  margin-top: var(--spacing-lg);
 }
 
 .resend-btn {
