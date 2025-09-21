@@ -4,7 +4,9 @@
       "Bash(php artisan make:migration:*)",
       "Bash(php artisan config:clear:*)",
       "Bash(php artisan migrate:*)",
-      "Bash(C:xamppphpphp.exe artisan migrate)"
+      "Bash(C:xamppphpphp.exe artisan migrate)",
+      "Bash(php artisan:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

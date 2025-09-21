@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Styles -->
-  <link rel="stylesheet" href="{{asset('assets/frontend/css/styles.css')}}" />
+  <link rel="stylesheet" href="{{asset('assets/frontend/css/styles.css')}}?v={{time()}}" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="{{asset('assets/frontend/images/favicon.ico')}}" />
@@ -157,7 +157,7 @@
           <section class="otp-verification" id="otpVerification" style="display: none" aria-labelledby="otp-heading"
             aria-live="polite">
             <header class="otp-header">
-              <h2 class="otp-title" id="otp-heading">Enter Verification Code</h2>
+              <h2 class="otp-title" id="otp-heading">Enter Verification Code 1245125</h2>
             </header>
 
             <p class="otp-subtitle" id="otpSubtitle">
@@ -168,12 +168,13 @@
               @csrf
               <div class="form-group">
                 <label for="otpInput" class="form-label">
-                  6-Digit Verification Code<span class="required" aria-label="required">*</span>
+                  6-Digit Verification Code 55555<span class="required" aria-label="required">*</span>
                 </label>
                 <input type="text" id="otpInput" name="otp_code" class="form-input otp-input" placeholder="000000"
                   maxlength="6" required autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}"
                   aria-describedby="otpSubtitle otpError" aria-invalid="false" />
                 <div class="error-message" id="otpError" role="alert" aria-live="polite"></div>
+                <div class="success-message" id="otpSuccess" role="alert" aria-live="polite" style="display: none;"></div>
               </div>
 
               <div class="otp-timer" id="otpTimer">
@@ -539,6 +540,11 @@
         errorElement.textContent = message;
         errorElement.style.display = message ? "block" : "none";
 
+        // Remove success class if this is an error message
+        if (message && !message.includes("✓")) {
+          errorElement.classList.remove("success");
+        }
+
         const inputId = errorElement.id.replace('Error', '');
         const input = document.getElementById(inputId);
         if (input) {
@@ -549,6 +555,17 @@
       clearError(errorElement) {
         errorElement.textContent = "";
         errorElement.style.display = "none";
+        errorElement.style.color = "";  // Remove any inline color
+        errorElement.classList.remove("success");
+
+        // Also hide success message if clearing OTP error
+        if (errorElement.id === "otpError") {
+          const otpSuccess = document.getElementById("otpSuccess");
+          if (otpSuccess) {
+            otpSuccess.style.display = "none";
+            otpSuccess.textContent = "";
+          }
+        }
       }
 
       clearErrors() {
@@ -753,8 +770,16 @@
           });
 
           if (result.success) {
-            this.showError(otpError, "✓ OTP verified successfully!");
-            otpError.style.color = "#4e7661";
+            // Hide error message and show success message
+            const otpSuccess = document.getElementById("otpSuccess");
+
+            otpError.style.display = "none";
+            otpError.textContent = "";
+
+            otpSuccess.textContent = "✓ OTP verified successfully!";
+            otpSuccess.style.display = "block";
+
+            console.log("Success message displayed");
             verifyBtn.style.display = "none";
             loginBtn.style.display = "block";
 

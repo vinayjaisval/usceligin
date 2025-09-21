@@ -354,6 +354,146 @@ button:disabled {
   outline: none;
 }
 
+/* ==============================================
+   UTILITY CLASSES - DRY Principles
+   ============================================== */
+
+/* Layout Utilities */
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-start { display: flex; align-items: center; justify-content: flex-start; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+
+/* Position Utilities */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.absolute-fill { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+.absolute-cover { position: absolute; top: 0; left: 0; right: 0; }
+
+/* Image Utilities */
+.img-cover { width: 100%; height: 100%; object-fit: cover; }
+.img-contain { width: 100%; height: 100%; object-fit: contain; }
+
+/* Interactive Utilities */
+.hover-lift:hover { transform: translateY(-0.125rem); }
+.hover-lift-md:hover { transform: translateY(-0.25rem); }
+.hover-scale:hover { transform: scale(1.05); }
+.hover-scale-sm:hover { transform: scale(1.02); }
+
+/* Transition Utilities */
+.transition-fast { transition: all var(--transition-fast); }
+.transition-medium { transition: all var(--transition-medium); }
+.transition-slow { transition: all var(--transition-slow); }
+
+/* Shadow Utilities */
+.shadow-light { box-shadow: var(--shadow-light); }
+.shadow-medium { box-shadow: var(--shadow-medium); }
+.shadow-heavy { box-shadow: var(--shadow-heavy); }
+
+/* Border Utilities */
+.border-light { border: 0.0625rem solid var(--border-light); }
+.border-medium { border: 0.0625rem solid var(--border-medium); }
+.rounded-none { border-radius: var(--radius-none); }
+
+/* Spacing Utilities */
+.gap-xs { gap: var(--spacing-xs); }
+.gap-sm { gap: var(--spacing-sm); }
+.gap-md { gap: var(--spacing-md); }
+.gap-lg { gap: var(--spacing-lg); }
+.gap-xl { gap: var(--spacing-xl); }
+
+/* Background Utilities */
+.bg-primary { background: var(--bg-primary); }
+.bg-secondary { background: var(--bg-secondary); }
+.bg-tertiary { background: var(--bg-tertiary); }
+
+/* Text Utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.no-decoration { text-decoration: none; }
+
+/* Responsive Utilities */
+@media (max-width: 36rem) {
+  .mobile-hidden { display: none !important; }
+  .mobile-center { text-align: center; }
+  .mobile-full { width: 100%; }
+  .mobile-stack { flex-direction: column; }
+  .mobile-gap-sm { gap: var(--spacing-sm); }
+}
+
+@media (min-width: 36.01rem) and (max-width: 48rem) {
+  .tablet-hidden { display: none !important; }
+  .tablet-center { text-align: center; }
+  .tablet-full { width: 100%; }
+  .tablet-stack { flex-direction: column; }
+}
+
+@media (min-width: 48.01rem) {
+  .desktop-hidden { display: none !important; }
+  .desktop-flex { display: flex; }
+  .desktop-block { display: block; }
+  .desktop-inline { display: inline; }
+}
+
+@media (min-width: 75rem) {
+  .large-desktop-only { display: block; }
+  .large-desktop-flex { display: flex; }
+}
+
+/* Common Component Patterns */
+.card-hover:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-hover-effect:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-active-effect:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-light);
+}
+
+/* Message Base Styles - Shared between error and success */
+.error-message,
+.success-message {
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
+  line-height: var(--line-height-relaxed);
+  display: none;
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-none);
+  padding: var(--spacing-xs);
+}
+
+/* Error Message Styles */
+.error-message {
+  color: var(--danger);
+}
+
+.error-message:not(:empty) {
+  background: rgba(188, 79, 56, 0.1);
+  border: 0.0625rem solid rgba(188, 79, 56, 0.3);
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Success Message Styles */
+.success-message {
+  color: var(--success);
+}
+
+.success-message:not(:empty) {
+  background: rgba(78, 118, 97, 0.1);
+  border: 0.0625rem solid rgba(78, 118, 97, 0.3);
+  animation: none;
+}
+
 /* Gradient text utility */
 .gradient-text {
   background: linear-gradient(90deg, #370a0a 0%, #ff1515 48.56%, #370a0a 100%);
@@ -1250,173 +1390,149 @@ button:disabled {
 
 /* Button Variants */
 
-/* Black Button */
+/* DRY Button System - Base button behavior with color variants */
+.btn-black,
+.btn-white,
+.btn-accent-primary,
+.btn-accent-secondary,
+.btn-accent-tertiary,
+.btn-success,
+.btn-danger,
+.btn-warning {
+  /* Hover effects */
+  &:hover,
+  &:focus {
+    transform: translateY(-0.125rem);
+    box-shadow: var(--shadow-medium);
+  }
+
+  /* Active effects */
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-light);
+  }
+}
+
+/* Color Variants */
 .btn-black {
   background: var(--black);
   color: var(--white);
   border-color: var(--black);
+
+  &:hover, &:focus {
+    background: color-mix(in srgb, var(--black) 85%, white);
+    color: var(--white);
+  }
+
+  &:active {
+    background: var(--black);
+  }
 }
 
-.btn-black:hover,
-.btn-black:focus {
-  background: color-mix(in srgb, var(--black) 85%, white);
-  color: var(--white);
-  transform: translateY(-0.125rem);
-  box-shadow: var(--shadow-medium);
-}
-
-.btn-black:active {
-  background: var(--black);
-  transform: translateY(0);
-  box-shadow: var(--shadow-light);
-}
-
-/* White Button */
 .btn-white {
   background: var(--white);
   color: var(--black);
   border-color: var(--border-medium);
+
+  &:hover, &:focus {
+    background: var(--grey-light);
+    color: var(--black);
+    border-color: var(--border-light);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--white) 90%, black);
+  }
 }
 
-.btn-white:hover,
-.btn-white:focus {
-  background: var(--grey-light);
-  color: var(--black);
-  border-color: var(--border-light);
-  transform: translateY(-0.125rem);
-  box-shadow: var(--shadow-medium);
-}
-
-.btn-white:active {
-  background: color-mix(in srgb, var(--white) 90%, black);
-  transform: translateY(0);
-  box-shadow: var(--shadow-light);
-}
-
-/* Accent Primary Button */
 .btn-accent-primary {
   background: var(--accent-primary);
   color: var(--white);
   border-color: var(--accent-primary);
+
+  &:hover, &:focus {
+    background: color-mix(in srgb, var(--accent-primary) 85%, black);
+    color: var(--white);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--accent-primary) 90%, black);
+  }
 }
 
-.btn-accent-primary:hover,
-.btn-accent-primary:focus {
-  background: color-mix(in srgb, var(--accent-primary) 85%, black);
-  color: var(--white);
-  transform: translateY(-0.125rem);
-  box-shadow: var(--shadow-medium);
-}
-
-.btn-accent-primary:active {
-  background: color-mix(in srgb, var(--accent-primary) 90%, black);
-  transform: translateY(0);
-  box-shadow: var(--shadow-light);
-}
-
-/* Accent Secondary Button */
 .btn-accent-secondary {
   background: var(--accent-secondary);
   color: var(--white);
   border-color: var(--accent-secondary);
+
+  &:hover, &:focus {
+    background: color-mix(in srgb, var(--accent-secondary) 85%, black);
+    color: var(--white);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--accent-secondary) 90%, black);
+  }
 }
 
-.btn-accent-secondary:hover,
-.btn-accent-secondary:focus {
-  background: color-mix(in srgb, var(--accent-secondary) 85%, black);
-  color: var(--white);
-  transform: translateY(-0.125rem);
-  box-shadow: var(--shadow-medium);
-}
-
-.btn-accent-secondary:active {
-  background: color-mix(in srgb, var(--accent-secondary) 90%, black);
-  transform: translateY(0);
-  box-shadow: var(--shadow-light);
-}
-
-/* Accent Tertiary Button */
 .btn-accent-tertiary {
   background: var(--accent-tertiary);
   color: var(--white);
   border-color: var(--accent-tertiary);
+
+  &:hover, &:focus {
+    background: color-mix(in srgb, var(--accent-tertiary) 85%, black);
+    color: var(--white);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--accent-tertiary) 90%, black);
+  }
 }
 
-.btn-accent-tertiary:hover,
-.btn-accent-tertiary:focus {
-  background: color-mix(in srgb, var(--accent-tertiary) 85%, black);
-  color: var(--white);
-  transform: translateY(-0.125rem);
-  box-shadow: var(--shadow-medium);
-}
-
-.btn-accent-tertiary:active {
-  background: color-mix(in srgb, var(--accent-tertiary) 90%, black);
-  transform: translateY(0);
-  box-shadow: var(--shadow-light);
-}
-
-/* Success Button */
 .btn-success {
   background: var(--success);
   color: var(--white);
   border-color: var(--success);
+
+  &:hover, &:focus {
+    background: color-mix(in srgb, var(--success) 85%, black);
+    color: var(--white);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--success) 90%, black);
+  }
 }
 
-.btn-success:hover,
-.btn-success:focus {
-  background: color-mix(in srgb, var(--success) 85%, black);
-  color: var(--white);
-  transform: translateY(-0.125rem);
-  box-shadow: var(--shadow-medium);
-}
-
-.btn-success:active {
-  background: color-mix(in srgb, var(--success) 90%, black);
-  transform: translateY(0);
-  box-shadow: var(--shadow-light);
-}
-
-/* Danger Button */
 .btn-danger {
   background: var(--danger);
   color: var(--white);
   border-color: var(--danger);
+
+  &:hover, &:focus {
+    background: color-mix(in srgb, var(--danger) 85%, black);
+    color: var(--white);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--danger) 90%, black);
+  }
 }
 
-.btn-danger:hover,
-.btn-danger:focus {
-  background: color-mix(in srgb, var(--danger) 85%, black);
-  color: var(--white);
-  transform: translateY(-0.125rem);
-  box-shadow: var(--shadow-medium);
-}
-
-.btn-danger:active {
-  background: color-mix(in srgb, var(--danger) 90%, black);
-  transform: translateY(0);
-  box-shadow: var(--shadow-light);
-}
-
-/* Warning Button */
 .btn-warning {
   background: var(--warning);
   color: var(--white);
   border-color: var(--warning);
-}
 
-.btn-warning:hover,
-.btn-warning:focus {
-  background: color-mix(in srgb, var(--warning) 85%, black);
-  color: var(--white);
-  transform: translateY(-0.125rem);
-  box-shadow: var(--shadow-medium);
-}
+  &:hover, &:focus {
+    background: color-mix(in srgb, var(--warning) 85%, black);
+    color: var(--white);
+  }
 
-.btn-warning:active {
-  background: color-mix(in srgb, var(--warning) 90%, black);
-  transform: translateY(0);
-  box-shadow: var(--shadow-light);
+  &:active {
+    background: color-mix(in srgb, var(--warning) 90%, black);
+  }
 }
 
 .hero-badges {
@@ -7069,24 +7185,7 @@ fieldset legend {
   }
 }
 
-/* Error Messages */
-.error-message {
-  font-size: var(--font-size-xs);
-  color: var(--danger);
-  margin-top: var(--spacing-xs);
-  line-height: var(--line-height-relaxed);
-  display: none;
-  transition: all var(--transition-fast);
-  border-radius: var(--radius-none);
-  padding: var(--spacing-xs);
-}
-
-/* Character validation errors with more prominence */
-.error-message:not(:empty) {
-  background: rgba(188, 79, 56, 0.1);
-  border: 0.0625rem solid rgba(188, 79, 56, 0.3);
-  animation: shake 0.3s ease-in-out;
-}
+/* Character validation errors with more prominence - kept for shake animation */
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
@@ -7231,11 +7330,6 @@ fieldset legend {
 
 .form-input:invalid {
   border-color: var(--danger);
-}
-
-/* Success State */
-.success-message {
-  color: var(--success);
 }
 
 /* Dark Mode Support for Sign In */

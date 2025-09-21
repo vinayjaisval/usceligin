@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Styles -->
-  <link rel="stylesheet" href="{{asset('assets/frontend/css/styles.css')}}" />
+  <link rel="stylesheet" href="{{asset('assets/frontend/css/styles.css')}}?v={{time()}}" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="{{asset('assets/frontend/images/favicon.ico')}}" />
@@ -171,6 +171,7 @@
                   maxlength="6" required autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}"
                   aria-describedby="otpSubtitle otpError" aria-invalid="false" />
                 <div class="error-message" id="otpError" role="alert" aria-live="polite"></div>
+                <div class="success-message" id="otpSuccess" role="alert" aria-live="polite" style="display: none;"></div>
               </div>
 
               <div class="otp-timer" id="otpTimer">
@@ -561,6 +562,15 @@
       clearError(errorElement) {
         errorElement.textContent = "";
         errorElement.style.display = "none";
+
+        // Also hide success message if clearing OTP error
+        if (errorElement.id === "otpError") {
+          const otpSuccess = document.getElementById("otpSuccess");
+          if (otpSuccess) {
+            otpSuccess.style.display = "none";
+            otpSuccess.textContent = "";
+          }
+        }
       }
 
       clearErrors() {
@@ -743,8 +753,15 @@
 
         setTimeout(() => {
           if (enteredOtp === this.generatedOtp) {
-            this.showError(otpError, "✓ OTP verified successfully!");
-            otpError.style.color = "#4e7661";
+            // Hide error message and show success message
+            const otpSuccess = document.getElementById("otpSuccess");
+
+            otpError.style.display = "none";
+            otpError.textContent = "";
+
+            otpSuccess.textContent = "✓ OTP verified successfully!";
+            otpSuccess.style.display = "block";
+
             verifyBtn.style.display = "none";
             loginBtn.style.display = "block";
 
