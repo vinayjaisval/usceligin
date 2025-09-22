@@ -62,28 +62,6 @@
   --bg-tertiary: rgb(241, 241, 241);
   --bg-quaternary: rgb(250, 250, 250);
 
-  /* Banner Typography */
-  --banner-text-color: rgb(0, 0, 0);
-  --banner-badge-size: 0.9375rem; /* 15px */
-  --banner-badge-spacing: 0.09375rem; /* 1.5px */
-  --banner-heading-size: 2.125rem; /* 34px */
-  --banner-heading-line: 2.7625rem; /* 44.2px */
-  --banner-button-height: 3rem; /* 48px */
-  --banner-button-radius: 0.1875rem; /* 3px */
-
-  /* Responsive Banner Typography - Tablet */
-  --banner-badge-size-tablet: 0.8125rem; /* 13px */
-  --banner-badge-spacing-tablet: 0.078125rem; /* 1.25px */
-  --banner-heading-size-tablet: 1.75rem; /* 28px */
-  --banner-heading-line-tablet: 2.275rem; /* 36.4px */
-  --banner-button-height-tablet: 2.75rem; /* 44px */
-
-  /* Responsive Banner Typography - Mobile */
-  --banner-badge-size-mobile: 0.75rem; /* 12px */
-  --banner-badge-spacing-mobile: 0.0625rem; /* 1px */
-  --banner-heading-size-mobile: 1.5rem; /* 24px */
-  --banner-heading-line-mobile: 1.95rem; /* 31.2px */
-  --banner-button-height-mobile: 2.5rem; /* 40px */
 
   /* Spacing */
   --spacing-none: 0;
@@ -149,6 +127,7 @@
   --bg-primary: rgb(26, 26, 26);
   --bg-secondary: rgb(45, 45, 45);
   --bg-tertiary: rgb(64, 64, 64);
+  --bg-quaternary: rgb(32, 32, 32);
   --text-primary: rgb(255, 255, 255);
   --text-secondary: rgb(179, 179, 179);
   --text-tertiary: rgb(153, 153, 153);
@@ -212,24 +191,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-}
-
-/* Custom components that will be migrated to Tailwind utilities gradually */
-@layer components {
-  /* Skip link for accessibility */
-  .skip-link {
-    @apply absolute -top-10 left-1.5 bg-black text-white p-2 font-semibold z-[1000] transition-all duration-150;
-  }
-
-  .skip-link:focus {
-    @apply top-1.5;
-  }
-
-  /* Screen reader only */
-  .sr-only {
-    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
-    clip: rect(0, 0, 0, 0) !important;
   }
 }
 
@@ -393,6 +354,67 @@
   .alert-close {
     @apply flex-shrink-0 w-5 h-5 opacity-70 hover:opacity-100 transition-opacity;
     @apply bg-transparent border-0 cursor-pointer p-0;
+  }
+
+  /* Reusable Button Components - DRY Approach */
+  .btn {
+    @apply px-6 py-3 font-medium cursor-pointer transition-all duration-fast border;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn--primary {
+    @apply bg-accent-primary text-white border-accent-primary;
+    @apply hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-medium;
+    @apply disabled:bg-grey-medium disabled:border-grey-medium disabled:text-white disabled:cursor-not-allowed;
+    @apply focus:ring-accent-primary;
+  }
+
+  .btn--full {
+    @apply w-full mb-xl;
+  }
+
+  /* Method Selection Button Components */
+  .method-btn {
+    @apply flex-1 px-lg py-sm rounded-none font-medium cursor-pointer transition-all duration-fast border;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2;
+  }
+
+  .method-btn--active {
+    @apply bg-accent-primary text-white border-accent-primary hover:bg-accent-dark;
+  }
+
+  .method-btn--inactive {
+    @apply bg-bg-tertiary text-text-secondary border-border-medium;
+    @apply hover:bg-bg-secondary hover:text-white;
+  }
+
+  /* Theme Toggle Component */
+  .theme-toggle {
+    @apply relative p-2 rounded-md border-0 bg-transparent cursor-pointer transition-all duration-fast;
+    @apply hover:bg-bg-secondary focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2;
+  }
+
+  .theme-toggle .sun-icon,
+  .theme-toggle .moon-icon {
+    @apply w-6 h-6 text-text-primary transition-all duration-fast;
+  }
+
+  /* Show sun icon in light mode, hide moon */
+  .theme-toggle .sun-icon {
+    @apply block;
+  }
+
+  .theme-toggle .moon-icon {
+    @apply hidden;
+  }
+
+  /* Show moon icon in dark mode, hide sun */
+  [data-theme="dark"] .theme-toggle .sun-icon {
+    @apply hidden;
+  }
+
+  [data-theme="dark"] .theme-toggle .moon-icon {
+    @apply block;
   }
 
   /* Alert variants - Using CSS variables for light/dark mode support */

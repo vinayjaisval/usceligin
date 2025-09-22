@@ -1217,4 +1217,18 @@ class FrontendController extends FrontBaseController
     {
         dd($request->all());
     }
+
+    // LEGAL PAGES SECTION
+
+    public function terms()
+    {
+        return view('frontend.terms');
+    }
+
+    public function privacy()
+    {
+        return view('frontend.privacy');
+    }
+
+    // LEGAL PAGES SECTION ENDS
 }

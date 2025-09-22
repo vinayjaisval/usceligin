@@ -1754,6 +1754,11 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/faq', 'Front\FrontendController@faq')->name('front.faq');
         // FAQ SECTION ENDS
 
+        // LEGAL PAGES SECTION
+        Route::get('/terms', 'Front\FrontendController@terms')->name('terms');
+        Route::get('/privacy', 'Front\FrontendController@privacy')->name('privacy');
+        // LEGAL PAGES SECTION ENDS
+
         // CONTACT SECTION
         Route::get('/contact', 'Front\FrontendController@contact')->name('front.contact');
         Route::post('/contact', 'Front\FrontendController@contactemail')->name('front.contact.submit');

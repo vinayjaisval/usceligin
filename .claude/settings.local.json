@@ -23,7 +23,8 @@
       "Bash(npm uninstall:*)",
       "Bash(git restore:*)",
       "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:clear)",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan cache:clear)"
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan cache:clear)",
+      "Bash(del theme-toggle-demo.html test-theme-toggle.html)"
     ],
     "deny": [],
     "ask": []

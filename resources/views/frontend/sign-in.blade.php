@@ -23,60 +23,57 @@
   <!-- Compiled CSS with Tailwind and Custom Styles -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+  <!-- Theme System Integration -->
+  <script>
+    (function() {
+      const THEME_KEY = 'usceligin-theme';
+      const LEGACY_KEY = 'theme';
+      const VALID_THEMES = ['light', 'dark'];
+
+      const getInitialTheme = () => {
+        const saved = localStorage.getItem(THEME_KEY);
+        if (saved && VALID_THEMES.includes(saved)) return saved;
+
+        const legacy = localStorage.getItem(LEGACY_KEY);
+        if (legacy && VALID_THEMES.includes(legacy)) return legacy;
+
+        return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      const theme = getInitialTheme();
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="{{asset('assets/frontend/images/favicon.ico')}}" />
 </head>
 
 <body>
-  <!-- Skip Links for Accessibility -->
-  <a href="#signin-heading" class="skip-link">Skip to main content</a>
-
-  <!-- Header Navigation -->
-  <header class="flex items-center min-h-16 px-md py-md" role="banner">
-    <div class="w-full max-w-container-2xl mx-auto px-md lg:px-lg xl:px-xl">
-      <nav class="header-content" aria-label="Main navigation">
-        <div class="justify-self-start">
-          <a href="{{url('/')}}"
-            class="text-accent-primary hover:text-accent-dark font-medium transition-colors duration-fast flex items-center gap-xs no-underline hover:underline"
-            aria-label="Go back to CELIGIN homepage">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path
-                d="M8.707 3.293a1 1 0 0 0-1.414 1.414L12.586 10l-5.293 5.293a1 1 0 1 0 1.414 1.414l6-6a1 1 0 0 0 0-1.414l-6-6z"
-                transform="rotate(180 10 10)" />
-            </svg>
-            <span>Go Back</span>
-          </a>
-        </div>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="min-h-[calc(100vh-8rem)] flex items-center justify-center px-0 py-xl bg-bg-quaternary" role="main">
+  <main class="min-h-screen flex items-center justify-center px-0 py-xl bg-bg-tertiary">
     <div class="w-full max-w-container-2xl mx-auto px-md lg:px-lg xl:px-xl">
       <div class="w-full max-w-[30rem] mx-auto">
-        <article class="bg-bg-primary rounded-none shadow-medium px-3xl py-3xl text-center">
-          <!-- Brand Logo -->
+        <section class="bg-bg-primary border border-border-light rounded-lg shadow-heavy px-3xl py-3xl text-center" aria-labelledby="signin-heading">
           <header class="mb-xl">
             <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}"
-              alt="CELIGIN - Premium Beauty & Skincare" class="mx-auto h-10 max-w-[7.5rem] object-contain" width="120"
-              height="40" />
+              alt="{{ config('app.name', 'CELIGIN') }} - Premium Beauty & Skincare"
+              class="mx-auto h-10 max-w-[7.5rem] object-contain" width="120" height="40" />
           </header>
 
-          <!-- Sign In Section -->
-          <section class="sign-in-section" id="signInSection" aria-labelledby="signin-heading">
-            <!-- Authentication Method Selection -->
+          <div class="sign-in-section" id="signInSection">
             <div class="mb-lg" id="methodSelection">
               <h1 class="text-2xl font-semibold text-text-primary mb-lg" id="signin-heading">Sign In with OTP</h1>
-              <fieldset class="flex gap-0 mb-lg" aria-label="Choose verification method">
+              <fieldset class="flex gap-0 mb-lg">
                 <legend class="sr-only">Select your preferred verification method</legend>
                 <button type="button"
-                  class="flex-1 px-lg py-sm bg-accent-primary text-white border border-accent-primary rounded-none font-medium cursor-pointer transition-all duration-fast hover:bg-accent-dark active"
+                  class="method-btn method-btn--active"
                   id="phoneMethodBtn" data-method="phone" aria-pressed="true" aria-describedby="phone-help">
                   <span>Phone Number</span>
                 </button>
                 <button type="button"
-                  class="flex-1 px-lg py-sm bg-bg-tertiary text-text-secondary border border-border-medium rounded-none font-medium cursor-pointer transition-all duration-fast hover:bg-bg-secondary hover:text-white"
+                  class="method-btn method-btn--inactive"
                   id="emailMethodBtn" data-method="email" aria-pressed="false" aria-describedby="email-help">
                   <span>Email Address</span>
                 </button>
@@ -84,29 +81,31 @@
             </div>
 
             <!-- Authentication Form -->
-            <form class="text-left" id="signInForm" novalidate aria-labelledby="signin-heading">
+            <form class="text-left" id="signInForm" novalidate aria-labelledby="signin-heading" role="form">
               @csrf
               <!-- Phone Input (default) -->
               <div class="mb-lg block" id="phoneGroup">
                 <label for="phoneNumber" class="block text-sm font-medium text-text-primary mb-xs">
-                  Mobile Number<span class="text-danger ml-1" aria-label="required">*</span>
+                  Mobile Number<abbr class="text-danger ml-1" title="required">*</abbr>
                 </label>
                 <div
                   class="relative flex items-center border border-border-medium rounded-none overflow-hidden focus-within:border-accent-primary focus-within:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)]">
                   <span
                     class="bg-bg-tertiary text-text-secondary px-sm py-sm text-sm font-medium border-r border-border-medium flex-shrink-0"
-                    aria-label="Country code India">+91</span>
+                    aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
                   <input type="tel" id="phoneNumber" name="contact"
                     class="flex-1 px-md py-sm border-0 text-base text-text-primary bg-bg-primary outline-none placeholder:text-text-tertiary"
-                    placeholder="12345 67890" maxlength="11" required autocomplete="tel"
-                    aria-describedby="phoneHelp phoneError" aria-invalid="false" />
+                    placeholder="{{ config('app.phone_placeholder', '12345 67890') }}" maxlength="{{ config('app.phone_max_length', '11') }}" required autocomplete="tel"
+                    aria-describedby="phoneHelp phoneError" aria-invalid="false" aria-label="Enter your mobile number" />
                 </div>
                 <p class="text-sm text-text-tertiary mt-xs" id="phoneHelp">
                   We'll send a secure OTP to your mobile number for verification.
                 </p>
                 <div class="alert alert-error hidden mt-xs" id="phoneError" role="alert" aria-live="assertive">
                   <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clip-rule="evenodd"></path>
                   </svg>
                   <div class="alert-content">
                     <div class="alert-message"></div>
@@ -117,18 +116,20 @@
               <!-- Email Input (hidden by default) -->
               <div class="mb-lg hidden" id="emailGroup">
                 <label for="emailAddress" class="block text-sm font-medium text-text-primary mb-xs">
-                  Email Address<span class="text-danger ml-1" aria-label="required">*</span>
+                  Email Address<abbr class="text-danger ml-1" title="required">*</abbr>
                 </label>
                 <input type="email" id="emailAddress" name="contact"
                   class="w-full px-md py-sm border border-border-medium rounded-none text-base text-text-primary bg-bg-primary transition-all duration-fast focus:outline-none focus:border-accent-primary focus:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)] placeholder:text-text-tertiary"
                   placeholder="your@email.com" autocomplete="email" aria-describedby="emailHelp emailError"
-                  aria-invalid="false" />
+                  aria-invalid="false" aria-label="Enter your email address" />
                 <p class="text-sm text-text-tertiary mt-xs" id="emailHelp">
                   We'll send a secure OTP to your email address for verification.
                 </p>
                 <div class="alert alert-error hidden mt-xs" id="emailError" role="alert" aria-live="assertive">
                   <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clip-rule="evenodd"></path>
                   </svg>
                   <div class="alert-content">
                     <div class="alert-message"></div>
@@ -140,19 +141,22 @@
               <div class="mb-lg">
                 <div class="flex items-start gap-5">
                   <input type="checkbox" id="keepSignedIn" name="keep_signed_in"
-                         class="mt-1 h-4 w-4 text-accent-primary border-border-medium rounded-none focus:ring-accent-primary focus:ring-2">
+                    class="mt-1 h-4 w-4 text-accent-primary border-border-medium rounded-none focus:ring-accent-primary focus:ring-2">
                   <div class="flex items-center gap-2">
                     <label for="keepSignedIn" class="text-sm text-text-primary cursor-pointer">
                       Keep me signed in
                     </label>
                     <div class="tooltip-wrapper">
-                      <button type="button" class="tooltip-trigger info-btn" aria-label="Information about staying signed in">
+                      <button type="button" class="tooltip-trigger info-btn"
+                        aria-label="Information about staying signed in">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                          <path
+                            d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                         </svg>
                         <div class="tooltip-content">
-                          Stay signed in to save time on future visits. We'll remember your preferences and keep you logged in for up to 30 days. You can always sign out manually for security.
+                          Stay signed in to save time on future visits. We'll remember your preferences and keep you
+                          logged in for up to 30 days. You can always sign out manually for security.
                         </div>
                       </button>
                     </div>
@@ -161,9 +165,7 @@
               </div>
 
               <!-- Submit Button -->
-              <button type="submit"
-                class="w-full mb-xl bg-accent-primary text-white border border-accent-primary px-6 py-3 font-medium cursor-pointer transition-all duration-fast hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-medium disabled:bg-grey-medium disabled:border-grey-medium disabled:text-white disabled:cursor-not-allowed"
-                id="sendOtpBtn" disabled>
+              <button type="submit" class="btn btn--primary btn--full" id="sendOtpBtn" disabled>
                 Send OTP
               </button>
 
@@ -171,43 +173,42 @@
               <div class="text-center text-sm text-text-tertiary">
                 <p>
                   By signing in, you agree to our
-                  <a href="#"
+                  <a href="{{ route('terms') ?? '#' }}"
                     class="text-accent-primary hover:text-accent-dark underline transition-colors duration-fast">Terms
                     and Conditions</a>
                   and that you've read our
-                  <a href="#"
+                  <a href="{{ route('privacy') ?? '#' }}"
                     class="text-accent-primary hover:text-accent-dark underline transition-colors duration-fast">Privacy
                     Policy</a>.
                 </p>
               </div>
             </form>
-          </section>
+          </div>
 
-          <!-- OTP Verification Section (hidden by default) -->
-          <section class="text-left" id="otpVerification" style="display: none" aria-labelledby="otp-heading"
-            aria-live="polite">
-            <header class="mb-lg">
-              <h2 class="text-2xl font-semibold text-text-primary text-center" id="otp-heading">Enter Verification Code
-              </h2>
-            </header>
+          <div class="text-left" id="otpVerification" style="display: none" aria-labelledby="otp-heading" aria-live="polite">
+            <div class="mb-lg">
+              <h2 class="text-2xl font-semibold text-text-primary text-center" id="otp-heading">Enter Verification Code</h2>
+            </div>
 
             <p class="text-sm text-text-secondary text-center mb-lg" id="otpSubtitle">
               We've sent a 6-digit code to your contact
             </p>
 
-            <form class="text-left" id="otpForm" novalidate aria-labelledby="otp-heading">
+            <form class="text-left" id="otpForm" novalidate aria-labelledby="otp-heading" role="form">
               @csrf
               <div class="mb-lg">
                 <label for="otpInput" class="block text-sm font-medium text-text-primary mb-xs">
-                  6-Digit Verification Code<span class="text-danger ml-1" aria-label="required">*</span>
+                  6-Digit Verification Code<abbr class="text-danger ml-1" title="required">*</abbr>
                 </label>
                 <input type="text" id="otpInput" name="otp_code"
                   class="w-full px-md py-sm border border-border-medium rounded-none text-base text-text-primary bg-bg-primary transition-all duration-fast focus:outline-none focus:border-accent-primary focus:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)] placeholder:text-text-tertiary text-center text-2xl tracking-widest font-mono"
                   placeholder="000000" maxlength="6" required autocomplete="one-time-code" inputmode="numeric"
-                  pattern="[0-9]{6}" aria-describedby="otpSubtitle otpError" aria-invalid="false" />
+                  pattern="[0-9]{6}" aria-describedby="otpSubtitle otpError" aria-invalid="false" aria-label="Enter the 6-digit verification code" />
                 <div class="alert alert-error hidden mt-xs" id="otpError" role="alert" aria-live="assertive">
                   <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clip-rule="evenodd"></path>
                   </svg>
                   <div class="alert-content">
                     <div class="alert-message"></div>
@@ -215,7 +216,9 @@
                 </div>
                 <div class="alert alert-success hidden mt-xs" id="otpSuccess" role="alert" aria-live="polite">
                   <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd"></path>
                   </svg>
                   <div class="alert-content">
                     <div class="alert-message"></div>
@@ -234,15 +237,11 @@
                 </p>
               </div>
 
-              <button type="submit"
-                class="w-full mb-xl bg-accent-primary text-white border border-accent-primary px-6 py-3 font-medium cursor-pointer transition-all duration-fast hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-medium disabled:bg-grey-medium disabled:border-grey-medium disabled:text-white disabled:cursor-not-allowed"
-                id="verifyOtpBtn" disabled>
+              <button type="submit" class="btn btn--primary btn--full" id="verifyOtpBtn" disabled>
                 Verify OTP
               </button>
 
-              <button type="button"
-                class="w-full mb-xl bg-accent-primary text-white border border-accent-primary px-6 py-3 font-medium cursor-pointer transition-all duration-fast hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-medium"
-                id="loginBtn" style="display: none">
+              <button type="button" class="btn btn--primary btn--full" id="loginBtn" style="display: none">
                 Continue to Account
               </button>
             </form>
@@ -259,20 +258,12 @@
                 <span>Back</span>
               </button>
             </div>
-          </section>
-        </article>
+          </div>
+        </section>
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="text-left flex items-center justify-center min-h-16 mb-0" role="contentinfo">
-    <div class="w-full max-w-container-2xl mx-auto px-md lg:px-lg xl:px-xl">
-      <div class="text-left flex items-center justify-center min-h-16 mb-0">
-        <p class="text-text-secondary text-sm mb-0">&copy; 2024 CELIGIN Global. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
 
   <!-- Scripts -->
   <script>
@@ -373,10 +364,10 @@
       ) {
         this.currentMethod = method;
 
-        // Update button styles for Tailwind
-        activeBtn.className = "flex-1 px-lg py-sm bg-accent-primary text-white border border-accent-primary rounded-none font-medium cursor-pointer transition-all duration-fast hover:bg-accent-dark active";
+        // Update button styles using DRY CSS classes
+        activeBtn.className = "method-btn method-btn--active";
         activeBtn.setAttribute("aria-pressed", "true");
-        inactiveBtn.className = "flex-1 px-lg py-sm bg-bg-tertiary text-text-secondary border border-border-medium rounded-none font-medium cursor-pointer transition-all duration-fast hover:bg-bg-secondary hover:text-white";
+        inactiveBtn.className = "method-btn method-btn--inactive";
         inactiveBtn.setAttribute("aria-pressed", "false");
 
         // Update form group visibility for Tailwind
@@ -871,6 +862,8 @@
         }, 1500);
       }
     }
+
+
 
     document.addEventListener("DOMContentLoaded", () => {
       new SecureSignInPage();
