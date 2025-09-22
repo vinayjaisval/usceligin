@@ -1,0 +1,6 @@
+/* Import existing custom styles */
+@import '../../assets/frontend/css/styles.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

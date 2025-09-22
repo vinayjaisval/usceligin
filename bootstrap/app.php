@@ -54,8 +54,6 @@ $app->useEnvironmentPath(realpath(__DIR__ . '/../vendor/markury/src/'));
 | from the actual running of the application and sending responses.
 |
 */
-$path = base_path();
-$modifiedPath = Str::finish(dirname($path), DIRECTORY_SEPARATOR);
-$app->usePublicPath($modifiedPath);
+$app->usePublicPath(base_path('public'));
 
 return $app;

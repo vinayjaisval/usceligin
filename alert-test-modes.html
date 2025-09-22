@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Accessibility Test - Light/Dark Mode</title>
+    <link rel="stylesheet" href="public/build/assets/app-fe0cb216.css">
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            padding: 2rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Light mode (default) */
+        body {
+            background: rgb(255, 255, 255);
+            color: rgb(51, 51, 51);
+        }
+
+        /* Dark mode */
+        body[data-theme="dark"] {
+            background: rgb(26, 26, 26);
+            color: rgb(255, 255, 255);
+        }
+
+        .demo-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-medium);
+        }
+
+        .alert-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .contrast-info {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <button class="mode-toggle" onclick="toggleTheme()">🌓 Toggle Dark Mode</button>
+
+    <h1>🎨 Alert Accessibility Test</h1>
+    <p>Testing WCAG AA compliance and light/dark mode support</p>
+
+    <div class="contrast-info">
+        <strong>WCAG AA Compliance:</strong> All alert colors are designed to meet WCAG 2.1 AA standards with contrast ratios ≥ 4.5:1 for normal text and ≥ 3:1 for large text.
+    </div>
+
+    <div class="demo-section">
+        <h2>📘 Info Alert - Light/Dark Mode Test</h2>
+        <div class="alert-grid">
+            <div class="alert alert-info" role="alert" aria-live="polite">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="alert-content">
+                    <div class="alert-title">Information</div>
+                    <div class="alert-message">This is an info alert with WCAG AA compliant contrast ratios in both light and dark modes.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>✅ Success Alert - Accessibility Test</h2>
+        <div class="alert-grid">
+            <div class="alert alert-success" role="alert" aria-live="polite">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="alert-content">
+                    <div class="alert-title">Success</div>
+                    <div class="alert-message">Operation completed successfully. Colors automatically adapt to light/dark themes.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>❌ Error Alert - Contrast Verification</h2>
+        <div class="alert-grid">
+            <div class="alert alert-error" role="alert" aria-live="assertive">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="alert-content">
+                    <div class="alert-title">Error</div>
+                    <div class="alert-message">An error occurred. Text maintains proper contrast against the semi-transparent background.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>⚠️ Warning Alert - Theme Adaptation</h2>
+        <div class="alert-grid">
+            <div class="alert alert-warning" role="alert" aria-live="polite">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="alert-content">
+                    <div class="alert-title">Warning</div>
+                    <div class="alert-message">Please be cautious. All alert styles use CSS variables for automatic theme switching.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🧪 Technical Details</h2>
+        <ul style="line-height: 1.6;">
+            <li><strong>Color System:</strong> Uses CSS custom properties for consistent theming</li>
+            <li><strong>Accessibility:</strong> WCAG 2.1 AA compliant contrast ratios (≥4.5:1)</li>
+            <li><strong>Semantic HTML:</strong> Proper ARIA roles and live regions</li>
+            <li><strong>Dark Mode:</strong> Automatic color adaptation via <code>[data-theme="dark"]</code></li>
+            <li><strong>Transparency:</strong> Semi-transparent backgrounds (15% light, 20% dark)</li>
+            <li><strong>Borders:</strong> Subtle borders (30% light, 40% dark opacity)</li>
+        </ul>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

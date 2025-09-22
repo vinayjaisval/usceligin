@@ -10,7 +10,6 @@
     content="CELIGIN login, account sign in, OTP verification, secure login, beauty account, skincare login" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#bc4f38" />
-  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Secure Sign In | CELIGIN - Premium Beauty & Skincare</title>
 
   <!-- Preconnect for performance -->
@@ -56,7 +55,7 @@
         <article class="sign-in-card">
           <!-- Brand Logo -->
           <header class="sign-in-logo">
-            <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}" alt="CELIGIN - Premium Beauty & Skincare"
+            <img src="{{ asset('assets/images/' . $gs->logo) }}" alt="CELIGIN - Premium Beauty & Skincare"
               class="sign-in-logo-img" width="120" height="40" />
           </header>
 
@@ -80,7 +79,6 @@
 
             <!-- Authentication Form -->
             <form class="sign-in-form" id="signInForm" novalidate aria-labelledby="signin-heading">
-              @csrf
               <!-- Phone Input (default) -->
               <div class="form-group phone-group active" id="phoneGroup">
                 <label for="phoneNumber" class="form-label">
@@ -88,7 +86,7 @@
                 </label>
                 <div class="phone-input-wrapper">
                   <span class="country-code" aria-label="Country code India">+91</span>
-                  <input type="tel" id="phoneNumber" name="contact" class="form-input phone-input"
+                  <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input phone-input"
                     placeholder="12345 67890" maxlength="11" required autocomplete="tel"
                     aria-describedby="phoneHelp phoneError" aria-invalid="false" />
                 </div>
@@ -103,7 +101,7 @@
                 <label for="emailAddress" class="form-label">
                   Email Address<span class="required" aria-label="required">*</span>
                 </label>
-                <input type="email" id="emailAddress" name="contact" class="form-input"
+                <input type="email" id="emailAddress" name="emailAddress" class="form-input"
                   placeholder="your@email.com" autocomplete="email" aria-describedby="emailHelp emailError"
                   aria-invalid="false" />
                 <p class="form-help" id="emailHelp">
@@ -115,7 +113,7 @@
               <!-- Keep me signed in -->
               <div class="form-group checkbox-group">
                 <label class="checkbox-label">
-                  <input type="checkbox" id="keepSignedIn" name="keep_signed_in" class="checkbox-input" />
+                  <input type="checkbox" id="keepSignedIn" name="keepSignedIn" class="checkbox-input" />
                   <span class="checkbox-custom"></span>
                   <span class="checkbox-text">Keep me signed in</span>
                   <div class="info-btn-wrapper">
@@ -144,7 +142,7 @@
               <!-- Terms and Privacy -->
               <div class="terms-text">
                 <p>
-                  By signing in, you agree to our
+                  By sign in, you agree to our
                   <a href="#" class="link">Terms and Conditions</a>
                   and that you've read our
                   <a href="#" class="link">Privacy Policy</a>.
@@ -157,20 +155,19 @@
           <section class="otp-verification" id="otpVerification" style="display: none" aria-labelledby="otp-heading"
             aria-live="polite">
             <header class="otp-header">
-              <h2 class="otp-title" id="otp-heading">Enter Verification Code 1245125</h2>
+              <h2 class="otp-title" id="otp-heading">Enter Verification Code</h2>
             </header>
 
             <p class="otp-subtitle" id="otpSubtitle">
-              We've sent a 6-digit code to your contact
+              We've sent a 6-digit code to your phone number
             </p>
 
             <form class="otp-form" id="otpForm" novalidate aria-labelledby="otp-heading">
-              @csrf
               <div class="form-group">
                 <label for="otpInput" class="form-label">
-                  6-Digit Verification Code 55555<span class="required" aria-label="required">*</span>
+                  6-Digit Verification Code<span class="required" aria-label="required">*</span>
                 </label>
-                <input type="text" id="otpInput" name="otp_code" class="form-input otp-input" placeholder="000000"
+                <input type="text" id="otpInput" name="otpInput" class="form-input otp-input" placeholder="000000"
                   maxlength="6" required autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}"
                   aria-describedby="otpSubtitle otpError" aria-invalid="false" />
                 <div class="error-message" id="otpError" role="alert" aria-live="polite"></div>
@@ -191,20 +188,18 @@
               </button>
 
               <button type="button" class="btn btn-accent-primary btn-full" id="loginBtn" style="display: none">
-                Continue to Account
+                Login
               </button>
             </form>
 
-            <div class="otp-back">
-              <button type="button" class="link" id="backToLogin" aria-label="Go back to sign in form">
+            <div class="otp-back"><button type="button" class="link" id="backToLogin" aria-label="Go back to sign in form">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path
                     d="M8.707 3.293a1 1 0 0 0-1.414 1.414L12.586 10l-5.293 5.293a1 1 0 1 0 1.414 1.414l6-6a1 1 0 0 0 0-1.414l-6-6z"
                     transform="rotate(180 10 10)" />
                 </svg>
                 <span>Back</span>
-              </button>
-            </div>
+              </button></div>
           </section>
         </article>
       </div>
@@ -222,58 +217,21 @@
 
   <!-- Scripts -->
   <script>
-    class SecureSignInPage {
+    class SignInPage {
       constructor() {
+        this.generatedOtp = "";
         this.currentMethod = "phone";
         this.currentContact = "";
         this.resendTimer = null;
-        this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         this.init();
       }
 
       init() {
-        this.setupCsrfToken();
         this.initializeMethodSelection();
         this.initializeForm();
         this.initializePhoneFormatting();
         this.initializeOtpSection();
         this.initializeTooltips();
-      }
-
-      setupCsrfToken() {
-        // Set CSRF token for all AJAX requests
-        const headers = {
-          'X-CSRF-TOKEN': this.csrfToken,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        };
-
-        // Set default headers for fetch
-        this.defaultHeaders = headers;
-      }
-
-      async makeRequest(url, method = 'POST', data = {}) {
-        try {
-          const response = await fetch(url, {
-            method: method,
-            headers: this.defaultHeaders,
-            body: JSON.stringify(data)
-          });
-
-          const result = await response.json();
-
-          if (!response.ok) {
-            throw {
-              status: response.status,
-              data: result
-            };
-          }
-
-          return result;
-        } catch (error) {
-          console.error('Request failed:', error);
-          throw error;
-        }
       }
 
       initializeMethodSelection() {
@@ -346,8 +304,10 @@
           const originalValue = e.target.value;
           let value = originalValue.replace(/\D/g, "");
 
+          // Check if user tried to enter non-numeric characters
           if (originalValue !== value && originalValue.length > 0) {
             this.showError(phoneError, "Please enter only numbers (0-9) for your mobile number");
+            // Clear the error after 3 seconds
             setTimeout(() => {
               if (phoneError.textContent === "Please enter only numbers (0-9) for your mobile number") {
                 this.clearError(phoneError);
@@ -356,12 +316,14 @@
             }, 3000);
           }
 
+          // Format as 12345 67890 (mobile format)
           if (value.length > 5) {
             value = value.replace(/(\d{5})(\d{0,5})/, "$1 $2");
           }
 
           e.target.value = value;
 
+          // Only validate if no character error is showing
           if (phoneError.textContent !== "Please enter only numbers (0-9) for your mobile number") {
             this.validatePhone(value);
           }
@@ -370,23 +332,54 @@
         });
 
         phoneInput.addEventListener("keypress", (e) => {
+          // Allow: backspace, delete, tab, escape, enter, and numbers
           if (
             ["Backspace", "Delete", "Tab", "Escape", "Enter"].includes(e.key) ||
+            // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
             (e.ctrlKey && ["a", "c", "v", "x"].includes(e.key.toLowerCase())) ||
+            // Allow numbers 0-9
             /^[0-9]$/.test(e.key)
           ) {
             return;
           }
 
+          // Show immediate feedback for invalid characters
           e.preventDefault();
           this.showError(phoneError, "Only numbers (0-9) are allowed for mobile number");
 
+          // Clear the error after 2 seconds
           setTimeout(() => {
             if (phoneError.textContent === "Only numbers (0-9) are allowed for mobile number") {
               this.clearError(phoneError);
               this.validatePhone(phoneInput.value);
             }
           }, 2000);
+        });
+
+        // Handle paste events
+        phoneInput.addEventListener("paste", (e) => {
+          setTimeout(() => {
+            const value = e.target.value;
+            const numbersOnly = value.replace(/\D/g, "");
+
+            if (value !== numbersOnly && value.length > 0) {
+              this.showError(phoneError, "Pasted content contains invalid characters. Only numbers are allowed");
+
+              // Format and set the cleaned value
+              let formattedValue = numbersOnly;
+              if (formattedValue.length > 5) {
+                formattedValue = formattedValue.replace(/(\d{5})(\d{0,5})/, "$1 $2");
+              }
+              e.target.value = formattedValue;
+
+              setTimeout(() => {
+                if (phoneError.textContent === "Pasted content contains invalid characters. Only numbers are allowed") {
+                  this.clearError(phoneError);
+                  this.validatePhone(formattedValue);
+                }
+              }, 3000);
+            }
+          }, 10);
         });
       }
 
@@ -477,8 +470,20 @@
           return false;
         }
 
+        if (!/^\d{10}$/.test(cleanPhone)) {
+          this.showError(
+            phoneError,
+            "Mobile number must contain only numbers"
+          );
+          return false;
+        }
+
+        // Check if it's a valid mobile number (starts with 6, 7, 8, or 9)
         if (!/^[6-9]/.test(cleanPhone)) {
-          this.showError(phoneError, "Please enter a valid mobile number");
+          this.showError(
+            phoneError,
+            "Please enter a valid mobile number"
+          );
           return false;
         }
 
@@ -502,6 +507,12 @@
 
         if (!emailRegex.test(email)) {
           this.showError(emailError, "Please enter a valid email address");
+          return false;
+        }
+
+        const parts = email.split("@");
+        if (parts[0].length > 64) {
+          this.showError(emailError, "Email local part is too long");
           return false;
         }
 
@@ -540,11 +551,7 @@
         errorElement.textContent = message;
         errorElement.style.display = message ? "block" : "none";
 
-        // Remove success class if this is an error message
-        if (message && !message.includes("✓")) {
-          errorElement.classList.remove("success");
-        }
-
+        // Update aria-invalid state for associated input
         const inputId = errorElement.id.replace('Error', '');
         const input = document.getElementById(inputId);
         if (input) {
@@ -555,8 +562,6 @@
       clearError(errorElement) {
         errorElement.textContent = "";
         errorElement.style.display = "none";
-        errorElement.style.color = "";  // Remove any inline color
-        errorElement.classList.remove("success");
 
         // Also hide success message if clearing OTP error
         if (errorElement.id === "otpError") {
@@ -593,7 +598,7 @@
         sendOtpBtn.disabled = !isValid;
       }
 
-      async handleSubmit() {
+      handleSubmit() {
         const phoneGroup = document.getElementById("phoneGroup");
         const emailGroup = document.getElementById("emailGroup");
         const phoneInput = document.getElementById("phoneNumber");
@@ -613,60 +618,61 @@
           this.currentContact = contactValue;
         }
 
+        console.log("Form submission:", {
+          contactValue,
+          isValid,
+          currentMethod: this.currentMethod,
+        });
+
         if (!isValid) {
+          console.log("Validation failed, stopping submission");
           return;
         }
 
         submitBtn.textContent = "Sending...";
         submitBtn.disabled = true;
 
-        try {
-          const result = await this.makeRequest('/otp/send', 'POST', {
-            contact: this.currentContact,
-            method: this.currentMethod
-          });
+        this.generatedOtp = this.generateOtp();
+        console.log("Generated OTP:", this.generatedOtp); // For testing purposes
 
-          if (result.success) {
-            this.showOtpSection();
-            if (result.development_otp) {
-              console.log('Development OTP:', result.development_otp);
-            }
-          } else {
-            this.showError(
-              this.currentMethod === 'phone'
-                ? document.getElementById("phoneError")
-                : document.getElementById("emailError"),
-              result.message
-            );
-          }
-
-        } catch (error) {
-          const errorMessage = error.data?.message || 'Failed to send OTP. Please try again.';
-          this.showError(
-            this.currentMethod === 'phone'
-              ? document.getElementById("phoneError")
-              : document.getElementById("emailError"),
-            errorMessage
-          );
-        } finally {
+        setTimeout(() => {
+          console.log("About to show OTP section");
+          this.showOtpSection();
           submitBtn.textContent = "Send OTP";
           submitBtn.disabled = false;
-        }
+        }, 2000);
+      }
+
+      generateOtp() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
       }
 
       showOtpSection() {
+        console.log("showOtpSection called");
         const signInSection = document.getElementById("signInSection");
         const otpSection = document.getElementById("otpVerification");
         const otpSubtitle = document.getElementById("otpSubtitle");
 
-        const contactDisplay = this.currentMethod === "phone"
-          ? this.formatPhoneForDisplay(this.currentContact)
-          : this.currentContact;
+        console.log("Elements found:", {
+          signInSection,
+          otpSection,
+          otpSubtitle,
+        });
 
-        otpSubtitle.textContent = `We've sent a 6-digit code to your ${this.currentMethod === "phone" ? "phone number" : "email"} ${contactDisplay}`;
+        const contactDisplay =
+          this.currentMethod === "phone"
+            ? this.formatPhoneForDisplay(this.currentContact)
+            : this.currentContact;
+
+        console.log("Contact display:", contactDisplay);
+
+        otpSubtitle.textContent = `We've sent a 6-digit code to your ${this.currentMethod === "phone" ? "phone number" : "email"
+          } ${contactDisplay}`;
 
         signInSection.style.display = "none";
         otpSection.style.display = "block";
+
+        console.log("OTP section should now be visible");
 
         this.startResendTimer();
       }
@@ -713,46 +719,30 @@
         }, 1000);
       }
 
-      async resendOtp() {
-        const otpInput = document.getElementById("otpInput");
-        const otpError = document.getElementById("otpError");
+      resendOtp() {
+        this.generatedOtp = this.generateOtp();
+        console.log("New OTP:", this.generatedOtp); // For testing purposes
 
+        const otpInput = document.getElementById("otpInput");
         otpInput.value = "";
         this.clearErrors();
 
-        try {
-          const result = await this.makeRequest('/otp/resend', 'POST', {
-            contact: this.currentContact,
-            method: this.currentMethod
-          });
+        this.startResendTimer();
 
-          if (result.success) {
-            this.startResendTimer();
-            this.showError(otpError, "New OTP sent successfully!");
-            setTimeout(() => {
-              this.clearError(otpError);
-            }, 3000);
-
-            if (result.development_otp) {
-              console.log('New Development OTP:', result.development_otp);
-            }
-          } else {
-            this.showError(otpError, result.message);
-          }
-
-        } catch (error) {
-          const errorMessage = error.data?.message || 'Failed to resend OTP. Please try again.';
-          this.showError(otpError, errorMessage);
-        }
+        // Show success message
+        const otpError = document.getElementById("otpError");
+        this.showError(otpError, "New OTP sent successfully!");
+        setTimeout(() => {
+          this.clearError(otpError);
+        }, 3000);
       }
 
-      async verifyOtp() {
+      verifyOtp() {
         const otpInput = document.getElementById("otpInput");
         const enteredOtp = otpInput.value.trim();
         const otpError = document.getElementById("otpError");
         const verifyBtn = document.getElementById("verifyOtpBtn");
         const loginBtn = document.getElementById("loginBtn");
-        const keepSignedIn = document.getElementById("keepSignedIn").checked;
 
         if (!this.validateOtp(enteredOtp)) {
           return;
@@ -761,15 +751,8 @@
         verifyBtn.textContent = "Verifying...";
         verifyBtn.disabled = true;
 
-        try {
-          const result = await this.makeRequest('/otp/verify', 'POST', {
-            contact: this.currentContact,
-            otp_code: enteredOtp,
-            method: this.currentMethod,
-            keep_signed_in: keepSignedIn
-          });
-
-          if (result.success) {
+        setTimeout(() => {
+          if (enteredOtp === this.generatedOtp) {
             // Hide error message and show success message
             const otpSuccess = document.getElementById("otpSuccess");
 
@@ -779,28 +762,18 @@
             otpSuccess.textContent = "✓ OTP verified successfully!";
             otpSuccess.style.display = "block";
 
-            console.log("Success message displayed");
             verifyBtn.style.display = "none";
             loginBtn.style.display = "block";
 
             if (this.resendTimer) {
               clearInterval(this.resendTimer);
             }
-
-            // Store redirect URL for login button
-            this.redirectUrl = result.redirect_url;
           } else {
-            this.showError(otpError, result.message);
+            this.showError(otpError, "Invalid OTP. Please try again.");
             verifyBtn.textContent = "Verify OTP";
             verifyBtn.disabled = false;
           }
-
-        } catch (error) {
-          const errorMessage = error.data?.message || 'Verification failed. Please try again.';
-          this.showError(otpError, errorMessage);
-          verifyBtn.textContent = "Verify OTP";
-          verifyBtn.disabled = false;
-        }
+        }, 1500);
       }
 
       redirectToAccount() {
@@ -809,13 +782,15 @@
         loginBtn.disabled = true;
 
         setTimeout(() => {
-          window.location.href = this.redirectUrl || '/';
+          // In a real application, you would redirect to the actual account page
+          alert("Login successful! Redirecting to My Account page...");
+          // window.location.href = 'myaccount.html';
         }, 1500);
       }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      new SecureSignInPage();
+      new SignInPage();
     });
   </script>
 </body>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Checkbox Demo - CELIGIN</title>
+    <link rel="stylesheet" href="public/build/assets/app-113f84ef.css">
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            padding: 2rem;
+            background: #fafafa;
+        }
+        .demo-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .demo-grid {
+            display: grid;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>☑️ Custom Checkbox Component</h1>
+    <p>Modern, accessible checkbox with 20px gap and proper functionality</p>
+
+    <div class="demo-section">
+        <h2>✅ Checkbox Variations</h2>
+        <div class="demo-grid">
+            <!-- Basic Checkbox -->
+            <label class="custom-checkbox">
+                <input type="checkbox" id="demo1" name="demo1" />
+                <span class="custom-checkbox-box"></span>
+                <div class="custom-checkbox-content">
+                    <span class="custom-checkbox-label">Basic checkbox option</span>
+                </div>
+            </label>
+
+            <!-- Checkbox with Tooltip (like sign-in) -->
+            <label class="custom-checkbox">
+                <input type="checkbox" id="demo2" name="demo2" />
+                <span class="custom-checkbox-box"></span>
+                <div class="custom-checkbox-content">
+                    <div class="flex items-center gap-2">
+                        <span class="custom-checkbox-label">Keep me signed in</span>
+                        <div class="tooltip-wrapper">
+                            <button type="button" class="tooltip-trigger info-btn" aria-label="Information about staying signed in">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                </svg>
+                                <div class="tooltip-content">
+                                    Stay signed in to save time on future visits. We'll remember your preferences.
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </label>
+
+            <!-- Pre-checked Checkbox -->
+            <label class="custom-checkbox">
+                <input type="checkbox" id="demo3" name="demo3" checked />
+                <span class="custom-checkbox-box"></span>
+                <div class="custom-checkbox-content">
+                    <span class="custom-checkbox-label">Pre-checked option</span>
+                </div>
+            </label>
+
+            <!-- Checkbox with longer text -->
+            <label class="custom-checkbox">
+                <input type="checkbox" id="demo4" name="demo4" />
+                <span class="custom-checkbox-box"></span>
+                <div class="custom-checkbox-content">
+                    <span class="custom-checkbox-label">I agree to the terms and conditions and privacy policy. This checkbox handles longer text content gracefully.</span>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🎨 How to Use</h2>
+        <pre style="background: #f8f8f8; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Basic Checkbox --&gt;
+&lt;label class="custom-checkbox"&gt;
+  &lt;input type="checkbox" id="myCheckbox" name="myCheckbox" /&gt;
+  &lt;span class="custom-checkbox-box"&gt;&lt;/span&gt;
+  &lt;div class="custom-checkbox-content"&gt;
+    &lt;span class="custom-checkbox-label"&gt;Checkbox label&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/label&gt;
+
+&lt;!-- Checkbox with Tooltip --&gt;
+&lt;label class="custom-checkbox"&gt;
+  &lt;input type="checkbox" id="keepSignedIn" name="keep_signed_in" /&gt;
+  &lt;span class="custom-checkbox-box"&gt;&lt;/span&gt;
+  &lt;div class="custom-checkbox-content"&gt;
+    &lt;div class="flex items-center gap-2"&gt;
+      &lt;span class="custom-checkbox-label"&gt;Keep me signed in&lt;/span&gt;
+      &lt;div class="tooltip-wrapper"&gt;
+        &lt;button type="button" class="tooltip-trigger info-btn"&gt;
+          &lt;svg&gt;...&lt;/svg&gt;
+          &lt;div class="tooltip-content"&gt;Tooltip text&lt;/div&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/label&gt;</code></pre>
+    </div>
+
+    <div class="demo-section">
+        <h2>✨ Features</h2>
+        <ul>
+            <li>✅ <strong>20px gap</strong> - As requested, with proper left alignment</li>
+            <li>♿ <strong>Fully accessible</strong> - Screen reader and keyboard navigation support</li>
+            <li>🎯 <strong>Click anywhere</strong> - Label, box, or text all toggle the checkbox</li>
+            <li>⌨️ <strong>Keyboard support</strong> - Space and Enter keys work</li>
+            <li>🎨 <strong>Visual feedback</strong> - Hover, focus, and checked states</li>
+            <li>📱 <strong>Mobile friendly</strong> - Touch-optimized interaction area</li>
+            <li>🔧 <strong>Reusable</strong> - Use anywhere in the platform</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>🔧 JavaScript Integration</h2>
+        <p>The checkbox component works with standard JavaScript:</p>
+        <pre style="background: #f8f8f8; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>// Get checkbox value
+const checkbox = document.getElementById('keepSignedIn');
+console.log(checkbox.checked); // true/false
+
+// Set checkbox value
+checkbox.checked = true;
+
+// Listen for changes
+checkbox.addEventListener('change', (e) => {
+  console.log('Checkbox is now:', e.target.checked);
+});</code></pre>
+    </div>
+
+    <script>
+        // Demo functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add event listeners to all checkboxes for demo
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    console.log(`Checkbox ${e.target.id} is now: ${e.target.checked}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

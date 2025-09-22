@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme System Test - No Toggle Button</title>
+    <link rel="stylesheet" href="public/build/assets/app-fe0cb216.css">
+    <script src="assets/frontend/js/theme-system.js"></script>
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            padding: 2rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .test-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: 8px;
+        }
+
+        .manual-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-primary);
+            padding: 1rem;
+            border: 1px solid var(--border-medium);
+            border-radius: 8px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .manual-controls button {
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .theme-info {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="manual-controls">
+        <h4>Manual Testing</h4>
+        <button onclick="window.ThemeSystem.setTheme('light')">☀️ Light</button>
+        <button onclick="window.ThemeSystem.setTheme('dark')">🌙 Dark</button>
+        <button onclick="window.ThemeSystem.toggle()">🔄 Toggle</button>
+        <button onclick="window.ThemeSystem.resetToSystem()">🖥️ System</button>
+        <button onclick="window.ThemeSystem.debug()">🔍 Debug</button>
+    </div>
+
+    <h1>🎨 Theme System Test</h1>
+    <p><strong>This page has NO toggle button</strong> - Testing automatic theme detection</p>
+
+    <div class="test-section">
+        <h2>System Detection Test</h2>
+        <p>The theme system should automatically:</p>
+        <ol>
+            <li>Check your system preference (dark/light mode)</li>
+            <li>Apply the appropriate theme</li>
+            <li>Remember your choice in localStorage</li>
+            <li>Work across page refreshes</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>🚨 Alert Components Test</h2>
+        <div style="display: grid; gap: 1rem;">
+            <div class="alert alert-info" role="alert">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="alert-content">
+                    <div class="alert-message">Info alert with automatic theme support</div>
+                </div>
+            </div>
+
+            <div class="alert alert-success" role="alert">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="alert-content">
+                    <div class="alert-message">Success alert adapts to light/dark themes</div>
+                </div>
+            </div>
+
+            <div class="alert alert-error" role="alert">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="alert-content">
+                    <div class="alert-message">Error alert with proper contrast in both modes</div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning" role="alert">
+                <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="alert-content">
+                    <div class="alert-message">Warning alert maintains accessibility standards</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🛠️ Current Theme Info</h2>
+        <div class="theme-info" id="themeInfo">Loading theme information...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎯 Test Instructions</h2>
+        <ol>
+            <li><strong>Refresh page</strong> - Theme should persist</li>
+            <li><strong>Change system theme</strong> (OS settings) - Should auto-update if no manual preference</li>
+            <li><strong>Use manual buttons</strong> - Should override system preference</li>
+            <li><strong>Check localStorage</strong> - Open DevTools → Application → Local Storage</li>
+            <li><strong>Test components</strong> - All alerts should adapt to theme changes</li>
+        </ol>
+    </div>
+
+    <script>
+        // Update theme info display
+        function updateThemeInfo() {
+            const info = window.ThemeSystem.getThemeInfo();
+            const infoEl = document.getElementById('themeInfo');
+
+            infoEl.innerHTML = `
+                <strong>Current Theme:</strong> ${info.theme}<br>
+                <strong>Is Dark:</strong> ${info.isDark}<br>
+                <strong>System Prefers Dark:</strong> ${info.systemPrefersDark}<br>
+                <strong>Has Stored Preference:</strong> ${info.hasStoredPreference}<br>
+                <strong>Timestamp:</strong> ${new Date().toLocaleTimeString()}
+            `;
+        }
+
+        // Listen for theme changes
+        document.addEventListener('theme-change', (e) => {
+            console.log('Theme changed to:', e.detail.theme);
+            updateThemeInfo();
+        });
+
+        document.addEventListener('theme-init', (e) => {
+            console.log('Theme initialized:', e.detail.theme);
+            updateThemeInfo();
+        });
+
+        // Update info on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(updateThemeInfo, 100); // Small delay to ensure theme system is loaded
+        });
+
+        // Auto-update every 5 seconds for demonstration
+        setInterval(updateThemeInfo, 5000);
+    </script>
+</body>
+</html>
