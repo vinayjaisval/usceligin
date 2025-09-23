@@ -18,6 +18,12 @@ Route::middleware('throttle:10,1')->group(function () {
 
 Route::post('/logout', 'Auth\OtpController@logout')->name('logout')->middleware('auth');
 
+// ************************************ USER ACCOUNT SECTION **********************************************
+Route::middleware('auth')->group(function () {
+    Route::get('/myaccount', 'User\AccountController@index')->name('user.account');
+    Route::post('/myaccount/update', 'User\AccountController@update')->name('user.account.update');
+});
+
 // ************************************ ADMIN SECTION **********************************************
 Route::get('/under-maintenance', 'Front\FrontendController@maintenance')->name('front-maintenance');
 

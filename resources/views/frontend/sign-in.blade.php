@@ -95,11 +95,11 @@
                     aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
                   <input type="tel" id="phoneNumber" name="contact"
                     class="flex-1 px-md py-sm border-0 text-base text-text-primary bg-bg-primary outline-none placeholder:text-text-tertiary"
-                    placeholder="{{ config('app.phone_placeholder', '12345 67890') }}" maxlength="{{ config('app.phone_max_length', '11') }}" required autocomplete="tel"
+                    placeholder="98765 43210" maxlength="11" required autocomplete="tel"
                     aria-describedby="phoneHelp phoneError" aria-invalid="false" aria-label="Enter your mobile number" />
                 </div>
                 <p class="text-sm text-text-tertiary mt-xs" id="phoneHelp">
-                  We'll send a secure OTP to your mobile number for verification.
+                  Enter your 10-digit Indian mobile number. We'll send a secure OTP for verification.
                 </p>
                 <div class="alert alert-error hidden mt-xs" id="phoneError" role="alert" aria-live="assertive">
                   <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
@@ -390,32 +390,28 @@
 
         phoneInput.addEventListener("input", (e) => {
           const originalValue = e.target.value;
-          let value = originalValue.replace(/\D/g, "");
+          let cleanValue = originalValue.replace(/\D/g, "");
 
-          if (originalValue !== value && originalValue.length > 0) {
-            this.showError(phoneError, "Please enter only numbers (0-9) for your mobile number");
-            setTimeout(() => {
-              if (phoneError.textContent === "Please enter only numbers (0-9) for your mobile number") {
-                this.clearError(phoneError);
-                this.validatePhone(e.target.value);
-              }
-            }, 3000);
+          // Limit to 10 digits
+          if (cleanValue.length > 10) {
+            cleanValue = cleanValue.substring(0, 10);
           }
 
-          if (value.length > 5) {
-            value = value.replace(/(\d{5})(\d{0,5})/, "$1 $2");
+          // Format with space after 5 digits for display
+          let formattedValue = cleanValue;
+          if (cleanValue.length > 5) {
+            formattedValue = cleanValue.replace(/(\d{5})(\d{0,5})/, "$1 $2");
           }
 
-          e.target.value = value;
+          e.target.value = formattedValue;
 
-          if (phoneError.textContent !== "Please enter only numbers (0-9) for your mobile number") {
-            this.validatePhone(value);
-          }
-
+          // Validate the phone number using the formatted value (validatePhone handles cleaning)
+          this.validatePhone(formattedValue);
           this.updateSendOtpButtonState();
         });
 
         phoneInput.addEventListener("keypress", (e) => {
+          // Allow: backspace, delete, tab, escape, enter, and numeric keys
           if (
             ["Backspace", "Delete", "Tab", "Escape", "Enter"].includes(e.key) ||
             (e.ctrlKey && ["a", "c", "v", "x"].includes(e.key.toLowerCase())) ||
@@ -424,15 +420,8 @@
             return;
           }
 
+          // Prevent non-numeric input
           e.preventDefault();
-          this.showError(phoneError, "Only numbers (0-9) are allowed for mobile number");
-
-          setTimeout(() => {
-            if (phoneError.textContent === "Only numbers (0-9) are allowed for mobile number") {
-              this.clearError(phoneError);
-              this.validatePhone(phoneInput.value);
-            }
-          }, 2000);
         });
       }
 
@@ -497,7 +486,7 @@
         const cleanPhone = phone.replace(/\D/g, "");
 
         if (!phone) {
-          this.showError(phoneError, "");
+          this.clearError(phoneError);
           return false;
         }
 
@@ -511,8 +500,9 @@
           return false;
         }
 
-        if (!/^[6-9]/.test(cleanPhone)) {
-          this.showError(phoneError, "Please enter a valid mobile number");
+        // Validate Indian mobile number format (must start with 6-9)
+        if (!/^[6-9][0-9]{9}$/.test(cleanPhone)) {
+          this.showError(phoneError, "Please enter a valid Indian mobile number");
           return false;
         }
 
@@ -522,15 +512,16 @@
 
       validateEmail(email) {
         const emailError = document.getElementById("emailError");
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // More comprehensive email regex
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
         if (!email) {
-          this.showError(emailError, "");
+          this.clearError(emailError);
           return false;
         }
 
         if (email.length > 254) {
-          this.showError(emailError, "Email address is too long");
+          this.showError(emailError, "Email address is too long (max 254 characters)");
           return false;
         }
 
@@ -584,7 +575,8 @@
           errorElement.classList.remove('visible');
         }
 
-        const inputId = errorElement.id.replace('Error', '');
+        // Update aria-invalid attribute for associated input
+        const inputId = errorElement.id.replace('Error', '').replace('phone', 'phoneNumber').replace('email', 'emailAddress').replace('otp', 'otpInput');
         const input = document.getElementById(inputId);
         if (input) {
           input.setAttribute("aria-invalid", message ? "true" : "false");
@@ -618,55 +610,63 @@
         errors.forEach((error) => this.clearError(error));
       }
 
-      updateSendOtpButtonState() {
-        const sendOtpBtn = document.getElementById("sendOtpBtn");
+      getCurrentMethodData() {
         const phoneGroup = document.getElementById("phoneGroup");
         const emailGroup = document.getElementById("emailGroup");
         const phoneInput = document.getElementById("phoneNumber");
         const emailInput = document.getElementById("emailAddress");
 
-        let isValid = false;
-
         if (phoneGroup.className.includes("block")) {
-          const phoneValue = phoneInput.value.trim();
-          isValid = this.validatePhone(phoneValue);
-        } else if (emailGroup.className.includes("block")) {
-          const emailValue = emailInput.value.trim();
-          isValid = this.validateEmail(emailValue);
+          return {
+            method: 'phone',
+            input: phoneInput,
+            value: phoneInput.value.trim(),
+            errorElement: document.getElementById("phoneError")
+          };
+        } else {
+          return {
+            method: 'email',
+            input: emailInput,
+            value: emailInput.value.trim(),
+            errorElement: document.getElementById("emailError")
+          };
         }
+      }
+
+      updateSendOtpButtonState() {
+        const sendOtpBtn = document.getElementById("sendOtpBtn");
+        const methodData = this.getCurrentMethodData();
+
+        const isValid = methodData.method === 'phone'
+          ? this.validatePhone(methodData.value)
+          : this.validateEmail(methodData.value);
 
         sendOtpBtn.disabled = !isValid;
       }
 
       async handleSubmit() {
-        const phoneGroup = document.getElementById("phoneGroup");
-        const emailGroup = document.getElementById("emailGroup");
-        const phoneInput = document.getElementById("phoneNumber");
-        const emailInput = document.getElementById("emailAddress");
+        const methodData = this.getCurrentMethodData();
         const submitBtn = document.getElementById("sendOtpBtn");
 
-        let isValid = false;
-        let contactValue = "";
-
-        if (phoneGroup.className.includes("block")) {
-          contactValue = phoneInput.value.trim();
-          isValid = this.validatePhone(contactValue);
-          this.currentContact = contactValue.replace(/\D/g, "");
-        } else {
-          contactValue = emailInput.value.trim();
-          isValid = this.validateEmail(contactValue);
-          this.currentContact = contactValue;
-        }
+        const isValid = methodData.method === 'phone'
+          ? this.validatePhone(methodData.value)
+          : this.validateEmail(methodData.value);
 
         if (!isValid) {
           return;
         }
 
+        // Set current contact for OTP verification
+        this.currentContact = methodData.method === 'phone'
+          ? methodData.value.replace(/\D/g, "")
+          : methodData.value;
+        this.currentMethod = methodData.method;
+
         submitBtn.textContent = "Sending...";
         submitBtn.disabled = true;
 
         try {
-          const result = await this.makeRequest('/otp/send', 'POST', {
+          const result = await this.makeRequest('{{ url("/otp/send") }}', 'POST', {
             contact: this.currentContact,
             method: this.currentMethod
           });
@@ -677,22 +677,12 @@
               console.log('Development OTP:', result.development_otp);
             }
           } else {
-            this.showError(
-              this.currentMethod === 'phone'
-                ? document.getElementById("phoneError")
-                : document.getElementById("emailError"),
-              result.message
-            );
+            this.showError(methodData.errorElement, result.message);
           }
 
         } catch (error) {
           const errorMessage = error.data?.message || 'Failed to send OTP. Please try again.';
-          this.showError(
-            this.currentMethod === 'phone'
-              ? document.getElementById("phoneError")
-              : document.getElementById("emailError"),
-            errorMessage
-          );
+          this.showError(methodData.errorElement, errorMessage);
         } finally {
           submitBtn.textContent = "Send OTP";
           submitBtn.disabled = false;
@@ -766,7 +756,7 @@
         this.clearErrors();
 
         try {
-          const result = await this.makeRequest('/otp/resend', 'POST', {
+          const result = await this.makeRequest('{{ url("/otp/resend") }}', 'POST', {
             contact: this.currentContact,
             method: this.currentMethod
           });
@@ -807,7 +797,7 @@
         verifyBtn.disabled = true;
 
         try {
-          const result = await this.makeRequest('/otp/verify', 'POST', {
+          const result = await this.makeRequest('{{ url("/otp/verify") }}', 'POST', {
             contact: this.currentContact,
             otp_code: enteredOtp,
             method: this.currentMethod,
@@ -823,7 +813,7 @@
 
             const successMessage = otpSuccess.querySelector('.alert-message');
             if (successMessage) {
-              successMessage.textContent = "✓ OTP verified successfully!";
+              successMessage.textContent = "✓ OTP verified successfully! Redirecting...";
             }
             otpSuccess.classList.remove('hidden');
             otpSuccess.classList.add('visible');
@@ -836,8 +826,13 @@
               clearInterval(this.resendTimer);
             }
 
-            // Store redirect URL for login button
+            // Store redirect URL for auto-redirect
             this.redirectUrl = result.redirect_url;
+
+            // Auto-redirect after 2 seconds
+            setTimeout(() => {
+              this.redirectToAccount();
+            }, 2000);
           } else {
             this.showError(otpError, result.message);
             verifyBtn.textContent = "Verify OTP";
@@ -857,9 +852,8 @@
         loginBtn.textContent = "Redirecting...";
         loginBtn.disabled = true;
 
-        setTimeout(() => {
-          window.location.href = this.redirectUrl || '/';
-        }, 1500);
+        // Immediate redirect since we're already showing success message
+        window.location.href = this.redirectUrl || '/';
       }
     }
 

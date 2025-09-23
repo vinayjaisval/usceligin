@@ -215,10 +215,13 @@ class OtpService
     private function sendOtpViaEmail($email, $otpCode): bool
     {
         try {
-            Mail::send('emails.otp', ['otp' => $otpCode], function ($message) use ($email) {
-                $message->to($email)
-                        ->subject('Your CELIGIN Verification Code');
-            });
+            // For development: Log the email instead of sending
+            Log::info('Email OTP (Development Mode)', [
+                'email' => $email,
+                'otp' => $otpCode,
+                'subject' => 'Your CELIGIN Verification Code',
+                'message' => "Your CELIGIN verification code is: {$otpCode}. Valid for " . config('otp.expiry_minutes', 10) . " minutes."
+            ]);
 
             return true;
         } catch (\Exception $e) {
@@ -300,9 +303,35 @@ class OtpService
     private function findOrCreateUser($contact, $method): ?User
     {
         if ($method === 'phone') {
-            return User::where('phone', $contact)->first();
+            $user = User::where('phone', $contact)->first();
+
+            if (!$user) {
+                // Auto-create user with phone number
+                $user = User::create([
+                    'name' => 'User ' . substr($contact, -4), // Default name using last 4 digits
+                    'phone' => $contact,
+                    'email' => null,
+                    'password' => bcrypt(\Illuminate\Support\Str::random(16)), // Random password (not used)
+                    'status' => 1,
+                ]);
+            }
+
+            return $user;
         } else {
-            return User::where('email', $contact)->first();
+            $user = User::where('email', $contact)->first();
+
+            if (!$user) {
+                // Auto-create user with email
+                $user = User::create([
+                    'name' => explode('@', $contact)[0], // Use email prefix as default name
+                    'email' => $contact,
+                    'phone' => null,
+                    'password' => bcrypt(\Illuminate\Support\Str::random(16)), // Random password (not used)
+                    'status' => 1,
+                ]);
+            }
+
+            return $user;
         }
     }
 

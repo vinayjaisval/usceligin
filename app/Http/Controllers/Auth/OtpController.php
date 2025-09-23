@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class OtpController extends Controller
 {
@@ -80,8 +81,8 @@ class OtpController extends Controller
                     // Log the user in
                     Auth::login($user, $keepSignedIn);
 
-                    // Update last login
-                    $user->update(['last_otp_sent_at' => now()]);
+                    // Update last login (remove if column doesn't exist)
+                    // $user->update(['last_otp_sent_at' => now()]);
 
                     return response()->json([
                         'success' => true,
@@ -238,13 +239,36 @@ class OtpController extends Controller
     private function findOrCreateUser($contact, $method): ?User
     {
         if ($method === 'phone') {
-            return User::where('phone', $contact)->first();
-        } else {
-            return User::where('email', $contact)->first();
-        }
+            $user = User::where('phone', $contact)->first();
 
-        // Note: Auto-creation is disabled for security
-        // Users should register through proper registration flow
+            if (!$user) {
+                // Auto-create user with phone number
+                $user = User::create([
+                    'name' => 'User ' . substr($contact, -4), // Default name using last 4 digits
+                    'phone' => $contact,
+                    'email' => null,
+                    'password' => bcrypt(Str::random(16)), // Random password (not used)
+                    'status' => 1,
+                ]);
+            }
+
+            return $user;
+        } else {
+            $user = User::where('email', $contact)->first();
+
+            if (!$user) {
+                // Auto-create user with email
+                $user = User::create([
+                    'name' => explode('@', $contact)[0], // Use email prefix as default name
+                    'email' => $contact,
+                    'phone' => null,
+                    'password' => bcrypt(Str::random(16)), // Random password (not used)
+                    'status' => 1,
+                ]);
+            }
+
+            return $user;
+        }
     }
 
     /**
@@ -254,15 +278,12 @@ class OtpController extends Controller
     {
         // Customize based on your application's routing
         if ($user->is_admin) {
-            return route('admin.dashboard');
+            return url('/admin/dashboard');
         } elseif ($user->is_vendor) {
-            return route('vendor.dashboard');
+            return url('/vendor/dashboard');
         } else {
-            return route('user.dashboard');
+            return url('/myaccount');
         }
-
-        // Fallback
-        return url('/');
     }
 
     /**

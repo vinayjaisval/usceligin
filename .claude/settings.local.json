@@ -24,7 +24,20 @@
       "Bash(git restore:*)",
       "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:clear)",
       "Bash(\"C:\\xampp\\php\\php.exe\" artisan cache:clear)",
-      "Bash(del theme-toggle-demo.html test-theme-toggle.html)"
+      "Bash(del theme-toggle-demo.html test-theme-toggle.html)",
+      "Bash(C:xamppphpphp.exe artisan migrate:status)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan migrate:status)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan migrate)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan migrate --path=database/migrations/2024_09_19_000001_create_otp_verifications_table.php)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan serve --host=127.0.0.1 --port=8000)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan route:clear)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:show mail)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan migrate --path=database/migrations/2024_09_19_000002_add_phone_verification_to_users_table.php)",
+      "Bash(mysql:*)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:cache)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:show mail.default)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" -r \"echo ''MAIL_MAILER from env: '' . getenv(''MAIL_MAILER'') . PHP_EOL;\")",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan route:list --name=signin)"
     ],
     "deny": [],
     "ask": []
