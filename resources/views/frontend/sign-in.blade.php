@@ -384,6 +384,7 @@
 
       initializeForm() {
         const form = document.getElementById("signInForm");
+       
         const emailInput = document.getElementById("emailAddress");
 
         emailInput.addEventListener("input", (e) => {
