@@ -37,7 +37,8 @@
       "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:cache)",
       "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:show mail.default)",
       "Bash(\"C:\\xampp\\php\\php.exe\" -r \"echo ''MAIL_MAILER from env: '' . getenv(''MAIL_MAILER'') . PHP_EOL;\")",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan route:list --name=signin)"
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan route:list --name=signin)",
+      "Bash(del debug_otp.php test_otp_setup.php)"
     ],
     "deny": [],
     "ask": []
