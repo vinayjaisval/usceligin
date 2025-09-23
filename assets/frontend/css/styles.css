@@ -120,6 +120,12 @@
   --transition-fast: 0.15s ease;
   --transition-medium: 0.3s ease;
   --transition-slow: 0.5s ease;
+
+  /* Form-specific styles */
+  --focus-ring-color: rgba(188, 79, 56, 0.1);
+  --focus-ring-size: 0.125rem;
+  --input-max-width: 30rem;
+  --form-container-padding: 4rem;
 }
 
 /* Dark mode colors */
@@ -482,6 +488,74 @@
 
   .alert.visible {
     @apply transform translate-y-0;
+  }
+
+  /* Form Component Classes - DRY Approach */
+  .form-container {
+    @apply w-full mx-auto px-md lg:px-lg xl:px-xl;
+    max-width: var(--container-2xl);
+  }
+
+  .form-card {
+    @apply w-full mx-auto bg-bg-primary border border-border-light rounded-lg shadow-heavy text-center;
+    max-width: var(--input-max-width);
+    padding: var(--form-container-padding);
+  }
+
+  .form-input-group {
+    @apply mb-lg;
+  }
+
+  .form-input-group.hidden {
+    display: none;
+  }
+
+  .form-input-group.block {
+    display: block;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-text-primary mb-xs;
+  }
+
+  .form-input {
+    @apply w-full px-md py-sm border border-border-medium rounded-none text-base text-text-primary bg-bg-primary;
+    @apply transition-all duration-fast outline-none placeholder:text-text-tertiary;
+  }
+
+  .form-input:focus {
+    @apply border-accent-primary;
+    box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+  }
+
+  .form-input-with-prefix {
+    @apply relative flex items-center border border-border-medium rounded-none overflow-hidden;
+    @apply transition-all duration-fast;
+  }
+
+  .form-input-with-prefix:focus-within {
+    @apply border-accent-primary;
+    box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+  }
+
+  .form-input-prefix {
+    @apply bg-bg-tertiary text-text-secondary px-sm py-sm text-sm font-medium border-r border-border-medium flex-shrink-0;
+  }
+
+  .form-input-with-prefix input {
+    @apply flex-1 px-md py-sm border-0 text-base text-text-primary bg-bg-primary outline-none placeholder:text-text-tertiary;
+  }
+
+  .form-help-text {
+    @apply text-sm text-text-tertiary mt-xs;
+  }
+
+  .required-asterisk {
+    @apply text-danger ml-1;
+  }
+
+  .form-input-otp {
+    @apply form-input text-center text-2xl tracking-widest font-mono;
   }
 
 }

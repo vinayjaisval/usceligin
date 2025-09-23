@@ -53,9 +53,8 @@
 
 <body>
   <main class="min-h-screen flex items-center justify-center px-0 py-xl bg-bg-tertiary">
-    <div class="w-full max-w-container-2xl mx-auto px-md lg:px-lg xl:px-xl">
-      <div class="w-full max-w-[30rem] mx-auto">
-        <section class="bg-bg-primary border border-border-light rounded-lg shadow-heavy px-3xl py-3xl text-center" aria-labelledby="signin-heading">
+    <div class="form-container">
+      <section class="form-card" aria-labelledby="signin-heading">
           <header class="mb-xl">
             <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}"
               alt="{{ config('app.name', 'CELIGIN') }} - Premium Beauty & Skincare"
@@ -84,21 +83,19 @@
             <form class="text-left" id="signInForm" novalidate aria-labelledby="signin-heading" role="form">
               @csrf
               <!-- Phone Input (default) -->
-              <div class="mb-lg block" id="phoneGroup">
-                <label for="phoneNumber" class="block text-sm font-medium text-text-primary mb-xs">
-                  Mobile Number<abbr class="text-danger ml-1" title="required">*</abbr>
+              <div class="form-input-group block" id="phoneGroup">
+                <label for="phoneNumber" class="form-label">
+                  Mobile Number<abbr class="required-asterisk" title="required">*</abbr>
                 </label>
-                <div
-                  class="relative flex items-center border border-border-medium rounded-none overflow-hidden focus-within:border-accent-primary focus-within:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)]">
-                  <span
-                    class="bg-bg-tertiary text-text-secondary px-sm py-sm text-sm font-medium border-r border-border-medium flex-shrink-0"
-                    aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
+                <div class="form-input-with-prefix">
+                  <span class="form-input-prefix" aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
                   <input type="tel" id="phoneNumber" name="contact"
-                    class="flex-1 px-md py-sm border-0 text-base text-text-primary bg-bg-primary outline-none placeholder:text-text-tertiary"
-                    placeholder="98765 43210" maxlength="11" required autocomplete="tel"
+                    placeholder="{{ config('app.phone_placeholder', '98765 43210') }}"
+                    maxlength="{{ config('app.phone_max_length', '11') }}"
+                    required autocomplete="tel"
                     aria-describedby="phoneHelp phoneError" aria-invalid="false" aria-label="Enter your mobile number" />
                 </div>
-                <p class="text-sm text-text-tertiary mt-xs" id="phoneHelp">
+                <p class="form-help-text" id="phoneHelp">
                   Enter your 10-digit Indian mobile number. We'll send a secure OTP for verification.
                 </p>
                 <div class="alert alert-error hidden mt-xs" id="phoneError" role="alert" aria-live="assertive">
@@ -114,15 +111,15 @@
               </div>
 
               <!-- Email Input (hidden by default) -->
-              <div class="mb-lg hidden" id="emailGroup">
-                <label for="emailAddress" class="block text-sm font-medium text-text-primary mb-xs">
-                  Email Address<abbr class="text-danger ml-1" title="required">*</abbr>
+              <div class="form-input-group hidden" id="emailGroup">
+                <label for="emailAddress" class="form-label">
+                  Email Address<abbr class="required-asterisk" title="required">*</abbr>
                 </label>
-                <input type="email" id="emailAddress" name="contact"
-                  class="w-full px-md py-sm border border-border-medium rounded-none text-base text-text-primary bg-bg-primary transition-all duration-fast focus:outline-none focus:border-accent-primary focus:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)] placeholder:text-text-tertiary"
-                  placeholder="your@email.com" autocomplete="email" aria-describedby="emailHelp emailError"
+                <input type="email" id="emailAddress" name="contact" class="form-input"
+                  placeholder="{{ config('app.email_placeholder', 'your@email.com') }}"
+                  autocomplete="email" aria-describedby="emailHelp emailError"
                   aria-invalid="false" aria-label="Enter your email address" />
-                <p class="text-sm text-text-tertiary mt-xs" id="emailHelp">
+                <p class="form-help-text" id="emailHelp">
                   We'll send a secure OTP to your email address for verification.
                 </p>
                 <div class="alert alert-error hidden mt-xs" id="emailError" role="alert" aria-live="assertive">
@@ -196,13 +193,14 @@
 
             <form class="text-left" id="otpForm" novalidate aria-labelledby="otp-heading" role="form">
               @csrf
-              <div class="mb-lg">
-                <label for="otpInput" class="block text-sm font-medium text-text-primary mb-xs">
-                  6-Digit Verification Code<abbr class="text-danger ml-1" title="required">*</abbr>
+              <div class="form-input-group">
+                <label for="otpInput" class="form-label">
+                  6-Digit Verification Code<abbr class="required-asterisk" title="required">*</abbr>
                 </label>
-                <input type="text" id="otpInput" name="otp_code"
-                  class="w-full px-md py-sm border border-border-medium rounded-none text-base text-text-primary bg-bg-primary transition-all duration-fast focus:outline-none focus:border-accent-primary focus:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)] placeholder:text-text-tertiary text-center text-2xl tracking-widest font-mono"
-                  placeholder="000000" maxlength="6" required autocomplete="one-time-code" inputmode="numeric"
+                <input type="text" id="otpInput" name="otp_code" class="form-input-otp"
+                  placeholder="{{ config('app.otp_placeholder', '000000') }}"
+                  maxlength="{{ config('app.otp_length', '6') }}"
+                  required autocomplete="one-time-code" inputmode="numeric"
                   pattern="[0-9]{6}" aria-describedby="otpSubtitle otpError" aria-invalid="false" aria-label="Enter the 6-digit verification code" />
                 <div class="alert alert-error hidden mt-xs" id="otpError" role="alert" aria-live="assertive">
                   <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
@@ -269,19 +267,80 @@
   <script>
     class SecureSignInPage {
       constructor() {
-        this.currentMethod = "phone";
+        // Configuration constants
+        this.config = {
+          defaultMethod: "phone",
+          resendDelay: 60,
+          autoRedirectDelay: 2000,
+          phoneMaxLength: 10,
+          otpLength: 6,
+          endpoints: {
+            send: '{{ url("/otp/send") }}',
+            verify: '{{ url("/otp/verify") }}',
+            resend: '{{ url("/otp/resend") }}'
+          }
+        };
+
+        // State variables
+        this.currentMethod = this.config.defaultMethod;
         this.currentContact = "";
         this.resendTimer = null;
+        this.redirectUrl = null;
         this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
         this.init();
       }
 
       init() {
+        this.cacheElements();
         this.setupCsrfToken();
         this.initializeMethodSelection();
         this.initializeForm();
         this.initializePhoneFormatting();
         this.initializeOtpSection();
+      }
+
+      cacheElements() {
+        // Cache frequently used DOM elements
+        this.elements = {
+          // Method selection
+          phoneMethodBtn: document.getElementById("phoneMethodBtn"),
+          emailMethodBtn: document.getElementById("emailMethodBtn"),
+
+          // Form groups
+          phoneGroup: document.getElementById("phoneGroup"),
+          emailGroup: document.getElementById("emailGroup"),
+
+          // Inputs
+          phoneInput: document.getElementById("phoneNumber"),
+          emailInput: document.getElementById("emailAddress"),
+          otpInput: document.getElementById("otpInput"),
+
+          // Error elements
+          phoneError: document.getElementById("phoneError"),
+          emailError: document.getElementById("emailError"),
+          otpError: document.getElementById("otpError"),
+          otpSuccess: document.getElementById("otpSuccess"),
+
+          // Buttons
+          sendOtpBtn: document.getElementById("sendOtpBtn"),
+          verifyOtpBtn: document.getElementById("verifyOtpBtn"),
+          loginBtn: document.getElementById("loginBtn"),
+          resendOtp: document.getElementById("resendOtp"),
+          backToLogin: document.getElementById("backToLogin"),
+
+          // Sections
+          signInSection: document.getElementById("signInSection"),
+          otpVerification: document.getElementById("otpVerification"),
+          otpSubtitle: document.getElementById("otpSubtitle"),
+
+          // Forms
+          signInForm: document.getElementById("signInForm"),
+          otpForm: document.getElementById("otpForm"),
+
+          // Timer
+          countdown: document.getElementById("countdown")
+        };
       }
 
       setupCsrfToken() {
@@ -482,82 +541,78 @@
 
 
       validatePhone(phone) {
-        const phoneError = document.getElementById("phoneError");
         const cleanPhone = phone.replace(/\D/g, "");
 
         if (!phone) {
-          this.clearError(phoneError);
+          this.clearError(this.elements.phoneError);
           return false;
         }
 
-        if (cleanPhone.length < 10) {
-          this.showError(phoneError, "Mobile number must be 10 digits");
+        if (cleanPhone.length < this.config.phoneMaxLength) {
+          this.showError(this.elements.phoneError, `Mobile number must be ${this.config.phoneMaxLength} digits`);
           return false;
         }
 
-        if (cleanPhone.length > 10) {
-          this.showError(phoneError, "Mobile number cannot exceed 10 digits");
+        if (cleanPhone.length > this.config.phoneMaxLength) {
+          this.showError(this.elements.phoneError, `Mobile number cannot exceed ${this.config.phoneMaxLength} digits`);
           return false;
         }
 
         // Validate Indian mobile number format (must start with 6-9)
         if (!/^[6-9][0-9]{9}$/.test(cleanPhone)) {
-          this.showError(phoneError, "Please enter a valid Indian mobile number");
+          this.showError(this.elements.phoneError, "Please enter a valid Indian mobile number");
           return false;
         }
 
-        this.clearError(phoneError);
+        this.clearError(this.elements.phoneError);
         return true;
       }
 
       validateEmail(email) {
-        const emailError = document.getElementById("emailError");
         // More comprehensive email regex
         const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
         if (!email) {
-          this.clearError(emailError);
+          this.clearError(this.elements.emailError);
           return false;
         }
 
         if (email.length > 254) {
-          this.showError(emailError, "Email address is too long (max 254 characters)");
+          this.showError(this.elements.emailError, "Email address is too long (max 254 characters)");
           return false;
         }
 
         if (!emailRegex.test(email)) {
-          this.showError(emailError, "Please enter a valid email address");
+          this.showError(this.elements.emailError, "Please enter a valid email address");
           return false;
         }
 
-        this.clearError(emailError);
+        this.clearError(this.elements.emailError);
         return true;
       }
 
       validateOtp(otp) {
-        const otpError = document.getElementById("otpError");
-        const verifyBtn = document.getElementById("verifyOtpBtn");
-
         if (!otp) {
-          this.showError(otpError, "");
-          verifyBtn.disabled = true;
+          this.showError(this.elements.otpError, "");
+          this.elements.verifyOtpBtn.disabled = true;
           return false;
         }
 
-        if (otp.length < 6) {
-          this.showError(otpError, "OTP must be 6 digits");
-          verifyBtn.disabled = true;
+        if (otp.length < this.config.otpLength) {
+          this.showError(this.elements.otpError, `OTP must be ${this.config.otpLength} digits`);
+          this.elements.verifyOtpBtn.disabled = true;
           return false;
         }
 
-        if (!/^\d{6}$/.test(otp)) {
-          this.showError(otpError, "OTP must contain only numbers");
-          verifyBtn.disabled = true;
+        const otpPattern = new RegExp(`^\\d{${this.config.otpLength}}$`);
+        if (!otpPattern.test(otp)) {
+          this.showError(this.elements.otpError, "OTP must contain only numbers");
+          this.elements.verifyOtpBtn.disabled = true;
           return false;
         }
 
-        this.clearError(otpError);
-        verifyBtn.disabled = false;
+        this.clearError(this.elements.otpError);
+        this.elements.verifyOtpBtn.disabled = false;
         return true;
       }
 
@@ -730,20 +785,18 @@
       }
 
       startResendTimer() {
-        const resendBtn = document.getElementById("resendOtp");
-        const countdown = document.getElementById("countdown");
-        let timeLeft = 60;
+        let timeLeft = this.config.resendDelay;
 
-        resendBtn.disabled = true;
+        this.elements.resendOtp.disabled = true;
 
         this.resendTimer = setInterval(() => {
           timeLeft--;
-          countdown.textContent = timeLeft;
+          this.elements.countdown.textContent = timeLeft;
 
           if (timeLeft <= 0) {
             clearInterval(this.resendTimer);
-            resendBtn.disabled = false;
-            resendBtn.innerHTML = "Resend OTP";
+            this.elements.resendOtp.disabled = false;
+            this.elements.resendOtp.innerHTML = "Resend OTP";
           }
         }, 1000);
       }
@@ -829,10 +882,10 @@
             // Store redirect URL for auto-redirect
             this.redirectUrl = result.redirect_url;
 
-            // Auto-redirect after 2 seconds
+            // Auto-redirect after configured delay
             setTimeout(() => {
               this.redirectToAccount();
-            }, 2000);
+            }, this.config.autoRedirectDelay);
           } else {
             this.showError(otpError, result.message);
             verifyBtn.textContent = "Verify OTP";
