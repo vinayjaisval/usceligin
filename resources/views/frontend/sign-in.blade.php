@@ -90,7 +90,7 @@
                 <div class="form-input-with-prefix">
                   <span class="form-input-prefix" aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
                   <input type="tel" id="phoneNumber" name="contact"
-                    placeholder="{{ config('app.phone_placeholder', '98765 43210') }}"
+                    placeholder="{{ config('app.phone_placeholder', '00000 00000') }}"
                     maxlength="{{ config('app.phone_max_length', '11') }}"
                     required autocomplete="tel"
                     aria-describedby="phoneHelp phoneError" aria-invalid="false" aria-label="Enter your mobile number" />

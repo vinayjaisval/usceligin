@@ -8,34 +8,41 @@
 
 
   @if($ps->slider == 1)
-  <section class="hero-section" aria-label="Featured products and offers">
-    <div class="container">
+  <section class="relative overflow-hidden bg-gray-100" aria-label="Featured products and offers">
+    <div class="max-w-7xl mx-auto">
       <div class="hero-swiper swiper">
         <div class="swiper-wrapper">
-          <!-- Slide 1 -->
-
           @foreach($sliders as $data)
           <div class="swiper-slide">
-            <div class="hero-slide">
-              <div class="carousel-bg">
+            <div class="relative h-[500px] lg:h-[600px] flex items-center">
+              <div class="absolute inset-0">
                 <img
                   src="{{asset('assets/images/sliders/'.$data->photo)}}"
-                  alt="Hero background - Your Glow, Our Science"
-                  class="carousel-image" />
+                  alt="Hero background - {{$data->title_text}}"
+                  class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
               </div>
-              <div class="carousel-content">
-                <h2 class="hero-title">{{$data->subtitle_text}},<br />{{$data->title_text}}</h2>
-                <p class="hero-subtitle">
-                  {{$data->details_text}}
-                </p>
-                <a href="{{$data->link}}" class="cta-btn">Shop Now</a>
-                <div class="hero-badges">
-                  <img
-                    src="{{asset('assets/frontend/images/peta-banner.png')}}"
-                    alt="Peta badge" />
-                  <img
-                    src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
-                    alt="CPNP badge" />
+              <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
+                <div class="max-w-2xl">
+                  <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                    {{$data->subtitle_text}},<br />{{$data->title_text}}
+                  </h2>
+                  <p class="text-lg lg:text-xl text-white opacity-90 mb-8 leading-relaxed">
+                    {{$data->details_text}}
+                  </p>
+                  <a href="{{$data->link}}" class="inline-flex items-center px-8 py-4 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-lg">
+                    Shop Now
+                  </a>
+                  <div class="flex items-center justify-center lg:justify-start space-x-4 mt-8">
+                    <img
+                      src="{{asset('assets/frontend/images/peta-banner.png')}}"
+                      alt="Peta badge"
+                      class="h-12 w-auto opacity-90" />
+                    <img
+                      src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
+                      alt="CPNP badge"
+                      class="h-12 w-auto opacity-90" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -44,106 +51,117 @@
         </div>
 
         <!-- Navigation arrows -->
-        <div
-          class="swiper-button-next hero-nav-next"
-          aria-label="Next slide"></div>
-        <div
-          class="swiper-button-prev hero-nav-prev"
-          aria-label="Previous slide"></div>
+        <div class="swiper-button-next hero-nav-next !text-white !w-12 !h-12 !mt-0 !top-1/2 !-translate-y-1/2 !right-4 lg:!right-8 after:!text-2xl !bg-black !bg-opacity-30 !rounded-full hover:!bg-opacity-50 !transition-all !duration-200" aria-label="Next slide"></div>
+        <div class="swiper-button-prev hero-nav-prev !text-white !w-12 !h-12 !mt-0 !top-1/2 !-translate-y-1/2 !left-4 lg:!left-8 after:!text-2xl !bg-black !bg-opacity-30 !rounded-full hover:!bg-opacity-50 !transition-all !duration-200" aria-label="Previous slide"></div>
 
         <!-- Pagination dots -->
-        <div class="swiper-pagination hero-pagination"></div>
+        <div class="swiper-pagination hero-pagination !bottom-6 !left-1/2 !transform !-translate-x-1/2"></div>
       </div>
     </div>
   </section>
   @endif
   <!-- Category Banners -->
-  <section class="category-banners" aria-label="Shop by category">
-    <div class="container">
-      <div class="banner-grid">
-        <article class="category-banner">
-          <a href="{{$arrivals[0]['url']}}" class="banner-link-full">
-            <div class="banner-image">
+  <section class="py-12 lg:py-16 bg-white" aria-label="Shop by category">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <article class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+          <a href="{{$arrivals[0]['url']}}" class="block">
+            <div class="aspect-w-1 aspect-h-1 overflow-hidden">
               <img
                 src="{{asset('assets/images/arrival/'.$arrivals[0]['photo'])}}"
                 alt="New arrivals collection"
                 width="450"
-                height="450" />
+                height="450"
+                class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
             </div>
-            <div class="banner-content">
-              <h3>{{$arrivals[0]['title']}}</h3>
-              <p>{{$arrivals[0]['up_sale']}}</p>
-              <span class="banner-link">
-                Shop Now
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7,7 17,7 17,17"></polyline>
-                </svg>
-              </span>
+            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
+            <div class="absolute inset-0 flex flex-col justify-end p-6">
+              <div class="text-white">
+                <h3 class="text-xl lg:text-2xl font-bold mb-2">{{$arrivals[0]['title']}}</h3>
+                <p class="text-sm opacity-90 mb-4">{{$arrivals[0]['up_sale']}}</p>
+                <span class="inline-flex items-center text-sm font-medium group-hover:translate-x-1 transition-transform duration-200">
+                  Shop Now
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="ml-2 w-4 h-4">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7,7 17,7 17,17"></polyline>
+                  </svg>
+                </span>
+              </div>
             </div>
           </a>
         </article>
 
-        <article class="category-banner">
-          <a href="{{$arrivals[1]['url']}}" class="banner-link-full">
-            <div class="banner-image">
+        <article class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+          <a href="{{$arrivals[1]['url']}}" class="block">
+            <div class="aspect-w-1 aspect-h-1 overflow-hidden">
               <img
                 src="{{asset('assets/images/arrival/'.$arrivals[1]['photo'])}}"
                 alt="Best selling products"
                 width="450"
-                height="450" />
+                height="450"
+                class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
             </div>
-            <div class="banner-content">
-              <h3>{{$arrivals[1]['title']}}</h3>
-              <p>{{$arrivals[1]['up_sale']}}</p>
-              <span class="banner-link">
-                Shop Now
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7,7 17,7 17,17"></polyline>
-                </svg>
-              </span>
+            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
+            <div class="absolute inset-0 flex flex-col justify-end p-6">
+              <div class="text-white">
+                <h3 class="text-xl lg:text-2xl font-bold mb-2">{{$arrivals[1]['title']}}</h3>
+                <p class="text-sm opacity-90 mb-4">{{$arrivals[1]['up_sale']}}</p>
+                <span class="inline-flex items-center text-sm font-medium group-hover:translate-x-1 transition-transform duration-200">
+                  Shop Now
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="ml-2 w-4 h-4">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7,7 17,7 17,17"></polyline>
+                  </svg>
+                </span>
+              </div>
             </div>
           </a>
         </article>
 
-        <article class="category-banner">
-          <a href="{{$arrivals[2]['url']}}" class="banner-link-full">
-            <div class="banner-image">
+        <article class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+          <a href="{{$arrivals[2]['url']}}" class="block">
+            <div class="aspect-w-1 aspect-h-1 overflow-hidden">
               <img
                 src="{{asset('assets/images/arrival/'.$arrivals[2]['photo'])}}"
                 alt="First time buyer offers"
                 width="450"
-                height="450" />
+                height="450"
+                class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
             </div>
-            <div class="banner-content">
-              <h3>{{$arrivals[2]['title']}}</h3>
-              <p>{{$arrivals[2]['up_sale']}}</p>
-              <span class="banner-link">
-                Discover Now
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7,7 17,7 17,17"></polyline>
-                </svg>
-              </span>
+            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
+            <div class="absolute inset-0 flex flex-col justify-end p-6">
+              <div class="text-white">
+                <h3 class="text-xl lg:text-2xl font-bold mb-2">{{$arrivals[2]['title']}}</h3>
+                <p class="text-sm opacity-90 mb-4">{{$arrivals[2]['up_sale']}}</p>
+                <span class="inline-flex items-center text-sm font-medium group-hover:translate-x-1 transition-transform duration-200">
+                  Discover Now
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="ml-2 w-4 h-4">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7,7 17,7 17,17"></polyline>
+                  </svg>
+                </span>
+              </div>
             </div>
           </a>
         </article>
@@ -153,11 +171,11 @@
   </section>
 
   @if($ps->best_sellers==1)
-  <section class="product-section" aria-labelledby="bestsellers-title">
-    <div class="container">
-      <div class="section-header">
-        <h2 id="bestsellers-title">Our Bestsellers</h2>
-        <a href="{{ route('front.best-sellers') }}" class="view-all-link">
+  <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="bestsellers-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-8 lg:mb-12">
+        <h2 id="bestsellers-title" class="text-2xl lg:text-3xl font-bold text-gray-900">Our Bestsellers</h2>
+        <a href="{{ route('front.best-sellers') }}" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group">
           Shop all best sellers
           <svg
             width="16"
@@ -165,88 +183,68 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+            class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7,7 17,7 17,17"></polyline>
           </svg>
         </a>
       </div>
 
-      <div class="bestseller-swiper swiper">
-        <div class="swiper-wrapper">
-          <!-- Product 1 -->
-          @foreach($best_products as $prod)
-          <div class="swiper-slide">
-            <article class="product-card" itemscope itemtype="https://schema.org/Product">
-              <a href="{{ url('/item/'.$prod->slug) }}" class="product-link" aria-label="View Vitamin C Brightening Serum details">
-                <div class="product-image">
-                  <img
-                    src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}"
-                    alt="Vitamin C Brightening Serum - Premium anti-aging skincare product"
-                    width="300"
-                    height="300" />
-                  <div class="product-badges">
-                    <span class="badge new">New</span>
+      <div class="relative">
+        <div class="bestseller-swiper swiper">
+          <div class="swiper-wrapper">
+            @foreach($best_products as $prod)
+            <div class="swiper-slide">
+              <article class="bg-white rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300" itemscope itemtype="https://schema.org/Product">
+                <a href="{{ url('/item/'.$prod->slug) }}" class="block" aria-label="View {{ $prod->name }} details">
+                  <div class="relative aspect-square overflow-hidden">
+                    <img
+                      src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}"
+                      alt="{{ $prod->name }} - Premium skincare product"
+                      width="300"
+                      height="300"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div class="absolute top-3 left-3">
+                      <span class="inline-block px-2 py-1 bg-green-600 text-white text-xs font-semibold rounded">New</span>
+                    </div>
+                  </div>
+                  <div class="p-4">
+                    <div class="mb-2">
+                      <span class="text-lg font-bold text-gray-900">{{ $prod->showPrice() }}</span>
+                      @if($prod->showPreviousPrice() && $prod->showPreviousPrice() != $prod->showPrice())
+                      <span class="text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
+                      @endif
+                    </div>
+                    <h3 class="text-sm font-medium text-gray-900 line-clamp-2" itemprop="name" title="{{$prod->name}}">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
+                  </div>
+                </a>
+                <div class="px-4 pb-4">
+                  <div class="flex items-center space-x-2">
+                    <button class="flex-1 flex items-center justify-center px-3 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn" data-id="{{ $prod->id }}" aria-label="Add to cart" title="Add to Cart">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
+                        <path d="M6 2L3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6l-3-4H6z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10c0 2.2-1.8 4-4 4s-4-1.8-4-4"></path>
+                      </svg>
+                      Add to Cart
+                    </button>
+                    <button class="p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-wishlist-btn" data-id="{{ $prod->id }}" aria-label="Add to wishlist" title="Add to Wishlist">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                      </svg>
+                    </button>
                   </div>
                 </div>
-                <div class="product-info">
-                  <div class="product-pricing">
-                    <span class="current-price">{{ $prod->showPrice() }}</span>
-                    <span class="original-price">{{ $prod->showPreviousPrice() }}</span>
-                  </div>
-                  <h3 class="product-name" itemprop="name" title="{{$prod->name}}">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
-
-
-                </div>
-              </a>
-              <div class="product-actions">
-              <a href="#" class="wishlist-btn add-wishlist-btn" data-id="{{ $prod->id }}" aria-label="Add to wishlist" title="Add to Wishlist" role="button">
-                    
-                <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path
-                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
-                </a>
-
-                <a href="javascript:void(0);" class="cart-btn add-to-cart-btn"
-                  data-id="{{ $prod->id }}"
-                  aria-label="Add to cart"
-                  title="Add to Cart"
-                  role="button">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path
-                      d="M6 2L3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6l-3-4H6z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10c0 2.2-1.8 4-4 4s-4-1.8-4-4"></path>
-                  </svg>
-                </a>
-              </div>
-            </article>
+              </article>
+            </div>
+            @endforeach
           </div>
-          @endforeach
-
-
         </div>
 
         <!-- Navigation arrows -->
-        <div
-          class="swiper-button-next bestseller-nav-next"
-          aria-label="Next products"></div>
-        <div
-          class="swiper-button-prev bestseller-nav-prev"
-          aria-label="Previous products"></div>
+        <div class="swiper-button-next bestseller-nav-next !text-gray-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-full !shadow-md hover:!bg-gray-50 !transition-all !duration-200" aria-label="Next products"></div>
+        <div class="swiper-button-prev bestseller-nav-prev !text-gray-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-full !shadow-md hover:!bg-gray-50 !transition-all !duration-200" aria-label="Previous products"></div>
       </div>
     </div>
   </section>
@@ -254,60 +252,58 @@
 
   @if($ps->deal_of_the_day==1)
   <!-- Special Offer Banner -->
-  <section class="special-offer" aria-labelledby="special-offer-title">
-    <div class="container">
-      <div class="offer-grid">
-        <div class="offer-image">
+  <section class="py-12 lg:py-16 bg-gradient-to-br from-orange-50 to-yellow-50" aria-labelledby="special-offer-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div class="order-2 lg:order-1">
           <img
             src="{{ $gs->deal_background ? asset('assets/images/'.$gs->deal_background):asset('assets/images/noimage.png') }}"
-            alt="Mountain Pine Bath Oil special offer product"
+            alt="{{ $gs->deal_title }} - Special offer product"
             width="400"
-            height="600" />
+            height="600"
+            class="w-full h-auto max-w-md mx-auto lg:mx-0 rounded-lg shadow-lg" />
         </div>
-        <div class="offer-content">
-          <div class="offer-badge">
-            <span class="special-text">SPECIAL OFFER</span>
-            <span class="discount-badge">-25%</span>
+        <div class="order-1 lg:order-2 text-center lg:text-left">
+          <div class="flex items-center justify-center lg:justify-start space-x-3 mb-6">
+            <span class="inline-block px-4 py-2 bg-orange-600 text-white text-sm font-bold uppercase tracking-wide rounded-full">Special Offer</span>
+            <span class="inline-block px-4 py-2 bg-red-600 text-white text-lg font-bold rounded-full">-25%</span>
           </div>
-          <h2 id="special-offer-title">{{ $gs->deal_title }}</h2>
-          <p>
+
+          <h2 id="special-offer-title" class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{{ $gs->deal_title }}</h2>
+
+          <p class="text-lg text-gray-600 mb-8 leading-relaxed">
             {{ $gs->deal_details }}
           </p>
 
-          <div
-            class="countdown-timer"
-            aria-label="Special offer countdown timer">
-            <div class="time-unit">
-              <span class="time-value">{{ $gs->deal_time }}</span>
-              <!-- <span class="time-label">D</span> -->
+          <div class="mb-8" aria-label="Special offer countdown timer">
+            <div class="inline-flex items-center justify-center bg-white rounded-lg shadow-md px-6 py-4">
+              <div class="text-center">
+                <span class="block text-3xl font-bold text-orange-600">{{ $gs->deal_time }}</span>
+                <span class="text-sm text-gray-500 uppercase tracking-wide">Days Left</span>
+              </div>
             </div>
-            <!-- <span class="separator">:</span>
-            <div class="time-unit">
-              <span class="time-value">20</span>
-              <span class="time-label">M</span>
-            </div>
-            <span class="separator">:</span>
-            <div class="time-unit">
-              <span class="time-value">30</span>
-              <span class="time-label">S</span>
-            </div> -->
           </div>
 
-          <a href="{{ route('front.category') }}" class="special-cta-btn">Get Only 39,00</a>
+          <a href="{{ route('front.category') }}" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold text-lg rounded-lg hover:from-orange-700 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            Get Only ₹39.00
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7,7 17,7 17,17"></polyline>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
   </section>
   @endif
-  <!-- Hot Deals (Similar structure to Best Sellers) -->
-
-  <section
-    class="product-section hot-deals"
-    aria-labelledby="hotdeals-title">
-    <div class="container">
-      <div class="section-header">
-        <h2 id="hotdeals-title">Hot Deals</h2>
-        <a href="{{ route('front.sales') }}" class="view-all-link">
+  <!-- Hot Deals -->
+  <section class="py-12 lg:py-16 bg-red-50" aria-labelledby="hotdeals-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-8 lg:mb-12">
+        <h2 id="hotdeals-title" class="text-2xl lg:text-3xl font-bold text-gray-900 flex items-center">
+          <span class="mr-3">🔥</span>Hot Deals
+        </h2>
+        <a href="{{ route('front.sales') }}" class="inline-flex items-center text-sm font-medium text-red-600 hover:text-red-700 transition-colors duration-200 group">
           Shop all hot deals
           <svg
             width="16"
@@ -315,118 +311,98 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+            class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7,7 17,7 17,17"></polyline>
           </svg>
         </a>
       </div>
 
-      <div class="hotdeals-swiper swiper">
-        <div class="swiper-wrapper">
-          <!-- Hot Deal 1 -->
-
-          @foreach($hot_products as $prod)
-          <div class="swiper-slide">
-            <article class="product-card">
-              <a href="{{ url('/item/'.$prod->slug) }}" class="product-link" aria-label="View Retinol Recovery Serum details">
-                <div class="product-image">
-                  <img
-                    src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}"
-                    alt="Limited time offer product"
-                    width="300"
-                    height="300" />
-                  <div class="product-badges">
-                    <span class="badge hot">Hot</span>
-                    @if (round($prod->offPercentage() )>0)
-                    <span class="badge sale">-{{ round($prod->offPercentage() )}}%</span>
-                    @endif
+      <div class="relative">
+        <div class="hotdeals-swiper swiper">
+          <div class="swiper-wrapper">
+            @foreach($hot_products as $prod)
+            <div class="swiper-slide">
+              <article class="bg-white rounded-lg shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 border border-red-100">
+                <a href="{{ url('/item/'.$prod->slug) }}" class="block" aria-label="View {{ $prod->name }} details">
+                  <div class="relative aspect-square overflow-hidden">
+                    <img
+                      src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}"
+                      alt="{{ $prod->name }} - Limited time offer product"
+                      width="300"
+                      height="300"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div class="absolute top-3 left-3 flex flex-col space-y-1">
+                      <span class="inline-block px-2 py-1 bg-red-600 text-white text-xs font-semibold rounded">🔥 Hot</span>
+                      @if (round($prod->offPercentage() )>0)
+                      <span class="inline-block px-2 py-1 bg-orange-600 text-white text-xs font-semibold rounded">-{{ round($prod->offPercentage() )}}%</span>
+                      @endif
+                    </div>
+                  </div>
+                  <div class="p-4">
+                    <div class="mb-2">
+                      <span class="text-lg font-bold text-red-600">{{ $prod->showPrice() }}</span>
+                      @if($prod->showPreviousPrice() && $prod->showPreviousPrice() != $prod->showPrice())
+                      <span class="text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
+                      @endif
+                    </div>
+                    <h3 class="text-sm font-medium text-gray-900 line-clamp-2" title="{{$prod->name}}">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
+                  </div>
+                </a>
+                <div class="px-4 pb-4">
+                  <div class="flex items-center space-x-2">
+                    <button class="flex-1 flex items-center justify-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn" data-id="{{ $prod->id }}" aria-label="Add to cart" title="Add to Cart">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
+                        <path d="M6 2L3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6l-3-4H6z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10c0 2.2-1.8 4-4 4s-4-1.8-4-4"></path>
+                      </svg>
+                      Add to Cart
+                    </button>
+                    <button class="p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-wishlist-btn" data-id="{{ $prod->id }}" aria-label="Add to wishlist" title="Add to Wishlist">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                      </svg>
+                    </button>
                   </div>
                 </div>
-                <div class="product-info">
-                  <div class="product-pricing">
-                    <span class="current-price">{{ $prod->showPrice() }}</span>
-                    <span class="original-price">{{ $prod->showPreviousPrice() }}</span>
-                  </div>
-                  <h3 class="product-name" title="{{$prod->name}}">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
-
-
-                </div>
-              </a>
-              <div class="product-actions">
-                <a href="#" class="wishlist-btn add-wishlist-btn" data-id="{{ $prod->id }}" aria-label="Add to wishlist" title="Add to Wishlist" role="button">
-                  
-                <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path
-                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                    </path>
-                  </svg>
-                </a>
-
-                <a href="javascript:void(0);" class="cart-btn add-to-cart-btn"
-                  data-id="{{ $prod->id }}"
-                  aria-label="Add to cart"
-                  title="Add to Cart"
-                  role="button">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path
-                      d="M6 2L3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6l-3-4H6z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10c0 2.2-1.8 4-4 4s-4-1.8-4-4"></path>
-                  </svg>
-                </a>
-              </div>
-            </article>
+              </article>
+            </div>
+            @endforeach
           </div>
-
-          @endforeach
         </div>
 
         <!-- Navigation arrows -->
-        <div
-          class="swiper-button-next hotdeals-nav-next"
-          aria-label="Next hot deals"></div>
-        <div
-          class="swiper-button-prev hotdeals-nav-prev"
-          aria-label="Previous hot deals"></div>
+        <div class="swiper-button-next hotdeals-nav-next !text-red-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-full !shadow-md hover:!bg-red-50 !transition-all !duration-200" aria-label="Next hot deals"></div>
+        <div class="swiper-button-prev hotdeals-nav-prev !text-red-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-full !shadow-md hover:!bg-red-50 !transition-all !duration-200" aria-label="Previous hot deals"></div>
       </div>
     </div>
   </section>
 
   <!-- Instagram Feed -->
-  <section class="instagram-feed" aria-labelledby="instagram-title">
-    <div class="container">
-      <div class="section-header">
-        <div class="instagram-header">
-          <div class="instagram-icon">
+  <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="instagram-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-8 lg:mb-12">
+        <div class="flex items-center space-x-3">
+          <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-600 rounded-lg">
             <svg
-              width="32"
-              height="32"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="currentColor"
-              stroke-width="2">
+              stroke="white"
+              stroke-width="2"
+              class="w-6 h-6">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
               <path
                 d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
           </div>
-          <h2 id="instagram-title">Instagram Feed</h2>
+          <h2 id="instagram-title" class="text-2xl lg:text-3xl font-bold text-gray-900">Instagram Feed</h2>
         </div>
-        <a href="#" class="view-all-link">
+        <a href="#" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group">
           View all feeds
           <svg
             width="16"
@@ -434,7 +410,8 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+            class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7,7 17,7 17,17"></polyline>
           </svg>
@@ -442,10 +419,10 @@
       </div>
 
       <div
-        class="instagram-grid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         role="region"
         aria-label="Instagram posts">
-        <article class="instagram-post">
+        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DI2-xXWPXMu/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
             <div style="padding:16px;"> <a href="https://www.instagram.com/p/DI2-xXWPXMu/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                 <div style=" display: flex; flex-direction: row; align-items: center;">
@@ -494,7 +471,7 @@
             </div>
           </blockquote>
         </article>
-        <article class="instagram-post">
+        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DNNZuezPKyS/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
             <div style="padding:16px;"> <a href="https://www.instagram.com/p/DNNZuezPKyS/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                 <div style=" display: flex; flex-direction: row; align-items: center;">
@@ -543,7 +520,7 @@
             </div>
           </blockquote>
         </article>
-        <article class="instagram-post">
+        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DMhZouMRaQH/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
             <div style="padding:16px;"> <a href="https://www.instagram.com/p/DMhZouMRaQH/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                 <div style=" display: flex; flex-direction: row; align-items: center;">
@@ -598,29 +575,35 @@
     </div>
   </section>
   <!-- Join CELIGIN Banner -->
-  <section class="join-celigin-banner">
-    <div class="container">
-      <div class="banner-grid">
-        <div class="celigin-banner join-club">
+  <section class="py-12 lg:py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div class="relative overflow-hidden rounded-lg group cursor-pointer">
           <img
             src="{{ asset('assets/frontend/images/join-club-banner.png') }}"
             alt="Join CELIGIN Club - Become a Brand Ambassador"
-            class="banner-image" />
-          <div class="banner-content">
-            <span class="badge">JOIN CELIGIN CLUB</span>
-            <h3>Become a Brand Ambassador</h3>
-            <a href="/join" class="banner-btn">Join Now</a>
+            class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300"></div>
+          <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
+            <span class="inline-block px-3 py-1 bg-orange-600 text-white text-xs font-semibold rounded-full mb-4 uppercase tracking-wide">JOIN CELIGIN CLUB</span>
+            <h3 class="text-2xl lg:text-3xl font-bold text-white mb-6">Become a Brand Ambassador</h3>
+            <a href="/join" class="inline-flex items-center px-6 py-3 bg-white text-gray-900 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200" aria-label="Join CELIGIN Club to become a brand ambassador">
+              Join Now
+            </a>
           </div>
         </div>
 
-        <div class="celigin-banner cta-banner">
+        <div class="relative overflow-hidden rounded-lg group cursor-pointer">
           <img
             src="{{ asset('assets/frontend/images/cell-education-banner.png') }}"
             alt="Cell For Education - CELIGIN Skincare Products"
-            class="banner-image" />
-          <div class="banner-content">
-            <h3>Cell For Education</h3>
-            <a href="/education" class="banner-btn secondary">Read More</a>
+            class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300"></div>
+          <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
+            <h3 class="text-2xl lg:text-3xl font-bold text-white mb-6">Cell For Education</h3>
+            <a href="/education" class="inline-flex items-center px-6 py-3 border-2 border-white text-white font-medium rounded-md hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200" aria-label="Learn more about Cell For Education program">
+              Read More
+            </a>
           </div>
         </div>
       </div>
@@ -629,11 +612,11 @@
 
   @if($ps->blog==1)
   <!-- Blog Section -->
-  <section class="blog-section" aria-labelledby="blog-title">
-    <div class="container">
-      <div class="section-header">
-        <h2 id="blog-title">Blog</h2>
-        <a href="/blog" class="view-all-link">
+  <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="blog-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-8 lg:mb-12">
+        <h2 id="blog-title" class="text-2xl lg:text-3xl font-bold text-gray-900">Blog</h2>
+        <a href="/blog" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group">
           View all posts
           <svg
             width="16"
@@ -641,27 +624,29 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+            class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
             <line x1="7" y1="17" x2="17" y2="7"></line>
             <polyline points="7,7 17,7 17,17"></polyline>
           </svg>
         </a>
       </div>
 
-      <div class="blog-grid" role="region" aria-label="Latest blog posts">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" role="region" aria-label="Latest blog posts">
 
         @foreach($blogs as $blog)
-        <article class="blog-post">
-          <div class="post-image">
+        <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group">
+          <div class="aspect-w-16 aspect-h-12 overflow-hidden">
             <img
               src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}"
-              alt="5 Essential Skincare Tips"
+              alt="{{ $blog->title }}"
               width="400"
-              height="300" />
+              height="300"
+              class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
-          <div class="post-content">
-            <h3>{{ Str::limit($blog->title, 25) }}</h3>
-            <a href="{{ route('front.blogshow',$blog->slug) }}" class="read-more">
+          <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">{{ Str::limit($blog->title, 25) }}</h3>
+            <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-sm font-medium text-orange-600 hover:text-orange-700 transition-colors duration-200 group">
               Read More
               <svg
                 width="16"
@@ -669,7 +654,8 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2">
+                stroke-width="2"
+                class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7,7 17,7 17,17"></polyline>
               </svg>

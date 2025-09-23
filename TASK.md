@@ -117,13 +117,75 @@
 - [ ] **2.2.4** Test on all pages (global components)
 - [ ] **2.2.5** Create `<x-nav-link>` component
 
-#### **2.3: Homepage** (High Visibility)
-- [ ] **2.3.1** Convert hero section styling
-- [ ] **2.3.2** Convert product grid/cards
-- [ ] **2.3.3** Convert badge/banner styling
-- [ ] **2.3.4** Convert category sections
-- [ ] **2.3.5** Test responsive behavior across devices
-- [ ] **2.3.6** Create `<x-product-card>` component
+#### **2.3: Homepage** (High Visibility) - DETAILED MIGRATION PLAN
+**Step-by-Step Homepage Migration Plan (Priority Order):**
+
+- [ ] **2.3.1** Convert Footer Section (Foundation)
+  - [ ] Replace footer CSS classes with Tailwind utilities
+  - [ ] Ensure responsive footer layout
+  - [ ] Test footer links and social media icons
+
+- [ ] **2.3.2** Convert Blog Section
+  - [ ] Convert blog grid layout to Tailwind
+  - [ ] Update blog post card styling
+  - [ ] Implement responsive blog grid
+
+- [ ] **2.3.3** Convert Join CELIGIN Banner Section
+  - [ ] Convert banner grid layout to Tailwind
+  - [ ] Update CTA buttons and banner styling
+  - [ ] Ensure proper responsive behavior
+
+- [ ] **2.3.4** Convert Instagram Feed Section
+  - [ ] Convert Instagram grid layout
+  - [ ] Update Instagram post styling
+  - [ ] Implement responsive Instagram feed
+
+- [ ] **2.3.5** Convert Category Banners (New Arrivals, Best Sellers, First Time Buyer)
+  - [ ] Convert category banner grid to Tailwind
+  - [ ] Update banner image and content styling
+  - [ ] Implement hover effects with Tailwind
+
+- [ ] **2.3.6** Convert Hero Carousel Section
+  - [ ] Convert hero slide styling to Tailwind
+  - [ ] Update navigation arrows and pagination
+  - [ ] Ensure responsive hero behavior
+
+- [ ] **2.3.7** Convert Our Bestsellers Carousel with Products
+  - [ ] Convert product carousel container
+  - [ ] Update product card styling with Tailwind
+  - [ ] Implement responsive product grid
+
+- [ ] **2.3.8** Convert Hot Deals Carousel with Products
+  - [ ] Convert hot deals carousel styling
+  - [ ] Update product badges and pricing
+  - [ ] Ensure consistent product card design
+
+- [ ] **2.3.9** Convert Special Offer Banner
+  - [ ] Convert offer grid layout to Tailwind
+  - [ ] Update countdown timer styling
+  - [ ] Implement responsive offer section
+
+- [ ] **2.3.10** Convert Header Section
+  - [ ] Convert navigation styling to Tailwind
+  - [ ] Update menu items and dropdown styling
+  - [ ] Implement responsive navigation
+
+- [ ] **2.3.11** Convert Promotion Bar
+  - [ ] Convert promotion bar styling
+  - [ ] Update announcement styling
+  - [ ] Ensure cross-browser compatibility
+
+- [ ] **2.3.12** Create Reusable Components
+  - [ ] Create `<x-product-card>` component
+  - [ ] Create `<x-section-header>` component
+  - [ ] Create `<x-cta-button>` component
+  - [ ] Create `<x-carousel-nav>` component
+
+- [ ] **2.3.13** Final Testing and Optimization
+  - [ ] Test responsive behavior across devices
+  - [ ] Verify accessibility compliance
+  - [ ] Test all interactive elements
+  - [ ] Performance optimization
 
 #### **2.4: Product Detail Page** (Complex E-commerce)
 - [ ] **2.4.1** Convert product image gallery

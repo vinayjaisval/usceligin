@@ -411,12 +411,12 @@
   }
 
   .theme-toggle .moon-icon {
-    @apply hidden;
+    display: none;
   }
 
   /* Show moon icon in dark mode, hide sun */
   [data-theme="dark"] .theme-toggle .sun-icon {
-    @apply hidden;
+    display: none;
   }
 
   [data-theme="dark"] .theme-toggle .moon-icon {
