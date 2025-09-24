@@ -211,6 +211,56 @@
 <!-- Toastify JS -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
+<!-- Promo Code Copy Function -->
+<script>
+  function copyPromoCode(element) {
+    const code = element.getAttribute('data-code');
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(code)
+        .then(() => {
+          if (typeof toastr !== 'undefined') {
+            toastr.success(`Promo code copied: ${code}`);
+          } else {
+            alert(`Promo code copied: ${code}`);
+          }
+        })
+        .catch(() => {
+          fallbackCopy(code);
+        });
+    } else {
+      fallbackCopy(code);
+    }
+  }
+
+  function fallbackCopy(code) {
+    const textarea = document.createElement('textarea');
+    textarea.value = code;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    try {
+      document.execCommand('copy');
+      if (typeof toastr !== 'undefined') {
+        toastr.success(`Promo code copied: ${code}`);
+      } else {
+        alert(`Promo code copied: ${code}`);
+      }
+    } catch (err) {
+      console.error('Copy failed:', err);
+      if (typeof toastr !== 'undefined') {
+        toastr.error('Failed to copy promo code');
+      } else {
+        alert('Failed to copy promo code');
+      }
+    } finally {
+      document.body.removeChild(textarea);
+    }
+  }
+</script>
+
 </body>
 
 </html>
