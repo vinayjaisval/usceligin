@@ -66,13 +66,13 @@
 
   <!-- Header -->
   <header class="bg-white border-b border-gray-200 sticky top-0 z-50" role="banner">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-1">
       <!-- Main Header -->
-      <div class="flex items-center justify-between h-16 lg:h-20">
+      <div class="grid grid-cols-3 items-center h-16 lg:h-20">
 
         <!-- Left: Search (Desktop) -->
-        <div class="hidden lg:flex flex-1 max-w-md">
-          <div class="w-full relative">
+        <div class="flex justify-start">
+          <div class="hidden lg:block w-full max-w-xs">
             <form role="search" aria-label="Site search" onsubmit="return false;" class="relative">
               <input type="search" id="search-input" placeholder="Search products..." aria-label="Search for products"
                 aria-expanded="false" aria-owns="search-dropdown" autocomplete="off"
@@ -87,16 +87,26 @@
 
               <!-- Search Dropdown -->
               <div
-                class="search-dropdown absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg hidden"
+                class="search-dropdown absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg hidden z-50"
                 id="search-dropdown" role="listbox" aria-label="Search suggestions">
                 <div class="search-suggestions-list" id="search-suggestions-list"></div>
               </div>
             </form>
           </div>
+
+          <!-- Mobile: Account Button (shows on left on mobile) -->
+          <a href="{{ route('sign-in') }}"
+            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
+            aria-label="My account">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
         </div>
 
         <!-- Center: Logo -->
-        <div class="flex-shrink-0">
+        <div class="flex justify-center">
           <a href="{{ route('front.index') }}" aria-label="CELIGIN - Go to homepage">
             <img src="{{ asset('assets/images/' . $gs->logo) }}" alt="CELIGIN - Premium Cosmetics & Skincare"
               class="h-8 lg:h-10 w-auto" />
@@ -104,7 +114,7 @@
         </div>
 
         <!-- Right: Utility Buttons -->
-        <div class="flex items-center space-x-2 lg:space-x-4">
+        <div class="flex items-center justify-end space-x-2 lg:space-x-3">
           <!-- Mobile Search Button -->
           <button
             class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
@@ -115,9 +125,9 @@
             </svg>
           </button>
 
-          <!-- Account -->
+          <!-- Desktop Account (hidden on mobile) -->
           <a href="{{ route('sign-in') }}"
-            class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
+            class="hidden lg:block p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
             aria-label="My account">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
