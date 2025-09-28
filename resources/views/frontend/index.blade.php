@@ -770,35 +770,33 @@
       </div>
     </div>
   </section>
-  
+
   <!-- Join CELIGIN Banner -->
   <section class="py-12 lg:py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        <div class="relative overflow-hidden rounded-lg group cursor-pointer">
+        <div class="relative overflow-hidden group cursor-pointer">
           <img
             src="{{ asset('assets/frontend/images/join-club-banner.png') }}"
             alt="Join CELIGIN Club - Become a Brand Ambassador"
             class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
-          <div class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300"></div>
-          <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
-            <span class="inline-block px-3 py-1 bg-orange-600 text-white text-xs font-semibold rounded-full mb-4 uppercase tracking-wide">JOIN CELIGIN CLUB</span>
-            <h3 class="text-2xl lg:text-3xl font-bold text-white mb-6">Become a Brand Ambassador</h3>
-            <a href="/join" class="inline-flex items-center px-6 py-3 bg-white text-gray-900 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200" aria-label="Join CELIGIN Club to become a brand ambassador">
+          <div class="absolute inset-y-0 left-0 w-1/2 flex flex-col justify-center text-left p-6">
+            <span class="inline-block px-3 py-1 bg-orange-600 text-white text-xs font-semibold rounded-full mb-4 uppercase tracking-wide w-fit">JOIN CELIGIN CLUB</span>
+            <h3 class="text-2xl lg:text-3xl font-bold text-black mb-6">Become a Brand Ambassador</h3>
+            <a href="/join" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 w-fit text-sm" aria-label="Join CELIGIN Club to become a brand ambassador">
               Join Now
             </a>
           </div>
         </div>
 
-        <div class="relative overflow-hidden rounded-lg group cursor-pointer">
+        <div class="relative overflow-hidden group cursor-pointer">
           <img
             src="{{ asset('assets/frontend/images/cell-education-banner.png') }}"
             alt="Cell For Education - CELIGIN Skincare Products"
             class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
-          <div class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300"></div>
-          <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
-            <h3 class="text-2xl lg:text-3xl font-bold text-white mb-6">Cell For Education</h3>
-            <a href="/education" class="inline-flex items-center px-6 py-3 border-2 border-white text-white font-medium hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200" aria-label="Learn more about Cell For Education program">
+          <div class="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
+            <h3 class="text-2xl lg:text-3xl font-bold text-black">Cell For Education</h3>
+            <a href="/education" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm" aria-label="Learn more about Cell For Education program">
               Read More
             </a>
           </div>
