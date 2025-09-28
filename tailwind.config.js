@@ -12,6 +12,10 @@ export default {
   ],
   theme: {
     extend: {
+      // Font family
+      fontFamily: {
+        'sans': ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
       // CSS Variables mapped to Tailwind
       colors: {
         // Background colors

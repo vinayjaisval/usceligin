@@ -17,15 +17,15 @@
               <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-center lg:justify-end">
                   <div class="max-w-md text-center lg:text-left">
-                    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-black mb-4 leading-tight">
+                    <h1 class="text-4xl font-bold text-black mb-4 leading-tight">
                       Transform Your Skin<br />With Premium Skincare
                     </h2>
-                    <p id="slide-1-desc" class="text-sm sm:text-base lg:text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
+                    <p id="slide-1-desc" class="text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
                       Discover clinically proven formulas that deliver visible results. Get radiant, healthy skin with our award-winning products.
                     </p>
                     <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
                       <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-base"
                          aria-describedby="slide-1-desc">
                         Shop Now
                       </a>
@@ -55,15 +55,15 @@
               <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-center lg:justify-end">
                   <div class="max-w-md text-center lg:text-left">
-                    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-black mb-4 leading-tight">
+                    <h1 class="text-4xl font-bold text-black mb-4 leading-tight">
                       Limited Time Offer<br />Up to 50% Off
                     </h2>
-                    <p id="slide-2-desc" class="text-sm sm:text-base lg:text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
+                    <p id="slide-2-desc" class="text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
                       Don't miss out on our biggest sale of the year! Shop bestselling skincare products at unbeatable prices.
                     </p>
                     <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
                       <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-base"
                          aria-describedby="slide-2-desc">
                         Shop Now
                       </a>
@@ -93,15 +93,15 @@
               <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-center lg:justify-end">
                   <div class="max-w-md text-center lg:text-left">
-                    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-black mb-4 leading-tight">
+                    <h1 class="text-4xl font-bold text-black mb-4 leading-tight">
                       New Arrivals<br />Just Launched
                     </h2>
-                    <p id="slide-3-desc" class="text-sm sm:text-base lg:text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
+                    <p id="slide-3-desc" class="text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
                       Be the first to try our latest innovations. Fresh formulas, proven results, exclusively available now.
                     </p>
                     <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
                       <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-base"
                          aria-describedby="slide-3-desc">
                         Explore Collection
                       </a>
@@ -142,7 +142,7 @@
   <!-- Category Banners -->
   <section class="py-12 lg:py-16 bg-white" aria-labelledby="category-banners-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 id="category-banners-title" class="text-2xl lg:text-3xl font-bold text-gray-900 mb-8 lg:mb-12 text-center">Shop by Category</h2>
+      <h2 id="category-banners-title" class="text-3xl font-bold text-gray-900 mb-8 lg:mb-12 text-center">Shop by Category</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
           <a href="/products"
@@ -160,16 +160,16 @@
                 decoding="async"
                 class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
-                <header>
-                  <h3 class="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                <div>
+                  <h3 class="text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
                     New Arrivals
                   </h3>
-                  <p id="category-1-desc" class="text-xs sm:text-sm lg:text-base leading-relaxed text-gray-700">
+                  <p id="category-1-desc" class="text-base leading-relaxed text-gray-700">
                     Starting at ₹5500.00
                   </p>
-                </header>
-                <footer class="mt-auto">
-                  <span class="inline-flex items-center text-xs sm:text-sm lg:text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                </div>
+                <div class="mt-auto">
+                  <span class="inline-flex items-center text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
                     <span class="sr-only">Shop</span>
                     Shop Now
                     <svg
@@ -186,7 +186,7 @@
                       <polyline points="7,7 17,7 17,17"></polyline>
                     </svg>
                   </span>
-                </footer>
+                </div>
               </div>
             </div>
           </a>
@@ -208,16 +208,16 @@
                 decoding="async"
                 class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
-                <header>
-                  <h3 class="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                <div>
+                  <h3 class="text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
                     Best Sellers
                   </h3>
-                  <p id="category-2-desc" class="text-xs sm:text-sm lg:text-base leading-relaxed text-gray-700">
+                  <p id="category-2-desc" class="text-base leading-relaxed text-gray-700">
                     At ₹5500.00
                   </p>
-                </header>
-                <footer class="mt-auto">
-                  <span class="inline-flex items-center text-xs sm:text-sm lg:text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                </div>
+                <div class="mt-auto">
+                  <span class="inline-flex items-center text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
                     <span class="sr-only">Shop</span>
                     Shop Now
                     <svg
@@ -234,7 +234,7 @@
                       <polyline points="7,7 17,7 17,17"></polyline>
                     </svg>
                   </span>
-                </footer>
+                </div>
               </div>
             </div>
           </a>
@@ -256,16 +256,16 @@
                 decoding="async"
                 class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
-                <header>
-                  <h3 class="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                <div>
+                  <h3 class="text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
                     Hot Sale
                   </h3>
-                  <p id="category-3-desc" class="text-xs sm:text-sm lg:text-base leading-relaxed text-gray-700">
+                  <p id="category-3-desc" class="text-base leading-relaxed text-gray-700">
                     30% Off and Below - Don't Miss Out!
                   </p>
-                </header>
-                <footer class="mt-auto">
-                  <span class="inline-flex items-center text-xs sm:text-sm lg:text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                </div>
+                <div class="mt-auto">
+                  <span class="inline-flex items-center text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
                     <span class="sr-only">Discover</span>
                     Discover Now
                     <svg
@@ -282,7 +282,7 @@
                       <polyline points="7,7 17,7 17,17"></polyline>
                     </svg>
                   </span>
-                </footer>
+                </div>
               </div>
             </div>
           </a>
@@ -296,7 +296,7 @@
   <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="bestsellers-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
-        <h2 id="bestsellers-title" class="text-2xl lg:text-3xl font-bold text-gray-900">Our Bestsellers</h2>
+        <h2 id="bestsellers-title" class="text-3xl font-bold text-gray-900">Our Bestsellers</h2>
         <a href="{{ route('front.best-sellers') }}"
            class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
            aria-label="View all bestselling products">
@@ -350,7 +350,7 @@
                         }
                       @endphp
                       @foreach($productTags as $tag)
-                        <span class="inline-block px-2 py-1 {{ $tag['class'] }} text-white text-xs font-semibold mb-1 first:mb-0" role="status" aria-label="Product tag: {{ $tag['label'] }}">
+                        <span class="inline-block px-2 py-1 {{ $tag['class'] }} text-white text-sm font-semibold mb-1 first:mb-0" role="status" aria-label="Product tag: {{ $tag['label'] }}">
                           {{ $tag['label'] }}
                         </span>
                       @endforeach
@@ -358,12 +358,12 @@
                   </div>
                   <div class="p-3 sm:p-4">
                     <div class="mb-2">
-                      <span class="text-base sm:text-lg font-bold text-gray-900" itemprop="price">{{ $prod->showPrice() }}</span>
+                      <span class="text-base font-bold text-gray-900" itemprop="price">{{ $prod->showPrice() }}</span>
                       @if($prod->showPreviousPrice() && $prod->showPreviousPrice() != $prod->showPrice())
-                      <span class="text-xs sm:text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
+                      <span class="text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
                       @endif
                     </div>
-                    <h3 id="product-{{ $prod->id }}-desc" class="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2 leading-relaxed" itemprop="name" title="{{$prod->name}}">
+                    <h3 id="product-{{ $prod->id }}-desc" class="text-sm font-medium text-gray-900 line-clamp-2 leading-relaxed" itemprop="name" title="{{$prod->name}}">
                       {{ ucfirst(mb_strtolower($prod->showName())) }}
                     </h3>
                   </div>
@@ -371,7 +371,7 @@
                 <div class="px-3 sm:px-4 pb-3 sm:pb-4">
                   <div class="flex items-center space-x-2">
                     <a href="#"
-                       class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-orange-600 text-white text-xs sm:text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
+                       class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
                        data-id="{{ $prod->id }}"
                        role="button"
                        tabindex="0"
@@ -432,13 +432,13 @@
 
         <!-- Content Section (30% width on desktop) -->
         <div class="lg:col-span-3 flex flex-col justify-center p-6 lg:p-8">
-          <header class="mb-6">
+          <div class="mb-6">
             <div class="flex items-center justify-start mb-4">
               <span class="inline-block px-3 py-1 text-green-900 text-xs font-bold uppercase tracking-wide" role="status" aria-label="Special offer badge">Special Offer</span>
               <span class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-bold ml-2" role="status" aria-label="25 percent discount">-25%</span>
             </div>
 
-            <h2 id="special-offer-title" class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 leading-tight">
+            <h2 id="special-offer-title" class="text-3xl font-bold text-gray-900 mb-4 leading-tight">
               Celigin daily sun finish<br />
               (50ml) with coscor<br />
               1,000ppm
@@ -447,17 +447,17 @@
             <p class="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
               Experience superior sun protection with SPF 50+ and PA+++ in our SUNFINISH sunscreen.
             </p>
-          </header>
+          </div>
           
 
           <!-- CTA Button -->
-          <footer>
+          <div>
             <a href="{{ route('front.category') }}"
                class="inline-flex items-center justify-center w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                aria-label="Get special offer price of ₹39.00">
               Get Only ₹39.00
             </a>
-          </footer>
+          </div>
           </div>
         </div>
 
@@ -470,7 +470,7 @@
   <section class="py-12 lg:py-16 bg-red-50" aria-labelledby="hotdeals-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
-        <h2 id="hotdeals-title" class="text-2xl lg:text-3xl font-bold text-gray-900 flex items-center">
+        <h2 id="hotdeals-title" class="text-3xl font-bold text-gray-900 flex items-center">
           <span class="mr-3">🔥</span>Hot Deals
         </h2>
         <a href="{{ route('front.sales') }}"
@@ -513,11 +513,11 @@
                       itemprop="image"
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div class="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col space-y-1">
-                      <span class="inline-block px-2 py-1 bg-red-600 text-white text-xs font-semibold" role="status" aria-label="Product tag: Hot Deal">
+                      <span class="inline-block px-2 py-1 bg-red-600 text-white text-sm font-semibold" role="status" aria-label="Product tag: Hot Deal">
                         🔥 Hot
                       </span>
                       @if (round($prod->offPercentage() )>0)
-                      <span class="inline-block px-2 py-1 bg-orange-600 text-white text-xs font-semibold" role="status" aria-label="Discount: {{ round($prod->offPercentage() )}} percent off">
+                      <span class="inline-block px-2 py-1 bg-orange-600 text-white text-sm font-semibold" role="status" aria-label="Discount: {{ round($prod->offPercentage() )}} percent off">
                         -{{ round($prod->offPercentage() )}}%
                       </span>
                       @endif
@@ -527,10 +527,10 @@
                     <div class="mb-2">
                       <span class="text-base sm:text-lg font-bold text-red-600" itemprop="price">{{ $prod->showPrice() }}</span>
                       @if($prod->showPreviousPrice() && $prod->showPreviousPrice() != $prod->showPrice())
-                      <span class="text-xs sm:text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
+                      <span class="text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
                       @endif
                     </div>
-                    <h3 id="hotdeal-{{ $prod->id }}-desc" class="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2 leading-relaxed" itemprop="name" title="{{$prod->name}}">
+                    <h3 id="hotdeal-{{ $prod->id }}-desc" class="text-sm font-medium text-gray-900 line-clamp-2 leading-relaxed" itemprop="name" title="{{$prod->name}}">
                       {{ ucfirst(mb_strtolower($prod->showName())) }}
                     </h3>
                   </div>
@@ -538,7 +538,7 @@
                 <div class="px-3 sm:px-4 pb-3 sm:pb-4">
                   <div class="flex items-center space-x-2">
                     <a href="#"
-                       class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-red-600 text-white text-xs sm:text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
+                       class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-red-600 text-white text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
                        data-id="{{ $prod->id }}"
                        role="button"
                        tabindex="0"
@@ -596,7 +596,7 @@
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
           </div>
-          <h2 id="instagram-title" class="text-2xl lg:text-3xl font-bold text-gray-900">Instagram Feed</h2>
+          <h2 id="instagram-title" class="text-3xl font-bold text-gray-900">Instagram Feed</h2>
         </div>
         <a href="#" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group">
           View all feeds
@@ -781,8 +781,8 @@
             alt="Join CELIGIN Club - Become a Brand Ambassador"
             class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
           <div class="absolute inset-y-0 left-0 w-1/2 flex flex-col justify-center text-left p-6">
-            <span class="inline-block px-3 py-1 bg-orange-600 text-white text-xs font-semibold rounded-full mb-4 uppercase tracking-wide w-fit">JOIN CELIGIN CLUB</span>
-            <h3 class="text-2xl lg:text-3xl font-bold text-black mb-6">Become a Brand Ambassador</h3>
+            <span class="inline-block px-3 py-1 bg-orange-600 text-white text-sm font-semibold rounded-full mb-4 uppercase tracking-wide w-fit">JOIN CELIGIN CLUB</span>
+            <h3 class="text-2xl font-bold text-black mb-6">Become a Brand Ambassador</h3>
             <a href="/join" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 w-fit text-sm" aria-label="Join CELIGIN Club to become a brand ambassador">
               Join Now
             </a>
@@ -795,7 +795,7 @@
             alt="Cell For Education - CELIGIN Skincare Products"
             class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
           <div class="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
-            <h3 class="text-2xl lg:text-3xl font-bold text-black">Cell For Education</h3>
+            <h3 class="text-2xl font-bold text-black">Cell For Education</h3>
             <a href="/education" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm" aria-label="Learn more about Cell For Education program">
               Read More
             </a>
@@ -810,7 +810,7 @@
   <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="blog-title">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-8 lg:mb-12">
-        <h2 id="blog-title" class="text-2xl lg:text-3xl font-bold text-gray-900">Blog</h2>
+        <h2 id="blog-title" class="text-3xl font-bold text-gray-900">Blog</h2>
         <a href="/blog" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group">
           View all posts
           <svg
