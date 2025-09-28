@@ -25,7 +25,7 @@
                     </p>
                     <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
                       <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                          aria-describedby="slide-1-desc">
                         Shop Now
                       </a>
@@ -63,7 +63,7 @@
                     </p>
                     <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
                       <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                          aria-describedby="slide-2-desc">
                         Shop Now
                       </a>
@@ -101,7 +101,7 @@
                     </p>
                     <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
                       <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                          aria-describedby="slide-3-desc">
                         Explore Collection
                       </a>
@@ -414,13 +414,13 @@
   <!-- Special Offer Banner -->
   <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="special-offer-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+      <div class="grid grid-cols-1 lg:grid-cols-10 gap-6 lg:gap-8 items-stretch">
 
-        <!-- Banner Image -->
-        <div class="lg:col-span-1">
+        <!-- Banner Image (70% width on desktop) -->
+        <div class="lg:col-span-7">
           <div class="relative h-64 sm:h-80 lg:h-full min-h-[300px] overflow-hidden">
             <img
-              src="{{asset('assets/frontend/images/special-sale.png')}}"
+              src="{{ asset('assets/frontend/images/special-sale.png') }}"
               alt="Celigin daily sun finish sunscreen with natural ingredients"
               width="400"
               height="500"
@@ -430,11 +430,11 @@
           </div>
         </div>
 
-        <!-- Content Section -->
-        <div class="lg:col-span-1 flex flex-col justify-center p-6 lg:p-8">
+        <!-- Content Section (30% width on desktop) -->
+        <div class="lg:col-span-3 flex flex-col justify-center p-6 lg:p-8">
           <header class="mb-6">
             <div class="flex items-center justify-start mb-4">
-              <span class="inline-block px-3 py-1 bg-green-600 text-white text-xs font-bold uppercase tracking-wide" role="status" aria-label="Special offer badge">Special Offer</span>
+              <span class="inline-block px-3 py-1 text-green-900 text-xs font-bold uppercase tracking-wide" role="status" aria-label="Special offer badge">Special Offer</span>
               <span class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-bold ml-2" role="status" aria-label="25 percent discount">-25%</span>
             </div>
 
@@ -448,33 +448,17 @@
               Experience superior sun protection with SPF 50+ and PA+++ in our SUNFINISH sunscreen.
             </p>
           </header>
-
-          <!-- Countdown Timer -->
-          <div class="mb-6" role="timer" aria-label="Special offer countdown timer">
-            <div class="flex items-center justify-start space-x-2 text-green-600 font-bold text-lg sm:text-xl lg:text-2xl">
-              <div class="text-center">
-                <span class="block">10</span>
-              </div>
-              <span class="text-green-600">D :</span>
-              <div class="text-center">
-                <span class="block">20</span>
-              </div>
-              <span class="text-green-600">M :</span>
-              <div class="text-center">
-                <span class="block">30</span>
-              </div>
-              <span class="text-green-600">S</span>
-            </div>
-          </div>
+          
 
           <!-- CTA Button -->
           <footer>
             <a href="{{ route('front.category') }}"
-               class="inline-block w-full sm:w-auto px-6 py-3 bg-black text-white font-bold text-sm sm:text-base text-center hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200"
+               class="inline-flex items-center justify-center w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                aria-label="Get special offer price of ₹39.00">
               Get Only ₹39.00
             </a>
           </footer>
+          </div>
         </div>
 
       </div>
@@ -786,6 +770,7 @@
       </div>
     </div>
   </section>
+  
   <!-- Join CELIGIN Banner -->
   <section class="py-12 lg:py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -799,7 +784,7 @@
           <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
             <span class="inline-block px-3 py-1 bg-orange-600 text-white text-xs font-semibold rounded-full mb-4 uppercase tracking-wide">JOIN CELIGIN CLUB</span>
             <h3 class="text-2xl lg:text-3xl font-bold text-white mb-6">Become a Brand Ambassador</h3>
-            <a href="/join" class="inline-flex items-center px-6 py-3 bg-white text-gray-900 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200" aria-label="Join CELIGIN Club to become a brand ambassador">
+            <a href="/join" class="inline-flex items-center px-6 py-3 bg-white text-gray-900 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200" aria-label="Join CELIGIN Club to become a brand ambassador">
               Join Now
             </a>
           </div>
@@ -813,7 +798,7 @@
           <div class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300"></div>
           <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
             <h3 class="text-2xl lg:text-3xl font-bold text-white mb-6">Cell For Education</h3>
-            <a href="/education" class="inline-flex items-center px-6 py-3 border-2 border-white text-white font-medium rounded-md hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200" aria-label="Learn more about Cell For Education program">
+            <a href="/education" class="inline-flex items-center px-6 py-3 border-2 border-white text-white font-medium hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200" aria-label="Learn more about Cell For Education program">
               Read More
             </a>
           </div>
