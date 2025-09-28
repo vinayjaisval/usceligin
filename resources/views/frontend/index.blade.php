@@ -4,163 +4,285 @@
 <!-- Main Content -->
 <main id="main-content" role="main">
   <!-- Hero Carousel -->
-
-
-
-  @if($ps->slider == 1)
-  <section class="relative overflow-hidden bg-gray-100" aria-label="Featured products and offers">
+  <section class="relative overflow-hidden" aria-label="Featured products and offers" role="region">
     <div class="max-w-7xl mx-auto">
-      <div class="hero-swiper swiper">
+      <div class="hero-swiper swiper" role="group" aria-roledescription="carousel" aria-label="Product showcase carousel">
         <div class="swiper-wrapper">
-          @foreach($sliders as $data)
-          <div class="swiper-slide">
-            <div class="relative h-[500px] lg:h-[600px] flex items-center">
-              <div class="absolute inset-0">
-                <img
-                  src="{{asset('assets/images/sliders/'.$data->photo)}}"
-                  alt="Hero background - {{$data->title_text}}"
-                  class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-              </div>
-              <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
-                <div class="max-w-2xl">
-                  <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                    {{$data->subtitle_text}},<br />{{$data->title_text}}
-                  </h2>
-                  <p class="text-lg lg:text-xl text-white opacity-90 mb-8 leading-relaxed">
-                    {{$data->details_text}}
-                  </p>
-                  <a href="{{$data->link}}" class="inline-flex items-center px-8 py-4 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-lg">
-                    Shop Now
-                  </a>
-                  <div class="flex items-center justify-center lg:justify-start space-x-4 mt-8">
-                    <img
-                      src="{{asset('assets/frontend/images/peta-banner.png')}}"
-                      alt="Peta badge"
-                      class="h-12 w-auto opacity-90" />
-                    <img
-                      src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
-                      alt="CPNP badge"
-                      class="h-12 w-auto opacity-90" />
+          <!-- Slide 1 -->
+          <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
+            <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] flex items-center bg-cover bg-center bg-no-repeat"
+                 style="background-image: url('{{asset('assets/frontend/images/carousel-bg-1.png')}}')"
+                 role="img"
+                 aria-label="Woman with glowing skin representing premium skincare">
+              <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-center lg:justify-end">
+                  <div class="max-w-md text-center lg:text-left">
+                    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-black mb-4 leading-tight">
+                      Transform Your Skin<br />With Premium Skincare
+                    </h2>
+                    <p id="slide-1-desc" class="text-sm sm:text-base lg:text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
+                      Discover clinically proven formulas that deliver visible results. Get radiant, healthy skin with our award-winning products.
+                    </p>
+                    <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
+                      <a href="/products"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         aria-describedby="slide-1-desc">
+                        Shop Now
+                      </a>
+                    </div>
+                    <div class="flex items-center justify-center lg:justify-start space-x-4" role="group" aria-label="Certification badges">
+                      <img
+                        src="{{asset('assets/frontend/images/peta-banner.png')}}"
+                        alt="PETA Certified - Cruelty-free products"
+                        class="h-8 sm:h-10 lg:h-12 w-auto" />
+                      <img
+                        src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
+                        alt="CPNP Registered - EU compliant cosmetics"
+                        class="h-8 sm:h-10 lg:h-12 w-auto" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          @endforeach
+          </article>
+
+          <!-- Slide 2 -->
+          <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="2 of 3">
+            <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] flex items-center bg-cover bg-center bg-no-repeat"
+                 style="background-image: url('{{asset('assets/frontend/images/carousel-bg-2.png')}}')"
+                 role="img"
+                 aria-label="Happy women enjoying skincare together">
+              <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-center lg:justify-end">
+                  <div class="max-w-md text-center lg:text-left">
+                    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-black mb-4 leading-tight">
+                      Limited Time Offer<br />Up to 50% Off
+                    </h2>
+                    <p id="slide-2-desc" class="text-sm sm:text-base lg:text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
+                      Don't miss out on our biggest sale of the year! Shop bestselling skincare products at unbeatable prices.
+                    </p>
+                    <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
+                      <a href="/products"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         aria-describedby="slide-2-desc">
+                        Shop Now
+                      </a>
+                    </div>
+                    <div class="flex items-center justify-center lg:justify-start space-x-4" role="group" aria-label="Certification badges">
+                      <img
+                        src="{{asset('assets/frontend/images/peta-banner.png')}}"
+                        alt="PETA Certified - Cruelty-free products"
+                        class="h-8 sm:h-10 lg:h-12 w-auto" />
+                      <img
+                        src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
+                        alt="CPNP Registered - EU compliant cosmetics"
+                        class="h-8 sm:h-10 lg:h-12 w-auto" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Slide 3 -->
+          <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="3 of 3">
+            <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] flex items-center bg-cover bg-center bg-no-repeat"
+                 style="background-image: url('{{asset('assets/frontend/images/carousel-bg-3.png')}}')"
+                 role="img"
+                 aria-label="New skincare products showcasing latest innovations">
+              <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-center lg:justify-end">
+                  <div class="max-w-md text-center lg:text-left">
+                    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-black mb-4 leading-tight">
+                      New Arrivals<br />Just Launched
+                    </h2>
+                    <p id="slide-3-desc" class="text-sm sm:text-base lg:text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
+                      Be the first to try our latest innovations. Fresh formulas, proven results, exclusively available now.
+                    </p>
+                    <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
+                      <a href="/products"
+                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                         aria-describedby="slide-3-desc">
+                        Explore Collection
+                      </a>
+                    </div>
+                    <div class="flex items-center justify-center lg:justify-start space-x-4" role="group" aria-label="Certification badges">
+                      <img
+                        src="{{asset('assets/frontend/images/peta-banner.png')}}"
+                        alt="PETA Certified - Cruelty-free products"
+                        class="h-8 sm:h-10 lg:h-12 w-auto" />
+                      <img
+                        src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
+                        alt="CPNP Registered - EU compliant cosmetics"
+                        class="h-8 sm:h-10 lg:h-12 w-auto" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
 
         <!-- Navigation arrows -->
-        <div class="swiper-button-next hero-nav-next !text-white !w-12 !h-12 !mt-0 !top-1/2 !-translate-y-1/2 !right-4 lg:!right-8 after:!text-2xl !bg-black !bg-opacity-30 !rounded-full hover:!bg-opacity-50 !transition-all !duration-200" aria-label="Next slide"></div>
-        <div class="swiper-button-prev hero-nav-prev !text-white !w-12 !h-12 !mt-0 !top-1/2 !-translate-y-1/2 !left-4 lg:!left-8 after:!text-2xl !bg-black !bg-opacity-30 !rounded-full hover:!bg-opacity-50 !transition-all !duration-200" aria-label="Previous slide"></div>
+        <button class="swiper-button-next hero-nav-next !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !right-2 sm:!right-4 lg:!right-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-full hover:!bg-opacity-100 !transition-all !duration-200"
+                aria-label="Next slide"
+                type="button"></button>
+        <button class="swiper-button-prev hero-nav-prev !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !left-2 sm:!left-4 lg:!left-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-full hover:!bg-opacity-100 !transition-all !duration-200"
+                aria-label="Previous slide"
+                type="button"></button>
 
         <!-- Pagination dots -->
-        <div class="swiper-pagination hero-pagination !bottom-6 !left-1/2 !transform !-translate-x-1/2"></div>
+        <div class="swiper-pagination hero-pagination !bottom-4 sm:!bottom-6 !left-1/2 !transform !-translate-x-1/2"
+             role="tablist"
+             aria-label="Slide navigation"></div>
       </div>
     </div>
   </section>
-  @endif
+
   <!-- Category Banners -->
-  <section class="py-12 lg:py-16 bg-white" aria-label="Shop by category">
+  <section class="py-12 lg:py-16 bg-white" aria-labelledby="category-banners-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-        <article class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
-          <a href="{{$arrivals[0]['url']}}" class="block">
-            <div class="aspect-w-1 aspect-h-1 overflow-hidden">
+      <h2 id="category-banners-title" class="text-2xl lg:text-3xl font-bold text-gray-900 mb-8 lg:mb-12 text-center">Shop by Category</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+          <a href="/products"
+             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+             aria-describedby="category-1-desc"
+             role="button"
+             tabindex="0">
+            <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
               <img
-                src="{{asset('assets/images/arrival/'.$arrivals[0]['photo'])}}"
-                alt="New arrivals collection"
+                src="{{asset('assets/frontend/images/main-banner-1.png')}}"
+                alt="New arrivals premium skincare collection"
                 width="450"
                 height="450"
-                class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
-            </div>
-            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
-            <div class="absolute inset-0 flex flex-col justify-end p-6">
-              <div class="text-white">
-                <h3 class="text-xl lg:text-2xl font-bold mb-2">{{$arrivals[0]['title']}}</h3>
-                <p class="text-sm opacity-90 mb-4">{{$arrivals[0]['up_sale']}}</p>
-                <span class="inline-flex items-center text-sm font-medium group-hover:translate-x-1 transition-transform duration-200">
-                  Shop Now
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    class="ml-2 w-4 h-4">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7,7 17,7 17,17"></polyline>
-                  </svg>
-                </span>
+                loading="lazy"
+                decoding="async"
+                class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
+                <header>
+                  <h3 class="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                    New Arrivals
+                  </h3>
+                  <p id="category-1-desc" class="text-xs sm:text-sm lg:text-base leading-relaxed text-gray-700">
+                    Starting at ₹5500.00
+                  </p>
+                </header>
+                <footer class="mt-auto">
+                  <span class="inline-flex items-center text-xs sm:text-sm lg:text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                    <span class="sr-only">Shop</span>
+                    Shop Now
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4"
+                      aria-hidden="true"
+                      focusable="false">
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7,7 17,7 17,17"></polyline>
+                    </svg>
+                  </span>
+                </footer>
               </div>
             </div>
           </a>
         </article>
 
-        <article class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
-          <a href="{{$arrivals[1]['url']}}" class="block">
-            <div class="aspect-w-1 aspect-h-1 overflow-hidden">
+        <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+          <a href="/products"
+             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+             aria-describedby="category-2-desc"
+             role="button"
+             tabindex="0">
+            <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
               <img
-                src="{{asset('assets/images/arrival/'.$arrivals[1]['photo'])}}"
-                alt="Best selling products"
+                src="{{asset('assets/frontend/images/main-banner-2.png')}}"
+                alt="Best selling gentle cleansing collection"
                 width="450"
                 height="450"
-                class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
-            </div>
-            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
-            <div class="absolute inset-0 flex flex-col justify-end p-6">
-              <div class="text-white">
-                <h3 class="text-xl lg:text-2xl font-bold mb-2">{{$arrivals[1]['title']}}</h3>
-                <p class="text-sm opacity-90 mb-4">{{$arrivals[1]['up_sale']}}</p>
-                <span class="inline-flex items-center text-sm font-medium group-hover:translate-x-1 transition-transform duration-200">
-                  Shop Now
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    class="ml-2 w-4 h-4">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7,7 17,7 17,17"></polyline>
-                  </svg>
-                </span>
+                loading="lazy"
+                decoding="async"
+                class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
+                <header>
+                  <h3 class="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                    Best Sellers
+                  </h3>
+                  <p id="category-2-desc" class="text-xs sm:text-sm lg:text-base leading-relaxed text-gray-700">
+                    At ₹5500.00
+                  </p>
+                </header>
+                <footer class="mt-auto">
+                  <span class="inline-flex items-center text-xs sm:text-sm lg:text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                    <span class="sr-only">Shop</span>
+                    Shop Now
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4"
+                      aria-hidden="true"
+                      focusable="false">
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7,7 17,7 17,17"></polyline>
+                    </svg>
+                  </span>
+                </footer>
               </div>
             </div>
           </a>
         </article>
 
-        <article class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
-          <a href="{{$arrivals[2]['url']}}" class="block">
-            <div class="aspect-w-1 aspect-h-1 overflow-hidden">
+        <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+          <a href="/products"
+             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+             aria-describedby="category-3-desc"
+             role="button"
+             tabindex="0">
+            <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
               <img
-                src="{{asset('assets/images/arrival/'.$arrivals[2]['photo'])}}"
-                alt="First time buyer offers"
+                src="{{asset('assets/frontend/images/main-banner-3.png')}}"
+                alt="First time buyer special discount collection"
                 width="450"
                 height="450"
-                class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
-            </div>
-            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
-            <div class="absolute inset-0 flex flex-col justify-end p-6">
-              <div class="text-white">
-                <h3 class="text-xl lg:text-2xl font-bold mb-2">{{$arrivals[2]['title']}}</h3>
-                <p class="text-sm opacity-90 mb-4">{{$arrivals[2]['up_sale']}}</p>
-                <span class="inline-flex items-center text-sm font-medium group-hover:translate-x-1 transition-transform duration-200">
-                  Discover Now
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    class="ml-2 w-4 h-4">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7,7 17,7 17,17"></polyline>
-                  </svg>
-                </span>
+                loading="lazy"
+                decoding="async"
+                class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
+                <header>
+                  <h3 class="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                    First Time Buyer
+                  </h3>
+                  <p id="category-3-desc" class="text-xs sm:text-sm lg:text-base leading-relaxed text-gray-700">
+                    Get 10% Discount
+                  </p>
+                </header>
+                <footer class="mt-auto">
+                  <span class="inline-flex items-center text-xs sm:text-sm lg:text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                    <span class="sr-only">Discover</span>
+                    Discover Now
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4"
+                      aria-hidden="true"
+                      focusable="false">
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7,7 17,7 17,17"></polyline>
+                    </svg>
+                  </span>
+                </footer>
               </div>
             </div>
           </a>
