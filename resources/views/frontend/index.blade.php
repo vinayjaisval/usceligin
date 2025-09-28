@@ -680,55 +680,255 @@
     const csrfToken = '{{ csrf_token() }}'; // Store once, use multiple times
 
     // Utility function to handle fetch requests
-    function handleAction(url, successCallback) {
+    function handleAction(url, successCallback, errorCallback) {
+      // Show loading state
+      const loadingToast = toastr.info('Processing...', '', { timeOut: 0, closeButton: false });
+
       fetch(url, {
         method: 'GET',
         headers: {
-          'X-CSRF-TOKEN': csrfToken
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         }
       })
-        .then(res => res.json())
+        .then(response => {
+          // Clear loading toast
+          toastr.clear(loadingToast);
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
         .then(data => {
           if (data.success) {
-            toastr.success(data.message || 'Success');
-            successCallback(data);
+            toastr.success(data.message || 'Action completed successfully!');
+            if (typeof successCallback === 'function') {
+              successCallback(data);
+            }
           } else {
-            toastr.warning(data.message || 'Something went wrong.');
+            toastr.warning(data.message || 'Something went wrong. Please try again.');
+            if (typeof errorCallback === 'function') {
+              errorCallback(data);
+            }
           }
         })
         .catch(error => {
+          // Clear loading toast
+          toastr.clear(loadingToast);
+
           console.error('Request Error:', error);
-          toastr.error('Unexpected error occurred.');
+          toastr.error('Network error occurred. Please check your connection and try again.');
+
+          if (typeof errorCallback === 'function') {
+            errorCallback({ error: error.message });
+          }
         });
     }
 
-    // Add to Cart
-    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-      button.addEventListener('click', function (e) {
+    // Event delegation for Add to Cart buttons (works with dynamic content)
+    document.addEventListener('click', function(e) {
+      // Handle Add to Cart buttons
+      if (e.target.closest('.add-to-cart-btn')) {
         e.preventDefault();
-        const productId = this.dataset.id;
-        handleAction(`/celiginus/addcart/${productId}`, data => {
-          if (data.cart_count !== undefined) {
-            document.getElementById('cart-count').innerText = data.cart_count;
+
+        const button = e.target.closest('.add-to-cart-btn');
+        const productId = button.dataset.id;
+
+        if (!productId) {
+          toastr.error('Product ID not found. Please try again.');
+          return;
+        }
+
+        // Disable button during request
+        button.disabled = true;
+        button.style.opacity = '0.6';
+
+        handleAction(
+          `/celiginus/addcart/${productId}`,
+          // Success callback
+          function(data) {
+            if (data.cart_count !== undefined) {
+              updateCartCount(data.cart_count);
+            }
+            // Re-enable button
+            button.disabled = false;
+            button.style.opacity = '1';
+          },
+          // Error callback
+          function(data) {
+            // Re-enable button on error
+            button.disabled = false;
+            button.style.opacity = '1';
           }
-        });
-      });
+        );
+      }
+
+      // Handle Add to Wishlist buttons
+      if (e.target.closest('.add-wishlist-btn')) {
+        e.preventDefault();
+
+        const button = e.target.closest('.add-wishlist-btn');
+        const productId = button.dataset.id;
+
+        if (!productId) {
+          toastr.error('Product ID not found. Please try again.');
+          return;
+        }
+
+        // Disable button during request
+        button.disabled = true;
+        button.style.opacity = '0.6';
+
+        handleAction(
+          `/celiginus/addwishlist/${productId}`,
+          // Success callback
+          function(data) {
+            if (data.wishlist_count !== undefined) {
+              updateWishlistCount(data.wishlist_count);
+            }
+
+            // Optional: Change heart icon to filled state
+            const heartIcon = button.querySelector('svg path');
+            if (heartIcon) {
+              heartIcon.setAttribute('fill', 'currentColor');
+              button.classList.add('text-red-500');
+              button.classList.remove('text-gray-400');
+            }
+
+            // Re-enable button
+            button.disabled = false;
+            button.style.opacity = '1';
+          },
+          // Error callback
+          function(data) {
+            // Re-enable button on error
+            button.disabled = false;
+            button.style.opacity = '1';
+          }
+        );
+      }
     });
 
-    // Add to Wishlist
-    document.querySelectorAll('.add-wishlist-btn').forEach(button => {
-      button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const productId = this.dataset.id;
-        handleAction(`/celiginus/addwishlist/${productId}`, data => {
-          if (data.wishlist_count !== undefined) {
-            document.getElementById('wishlist-count').innerText = data.wishlist_count;
-          }
-        });
-      });
-    });
+    // Initialize Swiper carousels after DOM is ready
+    setTimeout(function() {
+      initializeCarousels();
+    }, 100);
 
   });
+
+  // Initialize carousel functionality
+  function initializeCarousels() {
+    // Bestsellers Swiper
+    if (document.querySelector('.bestseller-swiper')) {
+      new Swiper('.bestseller-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        navigation: {
+          nextEl: '.bestseller-nav-next',
+          prevEl: '.bestseller-nav-prev',
+        },
+        breakpoints: {
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 24,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 24,
+          },
+        },
+        loop: true,
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        }
+      });
+    }
+
+    // Hot Deals Swiper
+    if (document.querySelector('.hotdeals-swiper')) {
+      new Swiper('.hotdeals-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        navigation: {
+          nextEl: '.hotdeals-nav-next',
+          prevEl: '.hotdeals-nav-prev',
+        },
+        breakpoints: {
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 24,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 24,
+          },
+        },
+        loop: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        }
+      });
+    }
+
+    // Hero Swiper
+    if (document.querySelector('.hero-swiper')) {
+      new Swiper('.hero-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        navigation: {
+          nextEl: '.hero-nav-next',
+          prevEl: '.hero-nav-prev',
+        },
+        pagination: {
+          el: '.hero-pagination',
+          clickable: true,
+        },
+        loop: true,
+        autoplay: {
+          delay: 6000,
+          disableOnInteraction: false,
+        },
+        effect: 'fade',
+        fadeEffect: {
+          crossFade: true
+        }
+      });
+    }
+  }
+
+  // Utility function to safely update cart count (defined globally)
+  if (typeof window.updateCartCount === 'undefined') {
+    window.updateCartCount = function(count) {
+      const cartCountElement = document.getElementById('cart-count');
+      if (cartCountElement) {
+        cartCountElement.textContent = count;
+        cartCountElement.setAttribute('aria-label', `${count} items in cart`);
+      }
+    };
+  }
+
+  // Utility function to safely update wishlist count (defined globally)
+  if (typeof window.updateWishlistCount === 'undefined') {
+    window.updateWishlistCount = function(count) {
+      const wishlistCountElement = document.getElementById('wishlist-count');
+      if (wishlistCountElement) {
+        wishlistCountElement.textContent = count;
+        wishlistCountElement.setAttribute('aria-label', `${count} items in wishlist`);
+      }
+    };
+  }
 </script>
 
 @endSection

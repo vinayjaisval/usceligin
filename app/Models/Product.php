@@ -114,7 +114,7 @@ class Product extends Model
 
         // Attribute Section
 
-        $attributes = $this->attributes["attributes"];
+        $attributes = $this->attributes["attributes"] ?? null;
         if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
@@ -177,7 +177,7 @@ class Product extends Model
 
         // Attribute Section
 
-        $attributes = $this->attributes["attributes"];
+        $attributes = $this->attributes["attributes"] ?? null;
         if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
@@ -234,7 +234,7 @@ class Product extends Model
 
         // Attribute Section
 
-        $attributes = $this->attributes["attributes"];
+        $attributes = $this->attributes["attributes"] ?? null;
         if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
@@ -284,7 +284,7 @@ class Product extends Model
 
         // Attribute Section
 
-        $attributes = $this->attributes["attributes"];
+        $attributes = $this->attributes["attributes"] ?? null;
         if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
@@ -526,7 +526,7 @@ class Product extends Model
 
         // Attribute Section
 
-        $attributes = $this->attributes["attributes"];
+        $attributes = $this->attributes["attributes"] ?? null;
         if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
@@ -611,7 +611,7 @@ class Product extends Model
 
         // Attribute Section
 
-        $attributes = $this->attributes["attributes"];
+        $attributes = $this->attributes["attributes"] ?? null;
         if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
@@ -660,7 +660,7 @@ class Product extends Model
 
         // Attribute Section
 
-        $attributes = $this->attributes["attributes"];
+        $attributes = $this->attributes["attributes"] ?? null;
         if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
@@ -717,7 +717,7 @@ class Product extends Model
 
         // Attribute Section
 
-        $attributes = $this->attributes["attributes"];
+        $attributes = $this->attributes["attributes"] ?? null;
         if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
