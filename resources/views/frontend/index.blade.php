@@ -412,46 +412,71 @@
 
   @if($ps->deal_of_the_day==1)
   <!-- Special Offer Banner -->
-  <section class="py-12 lg:py-16 bg-gradient-to-br from-orange-50 to-yellow-50" aria-labelledby="special-offer-title">
+  <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="special-offer-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-        <div class="order-2 lg:order-1">
-          <img
-            src="{{ $gs->deal_background ? asset('assets/images/'.$gs->deal_background):asset('assets/images/noimage.png') }}"
-            alt="{{ $gs->deal_title }} - Special offer product"
-            width="400"
-            height="600"
-            class="w-full h-auto max-w-md mx-auto lg:mx-0 rounded-lg shadow-lg" />
-        </div>
-        <div class="order-1 lg:order-2 text-center lg:text-left">
-          <div class="flex items-center justify-center lg:justify-start space-x-3 mb-6">
-            <span class="inline-block px-4 py-2 bg-orange-600 text-white text-sm font-bold uppercase tracking-wide rounded-full">Special Offer</span>
-            <span class="inline-block px-4 py-2 bg-red-600 text-white text-lg font-bold rounded-full">-25%</span>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+
+        <!-- Banner Image -->
+        <div class="lg:col-span-1">
+          <div class="relative h-64 sm:h-80 lg:h-full min-h-[300px] overflow-hidden">
+            <img
+              src="{{asset('assets/frontend/images/special-sale.png')}}"
+              alt="Celigin daily sun finish sunscreen with natural ingredients"
+              width="400"
+              height="500"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-full object-cover" />
           </div>
+        </div>
 
-          <h2 id="special-offer-title" class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{{ $gs->deal_title }}</h2>
+        <!-- Content Section -->
+        <div class="lg:col-span-1 flex flex-col justify-center p-6 lg:p-8">
+          <header class="mb-6">
+            <div class="flex items-center justify-start mb-4">
+              <span class="inline-block px-3 py-1 bg-green-600 text-white text-xs font-bold uppercase tracking-wide" role="status" aria-label="Special offer badge">Special Offer</span>
+              <span class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-bold ml-2" role="status" aria-label="25 percent discount">-25%</span>
+            </div>
 
-          <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-            {{ $gs->deal_details }}
-          </p>
+            <h2 id="special-offer-title" class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 leading-tight">
+              Celigin daily sun finish<br />
+              (50ml) with coscor<br />
+              1,000ppm
+            </h2>
 
-          <div class="mb-8" aria-label="Special offer countdown timer">
-            <div class="inline-flex items-center justify-center bg-white rounded-lg shadow-md px-6 py-4">
+            <p class="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
+              Experience superior sun protection with SPF 50+ and PA+++ in our SUNFINISH sunscreen.
+            </p>
+          </header>
+
+          <!-- Countdown Timer -->
+          <div class="mb-6" role="timer" aria-label="Special offer countdown timer">
+            <div class="flex items-center justify-start space-x-2 text-green-600 font-bold text-lg sm:text-xl lg:text-2xl">
               <div class="text-center">
-                <span class="block text-3xl font-bold text-orange-600">{{ $gs->deal_time }}</span>
-                <span class="text-sm text-gray-500 uppercase tracking-wide">Days Left</span>
+                <span class="block">10</span>
               </div>
+              <span class="text-green-600">D :</span>
+              <div class="text-center">
+                <span class="block">20</span>
+              </div>
+              <span class="text-green-600">M :</span>
+              <div class="text-center">
+                <span class="block">30</span>
+              </div>
+              <span class="text-green-600">S</span>
             </div>
           </div>
 
-          <a href="{{ route('front.category') }}" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold text-lg rounded-lg hover:from-orange-700 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            Get Only ₹39.00
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7,7 17,7 17,17"></polyline>
-            </svg>
-          </a>
+          <!-- CTA Button -->
+          <footer>
+            <a href="{{ route('front.category') }}"
+               class="inline-block w-full sm:w-auto px-6 py-3 bg-black text-white font-bold text-sm sm:text-base text-center hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200"
+               aria-label="Get special offer price of ₹39.00">
+              Get Only ₹39.00
+            </a>
+          </footer>
         </div>
+
       </div>
     </div>
   </section>
