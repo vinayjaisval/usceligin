@@ -12,9 +12,7 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   <!-- SwiperJS CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Plus Jakarta Sans font is now loaded via styles.css -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
   <!-- Toastify CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -43,7 +41,7 @@
             <strong>10% off for new customers</strong>
           </p>
           <button
-            class="px-2 py-1 bg-white text-orange-600 font-bold text-xs rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-orange-600 transition-colors duration-200 flex-shrink-0"
+            class="px-2 py-1 bg-white text-orange-600 font-bold text-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-orange-600 transition-colors duration-200 flex-shrink-0"
             data-code="{{ $available_coupons[0]->code }}" onclick="copyPromoCode(this)"
             aria-label="Copy promo code {{ $available_coupons[0]->code }}" title="Click to copy promo code">
             {{ $available_coupons[0]->code }}
@@ -74,9 +72,9 @@
         <div class="flex justify-start">
           <div class="hidden lg:block w-full max-w-xs">
             <form role="search" aria-label="Site search" onsubmit="return false;" class="relative">
-              <input type="search" id="search-input" placeholder="Search products..." aria-label="Search for products"
+              <input type="search" id="search-input" placeholder="Find your perfect skincare..." aria-label="Search for products"
                 aria-expanded="false" aria-owns="search-dropdown" autocomplete="off"
-                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500" />
+                class="w-full pl-10 pr-4 py-2 border border-gray-300 text-base text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200" />
               <button type="button" aria-label="Submit search" id="search-btn"
                 class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -87,8 +85,8 @@
 
               <!-- Search Dropdown -->
               <div
-                class="search-dropdown absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg hidden z-50"
-                id="search-dropdown" role="listbox" aria-label="Search suggestions">
+                class="search-dropdown absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 shadow-lg hidden z-50"
+                id="search-dropdown" role="listbox" aria-label="Search suggestions" aria-live="polite">
                 <div class="search-suggestions-list" id="search-suggestions-list"></div>
               </div>
             </form>
@@ -96,7 +94,7 @@
 
           <!-- Mobile: Account Button (shows on left on mobile) -->
           <a href="{{ route('sign-in') }}"
-            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
+            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="My account">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -117,7 +115,7 @@
         <div class="flex items-center justify-end space-x-2 lg:space-x-3">
           <!-- Mobile Search Button -->
           <button
-            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
+            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="Open search">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"></circle>
@@ -127,7 +125,7 @@
 
           <!-- Desktop Account (hidden on mobile) -->
           <a href="{{ route('sign-in') }}"
-            class="hidden lg:block p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
+            class="hidden lg:block p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="My account">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -137,7 +135,7 @@
 
           <!-- Wishlist -->
           <a href="{{ route('front.wishlist') }}"
-            class="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
+            class="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="Wishlist">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path
@@ -145,7 +143,7 @@
               </path>
             </svg>
             <span id="wishlist-count"
-              class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              class="absolute -top-1 -right-1 bg-orange-600 text-white text-sm h-5 w-5 flex items-center justify-center"
               aria-label="{{ Session::has('wishlist') ? count(Session::get('wishlist')) : '0' }} items in wishlist">
               {{ Session::has('wishlist') ? count(Session::get('wishlist')) : '0' }}
             </span>
@@ -153,14 +151,14 @@
 
           <!-- Cart -->
           <a href="{{ route('front.cart') }}"
-            class="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
+            class="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="Shopping cart">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9 22h6c2 0 3-1 3-3v-6c0-2-1-3-3-3H9c-2 0-3 1-3 3v6c0 2 1 3 3 3z"></path>
               <path d="M16 7V5a4 4 0 0 0-8 0v2"></path>
             </svg>
             <span
-              class="cart-count absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              class="cart-count absolute -top-1 -right-1 bg-orange-600 text-white text-sm h-5 w-5 flex items-center justify-center"
               id="cart-count"
               aria-label="{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }} items in cart">
               {{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}
@@ -172,7 +170,7 @@
 
           <!-- Mobile Menu Button -->
           <button
-            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
+            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="Toggle menu" id="mobile-menu-button">
             <svg class="block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -187,7 +185,7 @@
         <a href="{{route('front.new-arrivals')}}"
           class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-1">
           <span>New Arrivals</span>
-          <span class="inline-block px-1.5 py-0.5 bg-green-100 text-green-800 text-xs font-semibold rounded">New</span>
+          <span class="inline-block px-1.5 py-0.5 bg-green-100 text-green-800 text-sm font-semibold ">New</span>
         </a>
         <a href="{{route('front.best-sellers')}}"
           class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Best
@@ -201,7 +199,7 @@
         <a href="{{route('front.sales')}}"
           class="text-red-600 hover:text-red-700 px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-1">
           <span>Sale</span>
-          <span class="inline-block px-1.5 py-0.5 bg-red-100 text-red-800 text-xs font-semibold rounded">Hot</span>
+          <span class="inline-block px-1.5 py-0.5 bg-red-100 text-red-800 text-sm font-semibold ">Hot</span>
         </a>
       </nav>
 
@@ -209,27 +207,27 @@
       <div class="lg:hidden" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-100">
           <a href="{{route('front.new-arrivals')}}"
-            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 flex items-center justify-between">
+            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2  text-base font-medium transition-all duration-200 flex items-center justify-between">
             <span class="flex items-center space-x-2">
               <span>New Arrivals</span>
               <span
-                class="inline-block px-1.5 py-0.5 bg-green-100 text-green-800 text-xs font-semibold rounded">New</span>
+                class="inline-block px-1.5 py-0.5 bg-green-100 text-green-800 text-sm font-semibold ">New</span>
             </span>
           </a>
           <a href="{{route('front.best-sellers')}}"
-            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2 rounded-md text-base font-medium transition-all duration-200">Best
+            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2  text-base font-medium transition-all duration-200">Best
             Sellers</a>
           <a href="{{route('front.skin-care')}}"
-            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2 rounded-md text-base font-medium transition-all duration-200">Skin
+            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2  text-base font-medium transition-all duration-200">Skin
             Care</a>
           <a href="{{route('front.celigin-join-club')}}"
-            class="bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent block px-3 py-2 rounded-md text-base font-semibold hover:bg-gray-50 transition-all duration-200">Join
+            class="bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent block px-3 py-2  text-base font-semibold hover:bg-gray-50 transition-all duration-200">Join
             CELIGIN CLUB</a>
           <a href="{{route('front.sales')}}"
-            class="text-red-600 hover:bg-gray-50 hover:text-red-700 block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 flex items-center justify-between">
+            class="text-red-600 hover:bg-gray-50 hover:text-red-700 block px-3 py-2  text-base font-medium transition-all duration-200 flex items-center justify-between">
             <span class="flex items-center space-x-2">
               <span>Sale</span>
-              <span class="inline-block px-1.5 py-0.5 bg-red-100 text-red-800 text-xs font-semibold rounded">Hot</span>
+              <span class="inline-block px-1.5 py-0.5 bg-red-100 text-red-800 text-sm font-semibold ">Hot</span>
             </span>
           </a>
         </div>
