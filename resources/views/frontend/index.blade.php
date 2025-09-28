@@ -830,7 +830,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" role="region" aria-label="Latest blog posts">
 
         @foreach($blogs as $blog)
-        <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group">
+        <article class="bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group">
           <div class="aspect-w-16 aspect-h-12 overflow-hidden">
             <img
               src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}"
