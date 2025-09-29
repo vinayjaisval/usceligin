@@ -63,7 +63,7 @@
 
 
   <!-- Header -->
-  <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50" role="banner">
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-50" role="banner">
     <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-1">
       <!-- Main Header -->
       <div class="grid grid-cols-3 items-center h-16 lg:h-20">
@@ -76,7 +76,7 @@
                 aria-expanded="false" aria-owns="search-dropdown" autocomplete="off"
                 class="w-full pl-10 pr-4 py-2 border border-gray-300 text-base text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200" />
               <button type="button" aria-label="Submit search" id="search-btn"
-                class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="11" cy="11" r="8"></circle>
                   <path d="m21 21-4.35-4.35"></path>
@@ -94,7 +94,7 @@
 
           <!-- Mobile: Account Button (shows on left on mobile) -->
           <a href="{{ route('sign-in') }}"
-            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
+            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="My account">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -115,7 +115,7 @@
         <div class="flex items-center justify-end space-x-2 lg:space-x-3">
           <!-- Mobile Search Button -->
           <button
-            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
+            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="Open search">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"></circle>
@@ -125,7 +125,7 @@
 
           <!-- Desktop Account (hidden on mobile) -->
           <a href="{{ route('sign-in') }}"
-            class="hidden lg:block p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
+            class="hidden lg:block p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="My account">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -135,7 +135,7 @@
 
           <!-- Wishlist -->
           <a href="{{ route('front.wishlist') }}"
-            class="relative p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
+            class="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="Wishlist">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path
@@ -151,12 +151,11 @@
 
           <!-- Cart -->
           <a href="{{ route('front.cart') }}"
-            class="relative p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
+            class="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="Shopping cart">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1"></circle>
-              <circle cx="20" cy="21" r="1"></circle>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              <path d="M9 22h6c2 0 3-1 3-3v-6c0-2-1-3-3-3H9c-2 0-3 1-3 3v6c0 2 1 3 3 3z"></path>
+              <path d="M16 7V5a4 4 0 0 0-8 0v2"></path>
             </svg>
             <span
               class="cart-count absolute -top-1 -right-1 bg-orange-600 text-white text-sm h-5 w-5 flex items-center justify-center"
@@ -171,7 +170,7 @@
 
           <!-- Mobile Menu Button -->
           <button
-            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
+            class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 "
             aria-label="Toggle menu" id="mobile-menu-button">
             <svg class="block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -181,24 +180,24 @@
       </div>
 
       <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex lg:space-x-8 lg:py-4 border-t border-gray-100 dark:border-gray-700" role="navigation"
+      <nav class="hidden lg:flex lg:space-x-8 lg:py-4 border-t border-gray-100" role="navigation"
         aria-label="Main navigation">
         <a href="{{route('front.new-arrivals')}}"
-          class="text-gray-900 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-1">
+          class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-1">
           <span>New Arrivals</span>
           <span class="inline-block px-1.5 py-0.5 bg-green-100 text-green-800 text-sm font-semibold ">New</span>
         </a>
         <a href="{{route('front.best-sellers')}}"
-          class="text-gray-900 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 text-sm font-medium transition-colors duration-200">Best
+          class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Best
           Sellers</a>
         <a href="{{route('front.skin-care')}}"
-          class="text-gray-900 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 text-sm font-medium transition-colors duration-200">Skin
+          class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium transition-colors duration-200">Skin
           Care</a>
         <a href="{{route('front.celigin-join-club')}}"
           class="bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent px-3 py-2 text-sm font-semibold hover:from-pink-600 hover:to-orange-600 transition-all duration-200">Join
           CELIGIN CLUB</a>
         <a href="{{route('front.sales')}}"
-          class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-1">
+          class="text-red-600 hover:text-red-700 px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-1">
           <span>Sale</span>
           <span class="inline-block px-1.5 py-0.5 bg-red-100 text-red-800 text-sm font-semibold ">Hot</span>
         </a>
@@ -206,9 +205,9 @@
 
       <!-- Mobile Navigation -->
       <div class="lg:hidden" id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-100 dark:border-gray-700">
+        <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-100">
           <a href="{{route('front.new-arrivals')}}"
-            class="text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600 dark:hover:text-orange-400 block px-3 py-2  text-base font-medium transition-all duration-200 flex items-center justify-between">
+            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2  text-base font-medium transition-all duration-200 flex items-center justify-between">
             <span class="flex items-center space-x-2">
               <span>New Arrivals</span>
               <span
@@ -216,10 +215,10 @@
             </span>
           </a>
           <a href="{{route('front.best-sellers')}}"
-            class="text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600 dark:hover:text-orange-400 block px-3 py-2  text-base font-medium transition-all duration-200">Best
+            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2  text-base font-medium transition-all duration-200">Best
             Sellers</a>
           <a href="{{route('front.skin-care')}}"
-            class="text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600 dark:hover:text-orange-400 block px-3 py-2  text-base font-medium transition-all duration-200">Skin
+            class="text-gray-900 hover:bg-gray-50 hover:text-orange-600 block px-3 py-2  text-base font-medium transition-all duration-200">Skin
             Care</a>
           <a href="{{route('front.celigin-join-club')}}"
             class="bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent block px-3 py-2  text-base font-semibold hover:bg-gray-50 transition-all duration-200">Join

@@ -398,6 +398,33 @@
   }
 
   /* Theme Toggle Component */
+  .theme-toggle {
+    @apply relative p-2 rounded-md border-0 bg-transparent cursor-pointer transition-all duration-fast;
+    @apply hover:bg-bg-secondary focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2;
+  }
+
+  .theme-toggle .sun-icon,
+  .theme-toggle .moon-icon {
+    @apply w-6 h-6 text-text-primary transition-all duration-fast;
+  }
+
+  /* Show sun icon in light mode, hide moon */
+  .theme-toggle .sun-icon {
+    @apply block;
+  }
+
+  .theme-toggle .moon-icon {
+    display: none;
+  }
+
+  /* Show moon icon in dark mode, hide sun */
+  [data-theme="dark"] .theme-toggle .sun-icon {
+    display: none;
+  }
+
+  [data-theme="dark"] .theme-toggle .moon-icon {
+    @apply block;
+  }
 
   /* Alert variants - Using CSS variables for light/dark mode support */
   .alert-info {
@@ -586,7 +613,7 @@
   }
 
   .suggestion-img img {
-    @apply w-full h-full object-cover border border-gray-200 dark:border-gray-600;
+    @apply w-full h-full object-cover border border-gray-200 dark:border-gray-600 rounded-md;
   }
 
   .suggestion-content {
@@ -612,7 +639,6 @@
   .search-empty-state {
     @apply p-5 text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800;
   }
-
 
   .search-empty-state .empty-icon {
     @apply text-2xl mb-2 opacity-60;
