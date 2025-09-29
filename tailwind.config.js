@@ -10,6 +10,7 @@ export default {
     "./app/**/*.php",
     "./assets/**/*.js",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       // Font family
