@@ -7,43 +7,50 @@ class CeliginWebsite {
                 name: 'skin care',
                 image: '/assets/images/main-banner-1.png',
                 category: 'Skincare',
-                description: 'Complete skincare solutions'
+                description: 'Complete skincare solutions',
+                price: '₹1,299'
             },
             {
                 name: 'skin care set',
                 image: '/assets/images/main-banner-2.png',
                 category: 'Skincare',
-                description: 'Curated skincare sets'
+                description: 'Curated skincare sets',
+                price: '₹2,499'
             },
             {
                 name: 'skin care for kids',
                 image: '/assets/images/main-banner-3.png',
                 category: 'Skincare',
-                description: 'Gentle kids skincare'
+                description: 'Gentle kids skincare',
+                price: '₹899'
             },
             {
                 name: 'skin care organizer',
                 image: '/assets/images/main-banner-1.png',
                 category: 'Accessories',
-                description: 'Storage solutions'
+                description: 'Storage solutions',
+                price: '₹1,599'
             },
             {
                 name: 'skin care fridge',
                 image: '/assets/images/main-banner-2.png',
                 category: 'Accessories',
-                description: 'Beauty refrigerator'
+                description: 'Beauty refrigerator',
+                price: '₹4,299'
             },
             {
                 name: 'skin care kit',
                 image: '/assets/images/main-banner-3.png',
                 category: 'Skincare',
-                description: 'Essential skincare kit'
+                description: 'Essential skincare kit',
+                price: '₹1,899'
             },
             {
                 name: 'skin care tools',
                 image: '/assets/images/main-banner-1.png',
                 category: 'Tools',
-                description: 'Professional skincare tools'
+                description: 'Professional skincare tools',
+                price: '₹3,299'
             },
             {
                 name: 'skin care headband',
@@ -240,10 +247,10 @@ class CeliginWebsite {
         this.currentSearchIndex = -1;
 
         if (suggestions.length === 0) {
-            this.hideSearchDropdown();
-            return;
+            this.renderEmptyState(query);
+        } else {
+            this.renderSuggestions(suggestions, query);
         }
-        this.renderSuggestions(suggestions, query);
         this.showSearchDropdown();
     }
 
@@ -268,17 +275,29 @@ class CeliginWebsite {
             );
 
             return `
-                <div class="search-suggestion-item" data-index="${index}" data-suggestion="${item.name}">
+                <div class="search-suggestion-item" data-index="${index}" data-suggestion="${item.name}" role="option" tabindex="-1">
                     <div class="suggestion-img">
-                        <img src="${item.image}" alt="${item.name}" width="35" height="35" loading="lazy">
+                        <img src="${item.image}" alt="${item.name}" width="40" height="40" loading="lazy" decoding="async">
                     </div>
                     <div class="suggestion-content">
                         <div class="suggestion-name">${highlightedName}</div>
                         <div class="suggestion-category">${item.category}</div>
                     </div>
+                    ${item.price ? `<div class="suggestion-price">${item.price}</div>` : ''}
                 </div>
             `;
         }).join('');
+
+        // Add "View all results" at the bottom if there are suggestions
+        if (suggestions.length > 0) {
+            searchSuggestionsList.innerHTML += `
+                <div class="search-view-all">
+                    <a href="/search?q=${encodeURIComponent(query)}" class="view-all-link">
+                        View all results for "${query}"
+                    </a>
+                </div>
+            `;
+        }
 
         // Add click handlers
         searchSuggestionsList.querySelectorAll('.search-suggestion-item').forEach((item, index) => {
@@ -286,6 +305,42 @@ class CeliginWebsite {
                 this.selectSuggestion(index);
             });
         });
+    }
+
+    renderEmptyState(query) {
+        const searchSuggestionsList = document.getElementById('search-suggestions-list');
+        const creativeMessages = [
+            {
+                icon: '🔍',
+                title: 'No matches found',
+                subtitle: `Try searching for "skincare", "vitamin C", or "moisturizer"`
+            },
+            {
+                icon: '✨',
+                title: 'Discover something new',
+                subtitle: 'Browse our curated skincare collections instead'
+            },
+            {
+                icon: '💡',
+                title: 'Need skincare inspiration?',
+                subtitle: 'Try "anti-aging", "hydrating serum", or "daily routine"'
+            }
+        ];
+
+        const randomMessage = creativeMessages[Math.floor(Math.random() * creativeMessages.length)];
+
+        searchSuggestionsList.innerHTML = `
+            <div class="search-empty-state">
+                <div class="empty-icon">${randomMessage.icon}</div>
+                <div class="empty-title">${randomMessage.title}</div>
+                <div class="empty-subtitle">${randomMessage.subtitle}</div>
+            </div>
+            <div class="search-view-all">
+                <a href="/search?q=${encodeURIComponent(query)}" class="view-all-link">
+                    Search anyway for "${query}"
+                </a>
+            </div>
+        `;
     }
 
     handleKeyboardNavigation(e) {

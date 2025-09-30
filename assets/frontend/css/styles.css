@@ -1,3 +1,6 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
 /* Tailwind CSS Directives */
 @tailwind base;
 @tailwind components;
@@ -395,33 +398,6 @@
   }
 
   /* Theme Toggle Component */
-  .theme-toggle {
-    @apply relative p-2 rounded-md border-0 bg-transparent cursor-pointer transition-all duration-fast;
-    @apply hover:bg-bg-secondary focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2;
-  }
-
-  .theme-toggle .sun-icon,
-  .theme-toggle .moon-icon {
-    @apply w-6 h-6 text-text-primary transition-all duration-fast;
-  }
-
-  /* Show sun icon in light mode, hide moon */
-  .theme-toggle .sun-icon {
-    @apply block;
-  }
-
-  .theme-toggle .moon-icon {
-    display: none;
-  }
-
-  /* Show moon icon in dark mode, hide sun */
-  [data-theme="dark"] .theme-toggle .sun-icon {
-    display: none;
-  }
-
-  [data-theme="dark"] .theme-toggle .moon-icon {
-    @apply block;
-  }
 
   /* Alert variants - Using CSS variables for light/dark mode support */
   .alert-info {
@@ -573,5 +549,88 @@
 
   .transition-slow {
     transition: all var(--transition-slow);
+  }
+
+  /* Search Dropdown Styling */
+  .search-dropdown {
+    display: none !important;
+  }
+
+  .search-dropdown.show {
+    display: block !important;
+  }
+
+  .search-suggestion-item {
+    @apply flex items-center p-3 border-b border-gray-200 dark:border-gray-600 cursor-pointer transition-all duration-200;
+    @apply bg-white dark:bg-gray-800 hover:bg-black hover:dark:bg-white;
+  }
+
+  .search-suggestion-item:hover .suggestion-name,
+  .search-suggestion-item:hover .suggestion-category,
+  .search-suggestion-item.highlighted .suggestion-name,
+  .search-suggestion-item.highlighted .suggestion-category {
+    @apply text-white dark:text-black;
+  }
+
+  .search-suggestion-item:hover .suggestion-name strong,
+  .search-suggestion-item.highlighted .suggestion-name strong {
+    @apply text-orange-400 dark:text-orange-600;
+  }
+
+  .search-suggestion-item:last-child {
+    @apply border-b-0;
+  }
+
+  .suggestion-img {
+    @apply w-10 h-10 mr-3 flex-shrink-0;
+  }
+
+  .suggestion-img img {
+    @apply w-full h-full object-cover border border-gray-200 dark:border-gray-600;
+  }
+
+  .suggestion-content {
+    @apply flex-1 min-w-0;
+  }
+
+  .suggestion-name {
+    @apply text-base font-medium text-black dark:text-white mb-1 leading-tight transition-colors duration-200;
+  }
+
+  .suggestion-name strong {
+    @apply text-orange-600 dark:text-orange-400 font-semibold;
+  }
+
+  .suggestion-category {
+    @apply text-base text-gray-600 dark:text-gray-400 leading-tight transition-colors duration-200;
+  }
+
+  .suggestion-price {
+    @apply text-base font-semibold text-orange-600 dark:text-orange-400 ml-auto;
+  }
+
+  .search-empty-state {
+    @apply p-5 text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800;
+  }
+
+
+  .search-empty-state .empty-icon {
+    @apply text-2xl mb-2 opacity-60;
+  }
+
+  .search-empty-state .empty-title {
+    @apply text-base font-medium text-black dark:text-white mb-1;
+  }
+
+  .search-empty-state .empty-subtitle {
+    @apply text-base text-gray-600 dark:text-gray-400;
+  }
+
+  .search-view-all {
+    @apply p-3 text-center border-t border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800;
+  }
+
+  .search-view-all a {
+    @apply text-orange-600 dark:text-orange-400 text-base font-medium hover:text-orange-700 dark:hover:text-orange-300 transition-colors duration-200;
   }
 }

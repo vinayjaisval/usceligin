@@ -23,28 +23,14 @@
   <!-- Compiled CSS with Tailwind and Custom Styles -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-  <!-- Theme System Integration -->
+  <!-- Tailwind Dark Mode Initialization -->
   <script>
-    (function() {
-      const THEME_KEY = 'usceligin-theme';
-      const LEGACY_KEY = 'theme';
-      const VALID_THEMES = ['light', 'dark'];
-
-      const getInitialTheme = () => {
-        const saved = localStorage.getItem(THEME_KEY);
-        if (saved && VALID_THEMES.includes(saved)) return saved;
-
-        const legacy = localStorage.getItem(LEGACY_KEY);
-        if (legacy && VALID_THEMES.includes(legacy)) return legacy;
-
-        return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      };
-
-      const theme = getInitialTheme();
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    })();
+    // Simple Tailwind dark mode initialization
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   </script>
 
   <!-- Favicon -->
@@ -52,7 +38,7 @@
 </head>
 
 <body>
-  <main class="min-h-screen flex items-center justify-center px-0 py-xl bg-bg-tertiary">
+  <main class="min-h-screen flex items-center justify-center px-0 py-xl bg-gray-50 dark:bg-gray-900">
     <div class="form-container">
       <section class="form-card" aria-labelledby="signin-heading">
           <header class="mb-xl">
@@ -63,7 +49,7 @@
 
           <div class="sign-in-section" id="signInSection">
             <div class="mb-lg" id="methodSelection">
-              <h1 class="text-2xl font-semibold text-text-primary mb-lg" id="signin-heading">Sign In with OTP</h1>
+              <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-lg" id="signin-heading">Sign In with OTP</h1>
               <fieldset class="flex gap-0 mb-lg">
                 <legend class="sr-only">Select your preferred verification method</legend>
                 <button type="button"
@@ -138,9 +124,9 @@
               <div class="mb-lg">
                 <div class="flex items-start gap-5">
                   <input type="checkbox" id="keepSignedIn" name="keep_signed_in"
-                    class="mt-1 h-4 w-4 text-accent-primary border-border-medium rounded-none focus:ring-accent-primary focus:ring-2">
+                    class="mt-1 h-4 w-4 text-orange-600 dark:text-orange-400 border-border-medium rounded-none focus:ring-accent-primary focus:ring-2">
                   <div class="flex items-center gap-2">
-                    <label for="keepSignedIn" class="text-sm text-text-primary cursor-pointer">
+                    <label for="keepSignedIn" class="text-sm text-gray-900 dark:text-gray-100 cursor-pointer">
                       Keep me signed in
                     </label>
                     <div class="tooltip-wrapper">
@@ -167,15 +153,15 @@
               </button>
 
               <!-- Terms and Privacy -->
-              <div class="text-center text-sm text-text-tertiary">
+              <div class="text-center text-sm text-gray-500 dark:text-gray-500">
                 <p>
                   By signing in, you agree to our
                   <a href="{{ route('terms') ?? '#' }}"
-                    class="text-accent-primary hover:text-accent-dark underline transition-colors duration-fast">Terms
+                    class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline transition-colors duration-fast">Terms
                     and Conditions</a>
                   and that you've read our
                   <a href="{{ route('privacy') ?? '#' }}"
-                    class="text-accent-primary hover:text-accent-dark underline transition-colors duration-fast">Privacy
+                    class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline transition-colors duration-fast">Privacy
                     Policy</a>.
                 </p>
               </div>
@@ -184,10 +170,10 @@
 
           <div class="text-left" id="otpVerification" style="display: none" aria-labelledby="otp-heading" aria-live="polite">
             <div class="mb-lg">
-              <h2 class="text-2xl font-semibold text-text-primary text-center" id="otp-heading">Enter Verification Code</h2>
+              <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 text-center" id="otp-heading">Enter Verification Code</h2>
             </div>
 
-            <p class="text-sm text-text-secondary text-center mb-lg" id="otpSubtitle">
+            <p class="text-sm text-gray-600 dark:text-gray-400 text-center mb-lg" id="otpSubtitle">
               We've sent a 6-digit code to your contact
             </p>
 
@@ -224,11 +210,11 @@
                 </div>
               </div>
 
-              <div class="text-center text-sm text-text-secondary mb-lg" id="otpTimer">
+              <div class="text-center text-sm text-gray-600 dark:text-gray-400 mb-lg" id="otpTimer">
                 <p>
                   Didn't receive the code?
                   <button type="button"
-                    class="text-accent-primary hover:text-accent-dark underline font-medium disabled:text-text-tertiary disabled:no-underline disabled:cursor-not-allowed"
+                    class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline font-medium disabled:text-gray-500 dark:text-gray-500 disabled:no-underline disabled:cursor-not-allowed"
                     id="resendOtp" disabled>
                     Resend OTP in <span id="countdown">60</span>s
                   </button>
@@ -246,7 +232,7 @@
 
             <div class="text-center mt-lg">
               <button type="button"
-                class="text-accent-primary hover:text-accent-dark underline font-medium flex items-center gap-xs mx-auto"
+                class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline font-medium flex items-center gap-xs mx-auto"
                 id="backToLogin" aria-label="Go back to sign in form">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path
