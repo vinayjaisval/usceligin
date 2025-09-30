@@ -24,7 +24,7 @@
               <div class="relative md:absolute md:inset-0 md:flex md:items-center md:justify-end bg-gray-50 dark:bg-gray-800 md:bg-transparent p-4 md:p-6 lg:pr-8">
                 <div class="w-full md:w-[35%] lg:w-[40%] md:bg-transparent">
                   <!-- Heading -->
-                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:text-black mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
+                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
                     Transform Your Skin<br class="hidden md:inline" />With Premium Skincare
                   </h1>
 
@@ -36,7 +36,7 @@
                   <!-- CTA Button -->
                   <div class="mb-0 lg:mb-4 xl:mb-6">
                     <a href="/products"
-                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md"
+                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200"
                        aria-describedby="slide-1-desc">
                       Shop Now
                     </a>
@@ -74,7 +74,7 @@
               <div class="relative md:absolute md:inset-0 md:flex md:items-center md:justify-end bg-gray-50 dark:bg-gray-800 md:bg-transparent p-4 md:p-6 lg:pr-8">
                 <div class="w-full md:w-[35%] lg:w-[40%] md:bg-transparent">
                   <!-- Heading -->
-                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:text-black mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
+                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
                     Get Radiant, Healthy Skin 
                   </h1>
 
@@ -86,7 +86,7 @@
                   <!-- CTA Button -->
                   <div class="mb-0 lg:mb-4 xl:mb-6">
                     <a href="/products"
-                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md"
+                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200"
                        aria-describedby="slide-1-desc">
                       Shop Now
                     </a>
@@ -124,7 +124,7 @@
               <div class="relative md:absolute md:inset-0 md:flex md:items-center md:justify-end bg-gray-50 dark:bg-gray-800 md:bg-transparent p-4 md:p-6 lg:pr-8">
                 <div class="w-full md:w-[35%] lg:w-[40%] md:bg-transparent">
                   <!-- Heading -->
-                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:text-black mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
+                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
                     Premium Skincare
                   </h1>
 
@@ -136,7 +136,7 @@
                   <!-- CTA Button -->
                   <div class="mb-0 lg:mb-4 xl:mb-6">
                     <a href="/products"
-                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md"
+                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200"
                        aria-describedby="slide-1-desc">
                       Shop Now
                     </a>
@@ -161,10 +161,10 @@
         </div>
 
         <!-- Navigation arrows -->
-        <button class="swiper-button-next hero-nav-next !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !right-2 sm:!right-4 lg:!right-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-full hover:!bg-opacity-100 !transition-all !duration-200"
+        <button class="swiper-button-next hero-nav-next !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !right-2 sm:!right-4 lg:!right-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-none hover:!bg-opacity-100 !transition-all !duration-200"
                 aria-label="Next slide"
                 type="button"></button>
-        <button class="swiper-button-prev hero-nav-prev !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !left-2 sm:!left-4 lg:!left-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-full hover:!bg-opacity-100 !transition-all !duration-200"
+        <button class="swiper-button-prev hero-nav-prev !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !left-2 sm:!left-4 lg:!left-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-none hover:!bg-opacity-100 !transition-all !duration-200"
                 aria-label="Previous slide"
                 type="button"></button>
 
@@ -181,9 +181,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 id="category-banners-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 lg:mb-12 text-center">Shop by Category</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-        <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 rounded-lg">
+        <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 ">
           <a href="/products"
-             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded-lg"
+             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
              aria-describedby="category-1-desc"
              role="button"
              tabindex="0">
@@ -335,7 +335,7 @@
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
         <h2 id="bestsellers-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Our Bestsellers</h2>
         <a href="{{ route('front.best-sellers') }}"
-           class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md"
+           class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
            aria-label="View all bestselling products">
           Shop all best sellers
           <svg
@@ -359,9 +359,9 @@
           <div class="swiper-wrapper">
             @foreach($best_products as $prod)
             <div class="swiper-slide">
-              <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 rounded-lg" itemscope itemtype="https://schema.org/Product">
+              <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 " itemscope itemtype="https://schema.org/Product">
                 <a href="{{ url('/item/'.$prod->slug) }}"
-                   class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg"
+                   class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
                    aria-describedby="product-{{ $prod->id }}-desc">
                   <div class="relative aspect-square overflow-hidden">
                     <img
@@ -440,8 +440,8 @@
         </div>
 
         <!-- Navigation arrows -->
-        <div class="swiper-button-next bestseller-nav-next !text-gray-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-full !shadow-md hover:!bg-gray-50 !transition-all !duration-200" aria-label="Next products"></div>
-        <div class="swiper-button-prev bestseller-nav-prev !text-gray-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-full !shadow-md hover:!bg-gray-50 !transition-all !duration-200" aria-label="Previous products"></div>
+        <div class="swiper-button-next bestseller-nav-next !text-gray-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-gray-50 !transition-all !duration-200" aria-label="Next products"></div>
+        <div class="swiper-button-prev bestseller-nav-prev !text-gray-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-gray-50 !transition-all !duration-200" aria-label="Previous products"></div>
       </div>
     </div>
   </section>
@@ -508,10 +508,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
         <h2 id="hotdeals-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
-          <span class="mr-3">🔥</span>Hot Deals
+          Hot Deals
         </h2>
         <a href="{{ route('front.sales') }}"
-           class="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded-md"
+           class="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
            aria-label="View all hot deals and sales">
           Shop all hot deals
           <svg
@@ -535,9 +535,9 @@
           <div class="swiper-wrapper">
             @foreach($hot_products as $prod)
             <div class="swiper-slide">
-              <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 border border-red-100 dark:border-red-900 rounded-lg" itemscope itemtype="https://schema.org/Product">
+              <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 " itemscope itemtype="https://schema.org/Product">
                 <a href="{{ url('/item/'.$prod->slug) }}"
-                   class="block focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg"
+                   class="block focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
                    aria-describedby="hotdeal-{{ $prod->id }}-desc">
                   <div class="relative aspect-square overflow-hidden">
                     <img
@@ -551,7 +551,7 @@
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div class="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col space-y-1">
                       <span class="inline-block px-2 py-1 bg-red-600 text-white text-sm font-semibold" role="status" aria-label="Product tag: Hot Deal">
-                        🔥 Hot
+                        Hot
                       </span>
                       @if (round($prod->offPercentage() )>0)
                       <span class="inline-block px-2 py-1 bg-orange-600 text-white text-sm font-semibold" role="status" aria-label="Discount: {{ round($prod->offPercentage() )}} percent off">
@@ -567,7 +567,7 @@
                       <span class="text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
                       @endif
                     </div>
-                    <h3 id="hotdeal-{{ $prod->id }}-desc" class="text-sm font-medium text-gray-900 line-clamp-2 leading-relaxed" itemprop="name" title="{{$prod->name}}">
+                    <h3 id="hotdeal-{{ $prod->id }}-desc" class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 leading-relaxed" itemprop="name" title="{{$prod->name}}">
                       {{ ucfirst(mb_strtolower($prod->showName())) }}
                     </h3>
                   </div>
@@ -607,8 +607,8 @@
         </div>
 
         <!-- Navigation arrows -->
-        <div class="swiper-button-next hotdeals-nav-next !text-red-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-full !shadow-md hover:!bg-red-50 !transition-all !duration-200" aria-label="Next hot deals"></div>
-        <div class="swiper-button-prev hotdeals-nav-prev !text-red-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-full !shadow-md hover:!bg-red-50 !transition-all !duration-200" aria-label="Previous hot deals"></div>
+        <div class="swiper-button-next hotdeals-nav-next !text-red-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-red-50 !transition-all !duration-200" aria-label="Next hot deals"></div>
+        <div class="swiper-button-prev hotdeals-nav-prev !text-red-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-red-50 !transition-all !duration-200" aria-label="Previous hot deals"></div>
       </div>
     </div>
   </section>
@@ -618,7 +618,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-8 lg:mb-12">
         <div class="flex items-center space-x-3">
-          <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-600 rounded-lg">
+          <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-600 ">
             <svg
               width="24"
               height="24"
@@ -635,7 +635,7 @@
           </div>
           <h2 id="instagram-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Instagram Feed</h2>
         </div>
-        <a href="#" class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+        <a href="#" class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
           View all feeds
           <svg
             width="16"
@@ -655,7 +655,7 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         role="region"
         aria-label="Instagram posts">
-        <article class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+        <article class="bg-white dark:bg-gray-800  overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DI2-xXWPXMu/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
             <div style="padding:16px;"> <a href="https://www.instagram.com/p/DI2-xXWPXMu/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                 <div style=" display: flex; flex-direction: row; align-items: center;">
@@ -704,7 +704,7 @@
             </div>
           </blockquote>
         </article>
-        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+        <article class="bg-white  overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DNNZuezPKyS/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
             <div style="padding:16px;"> <a href="https://www.instagram.com/p/DNNZuezPKyS/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                 <div style=" display: flex; flex-direction: row; align-items: center;">
@@ -753,7 +753,7 @@
             </div>
           </blockquote>
         </article>
-        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+        <article class="bg-white  overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DMhZouMRaQH/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
             <div style="padding:16px;"> <a href="https://www.instagram.com/p/DMhZouMRaQH/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                 <div style=" display: flex; flex-direction: row; align-items: center;">
@@ -818,7 +818,7 @@
             alt="Join CELIGIN Club - Become a Brand Ambassador"
             class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
           <div class="absolute inset-y-0 left-0 w-1/2 flex flex-col justify-center text-left p-6">
-            <span class="inline-block px-3 py-1 bg-orange-600 dark:bg-orange-500 text-white text-sm font-semibold rounded-full mb-4 uppercase tracking-wide w-fit">JOIN CELIGIN CLUB</span>
+            <span class="inline-block px-3 py-1 bg-orange-600 dark:bg-orange-500 text-white text-sm font-semibold  mb-4 uppercase tracking-wide w-fit">JOIN CELIGIN CLUB</span>
             <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white mb-6">Become a Brand Ambassador</h3>
             <a href="/join" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 w-fit text-sm" aria-label="Join CELIGIN Club to become a brand ambassador">
               Join Now
@@ -833,7 +833,7 @@
             class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
           <div class="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
             <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white">Cell For Education</h3>
-            <a href="/education" class="inline-flex items-center px-4 py-2 bg-orange-600 dark:bg-orange-500 text-white font-medium hover:bg-orange-700 dark:hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 text-sm rounded-md" aria-label="Learn more about Cell For Education program">
+            <a href="/education" class="inline-flex items-center px-4 py-2 bg-orange-600 dark:bg-orange-500 text-white font-medium hover:bg-orange-700 dark:hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 text-sm " aria-label="Learn more about Cell For Education program">
               Read More
             </a>
           </div>
@@ -848,7 +848,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-8 lg:mb-12">
         <h2 id="blog-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Blog</h2>
-        <a href="/blog" class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+        <a href="/blog" class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
           View all posts
           <svg
             width="16"
@@ -867,8 +867,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" role="region" aria-label="Latest blog posts">
 
         @foreach($blogs as $blog)
-        <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group rounded-lg">
-          <div class="aspect-w-16 aspect-h-12 overflow-hidden rounded-t-lg">
+        <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group ">
+          <div class="aspect-w-16 aspect-h-12 overflow-hidden ">
             <img
               src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}"
               alt="{{ $blog->title }}"
@@ -878,7 +878,7 @@
           </div>
           <div class="p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2">{{ Str::limit($blog->title, 25) }}</h3>
-            <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors duration-200 group rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+            <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
               Read More
               <svg
                 width="16"

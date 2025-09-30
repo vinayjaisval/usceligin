@@ -121,9 +121,9 @@
         </p>
         <form class="space-y-3" aria-label="Newsletter signup">
           <input type="email" placeholder="Enter your email address" required aria-label="Email address"
-            class="w-full max-w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200 min-w-0" />
+            class="w-full max-w-full px-3 py-2 border border-gray-300 dark:border-gray-600  text-sm text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200 min-w-0" />
           <button type="submit"
-            class="w-full bg-orange-600 hover:bg-orange-700 focus:ring-orange-500 dark:focus:ring-orange-400 text-white px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 transition-colors duration-200">Subscribe</button>
+            class="w-full bg-orange-600 hover:bg-orange-700 focus:ring-orange-500 dark:focus:ring-orange-400 text-white px-4 py-2  text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 transition-colors duration-200">Subscribe</button>
         </form>
       </div>
     </div>
@@ -207,7 +207,7 @@
   </div>
 </footer>
 <button
-  class="fixed bottom-6 right-6 bg-orange-600 text-white p-3 rounded-full shadow-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 z-50 opacity-0 pointer-events-none"
+  class="fixed bottom-6 right-6 bg-orange-600 text-white p-3  shadow-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 z-50 opacity-0 pointer-events-none"
   id="scrollToTop" aria-label="Scroll to top">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
     <polyline points="18,15 12,9 6,15"></polyline>
@@ -373,7 +373,7 @@
 
         // Create product image
         const imageContainer = document.createElement('div');
-        imageContainer.className = 'flex-shrink-0 w-12 h-12 mr-3 rounded-md overflow-hidden bg-gray-100';
+        imageContainer.className = 'flex-shrink-0 w-12 h-12 mr-3  overflow-hidden bg-gray-100';
 
         const image = document.createElement('img');
         image.src = product.image;
@@ -566,7 +566,7 @@
     overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 lg:hidden';
 
     const searchContainer = document.createElement('div');
-    searchContainer.className = 'bg-white dark:bg-gray-800 m-4 rounded-lg shadow-xl';
+    searchContainer.className = 'bg-white dark:bg-gray-800 m-4  shadow-xl';
 
     // Header with close button
     const header = document.createElement('div');
@@ -578,7 +578,7 @@
 
     const closeBtn = document.createElement('button');
     closeBtn.type = 'button';
-    closeBtn.className = 'p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-md';
+    closeBtn.className = 'p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 ';
     closeBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
 
     header.appendChild(title);
@@ -591,11 +591,11 @@
     const searchInput = document.createElement('input');
     searchInput.type = 'search';
     searchInput.placeholder = 'Search products...';
-    searchInput.className = 'w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400';
+    searchInput.className = 'w-full px-4 py-3 border border-gray-300 dark:border-gray-600  text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400';
 
     const searchBtn = document.createElement('button');
     searchBtn.type = 'submit';
-    searchBtn.className = 'w-full mt-3 px-4 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 font-medium';
+    searchBtn.className = 'w-full mt-3 px-4 py-3 bg-orange-600 text-white  hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 font-medium';
     searchBtn.textContent = 'Search Products';
 
     searchForm.appendChild(searchInput);
@@ -675,7 +675,7 @@
         item.className = 'flex items-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-600 last:border-b-0';
 
         const imageContainer = document.createElement('div');
-        imageContainer.className = 'flex-shrink-0 w-14 h-14 mr-3 rounded-lg overflow-hidden bg-gray-100';
+        imageContainer.className = 'flex-shrink-0 w-14 h-14 mr-3  overflow-hidden bg-gray-100';
 
         const image = document.createElement('img');
         image.src = product.image;
