@@ -42,7 +42,7 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         <!-- Product Images -->
-        <div class="space-y-4">
+        <div class="space-y-4 lg:sticky lg:top-6 lg:self-start">
           <div class="aspect-square bg-gray-100 dark:bg-gray-800 overflow-hidden">
             <img
               src="{{filter_var($productt->photo, FILTER_VALIDATE_URL) ?$productt->photo:asset('assets/images/products/'.$productt->photo)}}"
