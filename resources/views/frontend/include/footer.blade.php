@@ -33,7 +33,7 @@
           @endif
           <div class="text-sm text-gray-600 dark:text-gray-400">
             @if($ps->phone != null)
-              <p class="font-medium text-gray-900 dark:text-gray-100">{{ $ps->phone }}</p>
+              <p class="font-medium text-gray-900">{{ $ps->phone }}</p>
             @endif
 
             @if($ps->email != null)
@@ -234,17 +234,57 @@
     initMobileSearch();
   });
 
-  // Simple Tailwind Dark Mode
+  // Theme Toggle Functionality
   function toggleTheme() {
-    document.documentElement.classList.toggle('dark');
-    localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    const html = document.documentElement;
+    const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', newTheme);
+
+    // Update theme toggle icon visibility
+    updateThemeIcon();
   }
 
-  // Initialize theme on page load
-  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
+  function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const theme = savedTheme || systemTheme;
+
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+
+    updateThemeIcon();
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        updateThemeIcon();
+      }
+    });
+  }
+
+  function updateThemeIcon() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const sunIcon = document.querySelector('.theme-toggle .sun-icon');
+    const moonIcon = document.querySelector('.theme-toggle .moon-icon');
+
+    if (sunIcon && moonIcon) {
+      if (isDark) {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    }
   }
 
   // Search Functionality
