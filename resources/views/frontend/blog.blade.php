@@ -81,9 +81,9 @@
               Previous
             </a>
             <div class="pagination-numbers">
-            {{ $blogs->links() }}
+              {{ $blogs->links() }}
             </div>
-            
+
             <a href="#" class="pagination-btn next" aria-label="Next page">
               Next
               <svg
@@ -107,92 +107,92 @@
               class="scategory-banners"
               aria-label="Shop by category">
               <div class="banner-grid">
-              <article class="category-banner">
-          <a href="{{$arrivals[0]['url']}}" class="banner-link-full">
-            <div class="banner-image">
-              <img
-                src="{{asset('assets/images/arrival/'.$arrivals[0]['photo'])}}"
-                alt="New arrivals collection"
-                width="450"
-                height="450" />
-            </div>
-            <div class="banner-content">
-              <h3>{{$arrivals[0]['title']}}</h3>
-              <p>{{$arrivals[0]['up_sale']}}</p>
-              <span class="banner-link">
-                Shop Now
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7,7 17,7 17,17"></polyline>
-                </svg>
-              </span>
-            </div>
-          </a>
-        </article>
+                <article class="category-banner">
+                  <a href="{{$arrivals[0]['url']}}" class="banner-link-full">
+                    <div class="banner-image">
+                      <img
+                        src="{{asset('assets/images/arrival/'.$arrivals[0]['photo'])}}"
+                        alt="New arrivals collection"
+                        width="450"
+                        height="450" />
+                    </div>
+                    <div class="banner-content">
+                      <h3>{{$arrivals[0]['title']}}</h3>
+                      <p>{{$arrivals[0]['up_sale']}}</p>
+                      <span class="banner-link">
+                        Shop Now
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7,7 17,7 17,17"></polyline>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                </article>
 
-        <article class="category-banner">
-          <a href="{{$arrivals[1]['url']}}" class="banner-link-full">
-            <div class="banner-image">
-              <img
-                src="{{asset('assets/images/arrival/'.$arrivals[1]['photo'])}}"
-                alt="Best selling products"
-                width="450"
-                height="450" />
-            </div>
-            <div class="banner-content">
-              <h3>{{$arrivals[1]['title']}}</h3>
-              <p>{{$arrivals[1]['up_sale']}}</p>
-              <span class="banner-link">
-                Shop Now
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7,7 17,7 17,17"></polyline>
-                </svg>
-              </span>
-            </div>
-          </a>
-        </article>
+                <article class="category-banner">
+                  <a href="{{$arrivals[1]['url']}}" class="banner-link-full">
+                    <div class="banner-image">
+                      <img
+                        src="{{asset('assets/images/arrival/'.$arrivals[1]['photo'])}}"
+                        alt="Best selling products"
+                        width="450"
+                        height="450" />
+                    </div>
+                    <div class="banner-content">
+                      <h3>{{$arrivals[1]['title']}}</h3>
+                      <p>{{$arrivals[1]['up_sale']}}</p>
+                      <span class="banner-link">
+                        Shop Now
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7,7 17,7 17,17"></polyline>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                </article>
 
-        <article class="category-banner">
-          <a href="/first-time-buyer" class="banner-link-full">
-            <div class="banner-image">
-              <img
-                src="{{asset('assets/images/arrival/'.$arrivals[2]['photo'])}}"
-                alt="First time buyer offers"
-                width="450"
-                height="450" />
-            </div>
-            <div class="banner-content">
-              <h3>{{$arrivals[2]['title']}}</h3>
-              <p>{{$arrivals[2]['up_sale']}}</p>
-              <span class="banner-link">
-                Discover Now
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7,7 17,7 17,17"></polyline>
-                </svg>
-              </span>
-            </div>
-          </a>
-        </article>
+                <article class="category-banner">
+                  <a href="/first-time-buyer" class="banner-link-full">
+                    <div class="banner-image">
+                      <img
+                        src="{{asset('assets/images/arrival/'.$arrivals[2]['photo'])}}"
+                        alt="First time buyer offers"
+                        width="450"
+                        height="450" />
+                    </div>
+                    <div class="banner-content">
+                      <h3>{{$arrivals[2]['title']}}</h3>
+                      <p>{{$arrivals[2]['up_sale']}}</p>
+                      <span class="banner-link">
+                        Discover Now
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7,7 17,7 17,17"></polyline>
+                        </svg>
+                      </span>
+                    </div>
+                  </a>
+                </article>
               </div>
             </section>
 

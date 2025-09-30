@@ -78,6 +78,7 @@ class LoginController extends Controller
 
   public function logout()
   {
+    
     Auth::logout();
     return redirect('/');
   }
@@ -321,47 +322,49 @@ class LoginController extends Controller
 
 
 
-  public function send_otp(Request $request)
-  {
+ public function send_otp(Request $request)
+{
+    
+    // Validate input
     $request->validate([
-      'type' => 'required|in:email,phone',
-      'email' => 'required_if:type,email|email',
-      'phone' => 'required_if:type,phone|digits:10'
+        
+        'method' => 'required|in:email,phone'
     ]);
 
-    $identifier = $request->type === 'email' ? $request->email : $request->phone;
+    // Determine identifier
+    $method = $request->method;
+    $identifier = $method === 'email' ? $request->email : $request->contact;
+
+    // Generate OTP
     $otp = rand(100000, 999999);
 
-    // Save OTP session
+    // Save OTP in session
     Session::put('otp_data', [
-      'type' => $request->type,
-      'identifier' => $identifier,
-      'otp' => $otp,
-      'expires_at' => now()->addMinutes(5)
+        'type' => $method,
+        'identifier' => $identifier,
+        'otp' => $otp,
+        'expires_at' => now()->addMinutes(5)
     ]);
 
-
-
-
     // Send OTP
-    if ($request->type === 'email') {
-      $mailer = new GeniusMailer();
-      $mailData = [
-        'to' => $identifier,
-        'subject' => 'Your Login OTP Code',
-        'body' => "Your OTP code is: {$otp}"
-      ];
-      \Log::info("OTP for phone {$identifier}: {$otp}");
-      $mailer->sendCustomMail($mailData);
-    } elseif ($request->type === 'phone') {
-      \Log::info("OTP for phone {$identifier}: {$otp}");
+    if ($method === 'email') {
+        $mailer = new GeniusMailer();
+        $mailData = [
+            'to' => $identifier,
+            'subject' => 'Your Login OTP Code',
+            'body' => "Your OTP code is: {$otp}"
+        ];
+        \Log::info("OTP sent to email {$identifier}: {$otp}");
+        $mailer->sendCustomMail($mailData);
 
-      // $result = $this->resend_otp($identifier, $otp);
-      // You can replace this with actual SMS API
+    } elseif ($method === 'phone') {
+        \Log::info("OTP sent to phone {$identifier}: {$otp}");
+        $this->resend_otp($identifier, $otp); // Replace with actual SMS logic
     }
 
-    return response()->json(['message' => 'OTP sent successfully! ' . $otp . ']']);
-  }
+    return response()->json(['message' => 'OTP sent successfully!', 'otp' => $otp]);
+}
+
   public function verify_otp_old(Request $request)
   {
 
@@ -413,53 +416,58 @@ class LoginController extends Controller
   }
 
 
-  public function verify_otp(Request $request)
-  {
-     
-  
-      $otpData = Session::get('otp_data');
+public function verify_otp(Request $request)
+{
+    $otpData = Session::get('otp_data');
 
-      if (!$otpData || now()->gt($otpData['expires_at'])) {
-          return response()->json(['message' => 'OTP expired.'], 400);
-      }
 
-      
-      if ($otpData['otp']!== $request->otp) {
-          return response()->json(['message' => 'Invalid OTP.'], 400);
-      }
-  
-      $identifier = $request->{$request->type};
-      $user = User::where($request->type, $identifier)->first();
-  
-      if (!$user) {
-          
-          $input = [
-              'name' => $request->name,
-              $request->type => $identifier,
-              //'password' => bcrypt($request->password),
-              'verification_link' => md5(time() . $request->name . $request->email),
-              'affilate_code' => md5($request->name . $request->email),
-              'refferel_code' => md5($request->name . $request->email . rand(1111, 9999)),
-          ];
-  
-          if (Session::has('refferel_user_id')) {
-              $input['reffered_by'] = Session::get('refferel_user_id');
-          }
-  
-          if (Session::has('affilate')) {
-              $input['affiliated_by'] = Session::get('affilate');
-          }
-  
-          $user = User::create($input);
-      }
-  
-      Auth::login($user);
-  
-      Session::forget(['otp_data']);
-  
-      return response()->json([
-          'message' => 'Login successful!',
-          'success' => true
-      ]);
-  }
+    if (!$otpData || now()->gt($otpData['expires_at'])) {
+    return response()->json(['message' => 'OTP expired.'], 400);
+    }
+
+    // FIXED: Normalize both values before comparing
+    if (trim((string) $otpData['otp']) !== trim((string) $request->otp_code)) {
+    return response()->json(['message' => 'Invalid OTP.'], 400);
+    }
+
+    // Get the method (e.g., 'phone') and the identifier value (e.g., '9889259224')
+    $method = $request->method;
+    $identifier = $request->contact;
+
+    // Find user by the given method
+    $user = User::where($method, $identifier)->first();
+
+    // If user doesn't exist, create one
+    if (!$user) {
+        $input = [
+            'name' => $request->name ?? 'User', // fallback name if not provided
+            $method => $identifier,
+            'verification_link' => md5(time() . ($request->name ?? 'User') . $identifier),
+            'affilate_code' => md5(($request->name ?? 'User') . $identifier),
+            'refferel_code' => md5(($request->name ?? 'User') . $identifier . rand(1111, 9999)),
+        ];
+
+        if (Session::has('refferel_user_id')) {
+            $input['reffered_by'] = Session::get('refferel_user_id');
+        }
+
+        if (Session::has('affilate')) {
+            $input['affiliated_by'] = Session::get('affilate');
+        }
+
+        $user = User::create($input);
+    }
+
+    // Log in the user
+    Auth::login($user, $request->keep_signed_in ?? false);
+
+    // Clear OTP session data
+    Session::forget(['otp_data']);
+
+    return response()->json([
+        'message' => 'Login successful!',
+        'success' => true
+    ]);
+}
+
 }

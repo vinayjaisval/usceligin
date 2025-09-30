@@ -18,9 +18,11 @@ class UserController extends UserBaseController
 
     public function index()
     {
+        
 
         $user = $this->user;
-        return view('user.dashboard', compact('user'));
+        
+return redirect()->route('front.index');
     }
 
 

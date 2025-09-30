@@ -27,6 +27,7 @@ class OtpController extends Controller
      */
     public function sendOtp(SendOtpRequest $request): JsonResponse
     {
+        
         try {
             $contact = $request->input('contact');
             $method = $request->input('method', 'phone');
