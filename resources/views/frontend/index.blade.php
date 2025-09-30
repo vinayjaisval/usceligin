@@ -10,89 +10,49 @@
         <div class="swiper-wrapper">
           <!-- Slide 1 -->
           <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
-            <!-- Desktop View: 60/40 layout - Image 60%, Content 40% -->
-            <div class="hidden lg:flex relative h-[400px] xl:h-[600px] items-center bg-cover bg-center bg-no-repeat"
-                 style="background-image: url('{{asset('assets/frontend/images/carousel-bg-1.png')}}')"
-                 role="img"
-                 aria-label="Woman with glowing skin representing premium skincare">
-              <div class="relative z-10 w-full flex">
-                <!-- Left spacer: 60% -->
-                <div class="w-[60%]"></div>
-                <!-- Right content: 40% -->
-                <div class="w-[40%] pr-8 flex items-center">
-                  <div class="w-full text-left">
-                    <h1 class="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold text-black mb-3 xl:mb-4 leading-tight">
-                      Transform Your Skin<br />With Premium Skincare
-                    </h1>
-                    <p id="slide-1-desc" class="text-xs sm:text-sm lg:text-sm xl:text-base text-gray-700 mb-4 xl:mb-6 leading-relaxed">
-                      Discover clinically proven formulas that deliver visible results. Get radiant, healthy skin with our award-winning products.
-                    </p>
-                    <div class="mb-4 xl:mb-6">
-                      <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-5 xl:px-6 py-2 sm:py-2.5 xl:py-3 bg-orange-600 text-white text-xs sm:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md"
-                         aria-describedby="slide-1-desc">
-                        Shop Now
-                      </a>
-                    </div>
-                    <div class="flex items-center space-x-3 xl:space-x-4" role="group" aria-label="Certification badges">
-                      <img
-                        src="{{asset('assets/frontend/images/peta-banner.png')}}"
-                        alt="PETA Certified - Cruelty-free products"
-                        class="h-8 xl:h-12 w-auto" />
-                      <img
-                        src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
-                        alt="CPNP Registered - EU compliant cosmetics"
-                        class="h-8 xl:h-12 w-auto" />
-                    </div>
+            <!-- Unified Responsive Layout -->
+            <div class="relative bg-white dark:bg-gray-900 md:h-[300px] lg:h-[400px] xl:h-[600px]">
+              <!-- Image Container: Responsive sizing -->
+              <div class="relative w-full h-[200px] md:absolute md:inset-0 md:h-full overflow-hidden">
+                <img
+                  src="{{asset('assets/frontend/images/carousel-bg-1.png')}}"
+                  alt="Woman with glowing skin representing premium skincare"
+                  class="w-full h-full object-cover" />
+              </div>
+
+              <!-- Content Container: Responsive positioning -->
+              <div class="relative md:absolute md:inset-0 md:flex md:items-center md:justify-end bg-gray-50 dark:bg-gray-800 md:bg-transparent p-4 md:p-6 lg:pr-8">
+                <div class="w-full md:w-[35%] lg:w-[40%] md:bg-transparent">
+                  <!-- Heading -->
+                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:text-black mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight">
+                    Transform Your Skin<br class="hidden md:inline" />With Premium Skincare
+                  </h1>
+
+                  <!-- Description -->
+                  <p id="slide-1-desc" class="text-xs md:text-sm xl:text-base text-gray-700 dark:text-gray-300 mb-2 md:mb-3 lg:mb-4 xl:mb-6 leading-snug md:leading-relaxed">
+                    Discover clinically proven formulas that deliver visible results<span class="hidden lg:inline">. Get radiant, healthy skin with our award-winning products</span>.
+                  </p>
+
+                  <!-- CTA Button -->
+                  <div class="mb-0 lg:mb-4 xl:mb-6">
+                    <a href="/products"
+                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md"
+                       aria-describedby="slide-1-desc">
+                      Shop Now
+                    </a>
                   </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- Tablet View: 50%/50% split - Total height 300px -->
-            <div class="hidden md:flex lg:hidden bg-white dark:bg-gray-900 h-[300px]">
-              <div class="relative w-1/2 overflow-hidden">
-                <img
-                  src="{{asset('assets/frontend/images/carousel-bg-1.png')}}"
-                  alt="Woman with glowing skin representing premium skincare"
-                  class="w-full h-full object-cover" />
-              </div>
-              <div class="w-1/2 flex flex-col justify-center p-6 bg-gray-50 dark:bg-gray-800">
-                <h1 class="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
-                  Transform Your Skin<br />With Premium Skincare
-                </h1>
-                <p class="text-xs md:text-sm text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
-                  Discover clinically proven formulas that deliver visible results.
-                </p>
-                <div>
-                  <a href="/products"
-                     class="inline-flex items-center px-3 md:px-4 py-1.5 md:py-2 bg-orange-600 text-white text-xs md:text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md">
-                    Shop Now
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Mobile View: Two rows (image top, content bottom) - Total height 300px -->
-            <div class="md:hidden bg-white dark:bg-gray-900">
-              <div class="relative h-[200px] overflow-hidden">
-                <img
-                  src="{{asset('assets/frontend/images/carousel-bg-1.png')}}"
-                  alt="Woman with glowing skin representing premium skincare"
-                  class="w-full h-full object-cover" />
-              </div>
-              <div class="p-4 bg-gray-50 dark:bg-gray-800">
-                <h1 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-1 leading-tight">
-                  Transform Your Skin With Premium Skincare
-                </h1>
-                <p class="text-xs text-gray-700 dark:text-gray-300 mb-2 leading-snug">
-                  Discover clinically proven formulas that deliver visible results.
-                </p>
-                <div>
-                  <a href="/products"
-                     class="inline-flex items-center px-3 py-1.5 bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md">
-                    Shop Now
-                  </a>
+                  <!-- Certification Badges (Desktop only) -->
+                  <div class="hidden lg:flex items-center space-x-3 xl:space-x-4" role="group" aria-label="Certification badges">
+                    <img
+                      src="{{asset('assets/frontend/images/peta-banner.png')}}"
+                      alt="PETA Certified - Cruelty-free products"
+                      class="h-8 xl:h-12 w-auto" />
+                    <img
+                      src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
+                      alt="CPNP Registered - EU compliant cosmetics"
+                      class="h-8 xl:h-12 w-auto" />
+                  </div>
                 </div>
               </div>
             </div>
