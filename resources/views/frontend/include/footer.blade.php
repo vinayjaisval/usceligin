@@ -470,12 +470,14 @@
 
   function showSearchDropdown(dropdown) {
     dropdown.classList.remove('hidden');
+    dropdown.classList.add('show');
   }
 
   function hideSearchDropdown() {
     const dropdown = document.getElementById('search-dropdown');
     if (dropdown) {
       dropdown.classList.add('hidden');
+      dropdown.classList.remove('show');
     }
   }
 
@@ -555,6 +557,7 @@
     const dropdownMobile = document.getElementById('search-dropdown-mobile');
     if (dropdownMobile) {
       dropdownMobile.classList.add('hidden');
+      dropdownMobile.classList.remove('show');
     }
   }
 
