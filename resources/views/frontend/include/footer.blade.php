@@ -227,10 +227,10 @@
 <!-- Header Functionality Scripts -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Initialize search functionality
+    // Initialize desktop search functionality
     initSearch();
 
-    // Initialize mobile search
+    // Initialize mobile/tablet search functionality
     initMobileSearch();
   });
 
@@ -439,15 +439,82 @@
     }
   }
 
-  // Mobile Search Functionality
+  // Mobile Search Functionality (Inline dropdown for tablet/mobile)
   function initMobileSearch() {
-    const mobileSearchBtn = document.querySelector('.lg\\:hidden[aria-label="Open search"]');
+    const searchInputMobile = document.getElementById('search-input-mobile');
+    const searchDropdownMobile = document.getElementById('search-dropdown-mobile');
+    const suggestionsListMobile = document.getElementById('search-suggestions-list-mobile');
+    const searchBtnMobile = document.getElementById('search-btn-mobile');
+    let searchTimeout;
 
-    if (mobileSearchBtn) {
-      mobileSearchBtn.addEventListener('click', function() {
-        // Create mobile search overlay
-        createMobileSearchOverlay();
+    if (!searchInputMobile || !searchDropdownMobile || !suggestionsListMobile) return;
+
+    // Get products data from footer
+    const productsData = document.getElementById('myProductsData');
+    let products = [];
+
+    if (productsData) {
+      try {
+        products = JSON.parse(productsData.value);
+      } catch (e) {
+        console.error('Error parsing products data:', e);
+      }
+    }
+
+    // Search input handler
+    searchInputMobile.addEventListener('input', function() {
+      const query = this.value.trim();
+
+      clearTimeout(searchTimeout);
+
+      if (query.length < 2) {
+        hideSearchDropdownMobile();
+        return;
+      }
+
+      searchTimeout = setTimeout(() => {
+        performSearch(query, products, suggestionsListMobile, searchDropdownMobile);
+      }, 300);
+    });
+
+    // Search button handler
+    if (searchBtnMobile) {
+      searchBtnMobile.addEventListener('click', function() {
+        const query = searchInputMobile.value.trim();
+        if (query) {
+          window.location.href = `/search?q=${encodeURIComponent(query)}`;
+        }
       });
+    }
+
+    // Form submission handler
+    searchInputMobile.closest('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const query = searchInputMobile.value.trim();
+      if (query) {
+        window.location.href = `/search?q=${encodeURIComponent(query)}`;
+      }
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!searchInputMobile.contains(e.target) && !searchDropdownMobile.contains(e.target)) {
+        hideSearchDropdownMobile();
+      }
+    });
+
+    // Hide dropdown on escape
+    searchInputMobile.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        hideSearchDropdownMobile();
+      }
+    });
+  }
+
+  function hideSearchDropdownMobile() {
+    const dropdownMobile = document.getElementById('search-dropdown-mobile');
+    if (dropdownMobile) {
+      dropdownMobile.classList.add('hidden');
     }
   }
 

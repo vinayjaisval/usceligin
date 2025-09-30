@@ -10,117 +10,94 @@
         <div class="swiper-wrapper">
           <!-- Slide 1 -->
           <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
-            <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] flex items-center bg-cover bg-center bg-no-repeat"
+            <!-- Desktop View: 60/40 layout - Image 60%, Content 40% -->
+            <div class="hidden lg:flex relative h-[400px] xl:h-[600px] items-center bg-cover bg-center bg-no-repeat"
                  style="background-image: url('{{asset('assets/frontend/images/carousel-bg-1.png')}}')"
                  role="img"
                  aria-label="Woman with glowing skin representing premium skincare">
-              <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-center lg:justify-end">
-                  <div class="max-w-md text-center lg:text-left">
-                    <h1 class="text-4xl font-bold text-black mb-4 leading-tight">
+              <div class="relative z-10 w-full flex">
+                <!-- Left spacer: 60% -->
+                <div class="w-[60%]"></div>
+                <!-- Right content: 40% -->
+                <div class="w-[40%] pr-8 flex items-center">
+                  <div class="w-full text-left">
+                    <h1 class="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold text-black mb-3 xl:mb-4 leading-tight">
                       Transform Your Skin<br />With Premium Skincare
-                    </h2>
-                    <p id="slide-1-desc" class="text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
+                    </h1>
+                    <p id="slide-1-desc" class="text-xs sm:text-sm lg:text-sm xl:text-base text-gray-700 mb-4 xl:mb-6 leading-relaxed">
                       Discover clinically proven formulas that deliver visible results. Get radiant, healthy skin with our award-winning products.
                     </p>
-                    <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
+                    <div class="mb-4 xl:mb-6">
                       <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-base"
+                         class="inline-flex items-center px-4 sm:px-5 xl:px-6 py-2 sm:py-2.5 xl:py-3 bg-orange-600 text-white text-xs sm:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md"
                          aria-describedby="slide-1-desc">
                         Shop Now
                       </a>
                     </div>
-                    <div class="flex items-center justify-center lg:justify-start space-x-4" role="group" aria-label="Certification badges">
+                    <div class="flex items-center space-x-3 xl:space-x-4" role="group" aria-label="Certification badges">
                       <img
                         src="{{asset('assets/frontend/images/peta-banner.png')}}"
                         alt="PETA Certified - Cruelty-free products"
-                        class="h-8 sm:h-10 lg:h-12 w-auto" />
+                        class="h-8 xl:h-12 w-auto" />
                       <img
                         src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
                         alt="CPNP Registered - EU compliant cosmetics"
-                        class="h-8 sm:h-10 lg:h-12 w-auto" />
+                        class="h-8 xl:h-12 w-auto" />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </article>
 
-          <!-- Slide 2 -->
-          <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="2 of 3">
-            <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] flex items-center bg-cover bg-center bg-no-repeat"
-                 style="background-image: url('{{asset('assets/frontend/images/carousel-bg-2.png')}}')"
-                 role="img"
-                 aria-label="Happy women enjoying skincare together">
-              <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-center lg:justify-end">
-                  <div class="max-w-md text-center lg:text-left">
-                    <h1 class="text-4xl font-bold text-black mb-4 leading-tight">
-                      Limited Time Offer<br />Up to 50% Off
-                    </h2>
-                    <p id="slide-2-desc" class="text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
-                      Don't miss out on our biggest sale of the year! Shop bestselling skincare products at unbeatable prices.
-                    </p>
-                    <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
-                      <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-base"
-                         aria-describedby="slide-2-desc">
-                        Shop Now
-                      </a>
-                    </div>
-                    <div class="flex items-center justify-center lg:justify-start space-x-4" role="group" aria-label="Certification badges">
-                      <img
-                        src="{{asset('assets/frontend/images/peta-banner.png')}}"
-                        alt="PETA Certified - Cruelty-free products"
-                        class="h-8 sm:h-10 lg:h-12 w-auto" />
-                      <img
-                        src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
-                        alt="CPNP Registered - EU compliant cosmetics"
-                        class="h-8 sm:h-10 lg:h-12 w-auto" />
-                    </div>
-                  </div>
+            <!-- Tablet View: 50%/50% split - Total height 300px -->
+            <div class="hidden md:flex lg:hidden bg-white dark:bg-gray-900 h-[300px]">
+              <div class="relative w-1/2 overflow-hidden">
+                <img
+                  src="{{asset('assets/frontend/images/carousel-bg-1.png')}}"
+                  alt="Woman with glowing skin representing premium skincare"
+                  class="w-full h-full object-cover" />
+              </div>
+              <div class="w-1/2 flex flex-col justify-center p-6 bg-gray-50 dark:bg-gray-800">
+                <h1 class="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
+                  Transform Your Skin<br />With Premium Skincare
+                </h1>
+                <p class="text-xs md:text-sm text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
+                  Discover clinically proven formulas that deliver visible results.
+                </p>
+                <div>
+                  <a href="/products"
+                     class="inline-flex items-center px-3 md:px-4 py-1.5 md:py-2 bg-orange-600 text-white text-xs md:text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md">
+                    Shop Now
+                  </a>
                 </div>
               </div>
             </div>
-          </article>
 
-          <!-- Slide 3 -->
-          <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="3 of 3">
-            <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] flex items-center bg-cover bg-center bg-no-repeat"
-                 style="background-image: url('{{asset('assets/frontend/images/carousel-bg-3.png')}}')"
-                 role="img"
-                 aria-label="New skincare products showcasing latest innovations">
-              <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-center lg:justify-end">
-                  <div class="max-w-md text-center lg:text-left">
-                    <h1 class="text-4xl font-bold text-black mb-4 leading-tight">
-                      New Arrivals<br />Just Launched
-                    </h2>
-                    <p id="slide-3-desc" class="text-base text-gray-700 mb-6 sm:mb-8 leading-relaxed">
-                      Be the first to try our latest innovations. Fresh formulas, proven results, exclusively available now.
-                    </p>
-                    <div class="flex justify-center lg:justify-start mb-6 sm:mb-8">
-                      <a href="/products"
-                         class="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-base"
-                         aria-describedby="slide-3-desc">
-                        Explore Collection
-                      </a>
-                    </div>
-                    <div class="flex items-center justify-center lg:justify-start space-x-4" role="group" aria-label="Certification badges">
-                      <img
-                        src="{{asset('assets/frontend/images/peta-banner.png')}}"
-                        alt="PETA Certified - Cruelty-free products"
-                        class="h-8 sm:h-10 lg:h-12 w-auto" />
-                      <img
-                        src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
-                        alt="CPNP Registered - EU compliant cosmetics"
-                        class="h-8 sm:h-10 lg:h-12 w-auto" />
-                    </div>
-                  </div>
+            <!-- Mobile View: Two rows (image top, content bottom) - Total height 300px -->
+            <div class="md:hidden bg-white dark:bg-gray-900">
+              <div class="relative h-[200px] overflow-hidden">
+                <img
+                  src="{{asset('assets/frontend/images/carousel-bg-1.png')}}"
+                  alt="Woman with glowing skin representing premium skincare"
+                  class="w-full h-full object-cover" />
+              </div>
+              <div class="p-4 bg-gray-50 dark:bg-gray-800">
+                <h1 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-1 leading-tight">
+                  Transform Your Skin With Premium Skincare
+                </h1>
+                <p class="text-xs text-gray-700 dark:text-gray-300 mb-2 leading-snug">
+                  Discover clinically proven formulas that deliver visible results.
+                </p>
+                <div>
+                  <a href="/products"
+                     class="inline-flex items-center px-3 py-1.5 bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 rounded-md">
+                    Shop Now
+                  </a>
                 </div>
               </div>
             </div>
           </article>
+          
         </div>
 
         <!-- Navigation arrows -->
@@ -140,13 +117,13 @@
   </section>
 
   <!-- Category Banners -->
-  <section class="py-12 lg:py-16 bg-white" aria-labelledby="category-banners-title" role="region">
+  <section class="py-12 lg:py-16 bg-white dark:bg-gray-900" aria-labelledby="category-banners-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 id="category-banners-title" class="text-3xl font-bold text-gray-900 mb-8 lg:mb-12 text-center">Shop by Category</h2>
+      <h2 id="category-banners-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 lg:mb-12 text-center">Shop by Category</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-        <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+        <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 rounded-lg">
           <a href="/products"
-             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded-lg"
              aria-describedby="category-1-desc"
              role="button"
              tabindex="0">
@@ -161,15 +138,15 @@
                 class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                 <div>
-                  <h3 class="text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                  <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
                     New Arrivals
                   </h3>
-                  <p id="category-1-desc" class="text-base leading-relaxed text-gray-700">
+                  <p id="category-1-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
                     Starting at ₹5500.00
                   </p>
                 </div>
                 <div class="mt-auto">
-                  <span class="inline-flex items-center text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                  <span class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
                     <span class="sr-only">Shop</span>
                     Shop Now
                     <svg
@@ -209,15 +186,15 @@
                 class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                 <div>
-                  <h3 class="text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                  <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
                     Best Sellers
                   </h3>
-                  <p id="category-2-desc" class="text-base leading-relaxed text-gray-700">
+                  <p id="category-2-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
                     At ₹5500.00
                   </p>
                 </div>
                 <div class="mt-auto">
-                  <span class="inline-flex items-center text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                  <span class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
                     <span class="sr-only">Shop</span>
                     Shop Now
                     <svg
@@ -257,15 +234,15 @@
                 class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                 <div>
-                  <h3 class="text-2xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                  <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
                     Hot Sale
                   </h3>
-                  <p id="category-3-desc" class="text-base leading-relaxed text-gray-700">
+                  <p id="category-3-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
                     30% Off and Below - Don't Miss Out!
                   </p>
                 </div>
                 <div class="mt-auto">
-                  <span class="inline-flex items-center text-base font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
+                  <span class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-orange-600 group-hover:translate-x-1 transition-transform duration-200">
                     <span class="sr-only">Discover</span>
                     Discover Now
                     <svg
@@ -293,12 +270,12 @@
   </section>
 
   @if($ps->best_sellers==1)
-  <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="bestsellers-title" role="region">
+  <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="bestsellers-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
-        <h2 id="bestsellers-title" class="text-3xl font-bold text-gray-900">Our Bestsellers</h2>
+        <h2 id="bestsellers-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Our Bestsellers</h2>
         <a href="{{ route('front.best-sellers') }}"
-           class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+           class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md"
            aria-label="View all bestselling products">
           Shop all best sellers
           <svg
@@ -322,9 +299,9 @@
           <div class="swiper-wrapper">
             @foreach($best_products as $prod)
             <div class="swiper-slide">
-              <article class="bg-white shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300" itemscope itemtype="https://schema.org/Product">
+              <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 rounded-lg" itemscope itemtype="https://schema.org/Product">
                 <a href="{{ url('/item/'.$prod->slug) }}"
-                   class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                   class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg"
                    aria-describedby="product-{{ $prod->id }}-desc">
                   <div class="relative aspect-square overflow-hidden">
                     <img
@@ -358,12 +335,12 @@
                   </div>
                   <div class="p-3 sm:p-4">
                     <div class="mb-2">
-                      <span class="text-base font-bold text-gray-900" itemprop="price">{{ $prod->showPrice() }}</span>
+                      <span class="text-base font-bold text-gray-900 dark:text-gray-100" itemprop="price">{{ $prod->showPrice() }}</span>
                       @if($prod->showPreviousPrice() && $prod->showPreviousPrice() != $prod->showPrice())
-                      <span class="text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
+                      <span class="text-sm text-gray-500 dark:text-gray-400 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
                       @endif
                     </div>
-                    <h3 id="product-{{ $prod->id }}-desc" class="text-sm font-medium text-gray-900 line-clamp-2 leading-relaxed" itemprop="name" title="{{$prod->name}}">
+                    <h3 id="product-{{ $prod->id }}-desc" class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 leading-relaxed" itemprop="name" title="{{$prod->name}}">
                       {{ ucfirst(mb_strtolower($prod->showName())) }}
                     </h3>
                   </div>
@@ -438,7 +415,7 @@
               <span class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-bold ml-2" role="status" aria-label="25 percent discount">-25%</span>
             </div>
 
-            <h2 id="special-offer-title" class="text-3xl font-bold text-gray-900 mb-4 leading-tight">
+            <h2 id="special-offer-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
               Celigin daily sun finish<br />
               (50ml) with coscor<br />
               1,000ppm
@@ -467,14 +444,14 @@
   @endif
   
   <!-- Hot Deals -->
-  <section class="py-12 lg:py-16 bg-red-50" aria-labelledby="hotdeals-title" role="region">
+  <section class="py-12 lg:py-16 bg-red-50 dark:bg-gray-900" aria-labelledby="hotdeals-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
-        <h2 id="hotdeals-title" class="text-3xl font-bold text-gray-900 flex items-center">
+        <h2 id="hotdeals-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
           <span class="mr-3">🔥</span>Hot Deals
         </h2>
         <a href="{{ route('front.sales') }}"
-           class="inline-flex items-center text-sm font-medium text-red-600 hover:text-red-700 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+           class="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded-md"
            aria-label="View all hot deals and sales">
           Shop all hot deals
           <svg
@@ -498,9 +475,9 @@
           <div class="swiper-wrapper">
             @foreach($hot_products as $prod)
             <div class="swiper-slide">
-              <article class="bg-white shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 border border-red-100" itemscope itemtype="https://schema.org/Product">
+              <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 border border-red-100 dark:border-red-900 rounded-lg" itemscope itemtype="https://schema.org/Product">
                 <a href="{{ url('/item/'.$prod->slug) }}"
-                   class="block focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                   class="block focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-lg"
                    aria-describedby="hotdeal-{{ $prod->id }}-desc">
                   <div class="relative aspect-square overflow-hidden">
                     <img
@@ -577,7 +554,7 @@
   </section>
 
   <!-- Instagram Feed -->
-  <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="instagram-title">
+  <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="instagram-title">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-8 lg:mb-12">
         <div class="flex items-center space-x-3">
@@ -596,9 +573,9 @@
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
           </div>
-          <h2 id="instagram-title" class="text-3xl font-bold text-gray-900">Instagram Feed</h2>
+          <h2 id="instagram-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Instagram Feed</h2>
         </div>
-        <a href="#" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group">
+        <a href="#" class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
           View all feeds
           <svg
             width="16"
@@ -618,7 +595,7 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         role="region"
         aria-label="Instagram posts">
-        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+        <article class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
           <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DI2-xXWPXMu/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
             <div style="padding:16px;"> <a href="https://www.instagram.com/p/DI2-xXWPXMu/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                 <div style=" display: flex; flex-direction: row; align-items: center;">
@@ -772,7 +749,7 @@
   </section>
 
   <!-- Join CELIGIN Banner -->
-  <section class="py-12 lg:py-16 bg-white">
+  <section class="py-12 lg:py-16 bg-white dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         <div class="relative overflow-hidden group cursor-pointer">
@@ -781,8 +758,8 @@
             alt="Join CELIGIN Club - Become a Brand Ambassador"
             class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
           <div class="absolute inset-y-0 left-0 w-1/2 flex flex-col justify-center text-left p-6">
-            <span class="inline-block px-3 py-1 bg-orange-600 text-white text-sm font-semibold rounded-full mb-4 uppercase tracking-wide w-fit">JOIN CELIGIN CLUB</span>
-            <h3 class="text-2xl font-bold text-black mb-6">Become a Brand Ambassador</h3>
+            <span class="inline-block px-3 py-1 bg-orange-600 dark:bg-orange-500 text-white text-sm font-semibold rounded-full mb-4 uppercase tracking-wide w-fit">JOIN CELIGIN CLUB</span>
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white mb-6">Become a Brand Ambassador</h3>
             <a href="/join" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 w-fit text-sm" aria-label="Join CELIGIN Club to become a brand ambassador">
               Join Now
             </a>
@@ -795,8 +772,8 @@
             alt="Cell For Education - CELIGIN Skincare Products"
             class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
           <div class="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
-            <h3 class="text-2xl font-bold text-black">Cell For Education</h3>
-            <a href="/education" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm" aria-label="Learn more about Cell For Education program">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white">Cell For Education</h3>
+            <a href="/education" class="inline-flex items-center px-4 py-2 bg-orange-600 dark:bg-orange-500 text-white font-medium hover:bg-orange-700 dark:hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 text-sm rounded-md" aria-label="Learn more about Cell For Education program">
               Read More
             </a>
           </div>
@@ -807,11 +784,11 @@
 
   @if($ps->blog==1)
   <!-- Blog Section -->
-  <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="blog-title">
+  <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="blog-title">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-8 lg:mb-12">
-        <h2 id="blog-title" class="text-3xl font-bold text-gray-900">Blog</h2>
-        <a href="/blog" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 group">
+        <h2 id="blog-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Blog</h2>
+        <a href="/blog" class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
           View all posts
           <svg
             width="16"
@@ -830,8 +807,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" role="region" aria-label="Latest blog posts">
 
         @foreach($blogs as $blog)
-        <article class="bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group">
-          <div class="aspect-w-16 aspect-h-12 overflow-hidden">
+        <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group rounded-lg">
+          <div class="aspect-w-16 aspect-h-12 overflow-hidden rounded-t-lg">
             <img
               src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}"
               alt="{{ $blog->title }}"
@@ -840,8 +817,8 @@
               class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
           <div class="p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">{{ Str::limit($blog->title, 25) }}</h3>
-            <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-sm font-medium text-orange-600 hover:text-orange-700 transition-colors duration-200 group">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2">{{ Str::limit($blog->title, 25) }}</h3>
+            <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors duration-200 group rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
               Read More
               <svg
                 width="16"
