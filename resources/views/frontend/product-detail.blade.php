@@ -53,82 +53,83 @@
           </div>
           <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
             @foreach($productt->galleries as $gal)
-            <button
-              class="aspect-square border-2 border-transparent hover:border-orange-600 dark:hover:border-orange-400 transition-colors duration-200 bg-gray-100 dark:bg-gray-800 overflow-hidden focus:outline-none focus:ring-2 focus:ring-orange-500"
+            <a href="#"
+              class="aspect-square border-2 border-transparent hover:border-orange-600 dark:hover:border-orange-400 transition-colors duration-200 bg-gray-100 dark:bg-gray-800 overflow-hidden focus:outline-none focus:ring-2 focus:ring-orange-500 gallery-thumbnail"
+              data-image="{{asset('assets/images/galleries/'.$gal->photo)}}"
               aria-label="View product image">
               <img
                 src="{{asset('assets/images/galleries/'.$gal->photo)}}"
-                alt="Product view"
+                alt="{{ $productt->name }} - Product view"
                 width="80"
                 height="80"
                 class="w-full h-full object-cover" />
-            </button>
+            </a>
             @endforeach
           </div>
         </div>
 
         <!-- Product Information -->
-        <div class="space-y-6">
+        <div class="space-y-5">
           <div>
-            <h1 class="text-sm font-medium text-orange-600 dark:text-orange-400 uppercase tracking-wide">{{ ucfirst(mb_strtolower($productt->name)) }}</h1>
+            <h1 class="text-sm font-medium text-orange-600 dark:text-orange-400 uppercase tracking-wide">{{ ucfirst(mb_strtolower($productt->cat->title ?? '')) }}</h1>
           </div>
           <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
-            Travel Size Moroccanoil Treatment Hair Oil
+            {{ ucfirst(mb_strtolower($productt->name)) }}
           </h2>
 
           <!-- Rating -->
-          <div class="flex items-center space-x-3">
-            <div class="flex items-center" aria-label="4.5 out of 5 stars">
-              <span class="text-yellow-500 text-lg font-semibold">{{ App\Models\Rating::ratings($productt->id) }} ★</span>
+          <div class="flex items-center gap-3" aria-label="{{ App\Models\Rating::ratings($productt->id) }} out of 5 stars">
+            <div class="flex items-center">
+              @php
+                $rating = App\Models\Rating::ratings($productt->id);
+                $fullStars = floor($rating);
+                $hasHalfStar = ($rating - $fullStars) >= 0.5;
+              @endphp
+              @for($i = 1; $i <= 5; $i++)
+                @if($i <= $fullStars)
+                  <svg class="w-5 h-5 text-yellow-500 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                @elseif($i == $fullStars + 1 && $hasHalfStar)
+                  <svg class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" opacity="0.3"/>
+                    <path stroke="currentColor" stroke-width="2" fill="none" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                @else
+                  <svg class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke="currentColor" stroke-width="2" fill="none" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                @endif
+              @endfor
             </div>
-            <span class="text-sm font-medium text-gray-900 dark:text-gray-100">4.5</span>
+            <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ number_format($rating, 1) }}</span>
             <a href="#reviews" class="text-sm text-orange-600 dark:text-orange-400 hover:underline">({{ App\Models\Rating::ratingCount($productt->id) }}) Reviews</a>
           </div>
 
           <!-- Price -->
-          <div class="space-y-3">
-            <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ $productt->showPrice() }}</div>
-            <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-              <svg
-                class="w-4 h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-              <span>Afterpay available for orders over ₹35</span>
-            </div>
-            <div class="flex items-center space-x-2 text-sm">
-              <svg
-                class="w-4 h-4 text-yellow-500"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2">
-                <path d="M2 20h20l-10-12L2 20z"></path>
-                <path d="M12 8l-2-3 2-3 2 3-2 3z"></path>
-              </svg>
-              <span class="text-gray-900 dark:text-gray-100"><strong>Replenish & Save</strong></span>
+          <div>
+            <div class="flex items-center gap-3">
+              <span class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ $productt->showPrice() }}</span>
+              @if($productt->showPreviousPrice() && $productt->showPreviousPrice() != $productt->showPrice())
+                <span class="text-xl text-gray-500 dark:text-gray-400 line-through">{{ $productt->showPreviousPrice() }}</span>
+              @endif
             </div>
           </div>
 
           <!-- Pickup and Delivery Options -->
-          <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+          <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
             <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">Pickup and delivery options</h3>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button class="flex items-start space-x-3 p-4 border-2 border-orange-600 dark:border-orange-400 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500">
+              <a href="#" class="flex items-start space-x-3 p-4 border-2 border-orange-600 dark:border-orange-400 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 delivery-option" data-option="ship">
                 <svg
                   class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2">
+                  stroke-width="2"
+                  aria-hidden="true">
                   <rect x="1" y="3" width="15" height="13"></rect>
-                  <polygon
-                    points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
+                  <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
                   <circle cx="5.5" cy="18.5" r="2.5"></circle>
                   <circle cx="18.5" cy="18.5" r="2.5"></circle>
                 </svg>
@@ -136,32 +137,33 @@
                   <div class="font-semibold text-gray-900 dark:text-gray-100">Ship</div>
                   <div class="text-sm text-gray-600 dark:text-gray-400">Free standard shipping over ₹35</div>
                 </div>
-              </button>
+              </a>
 
-              <button class="flex items-start space-x-3 p-4 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500">
+              <a href="#" class="flex items-start space-x-3 p-4 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 delivery-option" data-option="pickup">
                 <svg
                   class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2">
-                  <path
-                    d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  stroke-width="2"
+                  aria-hidden="true">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9,22 9,12 15,12 15,22"></polyline>
                 </svg>
                 <div class="text-left">
                   <div class="font-semibold text-gray-900 dark:text-gray-100">Pickup</div>
                   <div class="text-sm text-gray-600 dark:text-gray-400">Free ship to pick up</div>
                 </div>
-              </button>
+              </a>
 
-              <button class="flex items-start space-x-3 p-4 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500">
+              <a href="#" class="flex items-start space-x-3 p-4 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 delivery-option" data-option="same-day">
                 <svg
                   class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2">
+                  stroke-width="2"
+                  aria-hidden="true">
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12,6 12,12 16,14"></polyline>
                 </svg>
@@ -169,124 +171,123 @@
                   <div class="font-semibold text-gray-900 dark:text-gray-100">Same day</div>
                   <div class="text-sm text-gray-600 dark:text-gray-400">Free same day delivery over ₹35</div>
                 </div>
-              </button>
+              </a>
             </div>
           </div>
 
-          <!-- Quantity and Add to Bag -->
-          <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-4">
-            <div class="flex items-center space-x-4">
-              <div class="flex items-center border-2 border-gray-300 dark:border-gray-600">
-                <button
-                  class="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  aria-label="Decrease quantity">
-                  <svg
-                    class="w-4 h-4 text-gray-900 dark:text-gray-100"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </button>
-                <div class="px-6 py-3 border-x-2 border-gray-300 dark:border-gray-600">
-                  <span class="text-lg font-semibold text-gray-900 dark:text-gray-100">1</span>
-                  <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">IN BAG</span>
-                </div>
-                <button
-                  class="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  aria-label="Increase quantity">
-                  <svg
-                    class="w-4 h-4 text-gray-900 dark:text-gray-100"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </button>
-              </div>
-              <button class="p-3 border-2 border-gray-300 dark:border-gray-600 hover:border-red-500 dark:hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500" aria-label="Add to favorites">
+          <!-- Quantity, Add to Cart & Wishlist -->
+          <div class="border-t border-gray-200 dark:border-gray-700 pt-5 space-y-4">
+            <div class="flex items-stretch gap-3">
+              <!-- Decrease Button -->
+              <a href="#"
+                id="decrease-qty"
+                class="flex items-center justify-center w-12 h-12 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                aria-label="Decrease quantity">
                 <svg
-                  class="w-5 h-5 text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400"
+                  class="w-4 h-4 text-gray-900 dark:text-gray-100"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2">
-                  <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  stroke-width="2"
+                  aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
-              </button>
+              </a>
+
+              <!-- Quantity Display -->
+              <div class="flex items-center justify-center min-w-[3rem] h-12 px-4 border-2 border-gray-300 dark:border-gray-600">
+                <span id="product-quantity" class="text-lg font-semibold text-gray-900 dark:text-gray-100">1</span>
+              </div>
+
+              <!-- Increase Button -->
+              <a href="#"
+                id="increase-qty"
+                class="flex items-center justify-center w-12 h-12 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                aria-label="Increase quantity">
+                <svg
+                  class="w-4 h-4 text-gray-900 dark:text-gray-100"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </a>
+
+              <!-- Wishlist Button -->
+              <a href="#"
+                id="add-to-wishlist-btn"
+                data-product-id="{{ $productt->id }}"
+                class="flex items-center justify-center w-12 h-12 border-2 border-gray-300 dark:border-gray-600 hover:border-red-500 dark:hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+                aria-label="Add to wishlist">
+                <svg
+                  class="w-5 h-5 text-gray-600 dark:text-gray-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </a>
             </div>
+
+            <!-- Add to Cart Button -->
+            <a href="#"
+              id="add-to-cart-btn"
+              data-product-id="{{ $productt->id }}"
+              class="block w-full text-center bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 text-white py-4 font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+              aria-label="Add {{ $productt->name }} to cart">
+              Add to Cart
+            </a>
+
             <p class="text-sm text-green-600 dark:text-green-400">
-              In stock and ready to ship. Usually ships out in 1-2 days
+              @if($productt->stock && $productt->stock > 0)
+                In stock and ready to ship. Usually ships out in 1-2 days
+              @else
+                <span class="text-red-600 dark:text-red-400">Out of stock</span>
+              @endif
             </p>
           </div>
 
           <!-- Product Summary -->
-          <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-6">
+          <div class="border-t border-gray-200 dark:border-gray-700 pt-5 space-y-5">
             <div>
               <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Summary</h3>
-              <div>
+              <div class="mb-4">
                 <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Highlights</h4>
                 <div class="flex flex-wrap gap-2">
-                  <span class="inline-flex items-center space-x-2 px-3 py-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-sm text-gray-900 dark:text-gray-100">
-                    <svg
-                      class="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2">
+                  <span class="inline-flex items-center space-x-1 px-2 py-1 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-xs text-gray-900 dark:text-gray-100">
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                       <polyline points="22,4 12,14.01 9,11.01"></polyline>
                     </svg>
                     <span>Clean Ingredients</span>
                   </span>
-                  <span class="inline-flex items-center space-x-2 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-sm text-gray-900 dark:text-gray-100">
-                    <svg
-                      class="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2">
-                      <path
-                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  <span class="inline-flex items-center space-x-1 px-2 py-1 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-xs text-gray-900 dark:text-gray-100">
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                     </svg>
                     <span>Cruelty Free</span>
                   </span>
-                  <span class="inline-flex items-center space-x-2 px-3 py-2 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 text-sm text-gray-900 dark:text-gray-100">
-                    <svg
-                      class="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2">
+                  <span class="inline-flex items-center space-x-1 px-2 py-1 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 text-xs text-gray-900 dark:text-gray-100">
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <path d="M17 8l4 4-4 4M7 8l-4 4 4 4"></path>
                       <path d="M12 2v20"></path>
                     </svg>
                     <span>Vegan</span>
                   </span>
-                  <span class="inline-flex items-center space-x-2 px-3 py-2 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 text-sm text-gray-900 dark:text-gray-100">
-                    <svg
-                      class="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2">
+                  <span class="inline-flex items-center space-x-1 px-2 py-1 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 text-xs text-gray-900 dark:text-gray-100">
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <path d="M3 12h18m-9-9v18"></path>
                     </svg>
-                    <span>Sustainable Packaging</span>
+                    <span>Sustainable</span>
                   </span>
-                  <span class="inline-flex items-center space-x-2 px-3 py-2 bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 text-sm text-gray-900 dark:text-gray-100">
-                    <svg
-                      class="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2">
-                      <path
-                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  <span class="inline-flex items-center space-x-1 px-2 py-1 bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 text-xs text-gray-900 dark:text-gray-100">
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                     </svg>
                     <span>Give Back</span>
                   </span>
@@ -296,117 +297,90 @@
 
             <div>
               <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                Moroccanoil Treatment is an oil-infused hair treatment
-                that smooths frizz, detangles, conditions, provides heat
-                protection, and increases shine by up to 118%.*
+                {{ $productt->summary ?? 'Discover premium quality beauty products designed to enhance your natural radiance. Formulated with carefully selected ingredients for optimal results.' }}
               </p>
             </div>
 
             <!-- Expandable Sections -->
-            <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-4">
-              <button class="w-full flex items-center justify-between py-4 text-left border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500" aria-expanded="false">
-                <span class="text-base font-semibold text-gray-900 dark:text-gray-100">Details</span>
-                <svg
-                  class="w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-              <button class="w-full flex items-center justify-between py-4 text-left border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500" aria-expanded="false">
-                <span class="text-base font-semibold text-gray-900 dark:text-gray-100">How To Use</span>
-                <svg
-                  class="w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-              <button class="w-full flex items-center justify-between py-4 text-left border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500" aria-expanded="false">
-                <span class="text-base font-semibold text-gray-900 dark:text-gray-100">Ingredients</span>
-                <svg
-                  class="w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
+              <!-- Details Accordion -->
+              <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
+                <a href="#"
+                  class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  aria-expanded="false"
+                  data-accordion="details">
+                  <span class="text-base font-semibold text-gray-900 dark:text-gray-100">Details</span>
+                  <svg
+                    class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </a>
+                <div class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50" id="details-content">
+                  {!! $productt->description ?? '<p>Detailed product information coming soon.</p>' !!}
+                </div>
+              </div>
+
+              <!-- How To Use Accordion -->
+              <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
+                <a href="#"
+                  class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  aria-expanded="false"
+                  data-accordion="how-to-use">
+                  <span class="text-base font-semibold text-gray-900 dark:text-gray-100">How To Use</span>
+                  <svg
+                    class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </a>
+                <div class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50" id="how-to-use-content">
+                  <ol class="list-decimal list-inside space-y-2">
+                    <li>Apply a small amount to clean, damp skin or hair</li>
+                    <li>Gently massage in circular motions</li>
+                    <li>Allow to absorb fully before applying other products</li>
+                    <li>Use daily for best results</li>
+                  </ol>
+                </div>
+              </div>
+
+              <!-- Ingredients Accordion -->
+              <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
+                <a href="#"
+                  class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  aria-expanded="false"
+                  data-accordion="ingredients">
+                  <span class="text-base font-semibold text-gray-900 dark:text-gray-100">Ingredients</span>
+                  <svg
+                    class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </a>
+                <div class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50" id="ingredients-content">
+                  <p class="leading-relaxed">
+                    {{ $productt->ingredients ?? 'Aqua, Glycerin, Natural Extracts, Vitamin E, Hyaluronic Acid, and other premium ingredients. Full ingredient list available on product packaging.' }}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Frequently Bought Together -->
-          <div class="border-t border-gray-200 dark:border-gray-700 pt-8 mt-8 space-y-6">
-            <div class="flex items-center justify-between">
-              <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">Frequently bought together</h3>
-              <span class="text-sm text-gray-600 dark:text-gray-400">3 items</span>
-            </div>
-            <div class="space-y-4">
-              <div class="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-800 border-2 border-orange-600 dark:border-orange-400">
-                <input type="checkbox" id="item1" checked class="w-5 h-5 text-orange-600 focus:ring-orange-500 border-gray-300 dark:border-gray-600" />
-                <label for="item1" class="cursor-pointer">
-                  <img
-                    src="./assets/images/moroccanoil-small.jpg"
-                    alt="Current Product"
-                    width="60"
-                    height="60"
-                    class="w-16 h-16 object-cover" />
-                </label>
-              </div>
-              <div class="flex items-center space-x-4 p-4 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 transition-colors duration-200">
-                <input type="checkbox" id="item2" class="w-5 h-5 text-orange-600 focus:ring-orange-500 border-gray-300 dark:border-gray-600" />
-                <label for="item2" class="flex items-center justify-between flex-1 cursor-pointer">
-                  <div class="space-y-1 flex-1">
-                    <span class="block text-xs font-medium text-orange-600 dark:text-orange-400 uppercase tracking-wide">Moroccanoil</span>
-                    <span class="block text-sm text-gray-900 dark:text-gray-100">Travel Size Moroccanoil Treatment Hair Oil</span>
-                    <div class="text-yellow-500 text-sm">★★★★★</div>
-                    <span class="block text-lg font-bold text-gray-900 dark:text-gray-100">₹20.00</span>
-                  </div>
-                  <img
-                    src="./assets/images/moroccanoil-hydrating.jpg"
-                    alt="High Shine Gloss Mask"
-                    width="60"
-                    height="60"
-                    class="w-16 h-16 object-cover ml-4" />
-                </label>
-              </div>
-              <div class="flex items-center space-x-4 p-4 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 transition-colors duration-200">
-                <input type="checkbox" id="item3" class="w-5 h-5 text-orange-600 focus:ring-orange-500 border-gray-300 dark:border-gray-600" />
-                <label for="item3" class="flex items-center justify-between flex-1 cursor-pointer">
-                  <div class="space-y-1 flex-1">
-                    <span class="block text-xs font-medium text-orange-600 dark:text-orange-400 uppercase tracking-wide">Moroccanoil</span>
-                    <span class="block text-sm text-gray-900 dark:text-gray-100">Frizz Shield Spray</span>
-                    <div class="text-yellow-500 text-sm">★★★★★</div>
-                    <span class="block text-lg font-bold text-gray-900 dark:text-gray-100">₹28.00</span>
-                  </div>
-                  <img
-                    src="./assets/images/moroccanoil-spray.jpg"
-                    alt="Frizz Shield Spray"
-                    width="60"
-                    height="60"
-                    class="w-16 h-16 object-cover ml-4" />
-                </label>
-              </div>
-            </div>
-            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-              <span class="text-sm text-gray-600 dark:text-gray-400">Original: <span class="line-through">₹68.00</span></span>
-            </div>
-            <a href="#" class="block w-full text-center bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 text-white py-4 font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">Add 3 to Bag</a>
-          </div>
         </div>
       </div>
 
@@ -535,18 +509,25 @@
 @section('scripts')
 
 <script>
-  document.getElementById('sort-select').addEventListener('change', function () {
-    document.getElementById('filters-form').submit();
-  });
-</script>
-
-
-<script>
   document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = '{{ csrf_token() }}';
 
-    const csrfToken = '{{ csrf_token() }}'; // Store once, use multiple times
+    // ========================================
+    // DOM Element Caching
+    // ========================================
+    const productQuantity = document.getElementById('product-quantity');
+    const decreaseQty = document.getElementById('decrease-qty');
+    const increaseQty = document.getElementById('increase-qty');
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+    const addToWishlistBtn = document.getElementById('add-to-wishlist-btn');
+    const cartCount = document.getElementById('cart-count');
+    const cartCountMobile = document.getElementById('cart-count-mobile');
+    const wishlistCount = document.getElementById('wishlist-count');
+    const wishlistCountMobile = document.getElementById('wishlist-count-mobile');
 
-    // Utility function to handle fetch requests
+    // ========================================
+    // Utility Functions
+    // ========================================
     function handleAction(url, successCallback) {
       fetch(url, {
         method: 'GET',
@@ -569,29 +550,177 @@
         });
     }
 
+    function updateCounter(element, value) {
+      if (element) {
+        element.textContent = value;
+      }
+    }
+
+    // ========================================
+    // Quantity Controls
+    // ========================================
+    let quantity = 1;
+    const maxQuantity = {{ $productt->stock ?? 99 }};
+
+    if (decreaseQty) {
+      decreaseQty.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (quantity > 1) {
+          quantity--;
+          productQuantity.textContent = quantity;
+        }
+      });
+    }
+
+    if (increaseQty) {
+      increaseQty.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (quantity < maxQuantity) {
+          quantity++;
+          productQuantity.textContent = quantity;
+        } else {
+          toastr.warning('Maximum stock reached');
+        }
+      });
+    }
+
+    // ========================================
     // Add to Cart
+    // ========================================
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const productId = this.dataset.productId;
+        handleAction(`/celiginus/addcart/${productId}?quantity=${quantity}`, data => {
+          if (data.cart_count !== undefined) {
+            updateCounter(cartCount, data.cart_count);
+            updateCounter(cartCountMobile, data.cart_count);
+          }
+        });
+      });
+    }
+
+    // Add to Cart from recommendations
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
       button.addEventListener('click', function (e) {
         e.preventDefault();
         const productId = this.dataset.id;
         handleAction(`/celiginus/addcart/${productId}`, data => {
           if (data.cart_count !== undefined) {
-            document.getElementById('cart-count').innerText = data.cart_count;
+            updateCounter(cartCount, data.cart_count);
+            updateCounter(cartCountMobile, data.cart_count);
           }
         });
       });
     });
 
+    // ========================================
     // Add to Wishlist
+    // ========================================
+    if (addToWishlistBtn) {
+      addToWishlistBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const productId = this.dataset.productId;
+        handleAction(`/celiginus/addwishlist/${productId}`, data => {
+          if (data.wishlist_count !== undefined) {
+            updateCounter(wishlistCount, data.wishlist_count);
+            updateCounter(wishlistCountMobile, data.wishlist_count);
+          }
+        });
+      });
+    }
+
+    // Add to Wishlist from recommendations
     document.querySelectorAll('.add-wishlist-btn').forEach(button => {
       button.addEventListener('click', function (e) {
         e.preventDefault();
         const productId = this.dataset.id;
         handleAction(`/celiginus/addwishlist/${productId}`, data => {
           if (data.wishlist_count !== undefined) {
-            document.getElementById('wishlist-count').innerText = data.wishlist_count;
+            updateCounter(wishlistCount, data.wishlist_count);
+            updateCounter(wishlistCountMobile, data.wishlist_count);
           }
         });
+      });
+    });
+
+    // ========================================
+    // Gallery Image Switching
+    // ========================================
+    const mainImage = document.getElementById('main-product-image');
+    const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function (e) {
+        e.preventDefault();
+        const newImageSrc = this.dataset.image;
+        if (mainImage && newImageSrc) {
+          mainImage.src = newImageSrc;
+
+          // Update active state
+          thumbnails.forEach(t => t.classList.remove('border-orange-600', 'dark:border-orange-400'));
+          this.classList.add('border-orange-600', 'dark:border-orange-400');
+        }
+      });
+    });
+
+    // ========================================
+    // Delivery Options Selection
+    // ========================================
+    const deliveryOptions = document.querySelectorAll('.delivery-option');
+    deliveryOptions.forEach(option => {
+      option.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Remove active state from all options
+        deliveryOptions.forEach(opt => {
+          opt.classList.remove('border-orange-600', 'dark:border-orange-400', 'bg-orange-50', 'dark:bg-orange-900/20');
+          opt.classList.add('border-gray-200', 'dark:border-gray-700');
+        });
+
+        // Add active state to clicked option
+        this.classList.remove('border-gray-200', 'dark:border-gray-700');
+        this.classList.add('border-orange-600', 'dark:border-orange-400', 'bg-orange-50', 'dark:bg-orange-900/20');
+      });
+    });
+
+    // ========================================
+    // Accordion Functionality
+    // ========================================
+    const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+
+    accordionTriggers.forEach(trigger => {
+      trigger.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const accordionItem = this.closest('.accordion-item');
+        const content = accordionItem.querySelector('.accordion-content');
+        const icon = this.querySelector('.accordion-icon');
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        // Close all other accordions
+        accordionTriggers.forEach(otherTrigger => {
+          if (otherTrigger !== this) {
+            const otherItem = otherTrigger.closest('.accordion-item');
+            const otherContent = otherItem.querySelector('.accordion-content');
+            const otherIcon = otherTrigger.querySelector('.accordion-icon');
+
+            otherContent.classList.add('hidden');
+            otherTrigger.setAttribute('aria-expanded', 'false');
+            otherIcon.style.transform = 'rotate(0deg)';
+          }
+        });
+
+        // Toggle current accordion
+        if (isExpanded) {
+          content.classList.add('hidden');
+          this.setAttribute('aria-expanded', 'false');
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          content.classList.remove('hidden');
+          this.setAttribute('aria-expanded', 'true');
+          icon.style.transform = 'rotate(45deg)';
+        }
       });
     });
 
