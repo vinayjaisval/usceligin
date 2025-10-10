@@ -25,16 +25,25 @@
 ])
 
 @php
-  $sizes = [
+  // Icon sizes
+  $iconSizes = [
     'small' => 'w-4 h-4',
     'medium' => 'w-[18px] h-[18px]',
     'large' => 'w-5 h-5'
   ];
-  $iconSize = $sizes[$size] ?? $sizes['medium'];
+  $iconSize = $iconSizes[$size] ?? $iconSizes['medium'];
+
+  // Button sizes
+  $buttonSizes = [
+    'small' => 'px-2 py-1.5 text-xs',
+    'medium' => 'px-3 py-2 text-sm',
+    'large' => 'px-4 py-2.5 text-base'
+  ];
+  $buttonSize = $buttonSizes[$size] ?? $buttonSizes['medium'];
 @endphp
 
 <a href="javascript:void(0);"
-   class="cart-btn add-to-cart-btn {{ $attributes->get('class', '') }}"
+   class="add-to-cart-btn inline-flex items-center justify-center gap-1.5 {{ $buttonSize }} bg-orange-600 hover:bg-orange-700 text-white font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ $attributes->get('class', '') }}"
    data-id="{{ $productId }}"
    data-quantity="{{ $quantity }}"
    aria-label="Add to cart"
@@ -42,7 +51,7 @@
    role="button">
   {{-- Standardized Cart Icon (matches header) --}}
   <svg
-    class="{{ $iconSize }} {{ $showText ? 'mr-1 sm:mr-2' : '' }}"
+    class="{{ $iconSize }}"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"

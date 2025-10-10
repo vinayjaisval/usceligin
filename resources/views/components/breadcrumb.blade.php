@@ -32,26 +32,35 @@
   }
 @endphp
 
-<nav class="breadcrumb" aria-label="Breadcrumb">
-  <ol class="breadcrumb-list">
+<nav aria-label="Breadcrumb" class="mb-6">
+  <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
     {{-- Home Link (Always First) --}}
-    <li class="breadcrumb-item">
-      <a href="{{ url('/') }}">Home</a>
+    <li>
+      <a href="{{ url('/') }}" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">
+        Home
+      </a>
     </li>
 
     {{-- Breadcrumb Items --}}
     @foreach($items as $item)
-      @if($loop->last)
-        {{-- Last item (current page) --}}
-        <li class="breadcrumb-item active" aria-current="page">
-          {{ $item['label'] }}
-        </li>
-      @else
-        {{-- Intermediate items with links --}}
-        <li class="breadcrumb-item">
-          <a href="{{ $item['url'] ?? '#' }}">{{ $item['label'] }}</a>
-        </li>
-      @endif
+      <li class="flex items-center">
+        {{-- Separator Arrow --}}
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+
+        @if($loop->last)
+          {{-- Last item (current page) --}}
+          <span class="text-gray-900 dark:text-gray-100" aria-current="page">
+            {{ $item['label'] }}
+          </span>
+        @else
+          {{-- Intermediate items with links --}}
+          <a href="{{ $item['url'] ?? '#' }}" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">
+            {{ $item['label'] }}
+          </a>
+        @endif
+      </li>
     @endforeach
   </ol>
 </nav>

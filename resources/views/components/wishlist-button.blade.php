@@ -22,23 +22,32 @@
 ])
 
 @php
-  $sizes = [
+  // Icon sizes
+  $iconSizes = [
     'small' => 'w-4 h-4',
     'medium' => 'w-5 h-5',
     'large' => 'w-6 h-6'
   ];
-  $iconSize = $sizes[$size] ?? $sizes['medium'];
+  $iconSize = $iconSizes[$size] ?? $iconSizes['medium'];
+
+  // Button sizes
+  $buttonSizes = [
+    'small' => 'px-2 py-1.5 text-xs',
+    'medium' => 'px-3 py-2 text-sm',
+    'large' => 'px-4 py-2.5 text-base'
+  ];
+  $buttonSize = $buttonSizes[$size] ?? $buttonSizes['medium'];
 @endphp
 
 <a href="javascript:void(0);"
-   class="wishlist-btn add-wishlist-btn {{ $attributes->get('class', '') }}"
+   class="add-wishlist-btn inline-flex items-center justify-center gap-1.5 {{ $buttonSize }} bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ $attributes->get('class', '') }}"
    data-id="{{ $productId }}"
    aria-label="Add to wishlist"
    title="Add to Wishlist"
    role="button">
   {{-- Heart Icon --}}
   <svg
-    class="{{ $iconSize }} {{ $showText ? 'mr-2' : '' }}"
+    class="{{ $iconSize }}"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
