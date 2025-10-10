@@ -4,18 +4,21 @@
 <!-- Main Content -->
 <main id="main-content" role="main">
   <!-- Hero Carousel -->
+  @if($ps->slider == 1)
   <section class="relative overflow-hidden" aria-label="Featured products and offers" role="region">
     <div class="max-w-7xl mx-auto">
       <div class="hero-swiper swiper" role="group" aria-roledescription="carousel" aria-label="Product showcase carousel">
         <div class="swiper-wrapper">
           <!-- Slide 1 -->
+
+          @foreach($sliders as $data)
           <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
             <!-- Unified Responsive Layout -->
             <div class="relative bg-white dark:bg-gray-900 md:h-[300px] lg:h-[400px] xl:h-[600px]">
               <!-- Image Container: Responsive sizing -->
               <div class="relative w-full h-[200px] md:absolute md:inset-0 md:h-full overflow-hidden">
                 <img
-                  src="{{asset('assets/frontend/images/carousel-bg-1.png')}}"
+                  src="{{asset('assets/images/sliders/'.$data->photo)}}"
                   alt="Woman with glowing skin representing premium skincare"
                   class="w-full h-full object-cover" />
               </div>
@@ -25,19 +28,19 @@
                 <div class="w-full md:w-[35%] lg:w-[40%] md:bg-transparent">
                   <!-- Heading -->
                   <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
-                    Transform Your Skin<br class="hidden md:inline" />With Premium Skincare
+                    {{$data->subtitle_text}},<br class="hidden md:inline" />{{$data->title_text}}
                   </h1>
 
                   <!-- Description -->
                   <p id="slide-1-desc" class="text-xs md:text-sm xl:text-base text-gray-700 dark:text-gray-300 mb-2 md:mb-3 lg:mb-4 xl:mb-6 leading-snug md:leading-relaxed min-h-[2rem] md:min-h-[2.5rem] lg:min-h-[3rem] xl:min-h-[3.5rem]">
-                    Discover clinically proven formulas that deliver visible results<span class="hidden lg:inline">. Get radiant, healthy skin with our award-winning products</span>.
+                    {{$data->details_text}}<span class="hidden lg:inline"></span>.
                   </p>
 
                   <!-- CTA Button -->
                   <div class="mb-0 lg:mb-4 xl:mb-6">
-                    <a href="/products"
-                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200"
-                       aria-describedby="slide-1-desc">
+                    <a href="{{$data->link}}"
+                      class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200"
+                      aria-describedby="slide-1-desc">
                       Shop Now
                     </a>
                   </div>
@@ -57,139 +60,41 @@
               </div>
             </div>
           </article>
+          @endforeach
 
-          <!-- Slide 2 -->
-          <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
-            <!-- Unified Responsive Layout -->
-            <div class="relative bg-white dark:bg-gray-900 md:h-[300px] lg:h-[400px] xl:h-[600px]">
-              <!-- Image Container: Responsive sizing -->
-              <div class="relative w-full h-[200px] md:absolute md:inset-0 md:h-full overflow-hidden">
-                <img
-                  src="{{asset('assets/frontend/images/carousel-bg-2.png')}}"
-                  alt="Woman with glowing skin representing premium skincare"
-                  class="w-full h-full object-cover" />
-              </div>
 
-              <!-- Content Container: Responsive positioning -->
-              <div class="relative md:absolute md:inset-0 md:flex md:items-center md:justify-end bg-gray-50 dark:bg-gray-800 md:bg-transparent p-4 md:p-6 lg:pr-8">
-                <div class="w-full md:w-[35%] lg:w-[40%] md:bg-transparent">
-                  <!-- Heading -->
-                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
-                    Get Radiant, Healthy Skin 
-                  </h1>
-
-                  <!-- Description -->
-                  <p id="slide-1-desc" class="text-xs md:text-sm xl:text-base text-gray-700 dark:text-gray-300 mb-2 md:mb-3 lg:mb-4 xl:mb-6 leading-snug md:leading-relaxed min-h-[2rem] md:min-h-[2.5rem] lg:min-h-[3rem] xl:min-h-[3.5rem]">
-                     Get radiant, healthy skin with our award-winning products.
-                  </p>
-
-                  <!-- CTA Button -->
-                  <div class="mb-0 lg:mb-4 xl:mb-6">
-                    <a href="/products"
-                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200"
-                       aria-describedby="slide-1-desc">
-                      Shop Now
-                    </a>
-                  </div>
-
-                  <!-- Certification Badges (Desktop only) -->
-                  <div class="hidden lg:flex items-center space-x-3 xl:space-x-4" role="group" aria-label="Certification badges">
-                    <img
-                      src="{{asset('assets/frontend/images/peta-banner.png')}}"
-                      alt="PETA Certified - Cruelty-free products"
-                      class="h-8 xl:h-12 w-auto" />
-                    <img
-                      src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
-                      alt="CPNP Registered - EU compliant cosmetics"
-                      class="h-8 xl:h-12 w-auto" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-          
-          <!-- Slide 3 -->
-          <article class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 3">
-            <!-- Unified Responsive Layout -->
-            <div class="relative bg-white dark:bg-gray-900 md:h-[300px] lg:h-[400px] xl:h-[600px]">
-              <!-- Image Container: Responsive sizing -->
-              <div class="relative w-full h-[200px] md:absolute md:inset-0 md:h-full overflow-hidden">
-                <img
-                  src="{{asset('assets/frontend/images/carousel-bg-3.png')}}"
-                  alt="Woman with glowing skin representing premium skincare"
-                  class="w-full h-full object-cover" />
-              </div>
-
-              <!-- Content Container: Responsive positioning -->
-              <div class="relative md:absolute md:inset-0 md:flex md:items-center md:justify-end bg-gray-50 dark:bg-gray-800 md:bg-transparent p-4 md:p-6 lg:pr-8">
-                <div class="w-full md:w-[35%] lg:w-[40%] md:bg-transparent">
-                  <!-- Heading -->
-                  <h1 class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
-                    Premium Skincare
-                  </h1>
-
-                  <!-- Description -->
-                  <p id="slide-1-desc" class="text-xs md:text-sm xl:text-base text-gray-700 dark:text-gray-300 mb-2 md:mb-3 lg:mb-4 xl:mb-6 leading-snug md:leading-relaxed min-h-[2rem] md:min-h-[2.5rem] lg:min-h-[3rem] xl:min-h-[3.5rem]">
-                    Healthy skin with our award-winning products</span>.
-                  </p>
-
-                  <!-- CTA Button -->
-                  <div class="mb-0 lg:mb-4 xl:mb-6">
-                    <a href="/products"
-                       class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-orange-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200"
-                       aria-describedby="slide-1-desc">
-                      Shop Now
-                    </a>
-                  </div>
-
-                  <!-- Certification Badges (Desktop only) -->
-                  <div class="hidden lg:flex items-center space-x-3 xl:space-x-4" role="group" aria-label="Certification badges">
-                    <img
-                      src="{{asset('assets/frontend/images/peta-banner.png')}}"
-                      alt="PETA Certified - Cruelty-free products"
-                      class="h-8 xl:h-12 w-auto" />
-                    <img
-                      src="{{asset('assets/frontend/images/cpnp-banner.png')}}"
-                      alt="CPNP Registered - EU compliant cosmetics"
-                      class="h-8 xl:h-12 w-auto" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-          
         </div>
 
         <!-- Navigation arrows -->
         <button class="swiper-button-next hero-nav-next !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !right-2 sm:!right-4 lg:!right-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-none hover:!bg-opacity-100 !transition-all !duration-200"
-                aria-label="Next slide"
-                type="button"></button>
+          aria-label="Next slide"
+          type="button"></button>
         <button class="swiper-button-prev hero-nav-prev !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !left-2 sm:!left-4 lg:!left-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-none hover:!bg-opacity-100 !transition-all !duration-200"
-                aria-label="Previous slide"
-                type="button"></button>
+          aria-label="Previous slide"
+          type="button"></button>
 
         <!-- Pagination dots -->
         <div class="swiper-pagination hero-pagination !bottom-4 sm:!bottom-6 !left-1/2 !transform !-translate-x-1/2"
-             role="tablist"
-             aria-label="Slide navigation"></div>
+          role="tablist"
+          aria-label="Slide navigation"></div>
       </div>
     </div>
   </section>
-
+  @endif
   <!-- Category Banners -->
   <section class="py-12 lg:py-16 bg-white dark:bg-gray-900" aria-labelledby="category-banners-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 id="category-banners-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 lg:mb-12 text-center">Shop by Category</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 ">
-          <a href="/products"
-             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
-             aria-describedby="category-1-desc"
-             role="button"
-             tabindex="0">
+          <a href="{{$arrivals[0]['url']}}"
+            class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
+            aria-describedby="category-1-desc"
+            role="button"
+            tabindex="0">
             <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
               <img
-                src="{{asset('assets/frontend/images/main-banner-1.png')}}"
+                src="{{asset('assets/images/arrival/'.$arrivals[0]['photo'])}}"
                 alt="New arrivals premium skincare collection"
                 width="450"
                 height="450"
@@ -199,10 +104,10 @@
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                 <div>
                   <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
-                    New Arrivals
+                  {{$arrivals[0]['title']}}
                   </h3>
                   <p id="category-1-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
-                    Starting at ₹5500.00
+                   {{$arrivals[0]['up_sale']}}
                   </p>
                 </div>
                 <div class="mt-auto">
@@ -230,14 +135,14 @@
         </article>
 
         <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-          <a href="/products"
-             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-             aria-describedby="category-2-desc"
-             role="button"
-             tabindex="0">
+          <a href="{{$arrivals[1]['url']}}"
+            class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            aria-describedby="category-2-desc"
+            role="button"
+            tabindex="0">
             <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
               <img
-                src="{{asset('assets/frontend/images/main-banner-2.png')}}"
+                src="{{asset('assets/images/arrival/'.$arrivals[1]['photo'])}}"
                 alt="Best selling gentle cleansing collection"
                 width="450"
                 height="450"
@@ -247,10 +152,10 @@
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                 <div>
                   <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
-                    Best Sellers
+                    {{$arrivals[1]['title']}}
                   </h3>
                   <p id="category-2-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
-                    At ₹5500.00
+                  {{$arrivals[1]['up_sale']}}
                   </p>
                 </div>
                 <div class="mt-auto">
@@ -278,14 +183,14 @@
         </article>
 
         <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-          <a href="/products"
-             class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-             aria-describedby="category-3-desc"
-             role="button"
-             tabindex="0">
+          <a href="{{$arrivals[2]['url']}}"
+            class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            aria-describedby="category-3-desc"
+            role="button"
+            tabindex="0">
             <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
               <img
-                src="{{asset('assets/frontend/images/main-banner-3.png')}}"
+                src="{{asset('assets/images/arrival/'.$arrivals[2]['photo'])}}"
                 alt="Celigin Hot Sale Collection"
                 width="450"
                 height="450"
@@ -295,10 +200,10 @@
               <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                 <div>
                   <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
-                    Hot Sale
+                  {{$arrivals[2]['title']}}
                   </h3>
                   <p id="category-3-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
-                    30% Off and Below - Don't Miss Out!
+                    {{$arrivals[2]['up_sale']}}
                   </p>
                 </div>
                 <div class="mt-auto">
@@ -335,8 +240,8 @@
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
         <h2 id="bestsellers-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Our Bestsellers</h2>
         <a href="{{ route('front.best-sellers') }}"
-           class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
-           aria-label="View all bestselling products">
+          class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
+          aria-label="View all bestselling products">
           Shop all best sellers
           <svg
             width="16"
@@ -361,8 +266,8 @@
             <div class="swiper-slide">
               <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 " itemscope itemtype="https://schema.org/Product">
                 <a href="{{ url('/item/'.$prod->slug) }}"
-                   class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
-                   aria-describedby="product-{{ $prod->id }}-desc">
+                  class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
+                  aria-describedby="product-{{ $prod->id }}-desc">
                   <div class="relative aspect-square overflow-hidden">
                     <img
                       src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}"
@@ -375,21 +280,21 @@
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div class="absolute top-2 left-2 sm:top-3 sm:left-3">
                       @php
-                        $productTags = [];
-                        if ($prod->offPercentage() > 0) {
-                          $productTags[] = ['label' => 'Sale', 'class' => 'bg-red-600'];
-                        }
-                        if ($prod->is_featured) {
-                          $productTags[] = ['label' => 'Hot', 'class' => 'bg-orange-600'];
-                        }
-                        if (empty($productTags)) {
-                          $productTags[] = ['label' => 'New', 'class' => 'bg-green-600'];
-                        }
+                      $productTags = [];
+                      if ($prod->offPercentage() > 0) {
+                      $productTags[] = ['label' => 'Sale', 'class' => 'bg-red-600'];
+                      }
+                      if ($prod->is_featured) {
+                      $productTags[] = ['label' => 'Hot', 'class' => 'bg-orange-600'];
+                      }
+                      if (empty($productTags)) {
+                      $productTags[] = ['label' => 'New', 'class' => 'bg-green-600'];
+                      }
                       @endphp
                       @foreach($productTags as $tag)
-                        <span class="inline-block px-2 py-1 {{ $tag['class'] }} text-white text-sm font-semibold mb-1 first:mb-0" role="status" aria-label="Product tag: {{ $tag['label'] }}">
-                          {{ $tag['label'] }}
-                        </span>
+                      <span class="inline-block px-2 py-1 {{ $tag['class'] }} text-white text-sm font-semibold mb-1 first:mb-0" role="status" aria-label="Product tag: {{ $tag['label'] }}">
+                        {{ $tag['label'] }}
+                      </span>
                       @endforeach
                     </div>
                   </div>
@@ -408,11 +313,11 @@
                 <div class="px-3 sm:px-4 pb-3 sm:pb-4">
                   <div class="flex items-center space-x-2">
                     <a href="#"
-                       class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
-                       data-id="{{ $prod->id }}"
-                       role="button"
-                       tabindex="0"
-                       aria-label="Add {{ $prod->name }} to shopping cart">
+                      class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
+                      data-id="{{ $prod->id }}"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Add {{ $prod->name }} to shopping cart">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 sm:mr-2" aria-hidden="true" focusable="false">
                         <path d="M6 2L3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6l-3-4H6z"></path>
                         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -422,11 +327,11 @@
                       <span class="sm:hidden">Cart</span>
                     </a>
                     <a href="#"
-                       class="p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-wishlist-btn"
-                       data-id="{{ $prod->id }}"
-                       role="button"
-                       tabindex="0"
-                       aria-label="Add {{ $prod->name }} to wishlist">
+                      class="p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-wishlist-btn"
+                      data-id="{{ $prod->id }}"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Add {{ $prod->name }} to wishlist">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                       </svg>
@@ -457,7 +362,7 @@
         <div class="lg:col-span-7">
           <div class="relative h-64 sm:h-80 lg:h-full min-h-[300px] overflow-hidden">
             <img
-              src="{{ asset('assets/frontend/images/special-sale.png') }}"
+              src="{{ $gs->deal_background ? asset('assets/images/'.$gs->deal_background):asset('assets/images/noimage.png') }}"
               alt="Celigin daily sun finish sunscreen with natural ingredients"
               width="400"
               height="500"
@@ -476,33 +381,33 @@
             </div>
 
             <h2 id="special-offer-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-              Celigin daily sun finish<br />
-              (50ml) with coscor<br />
-              1,000ppm
+             {{ $gs->deal_title }}<br />
+             <br />
+             
             </h2>
 
             <p class="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
-              Experience superior sun protection with SPF 50+ and PA+++ in our SUNFINISH sunscreen.
+            {{ $gs->deal_details }}
             </p>
           </div>
-          
+
 
           <!-- CTA Button -->
           <div>
             <a href="{{ route('front.category') }}"
-               class="inline-flex items-center justify-center w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
-               aria-label="Get special offer price of ₹39.00">
+              class="inline-flex items-center justify-center w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+              aria-label="Get special offer price of ₹39.00">
               Get Only ₹39.00
             </a>
           </div>
-          </div>
         </div>
-
       </div>
+
+    </div>
     </div>
   </section>
   @endif
-  
+
   <!-- Hot Deals -->
   <section class="py-12 lg:py-16 bg-red-50 dark:bg-gray-900" aria-labelledby="hotdeals-title" role="region">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -511,8 +416,8 @@
           Hot Deals
         </h2>
         <a href="{{ route('front.sales') }}"
-           class="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
-           aria-label="View all hot deals and sales">
+          class="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
+          aria-label="View all hot deals and sales">
           Shop all hot deals
           <svg
             width="16"
@@ -537,8 +442,8 @@
             <div class="swiper-slide">
               <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 " itemscope itemtype="https://schema.org/Product">
                 <a href="{{ url('/item/'.$prod->slug) }}"
-                   class="block focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
-                   aria-describedby="hotdeal-{{ $prod->id }}-desc">
+                  class="block focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
+                  aria-describedby="hotdeal-{{ $prod->id }}-desc">
                   <div class="relative aspect-square overflow-hidden">
                     <img
                       src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}"
@@ -575,11 +480,11 @@
                 <div class="px-3 sm:px-4 pb-3 sm:pb-4">
                   <div class="flex items-center space-x-2">
                     <a href="#"
-                       class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-red-600 text-white text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
-                       data-id="{{ $prod->id }}"
-                       role="button"
-                       tabindex="0"
-                       aria-label="Add {{ $prod->name }} to shopping cart">
+                      class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-red-600 text-white text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
+                      data-id="{{ $prod->id }}"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Add {{ $prod->name }} to shopping cart">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 sm:mr-2" aria-hidden="true" focusable="false">
                         <path d="M6 2L3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6l-3-4H6z"></path>
                         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -589,11 +494,11 @@
                       <span class="sm:hidden">Cart</span>
                     </a>
                     <a href="#"
-                       class="p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-wishlist-btn"
-                       data-id="{{ $prod->id }}"
-                       role="button"
-                       tabindex="0"
-                       aria-label="Add {{ $prod->name }} to wishlist">
+                      class="p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-wishlist-btn"
+                      data-id="{{ $prod->id }}"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Add {{ $prod->name }} to wishlist">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                       </svg>
@@ -907,23 +812,26 @@
 @section('scripts')
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
 
     const csrfToken = '{{ csrf_token() }}'; // Store once, use multiple times
 
     // Utility function to handle fetch requests
     function handleAction(url, successCallback, errorCallback) {
       // Show loading state
-      const loadingToast = toastr.info('Processing...', '', { timeOut: 0, closeButton: false });
+      const loadingToast = toastr.info('Processing...', '', {
+        timeOut: 0,
+        closeButton: false
+      });
 
       fetch(url, {
-        method: 'GET',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
+          method: 'GET',
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
         .then(response => {
           // Clear loading toast
           toastr.clear(loadingToast);
@@ -954,7 +862,9 @@
           toastr.error('Network error occurred. Please check your connection and try again.');
 
           if (typeof errorCallback === 'function') {
-            errorCallback({ error: error.message });
+            errorCallback({
+              error: error.message
+            });
           }
         });
     }
@@ -978,7 +888,7 @@
         button.style.opacity = '0.6';
 
         handleAction(
-          `/celiginus/addcart/${productId}`,
+          `/celigin/addcart/${productId}`,
           // Success callback
           function(data) {
             if (data.cart_count !== undefined) {
@@ -1014,7 +924,7 @@
         button.style.opacity = '0.6';
 
         handleAction(
-          `/celiginus/addwishlist/${productId}`,
+          `/celigin/addwishlist/${productId}`,
           // Success callback
           function(data) {
             if (data.wishlist_count !== undefined) {
