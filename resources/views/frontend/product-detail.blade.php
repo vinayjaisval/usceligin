@@ -217,16 +217,15 @@
 
               <!-- Add to Cart Button -->
               <a href="#" id="add-to-cart-btn" data-product-id="{{ $productt->id }}"
-                class="flex-1 flex items-center justify-center px-4 sm:px-3 py-4 bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
-                data-id="16" role="button" tabindex="0" aria-label="Add {{ $productt->name }} to cart">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  class="mr-1 sm:mr-2" aria-hidden="true" focusable="false">
+                class="block w-full flex items-center justify-center px-4 py-4 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200"
+                role="button" tabindex="0" aria-label="Add {{ $productt->name }} to cart">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  class="mr-2" aria-hidden="true" focusable="false">
                   <circle cx="9" cy="21" r="1"></circle>
                   <circle cx="20" cy="21" r="1"></circle>
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                 </svg>
-                <span class="hidden sm:inline">Add to Cart</span>
-                <span class="sm:hidden">Cart</span>
+                Add to Cart
               </a>
 
               <p class="text-sm text-green-600 dark:text-green-400">
@@ -455,11 +454,11 @@
                           class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
                           data-id="{{ $prod->id }}" role="button" tabindex="0"
                           aria-label="Add {{ $prod->name }} to shopping cart">
-                          <span class="mr-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-              </svg></span>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 sm:mr-2" aria-hidden="true" focusable="false">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                          </svg>
                           <span class="hidden sm:inline">Add to Cart</span>
                           <span class="sm:hidden">Cart</span>
                         </a>
