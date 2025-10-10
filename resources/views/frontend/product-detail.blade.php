@@ -49,8 +49,9 @@
           <div class="space-y-4 lg:sticky lg:top-6 lg:self-start">
             <div class="aspect-square bg-gray-100 dark:bg-gray-800 overflow-hidden">
               <img
+                id="main-product-image"
                 src="{{filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : asset('assets/images/products/' . $productt->photo)}}"
-                alt="Travel Size Moroccanoil Treatment Hair Oil - Main product image" width="500" height="500"
+                alt="{{ $productt->name }} - Main product image" width="500" height="500"
                 class="w-full h-full object-cover" />
             </div>
             <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
@@ -67,12 +68,9 @@
 
           <!-- Product Information -->
           <div class="space-y-5">
-            <div>
-              <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
-                <!-- {{ ucfirst(mb_strtolower($productt->cat->title ?? '')) }} -->
-                  {{ ucfirst(mb_strtolower($productt->name)) }}
-              </h1>
-            </div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+              {{ ucfirst(mb_strtolower($productt->name)) }}
+            </h1>
 
             <!-- Rating -->
             <div class="flex items-center gap-3"
@@ -126,49 +124,46 @@
             <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
               <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">Pickup and delivery options</h3>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <a href="#"
-                  class="flex items-start space-x-3 p-4 border-2 border-orange-600 dark:border-orange-400 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 delivery-option"
-                  data-option="ship">
-                  <svg class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <rect x="1" y="3" width="15" height="13"></rect>
-                    <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
-                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                  </svg>
-                  <div class="text-left">
-                    <div class="font-semibold text-gray-900 dark:text-gray-100">Ship</div>
-                    <div class="text-sm text-gray-600 dark:text-gray-400">Free standard shipping over ₹35</div>
-                  </div>
-                </a>
+                @php
+                  $deliveryOptions = [
+                    [
+                      'id' => 'ship',
+                      'title' => 'Ship',
+                      'description' => 'Free standard shipping over ₹35',
+                      'icon' => '<rect x="1" y="3" width="15" height="13"></rect><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle>',
+                      'isActive' => true
+                    ],
+                    [
+                      'id' => 'pickup',
+                      'title' => 'Pickup',
+                      'description' => 'Free ship to pick up',
+                      'icon' => '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>',
+                      'isActive' => false
+                    ],
+                    [
+                      'id' => 'same-day',
+                      'title' => 'Same day',
+                      'description' => 'Free same day delivery over ₹35',
+                      'icon' => '<circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline>',
+                      'isActive' => false
+                    ]
+                  ];
+                @endphp
 
-                <a href="#"
-                  class="flex items-start space-x-3 p-4 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 delivery-option"
-                  data-option="pickup">
-                  <svg class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9,22 9,12 15,12 15,22"></polyline>
-                  </svg>
-                  <div class="text-left">
-                    <div class="font-semibold text-gray-900 dark:text-gray-100">Pickup</div>
-                    <div class="text-sm text-gray-600 dark:text-gray-400">Free ship to pick up</div>
-                  </div>
-                </a>
-
-                <a href="#"
-                  class="flex items-start space-x-3 p-4 border-2 border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 delivery-option"
-                  data-option="same-day">
-                  <svg class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12,6 12,12 16,14"></polyline>
-                  </svg>
-                  <div class="text-left">
-                    <div class="font-semibold text-gray-900 dark:text-gray-100">Same day</div>
-                    <div class="text-sm text-gray-600 dark:text-gray-400">Free same day delivery over ₹35</div>
-                  </div>
-                </a>
+                @foreach($deliveryOptions as $option)
+                  <a href="#"
+                    class="flex items-start space-x-3 p-4 border-2 {{ $option['isActive'] ? 'border-orange-600 dark:border-orange-400 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30' : 'border-gray-200 dark:border-gray-700 hover:border-orange-600 dark:hover:border-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800' }} transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 delivery-option"
+                    data-option="{{ $option['id'] }}">
+                    <svg class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      {!! $option['icon'] !!}
+                    </svg>
+                    <div class="text-left">
+                      <div class="font-semibold text-gray-900 dark:text-gray-100">{{ $option['title'] }}</div>
+                      <div class="text-sm text-gray-600 dark:text-gray-400">{{ $option['description'] }}</div>
+                    </div>
+                  </a>
+                @endforeach
               </div>
             </div>
 
@@ -244,52 +239,24 @@
                 <div class="mb-4">
                   <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Highlights</h4>
                   <div class="flex flex-wrap gap-2">
-                    <span
-                      class="inline-flex items-center space-x-1 px-2 py-1 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-xs text-gray-900 dark:text-gray-100">
-                      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        aria-hidden="true">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22,4 12,14.01 9,11.01"></polyline>
-                      </svg>
-                      <span>Clean Ingredients</span>
-                    </span>
-                    <span
-                      class="inline-flex items-center space-x-1 px-2 py-1 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-xs text-gray-900 dark:text-gray-100">
-                      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        aria-hidden="true">
-                        <path
-                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                        </path>
-                      </svg>
-                      <span>Cruelty Free</span>
-                    </span>
-                    <span
-                      class="inline-flex items-center space-x-1 px-2 py-1 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 text-xs text-gray-900 dark:text-gray-100">
-                      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        aria-hidden="true">
-                        <path d="M17 8l4 4-4 4M7 8l-4 4 4 4"></path>
-                        <path d="M12 2v20"></path>
-                      </svg>
-                      <span>Vegan</span>
-                    </span>
-                    <span
-                      class="inline-flex items-center space-x-1 px-2 py-1 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 text-xs text-gray-900 dark:text-gray-100">
-                      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        aria-hidden="true">
-                        <path d="M3 12h18m-9-9v18"></path>
-                      </svg>
-                      <span>Sustainable</span>
-                    </span>
-                    <span
-                      class="inline-flex items-center space-x-1 px-2 py-1 bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 text-xs text-gray-900 dark:text-gray-100">
-                      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        aria-hidden="true">
-                        <path
-                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                        </path>
-                      </svg>
-                      <span>Give Back</span>
-                    </span>
+                    @php
+                      $highlights = [
+                        ['label' => 'Clean Ingredients', 'color' => 'green', 'icon' => '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22,4 12,14.01 9,11.01"></polyline>'],
+                        ['label' => 'Cruelty Free', 'color' => 'blue', 'icon' => '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>'],
+                        ['label' => 'Vegan', 'color' => 'purple', 'icon' => '<path d="M17 8l4 4-4 4M7 8l-4 4 4 4"></path><path d="M12 2v20"></path>'],
+                        ['label' => 'Sustainable', 'color' => 'teal', 'icon' => '<path d="M3 12h18m-9-9v18"></path>'],
+                        ['label' => 'Give Back', 'color' => 'pink', 'icon' => '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>']
+                      ];
+                    @endphp
+
+                    @foreach($highlights as $highlight)
+                      <span class="inline-flex items-center space-x-1 px-2 py-1 bg-{{ $highlight['color'] }}-50 dark:bg-{{ $highlight['color'] }}-900/20 border border-{{ $highlight['color'] }}-200 dark:border-{{ $highlight['color'] }}-800 text-xs text-gray-900 dark:text-gray-100">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                          {!! $highlight['icon'] !!}
+                        </svg>
+                        <span>{{ $highlight['label'] }}</span>
+                      </span>
+                    @endforeach
                   </div>
                 </div>
               </div>
@@ -302,69 +269,52 @@
 
               <!-- Expandable Sections -->
               <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
-                <!-- Details Accordion -->
-                <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
-                  <a href="#"
-                    class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    aria-expanded="false" data-accordion="details">
-                    <span class="text-base font-semibold text-gray-900 dark:text-gray-100">Details</span>
-                    <svg class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </a>
-                  <div
-                    class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50"
-                    id="details-content">
-                    {!! $productt->description ?? '<p>Detailed product information coming soon.</p>' !!}
-                  </div>
-                </div>
+                @php
+                  $accordionSections = [
+                    [
+                      'id' => 'details',
+                      'title' => 'Details',
+                      'content' => $productt->description ?? '<p>Detailed product information coming soon.</p>',
+                      'isHtml' => true
+                    ],
+                    [
+                      'id' => 'how-to-use',
+                      'title' => 'How To Use',
+                      'content' => $productt->how_to_use ?? '<ol class="list-decimal list-inside space-y-2"><li>Apply a small amount to clean, damp skin or hair</li><li>Gently massage in circular motions</li><li>Allow to absorb fully before applying other products</li><li>Use daily for best results</li></ol>',
+                      'isHtml' => true
+                    ],
+                    [
+                      'id' => 'ingredients',
+                      'title' => 'Ingredients',
+                      'content' => $productt->ingredients ?? '<p>Aqua, Glycerin, Natural Extracts, Vitamin E, Hyaluronic Acid, and other premium ingredients. Full ingredient list available on product packaging.</p>',
+                      'isHtml' => true
+                    ]
+                  ];
+                @endphp
 
-                <!-- How To Use Accordion -->
-                <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
-                  <a href="#"
-                    class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    aria-expanded="false" data-accordion="how-to-use">
-                    <span class="text-base font-semibold text-gray-900 dark:text-gray-100">How To Use</span>
-                    <svg class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </a>
-                  <div
-                    class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50"
-                    id="how-to-use-content">
-                    <ol class="list-decimal list-inside space-y-2">
-                      <li>Apply a small amount to clean, damp skin or hair</li>
-                      <li>Gently massage in circular motions</li>
-                      <li>Allow to absorb fully before applying other products</li>
-                      <li>Use daily for best results</li>
-                    </ol>
-                  </div>
-                </div>
-
-                <!-- Ingredients Accordion -->
-                <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
-                  <a href="#"
-                    class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    aria-expanded="false" data-accordion="ingredients">
-                    <span class="text-base font-semibold text-gray-900 dark:text-gray-100">Ingredients</span>
-                    <svg class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </a>
-                  <div
-                    class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50"
-                    id="ingredients-content">
-                    <div class="leading-relaxed">
-                      {!! $productt->ingredients ?? '<p>Aqua, Glycerin, Natural Extracts, Vitamin E, Hyaluronic Acid, and other premium ingredients. Full ingredient list available on product packaging.</p>' !!}
+                @foreach($accordionSections as $section)
+                  <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
+                    <a href="#"
+                      class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      aria-expanded="false" data-accordion="{{ $section['id'] }}">
+                      <span class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ $section['title'] }}</span>
+                      <svg class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                    </a>
+                    <div
+                      class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50"
+                      id="{{ $section['id'] }}-content">
+                      @if($section['isHtml'])
+                        {!! $section['content'] !!}
+                      @else
+                        {{ $section['content'] }}
+                      @endif
                     </div>
                   </div>
-                </div>
+                @endforeach
               </div>
             </div>
 
@@ -498,31 +448,57 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const csrfToken = '{{ csrf_token() }}';
+    'use strict';
+
+    // ========================================
+    // Configuration
+    // ========================================
+    const CONFIG = {
+      csrfToken: '{{ csrf_token() }}',
+      maxQuantity: {{ $productt->stock ?? 99 }},
+      urls: {
+        addCart: '/celiginus/addcart/',
+        addWishlist: '/celiginus/addwishlist/'
+      }
+    };
 
     // ========================================
     // DOM Element Caching
     // ========================================
-    const productQuantity = document.getElementById('product-quantity');
-    const decreaseQty = document.getElementById('decrease-qty');
-    const increaseQty = document.getElementById('increase-qty');
-    const addToCartBtn = document.getElementById('add-to-cart-btn');
-    const addToWishlistBtn = document.getElementById('add-to-wishlist-btn');
-    const cartCount = document.getElementById('cart-count');
-    const cartCountMobile = document.getElementById('cart-count-mobile');
-    const wishlistCount = document.getElementById('wishlist-count');
-    const wishlistCountMobile = document.getElementById('wishlist-count-mobile');
+    const DOM = {
+      // Quantity controls
+      productQuantity: document.getElementById('product-quantity'),
+      decreaseQty: document.getElementById('decrease-qty'),
+      increaseQty: document.getElementById('increase-qty'),
+
+      // Action buttons
+      addToCartBtn: document.getElementById('add-to-cart-btn'),
+      addToWishlistBtn: document.getElementById('add-to-wishlist-btn'),
+
+      // Counters
+      cartCount: document.getElementById('cart-count'),
+      cartCountMobile: document.getElementById('cart-count-mobile'),
+      wishlistCount: document.getElementById('wishlist-count'),
+      wishlistCountMobile: document.getElementById('wishlist-count-mobile'),
+
+      // Gallery
+      mainImage: document.getElementById('main-product-image'),
+      thumbnails: document.querySelectorAll('.gallery-thumbnail'),
+
+      // Options
+      deliveryOptions: document.querySelectorAll('.delivery-option'),
+      accordionTriggers: document.querySelectorAll('.accordion-trigger')
+    };
 
     // ========================================
     // Utility Functions
     // ========================================
-    function handleAction(url, successCallback) {
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken
-        }
-      })
+    const Utils = {
+      handleAction(url, successCallback) {
+        fetch(url, {
+          method: 'GET',
+          headers: { 'X-CSRF-TOKEN': CONFIG.csrfToken }
+        })
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -536,182 +512,240 @@
           console.error('Request Error:', error);
           toastr.error('Unexpected error occurred.');
         });
-    }
+      },
 
-    function updateCounter(element, value) {
-      if (element) {
-        element.textContent = value;
+      updateCounter(element, value) {
+        if (element) element.textContent = value;
+      },
+
+      updateBothCounters(counter1, counter2, value) {
+        this.updateCounter(counter1, value);
+        this.updateCounter(counter2, value);
+      },
+
+      toggleActiveState(element, activeClasses, inactiveClasses) {
+        element.classList.remove(...inactiveClasses);
+        element.classList.add(...activeClasses);
       }
-    }
+    };
 
     // ========================================
-    // Quantity Controls
+    // Quantity Management
     // ========================================
-    let quantity = 1;
-    const maxQuantity = {{ $productt->stock ?? 99 }};
+    const QuantityManager = {
+      quantity: 1,
 
-    if (decreaseQty) {
-      decreaseQty.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (quantity > 1) {
-          quantity--;
-          productQuantity.textContent = quantity;
+      init() {
+        if (DOM.decreaseQty) {
+          DOM.decreaseQty.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.decrease();
+          });
         }
-      });
-    }
 
-    if (increaseQty) {
-      increaseQty.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (quantity < maxQuantity) {
-          quantity++;
-          productQuantity.textContent = quantity;
+        if (DOM.increaseQty) {
+          DOM.increaseQty.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.increase();
+          });
+        }
+      },
+
+      decrease() {
+        if (this.quantity > 1) {
+          this.quantity--;
+          this.updateDisplay();
+        }
+      },
+
+      increase() {
+        if (this.quantity < CONFIG.maxQuantity) {
+          this.quantity++;
+          this.updateDisplay();
         } else {
           toastr.warning('Maximum stock reached');
         }
-      });
-    }
+      },
 
-    // ========================================
-    // Add to Cart
-    // ========================================
-    if (addToCartBtn) {
-      addToCartBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        const productId = this.dataset.productId;
-        handleAction(`/celiginus/addcart/${productId}?quantity=${quantity}`, data => {
-          if (data.cart_count !== undefined) {
-            updateCounter(cartCount, data.cart_count);
-            updateCounter(cartCountMobile, data.cart_count);
-          }
-        });
-      });
-    }
-
-    // Add to Cart from recommendations
-    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-      button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const productId = this.dataset.id;
-        handleAction(`/celiginus/addcart/${productId}`, data => {
-          if (data.cart_count !== undefined) {
-            updateCounter(cartCount, data.cart_count);
-            updateCounter(cartCountMobile, data.cart_count);
-          }
-        });
-      });
-    });
-
-    // ========================================
-    // Add to Wishlist
-    // ========================================
-    if (addToWishlistBtn) {
-      addToWishlistBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        const productId = this.dataset.productId;
-        handleAction(`/celiginus/addwishlist/${productId}`, data => {
-          if (data.wishlist_count !== undefined) {
-            updateCounter(wishlistCount, data.wishlist_count);
-            updateCounter(wishlistCountMobile, data.wishlist_count);
-          }
-        });
-      });
-    }
-
-    // Add to Wishlist from recommendations
-    document.querySelectorAll('.add-wishlist-btn').forEach(button => {
-      button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const productId = this.dataset.id;
-        handleAction(`/celiginus/addwishlist/${productId}`, data => {
-          if (data.wishlist_count !== undefined) {
-            updateCounter(wishlistCount, data.wishlist_count);
-            updateCounter(wishlistCountMobile, data.wishlist_count);
-          }
-        });
-      });
-    });
-
-    // ========================================
-    // Gallery Image Switching
-    // ========================================
-    const mainImage = document.getElementById('main-product-image');
-    const thumbnails = document.querySelectorAll('.gallery-thumbnail');
-
-    thumbnails.forEach(thumbnail => {
-      thumbnail.addEventListener('click', function (e) {
-        e.preventDefault();
-        const newImageSrc = this.dataset.image;
-        if (mainImage && newImageSrc) {
-          mainImage.src = newImageSrc;
-
-          // Update active state
-          thumbnails.forEach(t => t.classList.remove('border-orange-600', 'dark:border-orange-400'));
-          this.classList.add('border-orange-600', 'dark:border-orange-400');
+      updateDisplay() {
+        if (DOM.productQuantity) {
+          DOM.productQuantity.textContent = this.quantity;
         }
-      });
-    });
+      },
+
+      get() {
+        return this.quantity;
+      }
+    };
 
     // ========================================
-    // Delivery Options Selection
+    // Cart & Wishlist Handlers
     // ========================================
-    const deliveryOptions = document.querySelectorAll('.delivery-option');
-    deliveryOptions.forEach(option => {
-      option.addEventListener('click', function (e) {
-        e.preventDefault();
+    const CartWishlistManager = {
+      init() {
+        // Main add to cart
+        if (DOM.addToCartBtn) {
+          DOM.addToCartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productId = e.currentTarget.dataset.productId;
+            this.addToCart(productId, QuantityManager.get());
+          });
+        }
 
-        // Remove active state from all options
-        deliveryOptions.forEach(opt => {
-          opt.classList.remove('border-orange-600', 'dark:border-orange-400', 'bg-orange-50', 'dark:bg-orange-900/20');
-          opt.classList.add('border-gray-200', 'dark:border-gray-700');
+        // Main add to wishlist
+        if (DOM.addToWishlistBtn) {
+          DOM.addToWishlistBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productId = e.currentTarget.dataset.productId;
+            this.addToWishlist(productId);
+          });
+        }
+
+        // Recommendations cart buttons
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productId = e.currentTarget.dataset.id;
+            this.addToCart(productId, 1);
+          });
         });
 
-        // Add active state to clicked option
-        this.classList.remove('border-gray-200', 'dark:border-gray-700');
-        this.classList.add('border-orange-600', 'dark:border-orange-400', 'bg-orange-50', 'dark:bg-orange-900/20');
-      });
-    });
+        // Recommendations wishlist buttons
+        document.querySelectorAll('.add-wishlist-btn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productId = e.currentTarget.dataset.id;
+            this.addToWishlist(productId);
+          });
+        });
+      },
 
-    // ========================================
-    // Accordion Functionality
-    // ========================================
-    const accordionTriggers = document.querySelectorAll('.accordion-trigger');
-
-    accordionTriggers.forEach(trigger => {
-      trigger.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        const accordionItem = this.closest('.accordion-item');
-        const content = accordionItem.querySelector('.accordion-content');
-        const icon = this.querySelector('.accordion-icon');
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-
-        // Close all other accordions
-        accordionTriggers.forEach(otherTrigger => {
-          if (otherTrigger !== this) {
-            const otherItem = otherTrigger.closest('.accordion-item');
-            const otherContent = otherItem.querySelector('.accordion-content');
-            const otherIcon = otherTrigger.querySelector('.accordion-icon');
-
-            otherContent.classList.add('hidden');
-            otherTrigger.setAttribute('aria-expanded', 'false');
-            otherIcon.style.transform = 'rotate(0deg)';
+      addToCart(productId, quantity = 1) {
+        const url = `${CONFIG.urls.addCart}${productId}${quantity > 1 ? `?quantity=${quantity}` : ''}`;
+        Utils.handleAction(url, (data) => {
+          if (data.cart_count !== undefined) {
+            Utils.updateBothCounters(DOM.cartCount, DOM.cartCountMobile, data.cart_count);
           }
         });
+      },
 
-        // Toggle current accordion
-        if (isExpanded) {
+      addToWishlist(productId) {
+        Utils.handleAction(`${CONFIG.urls.addWishlist}${productId}`, (data) => {
+          if (data.wishlist_count !== undefined) {
+            Utils.updateBothCounters(DOM.wishlistCount, DOM.wishlistCountMobile, data.wishlist_count);
+          }
+        });
+      }
+    };
+
+    // ========================================
+    // Gallery Handler
+    // ========================================
+    const GalleryManager = {
+      init() {
+        if (!DOM.mainImage || !DOM.thumbnails.length) return;
+
+        DOM.thumbnails.forEach(thumbnail => {
+          thumbnail.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.switchImage(e.currentTarget);
+          });
+        });
+      },
+
+      switchImage(thumbnail) {
+        const newImageSrc = thumbnail.dataset.image;
+        if (newImageSrc) {
+          DOM.mainImage.src = newImageSrc;
+          DOM.thumbnails.forEach(t => t.classList.remove('border-orange-600', 'dark:border-orange-400'));
+          thumbnail.classList.add('border-orange-600', 'dark:border-orange-400');
+        }
+      }
+    };
+
+    // ========================================
+    // Delivery Options Handler
+    // ========================================
+    const DeliveryManager = {
+      activeClasses: ['border-orange-600', 'dark:border-orange-400', 'bg-orange-50', 'dark:bg-orange-900/20'],
+      inactiveClasses: ['border-gray-200', 'dark:border-gray-700'],
+
+      init() {
+        DOM.deliveryOptions.forEach(option => {
+          option.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.setActive(e.currentTarget);
+          });
+        });
+      },
+
+      setActive(selectedOption) {
+        DOM.deliveryOptions.forEach(opt => {
+          opt.classList.remove(...this.activeClasses);
+          opt.classList.add(...this.inactiveClasses);
+        });
+
+        selectedOption.classList.remove(...this.inactiveClasses);
+        selectedOption.classList.add(...this.activeClasses);
+      }
+    };
+
+    // ========================================
+    // Accordion Handler
+    // ========================================
+    const AccordionManager = {
+      init() {
+        DOM.accordionTriggers.forEach(trigger => {
+          trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.toggle(e.currentTarget);
+          });
+        });
+      },
+
+      toggle(trigger) {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+        // Close all accordions
+        this.closeAll();
+
+        // Open clicked accordion if it was closed
+        if (!isExpanded) {
+          this.open(trigger);
+        }
+      },
+
+      closeAll() {
+        DOM.accordionTriggers.forEach(trigger => {
+          const item = trigger.closest('.accordion-item');
+          const content = item.querySelector('.accordion-content');
+          const icon = trigger.querySelector('.accordion-icon');
+
           content.classList.add('hidden');
-          this.setAttribute('aria-expanded', 'false');
+          trigger.setAttribute('aria-expanded', 'false');
           icon.style.transform = 'rotate(0deg)';
-        } else {
-          content.classList.remove('hidden');
-          this.setAttribute('aria-expanded', 'true');
-          icon.style.transform = 'rotate(45deg)';
-        }
-      });
-    });
+        });
+      },
 
+      open(trigger) {
+        const item = trigger.closest('.accordion-item');
+        const content = item.querySelector('.accordion-content');
+        const icon = trigger.querySelector('.accordion-icon');
+
+        content.classList.remove('hidden');
+        trigger.setAttribute('aria-expanded', 'true');
+        icon.style.transform = 'rotate(45deg)';
+      }
+    };
+
+    // ========================================
+    // Initialize All Modules
+    // ========================================
+    QuantityManager.init();
+    CartWishlistManager.init();
+    GalleryManager.init();
+    DeliveryManager.init();
+    AccordionManager.init();
   });
 </script>
 

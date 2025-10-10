@@ -974,148 +974,15 @@
 
 @section('scripts')
 
+<!-- Centralized Cart & Wishlist Manager -->
+<script src="{{ asset('assets/frontend/js/cart-wishlist-manager.js') }}"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-
-    const csrfToken = '{{ csrf_token() }}'; // Store once, use multiple times
-
-    // Utility function to handle fetch requests
-    function handleAction(url, successCallback, errorCallback) {
-      // Show loading state
-      const loadingToast = toastr.info('Processing...', '', { timeOut: 0, closeButton: false });
-
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => {
-          // Clear loading toast
-          toastr.clear(loadingToast);
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data.success) {
-            toastr.success(data.message || 'Action completed successfully!');
-            if (typeof successCallback === 'function') {
-              successCallback(data);
-            }
-          } else {
-            toastr.warning(data.message || 'Something went wrong. Please try again.');
-            if (typeof errorCallback === 'function') {
-              errorCallback(data);
-            }
-          }
-        })
-        .catch(error => {
-          // Clear loading toast
-          toastr.clear(loadingToast);
-
-          console.error('Request Error:', error);
-          toastr.error('Network error occurred. Please check your connection and try again.');
-
-          if (typeof errorCallback === 'function') {
-            errorCallback({ error: error.message });
-          }
-        });
-    }
-
-    // Event delegation for Add to Cart buttons (works with dynamic content)
-    document.addEventListener('click', function (e) {
-      // Handle Add to Cart buttons
-      if (e.target.closest('.add-to-cart-btn')) {
-        e.preventDefault();
-
-        const button = e.target.closest('.add-to-cart-btn');
-        const productId = button.dataset.id;
-
-        if (!productId) {
-          toastr.error('Product ID not found. Please try again.');
-          return;
-        }
-
-        // Disable button during request
-        button.disabled = true;
-        button.style.opacity = '0.6';
-
-        handleAction(
-          `/celiginus/addcart/${productId}`,
-          // Success callback
-          function (data) {
-            if (data.cart_count !== undefined) {
-              updateCartCount(data.cart_count);
-            }
-            // Re-enable button
-            button.disabled = false;
-            button.style.opacity = '1';
-          },
-          // Error callback
-          function (data) {
-            // Re-enable button on error
-            button.disabled = false;
-            button.style.opacity = '1';
-          }
-        );
-      }
-
-      // Handle Add to Wishlist buttons
-      if (e.target.closest('.add-wishlist-btn')) {
-        e.preventDefault();
-
-        const button = e.target.closest('.add-wishlist-btn');
-        const productId = button.dataset.id;
-
-        if (!productId) {
-          toastr.error('Product ID not found. Please try again.');
-          return;
-        }
-
-        // Disable button during request
-        button.disabled = true;
-        button.style.opacity = '0.6';
-
-        handleAction(
-          `/celiginus/addwishlist/${productId}`,
-          // Success callback
-          function (data) {
-            if (data.wishlist_count !== undefined) {
-              updateWishlistCount(data.wishlist_count);
-            }
-
-            // Optional: Change heart icon to filled state
-            const heartIcon = button.querySelector('svg path');
-            if (heartIcon) {
-              heartIcon.setAttribute('fill', 'currentColor');
-              button.classList.add('text-red-500');
-              button.classList.remove('text-gray-400');
-            }
-
-            // Re-enable button
-            button.disabled = false;
-            button.style.opacity = '1';
-          },
-          // Error callback
-          function (data) {
-            // Re-enable button on error
-            button.disabled = false;
-            button.style.opacity = '1';
-          }
-        );
-      }
-    });
-
     // Initialize Swiper carousels after DOM is ready
     setTimeout(function () {
       initializeCarousels();
     }, 100);
-
   });
 
   // Initialize carousel functionality
@@ -1206,28 +1073,6 @@
         }
       });
     }
-  }
-
-  // Utility function to safely update cart count (defined globally)
-  if (typeof window.updateCartCount === 'undefined') {
-    window.updateCartCount = function (count) {
-      const cartCountElement = document.getElementById('cart-count');
-      if (cartCountElement) {
-        cartCountElement.textContent = count;
-        cartCountElement.setAttribute('aria-label', `${count} items in cart`);
-      }
-    };
-  }
-
-  // Utility function to safely update wishlist count (defined globally)
-  if (typeof window.updateWishlistCount === 'undefined') {
-    window.updateWishlistCount = function (count) {
-      const wishlistCountElement = document.getElementById('wishlist-count');
-      if (wishlistCountElement) {
-        wishlistCountElement.textContent = count;
-        wishlistCountElement.setAttribute('aria-label', `${count} items in wishlist`);
-      }
-    };
   }
 </script>
 
