@@ -4,7 +4,14 @@
       "Bash(dir:*)",
       "Bash(\"C:\\xampp\\php\\php.exe\" artisan serve --host=127.0.0.1 --port=8000)",
       "Bash(npm run dev:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan view:clear)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan cache:clear)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:clear)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan route:clear)",
+      "Bash(npm run build:*)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan optimize:clear)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" artisan view:cache)"
     ],
     "deny": [],
     "ask": []

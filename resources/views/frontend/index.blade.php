@@ -307,85 +307,7 @@
               <div class="swiper-wrapper">
                 @foreach($best_products as $prod)
                   <div class="swiper-slide">
-                    <article
-                      class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 "
-                      itemscope itemtype="https://schema.org/Product">
-                      <a href="{{ url('/item/' . $prod->slug) }}"
-                        class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
-                        aria-describedby="product-{{ $prod->id }}-desc">
-                        <div class="relative aspect-square overflow-hidden">
-                          <img
-                            src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/' . $prod->thumbnail) : asset('assets/images/noimage.png') }}"
-                            alt="{{ $prod->name }} - Premium skincare product" width="300" height="300" loading="lazy"
-                            decoding="async" itemprop="image"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                          <div class="absolute top-2 left-2 sm:top-3 sm:left-3">
-                            @php
-                              $productTags = [];
-                              if ($prod->offPercentage() > 0) {
-                                $productTags[] = ['label' => 'Sale', 'class' => 'bg-red-600'];
-                              }
-                              if ($prod->is_featured) {
-                                $productTags[] = ['label' => 'Hot', 'class' => 'bg-orange-600'];
-                              }
-                              if (empty($productTags)) {
-                                $productTags[] = ['label' => 'New', 'class' => 'bg-green-600'];
-                              }
-                            @endphp
-                            @foreach($productTags as $tag)
-                              <span
-                                class="inline-block px-2 py-1 {{ $tag['class'] }} text-white text-sm font-semibold mb-1 first:mb-0"
-                                role="status" aria-label="Product tag: {{ $tag['label'] }}">
-                                {{ $tag['label'] }}
-                              </span>
-                            @endforeach
-                          </div>
-                        </div>
-                        <div class="p-3 sm:p-4">
-                          <div class="mb-2">
-                            <span class="text-base font-bold text-gray-900 dark:text-gray-100"
-                              itemprop="price">{{ $prod->showPrice() }}</span>
-                            @if($prod->showPreviousPrice() && $prod->showPreviousPrice() != $prod->showPrice())
-                              <span
-                                class="text-sm text-gray-500 dark:text-gray-400 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
-                            @endif
-                          </div>
-                          <h3 id="product-{{ $prod->id }}-desc"
-                            class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 leading-relaxed"
-                            itemprop="name" title="{{$prod->name}}">
-                            {{ ucfirst(mb_strtolower($prod->showName())) }}
-                          </h3>
-                        </div>
-                      </a>
-                      <div class="px-3 sm:px-4 pb-3 sm:pb-4">
-                        <div class="flex items-center space-x-2">
-                          <a href="#"
-                            class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
-                            data-id="{{ $prod->id }}" role="button" tabindex="0"
-                            aria-label="Add {{ $prod->name }} to shopping cart">
-                            <span class="mr-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="9" cy="21" r="1"></circle>
-                                <circle cx="20" cy="21" r="1"></circle>
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                              </svg></span>
-                            <span class="hidden sm:inline">Add to Cart</span>
-                            <span class="sm:hidden">Cart</span>
-                          </a>
-                          <a href="#"
-                            class="p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-wishlist-btn"
-                            data-id="{{ $prod->id }}" role="button" tabindex="0"
-                            aria-label="Add {{ $prod->name }} to wishlist">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                              aria-hidden="true" focusable="false">
-                              <path
-                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                              </path>
-                            </svg>
-                          </a>
-                        </div>
-                      </div>
-                    </article>
+                    <x-product-card :product="$prod" badge-type="bestseller" />
                   </div>
                 @endforeach
               </div>
@@ -483,75 +405,7 @@
             <div class="swiper-wrapper">
               @foreach($hot_products as $prod)
                 <div class="swiper-slide">
-                  <article
-                    class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 "
-                    itemscope itemtype="https://schema.org/Product">
-                    <a href="{{ url('/item/' . $prod->slug) }}"
-                      class="block focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
-                      aria-describedby="hotdeal-{{ $prod->id }}-desc">
-                      <div class="relative aspect-square overflow-hidden">
-                        <img
-                          src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/' . $prod->thumbnail) : asset('assets/images/noimage.png') }}"
-                          alt="{{ $prod->name }} - Limited time hot deal product" width="300" height="300" loading="lazy"
-                          decoding="async" itemprop="image"
-                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                        <div class="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col space-y-1">
-                          <span class="inline-block px-2 py-1 bg-red-600 text-white text-sm font-semibold" role="status"
-                            aria-label="Product tag: Hot Deal">
-                            Hot
-                          </span>
-                          @if (round($prod->offPercentage()) > 0)
-                            <span class="inline-block px-2 py-1 bg-orange-600 text-white text-sm font-semibold" role="status"
-                              aria-label="Discount: {{ round($prod->offPercentage())}} percent off">
-                              -{{ round($prod->offPercentage())}}%
-                            </span>
-                          @endif
-                        </div>
-                      </div>
-                      <div class="p-3 sm:p-4">
-                        <div class="mb-2">
-                          <span class="text-base sm:text-lg font-bold text-red-600"
-                            itemprop="price">{{ $prod->showPrice() }}</span>
-                          @if($prod->showPreviousPrice() && $prod->showPreviousPrice() != $prod->showPrice())
-                            <span class="text-sm text-gray-500 line-through ml-2">{{ $prod->showPreviousPrice() }}</span>
-                          @endif
-                        </div>
-                        <h3 id="hotdeal-{{ $prod->id }}-desc"
-                          class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 leading-relaxed"
-                          itemprop="name" title="{{$prod->name}}">
-                          {{ ucfirst(mb_strtolower($prod->showName())) }}
-                        </h3>
-                      </div>
-                    </a>
-                    <div class="px-3 sm:px-4 pb-3 sm:pb-4">
-                      <div class="flex items-center space-x-2">
-                        <a href="#"
-                          class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-red-600 text-white text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
-                          data-id="{{ $prod->id }}" role="button" tabindex="0"
-                          aria-label="Add {{ $prod->name }} to shopping cart">
-                          <span class="mr-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                              stroke="currentColor" stroke-width="2">
-                              <circle cx="9" cy="21" r="1"></circle>
-                              <circle cx="20" cy="21" r="1"></circle>
-                              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                            </svg></span>
-                          <span class="hidden sm:inline">Add to Cart</span>
-                          <span class="sm:hidden">Cart</span>
-                        </a>
-                        <a href="#"
-                          class="p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 add-wishlist-btn"
-                          data-id="{{ $prod->id }}" role="button" tabindex="0"
-                          aria-label="Add {{ $prod->name }} to wishlist">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            aria-hidden="true" focusable="false">
-                            <path
-                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                            </path>
-                          </svg>
-                        </a>
-                      </div>
-                    </div>
-                  </article>
+                  <x-product-card :product="$prod" badge-type="hot" />
                 </div>
               @endforeach
             </div>
@@ -880,44 +734,8 @@
       </div>
     </section>
 
-    <!-- Join CELIGIN Banner -->
-    <section class="py-12 lg:py-16 bg-white dark:bg-gray-900">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          <div class="relative overflow-hidden group cursor-pointer">
-            <img src="{{ asset('assets/frontend/images/join-club-banner.png') }}"
-              alt="Join CELIGIN Club - Become a Brand Ambassador"
-              class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
-            <div class="absolute inset-y-0 left-0 w-1/2 flex flex-col justify-center text-left p-6">
-              <span
-                class="inline-block px-3 py-1 bg-orange-600 dark:bg-orange-500 text-white text-sm font-semibold  mb-4 uppercase tracking-wide w-fit">JOIN
-                CELIGIN CLUB</span>
-              <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white mb-6">Become a Brand
-                Ambassador</h3>
-              <a href="/join"
-                class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 w-fit text-sm"
-                aria-label="Join CELIGIN Club to become a brand ambassador">
-                Join Now
-              </a>
-            </div>
-          </div>
-
-          <div class="relative overflow-hidden group cursor-pointer">
-            <img src="{{ asset('assets/frontend/images/cell-education-banner.png') }}"
-              alt="Cell For Education - CELIGIN Skincare Products"
-              class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
-            <div class="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
-              <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white">Cell For Education</h3>
-              <a href="/education"
-                class="inline-flex items-center px-4 py-2 bg-orange-600 dark:bg-orange-500 text-white font-medium hover:bg-orange-700 dark:hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 text-sm "
-                aria-label="Learn more about Cell For Education program">
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Join CELIGIN Promotional Banners -->
+    <x-join-celigin-banners />
 
     @if($ps->blog == 1)
       <!-- Blog Section -->
@@ -974,153 +792,15 @@
 
 @section('scripts')
 
+<!-- Centralized Cart & Wishlist Manager -->
+<script src="{{ asset('assets/frontend/js/cart-wishlist-manager.js') }}"></script>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-
-    const csrfToken = '{{ csrf_token() }}'; // Store once, use multiple times
-
-    // Utility function to handle fetch requests
-    function handleAction(url, successCallback, errorCallback) {
-      // Show loading state
-      const loadingToast = toastr.info('Processing...', '', {
-        timeOut: 0,
-        closeButton: false
-      });
-
-      fetch(url, {
-          method: 'GET',
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(response => {
-          // Clear loading toast
-          toastr.clear(loadingToast);
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data.success) {
-            toastr.success(data.message || 'Action completed successfully!');
-            if (typeof successCallback === 'function') {
-              successCallback(data);
-            }
-          } else {
-            toastr.warning(data.message || 'Something went wrong. Please try again.');
-            if (typeof errorCallback === 'function') {
-              errorCallback(data);
-            }
-          }
-        })
-        .catch(error => {
-          // Clear loading toast
-          toastr.clear(loadingToast);
-
-          console.error('Request Error:', error);
-          toastr.error('Network error occurred. Please check your connection and try again.');
-
-          if (typeof errorCallback === 'function') {
-            errorCallback({
-              error: error.message
-            });
-          }
-        });
-    }
-
-    // Event delegation for Add to Cart buttons (works with dynamic content)
-    document.addEventListener('click', function (e) {
-      // Handle Add to Cart buttons
-      if (e.target.closest('.add-to-cart-btn')) {
-        e.preventDefault();
-
-        const button = e.target.closest('.add-to-cart-btn');
-        const productId = button.dataset.id;
-
-        if (!productId) {
-          toastr.error('Product ID not found. Please try again.');
-          return;
-        }
-
-        // Disable button during request
-        button.disabled = true;
-        button.style.opacity = '0.6';
-
-        handleAction(
-          `/celigin/addcart/${productId}`,
-          // Success callback
-          function (data) {
-            if (data.cart_count !== undefined) {
-              updateCartCount(data.cart_count);
-            }
-            // Re-enable button
-            button.disabled = false;
-            button.style.opacity = '1';
-          },
-          // Error callback
-          function (data) {
-            // Re-enable button on error
-            button.disabled = false;
-            button.style.opacity = '1';
-          }
-        );
-      }
-
-      // Handle Add to Wishlist buttons
-      if (e.target.closest('.add-wishlist-btn')) {
-        e.preventDefault();
-
-        const button = e.target.closest('.add-wishlist-btn');
-        const productId = button.dataset.id;
-
-        if (!productId) {
-          toastr.error('Product ID not found. Please try again.');
-          return;
-        }
-
-        // Disable button during request
-        button.disabled = true;
-        button.style.opacity = '0.6';
-
-        handleAction(
-          `/celigin/addwishlist/${productId}`,
-          // Success callback
-          function (data) {
-            if (data.wishlist_count !== undefined) {
-              updateWishlistCount(data.wishlist_count);
-            }
-
-            // Optional: Change heart icon to filled state
-            const heartIcon = button.querySelector('svg path');
-            if (heartIcon) {
-              heartIcon.setAttribute('fill', 'currentColor');
-              button.classList.add('text-red-500');
-              button.classList.remove('text-gray-400');
-            }
-
-            // Re-enable button
-            button.disabled = false;
-            button.style.opacity = '1';
-          },
-          // Error callback
-          function (data) {
-            // Re-enable button on error
-            button.disabled = false;
-            button.style.opacity = '1';
-          }
-        );
-      }
-    });
-
+  document.addEventListener('DOMContentLoaded', function () {
     // Initialize Swiper carousels after DOM is ready
     setTimeout(function () {
       initializeCarousels();
     }, 100);
-
   });
 
   // Initialize carousel functionality
@@ -1211,28 +891,6 @@
         }
       });
     }
-  }
-
-  // Utility function to safely update cart count (defined globally)
-  if (typeof window.updateCartCount === 'undefined') {
-    window.updateCartCount = function (count) {
-      const cartCountElement = document.getElementById('cart-count');
-      if (cartCountElement) {
-        cartCountElement.textContent = count;
-        cartCountElement.setAttribute('aria-label', `${count} items in cart`);
-      }
-    };
-  }
-
-  // Utility function to safely update wishlist count (defined globally)
-  if (typeof window.updateWishlistCount === 'undefined') {
-    window.updateWishlistCount = function (count) {
-      const wishlistCountElement = document.getElementById('wishlist-count');
-      if (wishlistCountElement) {
-        wishlistCountElement.textContent = count;
-        wishlistCountElement.setAttribute('aria-label', `${count} items in wishlist`);
-      }
-    };
   }
 </script>
 

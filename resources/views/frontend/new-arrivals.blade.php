@@ -2,69 +2,85 @@
 
 @section('content')
 <main id="main-content" role="main">
-  <div class="container">
-    <!-- Breadcrumb Navigation -->
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <ol class="breadcrumb-list">
-        <li class="breadcrumb-item">
-          <a href="{{ url('/') }}">Home</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">New Arrivals</li>
-      </ol>
-    </nav>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <!-- Category Header -->
-    <section class="category-header-wrapper">
-      <!-- Category Title -->
-      <div class="category-headline">
-        <h1 class="category-title">New Arrivals</h1>
+    {{-- Breadcrumb --}}
+    <div class="py-4 sm:py-6">
+      <x-breadcrumb title="New Arrivals" />
+    </div>
+
+    {{-- Category Header with Form-based Filtering --}}
+    <section class="py-6 sm:py-8 lg:py-12" aria-labelledby="category-title">
+      {{-- Title --}}
+      <div class="mb-6 sm:mb-8">
+        <h1 id="category-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">
+          New Arrivals
+        </h1>
       </div>
 
-      <!-- Filters Form -->
       <form id="filters-form" method="GET" action="{{ url()->current() }}">
-        <!-- Category Tags as Buttons -->
-        <nav class="category-tags" aria-label="Category filters">
-          <ul class="category-tags-list" role="list">
+        {{-- Category Tags as Buttons --}}
+        <nav class="mb-6 sm:mb-8" aria-label="Category filters">
+          <div class="flex flex-wrap gap-2 sm:gap-3" role="list">
             @php
-              $categories = ['skin-care' => 'Skin Care', 'morning' => 'Morning', 'night' => 'Night', 'special-care' => 'Special Care', 'mens-care' => "Men's Care", 'dry-skin' => 'Dry Skin', 'complex-skin' => 'Complex Skin', 'sensitive-skin' => 'Sensitive Skin', 'troubled-skin' => 'Troubled Skin'];
+              $categories = [
+                'skin-care' => 'Skin Care',
+                'morning' => 'Morning',
+                'night' => 'Night',
+                'special-care' => 'Special Care',
+                'mens-care' => "Men's Care",
+                'dry-skin' => 'Dry Skin',
+                'complex-skin' => 'Complex Skin',
+                'sensitive-skin' => 'Sensitive Skin',
+                'troubled-skin' => 'Troubled Skin'
+              ];
               $currentCategory = request()->query('category');
             @endphp
 
             @foreach($categories as $slug => $label)
-              <li>
-                <button
-                  type="submit"
-                  name="category"
-                  value="{{ $slug }}"
-                  class="category-tag {{ $currentCategory === $slug ? 'active' : '' }}"
-                  aria-pressed="{{ $currentCategory === $slug ? 'true' : 'false' }}"
-                >
-                  {{ $label }}
-                </button>
-              </li>
-            @endforeach
-            <li>
               <button
                 type="submit"
                 name="category"
-                value=""
-                class="category-tag {{ empty($currentCategory) ? 'active' : '' }}"
-                aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}"
-              >
-                All
+                value="{{ $slug }}"
+                class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ $currentCategory === $slug ? 'bg-orange-600 text-white hover:bg-orange-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+                aria-pressed="{{ $currentCategory === $slug ? 'true' : 'false' }}"
+                role="listitem">
+                {{ $label }}
               </button>
-            </li>
-          </ul>
+            @endforeach
+
+            <button
+              type="submit"
+              name="category"
+              value=""
+              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-orange-600 text-white hover:bg-orange-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+              aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}"
+              role="listitem">
+              All
+            </button>
+          </div>
         </nav>
 
-        <!-- Sorting Dropdown -->
-        <div class="category-controls">
-          <div class="category-results">
-            <span class="products-count" aria-live="polite">{{  $latest_products->count() }} results</span>
+        {{-- Results Count & Sort Controls --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
+          {{-- Results Count --}}
+          <div class="flex items-center">
+            <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
+              <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $latest_products->count() }}</span> results
+            </span>
           </div>
-          <div class="category-filters">
-            <label for="sort-select" class="sort-label">Sort by</label>
-            <select id="sort-select" class="filter-select" name="sort" aria-label="Sort products by">
+
+          {{-- Sort Dropdown --}}
+          <div class="flex items-center gap-2 sm:gap-3">
+            <label for="sort-select" class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
+              Sort by
+            </label>
+            <select
+              id="sort-select"
+              name="sort"
+              class="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:focus:ring-offset-gray-900 transition-colors duration-200"
+              aria-label="Sort products by"
+              onchange="this.form.submit()">
               @php
                 $currentSort = request()->query('sort', 'popularity');
               @endphp
@@ -77,194 +93,42 @@
       </form>
     </section>
 
-    <!-- Products Grid -->
-    <div class="products-grid" id="products-grid" role="list">
+    {{-- Products Grid --}}
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12"
+      id="products-grid"
+      role="list"
+      aria-label="Product listing">
       @forelse($prods as $prod)
-        <article class="product-card" itemscope itemtype="https://schema.org/Product" role="listitem">
-          <a href="{{ url('/item/'.$prod->slug) }}" class="product-link" aria-label="View {{ $prod->name }} details" itemprop="url">
-            <div class="product-image">
-              <img
-                src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail) : asset('assets/images/noimage.png') }}"
-                alt="{{ $prod->name }} - Latest breakthrough formula"
-                width="300"
-                height="300"
-                itemprop="image"
-              />
-              <div class="product-badges">
-                <span class="badge new">New</span>
-                @if (round($prod->offPercentage()) > 0)
-                  <span class="badge sale">{{ round($prod->offPercentage()) }}% off</span>
-                @endif
-              </div>
-            </div>
-            <div class="product-info">
-              <div class="product-pricing">
-               
-                <span class="current-price" itemprop="price">{{ $prod->showPrice() }}</span>
-                @if ($prod->showPreviousPrice())
-                  <span class="original-price">{{ $prod->showPreviousPrice() }}</span>
-                @endif
-              </div>
-              <h3 class="product-name" itemprop="name" title="{{ $prod->name }}">{{ ucfirst(mb_strtolower($prod->showName())) }}</h3>
-            </div>
-          </a>
-          <div class="product-actions">
-          <a href="#" class="wishlist-btn add-wishlist-btn" data-id="{{ $prod->id }}" aria-label="Add to wishlist" title="Add to Wishlist" role="button">
-           
-            <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
-</a>
-            <a href="javascript:void(0);" class="cart-btn add-to-cart-btn"
-                  data-id="{{ $prod->id }}"
-                  aria-label="Add to cart"
-                  title="Add to Cart"
-                  role="button">
-            <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path d="M6 2L3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6l-3-4H6z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10c0 2.2-1.8 4-4 4s-4-1.8-4-4"></path>
-              </svg>
-</a>
-          </div>
-        </article>
+        <x-product-card :product="$prod" badge-type="new" />
       @empty
-        <p>No products found.</p>
+        <div class="col-span-full py-12 text-center">
+          <p class="text-gray-600 dark:text-gray-400 text-lg">No products found.</p>
+        </div>
       @endforelse
     </div>
 
-    <!-- Load More Section -->
-    <div class="load-more-section">
-      <button class="load-more-btn" type="button">Load More Products</button>
-      <p class="load-more-text">Showing {{ $latest_products->count() }} of 48 products</p>
+    {{-- Load More Section --}}
+    <div class="py-8 sm:py-12 text-center border-t border-gray-200 dark:border-gray-700">
+      <button
+        type="button"
+        class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-orange-600 text-white text-sm sm:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Load more products">
+        Load More Products
+      </button>
+      <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+        Showing <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $latest_products->count() }}</span> of 48 products
+      </p>
     </div>
 
-    <!-- Join CELIGIN Banner -->
-    <section class="join-celigin-banner">
-      <div class="container">
-        <div class="banner-grid">
-          <div class="celigin-banner join-club">
-            <img
-              src="{{ asset('assets/frontend/images/join-club-banner.png') }}"
-              alt="Join CELIGIN Club - Become a Brand Ambassador"
-              class="banner-image"
-            />
-            <div class="banner-content">
-              <span class="badge">JOIN CELIGIN CLUB</span>
-              <h3>Become a Brand Ambassador</h3>
-              <a href="{{ url('/join') }}" class="banner-btn">Join Now</a>
-            </div>
-          </div>
-
-          <div class="celigin-banner cta-banner">
-            <img
-              src="{{ asset('assets/frontend/images/cell-education-banner.png') }}"
-              alt="Cell For Education - CELIGIN Skincare Products"
-              class="banner-image"
-            />
-            <div class="banner-content">
-              <h3>Cell For Education</h3>
-              <a href="{{ url('/education') }}" class="banner-btn secondary">Read More</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
+
+  {{-- Join CELIGIN Promotional Banners --}}
+  <x-join-celigin-banners />
 </main>
-
-<!-- Auto submit on sort change -->
-
-
-
-
 @endsection
 
-
-
 @section('scripts')
-
-<script>
-  document.getElementById('sort-select').addEventListener('change', function () {
-    document.getElementById('filters-form').submit();
-  });
-</script>
-
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-
-    const csrfToken = '{{ csrf_token() }}'; // Store once, use multiple times
-
-    // Utility function to handle fetch requests
-    function handleAction(url, successCallback) {
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken
-        }
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            toastr.success(data.message || 'Success');
-            successCallback(data);
-          } else {
-            toastr.warning(data.message || 'Something went wrong.');
-          }
-        })
-        .catch(error => {
-          console.error('Request Error:', error);
-          toastr.error('Unexpected error occurred.');
-        });
-    }
-
-    // Add to Cart
-    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-      button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const productId = this.dataset.id;
-        handleAction(`/celiginus/addcart/${productId}`, data => {
-          if (data.cart_count !== undefined) {
-            document.getElementById('cart-count').innerText = data.cart_count;
-          }
-        });
-      });
-    });
-
-    // Add to Wishlist
-    document.querySelectorAll('.add-wishlist-btn').forEach(button => {
-      button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const productId = this.dataset.id;
-        handleAction(`/celiginus/addwishlist/${productId}`, data => {
-          if (data.wishlist_count !== undefined) {
-            document.getElementById('wishlist-count').innerText = data.wishlist_count;
-          }
-        });
-      });
-    });
-
-  });
-</script>
-
+<!-- Centralized Cart & Wishlist Manager -->
+<script src="{{ asset('assets/frontend/js/cart-wishlist-manager.js') }}"></script>
 @endSection
