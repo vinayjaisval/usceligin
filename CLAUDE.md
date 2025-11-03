@@ -60,7 +60,7 @@ The platform integrates with multiple payment providers:
 ## Database Configuration
 
 - Default connection: MySQL
-- Database name: `us_devceligin`
+- Database name: `us_devceligin_1nov25`
 - Port: 3307 (non-standard MySQL port)
 - Configured for local development with XAMPP
 

@@ -2,16 +2,16 @@
   "permissions": {
     "allow": [
       "Bash(dir:*)",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan serve --host=127.0.0.1 --port=8000)",
-      "Bash(npm run dev:*)",
+      "Bash(\"C:\\xampp\\mysql\\bin\\mysql.exe\":*)",
+      "Bash(\"C:\\xampp\\mysql\\bin\\mysql.exe\" -u root -h 127.0.0.1 -P 3307 -e \"SHOW DATABASES;\")",
+      "Bash(php artisan:*)",
       "Bash(findstr:*)",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan view:clear)",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan cache:clear)",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan config:clear)",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan route:clear)",
-      "Bash(npm run build:*)",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan optimize:clear)",
-      "Bash(\"C:\\xampp\\php\\php.exe\" artisan view:cache)"
+      "Bash(more:*)",
+      "Bash(C:wamp64binphpphp8.1.31php.exe artisan key:generate)",
+      "Bash(where:*)",
+      "Read(//c/Users/sande/OneDrive/Desktop/Delete me/ai screens/**)",
+      "Bash(C:wamp64binphpphp8.1.31php.exe artisan key:generate --show)",
+      "Bash(\"C:\\wamp64\\bin\\mysql\\bin\\mysql.exe\":*)"
     ],
     "deny": [],
     "ask": []
