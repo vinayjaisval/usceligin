@@ -712,10 +712,11 @@
             method: this.currentMethod
           });
 
-          if (result.success) {
+          if (result.message) {
+          
             this.showOtpSection();
-            if (result.development_otp) {
-              console.log('Development OTP:', result.development_otp);
+            if (result.message) {
+              console.log('Development OTP:', result.message);
             }
           } else {
             this.showError(methodData.errorElement, result.message);
@@ -890,9 +891,12 @@
         const loginBtn = document.getElementById("loginBtn");
         loginBtn.textContent = "Redirecting...";
         loginBtn.disabled = true;
-
+const redirectUrl = "{{ route('front.index') }}";
+    window.location.href = redirectUrl;
         // Immediate redirect since we're already showing success message
-        window.location.href = this.redirectUrl || '/';
+
+        // window.location.href = this.redirectUrl || '/';
+
       }
     }
 

@@ -148,6 +148,7 @@
                 class="absolute -top-1 -right-1 bg-orange-600 dark:bg-orange-500 text-white text-xs h-5 w-5 flex items-center justify-center "
                 aria-label="{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }} items in cart">
                 {{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}
+            
               </span>
             </a>
 
