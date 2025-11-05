@@ -11,7 +11,10 @@
       "Bash(where:*)",
       "Read(//c/Users/sande/OneDrive/Desktop/Delete me/ai screens/**)",
       "Bash(C:wamp64binphpphp8.1.31php.exe artisan key:generate --show)",
-      "Bash(\"C:\\wamp64\\bin\\mysql\\bin\\mysql.exe\":*)"
+      "Bash(\"C:\\wamp64\\bin\\mysql\\bin\\mysql.exe\":*)",
+      "Bash(netstat:*)",
+      "Bash(C:wamp64binphpphp8.1.31php.exe artisan serve --host=127.0.0.1 --port=8888)",
+      "Bash(timeout /t 3:*)"
     ],
     "deny": [],
     "ask": []

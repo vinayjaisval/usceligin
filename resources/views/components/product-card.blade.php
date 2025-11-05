@@ -114,13 +114,37 @@
   </a>
 
   {{-- Product Actions --}}
-  <div class="flex items-center justify-center gap-2 sm:gap-3 p-2.5 sm:p-3 border-t border-gray-200 dark:border-gray-700">
-    @if($showWishlist)
-      <x-wishlist-button :product-id="$product->id" />
+  <div class="flex items-center space-x-2 p-2.5 sm:p-3 border-t border-gray-200 dark:border-gray-700">
+    @if($showCart)
+      {{-- Wide Add to Cart Button --}}
+      <a href="javascript:void(0);"
+         class="add-to-cart-btn flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200"
+         data-id="{{ $product->id }}"
+         role="button"
+         tabindex="0"
+         aria-label="Add {{ $product->name }} to shopping cart">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 sm:mr-2" aria-hidden="true" focusable="false">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="hidden sm:inline">Add to Cart</span>
+        <span class="sm:hidden">Cart</span>
+      </a>
     @endif
 
-    @if($showCart)
-      <x-cart-button :product-id="$product->id" />
+    @if($showWishlist)
+      {{-- Icon-only Wishlist Button --}}
+      <a href="javascript:void(0);"
+         class="add-wishlist-btn p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
+         data-id="{{ $product->id }}"
+         role="button"
+         tabindex="0"
+         aria-label="Add {{ $product->name }} to wishlist">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </a>
     @endif
   </div>
 </article>
