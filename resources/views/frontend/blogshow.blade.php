@@ -62,7 +62,13 @@
 
       <!-- Article Content -->
       <div class="prose prose-lg dark:prose-invert max-w-none mb-12" itemprop="articleBody">
-        {!! clean($blog->details , array('Attr.EnableID' => true)) !!}
+        {!! clean($blog->details, [
+            'HTML.Allowed' => 'p,br,strong,em,ul,ol,li,h2,h3,h4,h5,h6,blockquote,a[href],img[src|alt],code,pre',
+            'AutoFormat.RemoveEmpty' => true,
+            'AutoFormat.AutoParagraph' => true,
+            'Attr.AllowedFrameTargets' => ['_blank'],
+            'HTML.Nofollow' => true
+        ]) !!}
       </div>
 
       <!-- Article Footer -->

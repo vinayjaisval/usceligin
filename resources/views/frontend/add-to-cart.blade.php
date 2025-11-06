@@ -369,7 +369,7 @@
 
         showLoader();
 
-        fetch('/celiginus/addnumcart', {
+        fetch('{{ route("details.cart") }}', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

@@ -308,7 +308,10 @@
                       class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50"
                       id="{{ $section['id'] }}-content">
                       @if($section['isHtml'])
-                        {!! $section['content'] !!}
+                        {!! clean($section['content'], [
+                            'HTML.Allowed' => 'p,br,strong,em,ul,ol,li,span',
+                            'AutoFormat.RemoveEmpty' => true
+                        ]) !!}
                       @else
                         {{ $section['content'] }}
                       @endif

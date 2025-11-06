@@ -713,11 +713,8 @@
           });
 
           if (result.message) {
-          
             this.showOtpSection();
-            if (result.message) {
-              console.log('Development OTP:', result.message);
-            }
+            // OTP sent successfully - do not log OTP for security
           } else {
             this.showError(methodData.errorElement, result.message);
           }
@@ -808,9 +805,7 @@
               this.clearError(otpError);
             }, 3000);
 
-            if (result.development_otp) {
-              console.log('New Development OTP:', result.development_otp);
-            }
+            // OTP resent successfully - do not log OTP for security
           } else {
             this.showError(otpError, result.message);
           }
@@ -858,7 +853,6 @@
             otpSuccess.classList.remove('hidden');
             otpSuccess.classList.add('visible');
 
-            console.log("Success message displayed");
             verifyBtn.style.display = "none";
             loginBtn.style.display = "block";
 
@@ -891,12 +885,23 @@
         const loginBtn = document.getElementById("loginBtn");
         loginBtn.textContent = "Redirecting...";
         loginBtn.disabled = true;
-const redirectUrl = "{{ route('front.index') }}";
-    window.location.href = redirectUrl;
-        // Immediate redirect since we're already showing success message
 
-        // window.location.href = this.redirectUrl || '/';
+        // Use intended URL from session, fallback to homepage
+        const redirectUrl = this.redirectUrl || "{{ session('url.intended', route('front.index')) }}";
 
+        // Validate URL is from same origin (prevent open redirect)
+        try {
+          const url = new URL(redirectUrl, window.location.origin);
+          if (url.origin === window.location.origin) {
+            window.location.href = url.href;
+          } else {
+            // External URL - redirect to homepage for security
+            window.location.href = "{{ route('front.index') }}";
+          }
+        } catch(e) {
+          // Invalid URL - redirect to homepage
+          window.location.href = "{{ route('front.index') }}";
+        }
       }
     }
 
