@@ -456,9 +456,10 @@
     const CONFIG = {
       csrfToken: '{{ csrf_token() }}',
       maxQuantity: {{ $productt->stock ?? 99 }},
+      baseUrl: '{{ url("/") }}',
       urls: {
-        addCart: '/celiginus/addcart/',
-        addWishlist: '/celiginus/addwishlist/'
+        addCart: '{{ url("/addcart") }}/',
+        addWishlist: '{{ url("/addwishlist") }}/'
       }
     };
 
@@ -579,11 +580,11 @@
     };
 
     // ========================================
-    // Cart & Wishlist Handlers
+    // Cart & Wishlist Handlers (All Products)
     // ========================================
     const CartWishlistManager = {
       init() {
-        // Main add to cart
+        // Main add to cart (with quantity support)
         if (DOM.addToCartBtn) {
           DOM.addToCartBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -601,22 +602,29 @@
           });
         }
 
-        // Recommendations cart buttons
-        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-          button.addEventListener('click', (e) => {
+        // Recommendations carousel - using event delegation for dynamic buttons
+        document.addEventListener('click', (e) => {
+          // Handle recommendations cart buttons (different from main product button)
+          const recCartBtn = e.target.closest('.add-to-cart-btn');
+          if (recCartBtn && recCartBtn !== DOM.addToCartBtn) {
             e.preventDefault();
-            const productId = e.currentTarget.dataset.id;
-            this.addToCart(productId, 1);
-          });
-        });
+            const productId = recCartBtn.dataset.id || recCartBtn.dataset.productId;
+            if (productId) {
+              this.addToCart(productId, 1);
+            }
+            return;
+          }
 
-        // Recommendations wishlist buttons
-        document.querySelectorAll('.add-wishlist-btn').forEach(button => {
-          button.addEventListener('click', (e) => {
+          // Handle recommendations wishlist buttons
+          const recWishlistBtn = e.target.closest('.add-wishlist-btn');
+          if (recWishlistBtn && recWishlistBtn !== DOM.addToWishlistBtn) {
             e.preventDefault();
-            const productId = e.currentTarget.dataset.id;
-            this.addToWishlist(productId);
-          });
+            const productId = recWishlistBtn.dataset.id || recWishlistBtn.dataset.productId;
+            if (productId) {
+              this.addToWishlist(productId);
+            }
+            return;
+          }
         });
       },
 

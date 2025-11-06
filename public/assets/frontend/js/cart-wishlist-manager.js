@@ -28,9 +28,10 @@
     // Configuration
     config: {
       csrfToken: '',
+      baseUrl: window.location.origin + window.location.pathname.split('/').slice(0, 2).join('/'),
       urls: {
-        addCart: '/celiginus/addcart/',
-        addWishlist: '/celiginus/addwishlist/'
+        addCart: '',
+        addWishlist: ''
       }
     },
 
@@ -64,6 +65,25 @@
       } else {
         console.warn('[CartWishlistManager] CSRF token meta tag not found');
       }
+
+      // Auto-detect base URL from current page
+      const currentPath = window.location.pathname;
+      const pathParts = currentPath.split('/').filter(part => part);
+
+      // If we're in a subfolder like /usceligin, include it
+      if (pathParts.length > 0 && pathParts[0] !== 'addcart' && pathParts[0] !== 'addwishlist') {
+        this.config.baseUrl = window.location.origin + '/' + pathParts[0];
+      } else {
+        this.config.baseUrl = window.location.origin;
+      }
+
+      // Set URLs with base path
+      this.config.urls.addCart = this.config.baseUrl + '/addcart/';
+      this.config.urls.addWishlist = this.config.baseUrl + '/addwishlist/';
+
+      console.log('[CartWishlistManager] Base URL:', this.config.baseUrl);
+      console.log('[CartWishlistManager] Cart URL:', this.config.urls.addCart);
+      console.log('[CartWishlistManager] Wishlist URL:', this.config.urls.addWishlist);
     },
 
     /**
@@ -78,44 +98,44 @@
 
     /**
      * Attach event listeners to cart/wishlist buttons
-     * Uses event delegation for dynamic content
+     * Uses event delegation for dynamic content (works with Swiper, AJAX, etc.)
      */
     attachEventListeners() {
-      // Add to cart buttons
-      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
+      // Use event delegation on document level for dynamically added buttons
+      document.addEventListener('click', (e) => {
+        // Check if clicked element is add-to-cart button
+        const cartBtn = e.target.closest('.add-to-cart-btn');
+        if (cartBtn) {
           e.preventDefault();
-          const productId = button.dataset.id || button.dataset.productId;
-          const quantity = button.dataset.quantity || 1;
+          const productId = cartBtn.dataset.id || cartBtn.dataset.productId;
+          const quantity = cartBtn.dataset.quantity || 1;
 
           if (!productId) {
-            console.error('[CartWishlistManager] Product ID not found on button:', button);
+            console.error('[CartWishlistManager] Product ID not found on button:', cartBtn);
             return;
           }
 
           this.addToCart(productId, quantity);
-        });
-      });
+          return;
+        }
 
-      // Add to wishlist buttons
-      document.querySelectorAll('.add-wishlist-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
+        // Check if clicked element is add-to-wishlist button
+        const wishlistBtn = e.target.closest('.add-wishlist-btn');
+        if (wishlistBtn) {
           e.preventDefault();
-          const productId = button.dataset.id || button.dataset.productId;
+          const productId = wishlistBtn.dataset.id || wishlistBtn.dataset.productId;
 
           if (!productId) {
-            console.error('[CartWishlistManager] Product ID not found on button:', button);
+            console.error('[CartWishlistManager] Product ID not found on button:', wishlistBtn);
             return;
           }
 
           this.addToWishlist(productId);
-        });
+          return;
+        }
       });
 
-      console.log('[CartWishlistManager] Attached listeners to',
-        document.querySelectorAll('.add-to-cart-btn').length, 'cart buttons and',
-        document.querySelectorAll('.add-wishlist-btn').length, 'wishlist buttons'
-      );
+      console.log('[CartWishlistManager] Event delegation attached to document for cart and wishlist buttons');
     },
 
     /**
@@ -157,20 +177,26 @@
      * @param {Function} successCallback - Callback function on success
      */
     handleAction(url, successCallback) {
+      console.log('[CartWishlistManager] Making request to:', url);
+
       fetch(url, {
         method: 'GET',
         headers: {
           'X-CSRF-TOKEN': this.config.csrfToken,
-          'X-Requested-With': 'XMLHttpRequest'
+          'X-Requested-With': 'XMLHttpRequest',
+          'Accept': 'application/json'
         }
       })
       .then(res => {
+        console.log('[CartWishlistManager] Response status:', res.status);
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         return res.json();
       })
       .then(data => {
+        console.log('[CartWishlistManager] Response data:', data);
+
         if (data.success) {
           // Show success notification
           this.showNotification('success', data.message || 'Success');
