@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Attribute;
 use App\Models\AttributeOption;
 use App\Models\Category;
-
+use App\Models\Tag;
 use App\Models\Brand;
 use App\Models\Childcategory;
 use App\Models\Currency;
@@ -27,6 +27,7 @@ class ProductController extends AdminBaseController
     {
         if ($request->type == 'all') {
             $datas = Product::whereProductType('normal')->where('canvert_status_lan',0)->latest('id')->get();
+           
         } else if ($request->type == 'deactive') {
             $datas = Product::whereProductType('normal')->whereStatus(0)->latest('id')->get();
         }
@@ -140,9 +141,11 @@ class ProductController extends AdminBaseController
     {
         $cats = Category::all();
          $brand = Brand::all();
+         $tag = Tag::all();
+
         $sign = $this->curr;
         if ($slug == 'physical') {
-            return view('admin.product.create.physical', compact('cats', 'brand','sign'));
+            return view('admin.product.create.physical', compact('cats', 'brand','sign','tag'));
         } else if ($slug == 'digital') {
             return view('admin.product.create.digital', compact('cats', 'sign'));
         } else if (($slug == 'license')) {
@@ -212,7 +215,7 @@ class ProductController extends AdminBaseController
     //*** POST Request
     public function store(Request $request)
     {
-        // dd($request->all());
+        //  dd($request->all());
         //--- Validation Section
         $rules = [
             'photo' => 'required',
@@ -380,6 +383,8 @@ class ProductController extends AdminBaseController
         }
 
         $input['price'] = ($input['price'] / $sign->value);
+        $input['canvert_status_lan'] = 0;
+
         $input['previous_price'] = ($input['previous_price'] / $sign->value);
         if($request->cross_products){
             $input['cross_products'] = implode(',', $request->cross_products);
@@ -675,6 +680,8 @@ class ProductController extends AdminBaseController
     public function edit($id)
     {
         $cats = Category::all();
+        $tag = Tag::all();
+
          $brand = Brand::all();
         $data = Product::findOrFail($id);
         $sign = $this->curr;
@@ -686,7 +693,7 @@ class ProductController extends AdminBaseController
         } elseif ($data->type == 'Listing') {
             return view('admin.product.edit.listing', compact('cats', 'data', 'sign'));
         } else {
-            return view('admin.product.edit.physical', compact('cats','brand', 'data', 'sign'));
+            return view('admin.product.edit.physical', compact('cats','brand', 'data', 'sign', 'tag'));
         }
 
     }

@@ -225,6 +225,18 @@ Route::prefix('admin')->group(function () {
         Route::get('/brand/featured/{id1}/{id2}', 'Admin\BrandController@featured')->name('admin-brand-featured');
         Route::get('/brand/status/{id1}/{id2}', 'Admin\BrandController@status')->name('admin-brand-status');
 
+
+        ////===============Tag section ==================////
+        Route::get('/tag/datatables', 'Admin\TagController@datatables')->name('admin-tag-datatables'); //JSON REQUEST
+        Route::get('/tag', 'Admin\TagController@index')->name('admin-tag-index');
+        Route::get('/tag/create', 'Admin\TagController@create')->name('admin-tag-create');
+        Route::post('/tag/create', 'Admin\TagController@store')->name('admin-tag-store');
+        Route::get('/tag/edit/{id}', 'Admin\TagController@edit')->name('admin-tag-edit');
+        Route::post('/tag/edit/{id}', 'Admin\TagController@update')->name('admin-tag-update');
+        Route::delete('/tag/delete/{id}', 'Admin\TagController@destroy')->name('admin-tag-delete');
+        Route::get('/tag/featured/{id1}/{id2}', 'Admin\TagController@featured')->name('admin-tag-featured');
+        Route::get('/tag/status/{id1}/{id2}', 'Admin\TagController@status')->name('admin-tag-status');
+
         //------------ ADMIN ATTRIBUTE SECTION ------------
 
         Route::get('/attribute/datatables', 'Admin\AttributeController@datatables')->name('admin-attr-datatables'); //JSON REQUEST

@@ -90,6 +90,10 @@
             class="">
             <a href="{{ route('admin-brand-index') }}"><span>{{ __('Brand') }}</span></a>
         </li>
+         <li
+            class="">
+            <a href="{{ route('admin-tag-index') }}"><span>{{ __('Tag') }}</span></a>
+        </li>
     </ul>
 </li>
 
