@@ -384,7 +384,7 @@
 									</div>
 									{{-- Attributes of child category ends --}}
 
-									<div class="{{ !empty($data->size) ? " showbox":"" }}" id="stckprod">
+									<!-- <div class="{{ !empty($data->size) ? " showbox":"" }}" id="stckprod">
 										<div class="row">
 
 											<div class="col-lg-12">
@@ -397,9 +397,9 @@
 											</div>
 										</div>
 
-									</div>
+									</div> -->
 
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-lg-12">
 											<div class="left-area">
 
@@ -433,7 +433,7 @@
 												</select>
 											</div>
 										</div>
-									</div>
+									</div> -->
 
 
 									<div class="row">
@@ -472,7 +472,7 @@
 										</div>
 									</div>
 
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-lg-12">
 											<div class="left-area">
 
@@ -487,9 +487,9 @@
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div> -->
 
-									<div class="{{ $data->minimum_qty != null ? "":" showbox" }}">
+									<!-- <div class="{{ $data->minimum_qty != null ? "":" showbox" }}">
 										<div class="row">
 											<div class="col-lg-12">
 												<div class="left-area">
@@ -500,10 +500,10 @@
 												<input type="number" class="input-field" min="1" placeholder="{{ __('Minimum Order Qty') }}" name="minimum_qty" value="{{  $data->minimum_qty == null ? '' : $data->minimum_qty  }}">
 											</div>
 										</div>
-									</div>
+									</div> -->
 
 
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-lg-12">
 											<div class="left-area">
 
@@ -534,10 +534,10 @@
 												<input type="text" class="input-field" placeholder="{{ __('Estimated Shipping Time') }}" name="ship" value="{{ $data->ship == null ? "" : $data->ship }}">
 											</div>
 										</div>
-									</div>
+									</div> -->
 
 
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-lg-12">
 											<div class="left-area">
 
@@ -552,9 +552,9 @@
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div> -->
 
-									<div class="{{ !empty($data->color_all) ? "":" showbox" }}">
+									<!-- <div class="{{ !empty($data->color_all) ? "":" showbox" }}">
 										<div class="row">
 											@if(!empty($data->color_all))
 											<div class="col-lg-12">
@@ -608,9 +608,9 @@
 											</div>
 											@endif
 										</div>
-									</div>
+									</div> -->
 
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-lg-12">
 											<div class="left-area">
 
@@ -625,9 +625,9 @@
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div> -->
 
-									<div class="{{ !empty($data->size_all) ? "":" showbox" }}">
+									<!-- <div class="{{ !empty($data->size_all) ? "":" showbox" }}">
 										@if(!empty($data->size_all))
 										<div class="row">
 											<div class="col-lg-12">
@@ -676,12 +676,12 @@
 											</div>
 										</div>
 										@endif
-									</div>
+									</div> -->
 
 
 
 
-									<div class="{{ $data->measure == null ? 'showbox' : '' }}">
+									<!-- <div class="{{ $data->measure == null ? 'showbox' : '' }}">
 										<div class="row">
 											<div class="col-lg-6">
 												<div class="left-area">
@@ -710,10 +710,10 @@
 												<input name="measure" type="text" id="measurement" class="input-field" placeholder="Enter Unit" value="{{$data->measure}}">
 											</div>
 										</div>
-									</div>
+									</div> -->
 
 
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-lg-12">
 											<div class="left-area">
 
@@ -729,7 +729,7 @@
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div> -->
 
 									<div class="row {{ !empty($data->size) ? " d-none":"" }}" id="default_stock">
 										<div class="col-lg-12">
@@ -1272,22 +1272,51 @@
 										</div>
 									</div>
 
-									<div class="row">
+									{{-- ===================== SELECT2 DROPDOWN FOR NEW TAG SELECTION ===================== --}}
+									<div class="row mb-3">
 										<div class="col-lg-12">
-											<div class="left-area">
-												<h4 class="heading">{{ __('Tags') }} *</h4>
+											<div class="left-area mb-2">
+												<h4 class="heading">{{ __('Select Tags') }} *</h4>
 											</div>
-										</div>
-										<div class="col-lg-12">
-											<ul id="tags" class="myTags">
-												@if(!empty($data->tags))
-												@foreach ($data->tags as $element)
-												<li>{{ $element }}</li>
+											<select id="select-tags" name="tags[]" class="form-control" multiple="multiple">
+												@foreach($tag as $value)
+													<option 
+														value="{{ $value->id }}"
+														@if(!empty($data->tags) && in_array($value->id, $data->tags)) selected @endif
+													>
+														{{ $value->name }}
+													</option>
 												@endforeach
-												@endif
-											</ul>
+											</select>
 										</div>
 									</div>
+
+									{{-- ===================== SELECT2 SETUP ===================== --}}
+									<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+									<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+									<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+									<script>
+									$(document).ready(function() {
+										const $tags = $('#select-tags').select2({
+											placeholder: "Select up to 2 tags",
+											allowClear: true,
+											width: '100%'
+										});
+
+										// Limit selection to 2 items
+										$tags.on('select2:select', function (e) {
+											if ($(this).select2('data').length > 2) {
+												// Remove the newly selected item if limit exceeded
+												$(this).find('option[value="' + e.params.data.id + '"]').prop('selected', false);
+												$(this).trigger('change');
+												alert('You can select only 2 tags.');
+											}
+										});
+									});
+									</script>
+
+									
 
 									<div class="row text-center">
 										<div class="col-6 offset-3">

@@ -8,6 +8,7 @@ use App\{
   Models\Subcategory,
   Models\Childcategory,
   Models\Report,
+  Models\Tag,
   Models\Rating,
   Models\ArrivalSection
 };
@@ -245,6 +246,9 @@ class CatalogController extends FrontBaseController
   public function new_arrivals(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
 
+    $tags = Tag::all();
+    $data['tags'] = $tags;
+
     $gs = $this->gs;
 
     if ($request->view_check) {
@@ -266,6 +270,11 @@ class CatalogController extends FrontBaseController
     $minprice = ($minprice / $this->curr->value);
     $maxprice = ($maxprice / $this->curr->value);
     $type = $request->has('type') ?? '';
+    $tag = $request->tags ?? '';
+
+    $tag_data = Tag::where('slug', $tag)->first('id');
+    $tag_id = $tag_data->id ?? '';
+
 
 
     if (!empty($slug)) {
@@ -281,8 +290,8 @@ class CatalogController extends FrontBaseController
       $childcat = Childcategory::where('slug', $slug2)->firstOrFail();
       $data['childcat'] = $childcat;
     }
-
     $data['latest_products'] = Product::with('user')->whereStatus(1)->whereLatest(1)
+
 
       ->when('user', function ($query) {
         foreach ($query as $q) {
@@ -323,6 +332,9 @@ class CatalogController extends FrontBaseController
       ->when($maxprice, function ($query, $maxprice) {
         return $query->where('price', '<=', $maxprice);
       })
+      ->when($tag_id, function ($query, $tag_id) {
+        return $query->whereRaw("FIND_IN_SET(?, tags)", $tag_id);
+      })
       ->when($sort, function ($query, $sort) {
         if ($sort == 'date_desc') {
           return $query->latest('id');
@@ -339,7 +351,6 @@ class CatalogController extends FrontBaseController
       })
       ->withCount('ratings')
       ->withAvg('ratings', 'rating');
-
 
 
 
@@ -412,16 +423,18 @@ class CatalogController extends FrontBaseController
       })->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
     $data['prods'] = $prods;
 
-
     if ($request->ajax()) {
       $data['ajax_check'] = 1;
       return view('frontend.new-arrivals', $data);
     }
+
     return view('frontend.new-arrivals', $data);
   }
 
   public function best_sellers(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
+    $tags = Tag::all();
+    $data['tags'] = $tags;
 
     $gs = $this->gs;
 
@@ -444,7 +457,10 @@ class CatalogController extends FrontBaseController
     $minprice = ($minprice / $this->curr->value);
     $maxprice = ($maxprice / $this->curr->value);
     $type = $request->has('type') ?? '';
+    $tag = $request->tags ?? '';
 
+    $tag_data = Tag::where('slug', $tag)->first('id');
+    $tag_id = $tag_data->id ?? '';
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -500,6 +516,9 @@ class CatalogController extends FrontBaseController
       })
       ->when($maxprice, function ($query, $maxprice) {
         return $query->where('price', '<=', $maxprice);
+      })
+      ->when($tag_id, function ($query, $tag_id) {
+        return $query->whereRaw("FIND_IN_SET(?, tags)", $tag_id);
       })
       ->when($sort, function ($query, $sort) {
         if ($sort == 'date_desc') {
@@ -602,6 +621,9 @@ class CatalogController extends FrontBaseController
   public function sales(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
 
+    $tags = Tag::all();
+    $data['tags'] = $tags;
+
     $gs = $this->gs;
 
     if ($request->view_check) {
@@ -623,7 +645,10 @@ class CatalogController extends FrontBaseController
     $minprice = ($minprice / $this->curr->value);
     $maxprice = ($maxprice / $this->curr->value);
     $type = $request->has('type') ?? '';
+    $tag = $request->tags ?? '';
 
+    $tag_data = Tag::where('slug', $tag)->first('id');
+    $tag_id = $tag_data->id ?? '';
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -679,6 +704,9 @@ class CatalogController extends FrontBaseController
       })
       ->when($maxprice, function ($query, $maxprice) {
         return $query->where('price', '<=', $maxprice);
+      })
+      ->when($tag_id, function ($query, $tag_id) {
+        return $query->whereRaw("FIND_IN_SET(?, tags)", $tag_id);
       })
       ->when($sort, function ($query, $sort) {
         if ($sort == 'date_desc') {
@@ -779,6 +807,8 @@ class CatalogController extends FrontBaseController
 
   public function skin_care(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
+    $tags = Tag::all();
+    $data['tags'] = $tags;
 
     $gs = $this->gs;
 
@@ -801,7 +831,10 @@ class CatalogController extends FrontBaseController
     $minprice = ($minprice / $this->curr->value);
     $maxprice = ($maxprice / $this->curr->value);
     $type = $request->has('type') ?? '';
+    $tag = $request->tags ?? '';
 
+    $tag_data = Tag::where('slug', $tag)->first('id');
+    $tag_id = $tag_data->id ?? '';
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -857,6 +890,9 @@ class CatalogController extends FrontBaseController
       })
       ->when($maxprice, function ($query, $maxprice) {
         return $query->where('price', '<=', $maxprice);
+      })
+      ->when($tag_id, function ($query, $tag_id) {
+        return $query->whereRaw("FIND_IN_SET(?, tags)", $tag_id);
       })
       ->when($sort, function ($query, $sort) {
         if ($sort == 'date_desc') {
@@ -954,5 +990,18 @@ class CatalogController extends FrontBaseController
     }
     return view('frontend.skin-care', $data);
   }
- 
+
+
+   public function loadMoreProducts(Request $request)
+    {
+
+        dd($request->all());
+        $skip = $request->skip ?? 0;
+        $limit = 8; // how many load per click
+
+        $products = Product::latest()->skip($skip)->take($limit)->get();
+
+        return view('frontend.partials.product-list', compact('products'))->render();
+    }
+
 }

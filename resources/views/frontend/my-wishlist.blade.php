@@ -28,46 +28,68 @@
         </h1>
       </div>
 
-      @php
-        $tags = ['Skin Care', 'Morning', 'Night', 'Special Care', 'Men\'s Care', 'Dry Skin', 'Complex Skin', 'Sensitive Skin', 'Troubled Skin'];
-      @endphp
+    <form id="filters-form" method="GET" action="{{ url()->current() }}">
+        {{-- Category Tags as Buttons --}}
+        <nav class="mb-6 sm:mb-8" aria-label="Category filters">
+          <div class="flex flex-wrap gap-2 sm:gap-3" role="list">
 
-      {{-- Category Tags --}}
-      <nav class="mb-6 sm:mb-8" aria-label="Category filters">
-        <div class="flex flex-wrap gap-2 sm:gap-3" role="list">
-          @foreach ($tags as $tag)
-            <a href="#{{ Str::slug($tag) }}"
-              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
-              role="listitem"
-              aria-label="{{ $tag }}">
-              {{ $tag }}
-            </a>
-          @endforeach
-        </div>
-      </nav>
+            <button
+              type="submit"
+              name="tags"
+              value=""
+              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-orange-600 text-white hover:bg-orange-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+              aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}"
+              role="listitem">
+              All
+            </button>
 
-      {{-- Results Count & Sort Controls --}}
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
-        {{-- Results Count --}}
-        <div class="flex items-center">
-          <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
-            <span class="font-semibold text-gray-900 dark:text-gray-100">{{ is_array($oldCart) ? count($oldCart) : 0 }}</span> results
-          </span>
-        </div>
+            @foreach($tags as $tag)
+            <button
+              type="submit"
+              name="tags"
+              value="{{ $tag->slug }}"
+              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ isset($currentCategory) && $currentCategory === $tag->slug ? 'bg-orange-600 text-white hover:bg-orange-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+              aria-pressed="{{ isset($currentCategory) && $currentCategory === $tag->slug ? 'true' : 'false' }}"
+              role="listitem">
+              {{ $tag->name }}
+            </button>
+            @endforeach
 
-        {{-- Sort Dropdown --}}
-        <div class="flex items-center gap-2 sm:gap-3">
-          <label for="sort-select" class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sort by</label>
-          <select
-            id="sort-select"
-            class="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200"
-            aria-label="Sort products by">
-            <option value="popularity">Popularity</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-          </select>
+
+
+          </div>
+        </nav>
+
+        {{-- Results Count & Sort Controls --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
+          {{-- Results Count --}}
+          <div class="flex items-center">
+            <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
+              <span class="font-semibold text-gray-900 dark:text-gray-100">{{ count($oldCart) }}</span> results
+            </span>
+          </div>
+
+          {{-- Sort Dropdown --}}
+          <div class="flex items-center gap-2 sm:gap-3">
+            <label for="sort-select" class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
+              Sort by
+            </label>
+            <select
+              id="sort-select"
+              name="sort"
+              class="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:focus:ring-offset-gray-900 transition-colors duration-200"
+              aria-label="Sort products by"
+              onchange="this.form.submit()">
+              @php
+              $currentSort = request()->query('sort', 'popularity');
+              @endphp
+              <option value="popularity" {{ $currentSort === 'popularity' ? 'selected' : '' }}>Popularity</option>
+              <option value="price-low" {{ $currentSort === 'price-low' ? 'selected' : '' }}>Price: Low to High</option>
+              <option value="price-high" {{ $currentSort === 'price-high' ? 'selected' : '' }}>Price: High to Low</option>
+            </select>
+          </div>
         </div>
-      </div>
+      </form>
     </section>
 
     {{-- Loading Spinner --}}

@@ -152,13 +152,13 @@
                   <select class="quantity-select px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500" data-id="{{ $product['item']['id'] }}">
                     @for ($i = 1; $i <= 10; $i++)
                       <option value="{{ $i }}" {{ $product['qty'] == $i ? 'selected' : '' }}>{{ $i }}</option>
-                    @endfor
+                      @endfor
                   </select>
                   <span class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ App\Models\Product::convertPrice($product['price']) }}</span>
                 </div>
 
                 <!-- Delivery Options -->
-                <div class="flex gap-2">
+                <!-- <div class="flex gap-2">
                   <a href="#" class="flex-1 flex items-center justify-center space-x-2 px-3 py-2 bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-600 dark:border-orange-400 text-orange-600 dark:text-orange-400 text-xs font-medium hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors" aria-label="Ship delivery option">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <rect x="1" y="3" width="15" height="13"></rect>
@@ -182,7 +182,7 @@
                     </svg>
                     <span>Same day</span>
                   </a>
-                </div>
+                </div> -->
 
                 <div class="flex items-center space-x-4 pt-2 border-t border-gray-200 dark:border-gray-700">
                   <a href="javascript:void(0);"
@@ -211,7 +211,7 @@
           <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 text-center">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Saved for later</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Sign in to see your saved items.</p>
-            <a href="{{ route('sign-in') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors duration-200">Sign in</a>
+            <a href="{{ url('sign-in') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors duration-200">Sign in</a>
           </div>
         </div>
 
@@ -242,11 +242,17 @@
               <span class="text-lg font-bold text-gray-900 dark:text-gray-100">Estimated total</span>
               <span class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ App\Models\Product::convertPrice($mainTotal) }}</span>
             </div>
-
-            <button class="w-full px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 mb-4">Checkout</button>
-
+            @if (Auth::guard('web')->check())
+            <a href="{{ route('front.checkout') }}" class="w-full px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 mb-4 block text-center">
+              {{ __('Proceed to checkout') }}
+            </a>
+            @else
+            <a href="{{ url('sign-in') }}" class="w-full px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 mb-4 block text-center">
+              {{ __('Proceed to checkout') }}
+            </a>
+            @endif
             <div class="space-y-3">
-              <button class="w-full flex items-center justify-between p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-left hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+              <!-- <button class="w-full flex items-center justify-between p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-left hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
                 <div>
                   <p class="text-sm font-medium text-gray-900 dark:text-gray-100">Add a coupon code</p>
                   <p class="text-xs text-gray-600 dark:text-gray-400">(enjoy 1 coupon per order)</p>
@@ -266,7 +272,7 @@
                   <line x1="12" y1="5" x2="12" y2="19"></line>
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
-              </button>
+              </button> -->
             </div>
           </div>
 
