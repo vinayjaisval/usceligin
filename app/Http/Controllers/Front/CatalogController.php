@@ -245,6 +245,9 @@ class CatalogController extends FrontBaseController
 
   public function new_arrivals(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
+    
+    $tags = Tag::all();
+    $data['tags'] = $tags;
 
     $tags = Tag::all();
     $data['tags'] = $tags;
@@ -293,6 +296,7 @@ class CatalogController extends FrontBaseController
     $data['latest_products'] = Product::with('user')->whereStatus(1)->whereLatest(1)
 
 
+
       ->when('user', function ($query) {
         foreach ($query as $q) {
           if ($q->is_vendor == 2) {
@@ -305,7 +309,7 @@ class CatalogController extends FrontBaseController
       ->get()
       ->chunk(4);
 
-    // dd($data['latest_products']);
+     // dd($data['latest_products']);
 
     $prods = Product::with('user')->when($cat, function ($query, $cat) {
       return $query->where('category_id', $cat->id);
@@ -415,7 +419,7 @@ class CatalogController extends FrontBaseController
 
 
 
-    $prods = $prods->where('status', 1)->get()
+     $prods = $prods->where('status', 1)->get()
 
       ->map(function ($item) {
         $item->price = $item->vendorSizePrice();
@@ -433,6 +437,8 @@ class CatalogController extends FrontBaseController
 
   public function best_sellers(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
+    $tags = Tag::all();
+    $data['tags'] = $tags;
     $tags = Tag::all();
     $data['tags'] = $tags;
 
@@ -624,6 +630,9 @@ class CatalogController extends FrontBaseController
     $tags = Tag::all();
     $data['tags'] = $tags;
 
+    $tags = Tag::all();
+    $data['tags'] = $tags;
+
     $gs = $this->gs;
 
     if ($request->view_check) {
@@ -807,6 +816,8 @@ class CatalogController extends FrontBaseController
 
   public function skin_care(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
+    $tags = Tag::all();
+    $data['tags'] = $tags;
     $tags = Tag::all();
     $data['tags'] = $tags;
 

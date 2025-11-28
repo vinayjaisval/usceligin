@@ -39,18 +39,18 @@
           <div class="bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800 p-6">
             <div class="flex items-start justify-between mb-4">
               <div class="flex items-center space-x-3">
-                <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <!-- <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M12 1v6m0 6v6"></path>
                   <path d="m3.05 6.05 4.95 4.95m0 2v0m4.95 4.95L7.05 17.95"></path>
-                </svg>
-                <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Don't miss out on rewards!®</h2>
+                </svg> -->
+                <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Don't miss out on rewards!</h2>
               </div>
               <button class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors" aria-label="Toggle rewards details">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <!-- <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <line x1="12" y1="5" x2="12" y2="19"></line>
                   <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
+                </svg> -->
               </button>
             </div>
 
@@ -59,11 +59,11 @@
                 <p class="text-sm text-gray-700 dark:text-gray-300">
                   Get <strong>20+ points today</strong> with your purchase.
                   <button class="inline-flex items-center ml-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" aria-label="More information about rewards">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <!-- <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                       <circle cx="12" cy="12" r="10"></circle>
                       <line x1="12" y1="16" x2="12" y2="12"></line>
                       <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                    </svg>
+                    </svg> -->
                   </button>
                 </p>
                 <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">The more you earn, the better the payoff.</p>
