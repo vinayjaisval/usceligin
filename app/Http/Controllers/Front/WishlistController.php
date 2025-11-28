@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use App\{
     Models\Cart,
-    Models\Product
+    Models\Product,
+    Models\Tag
+
 };
 use App\Models\Country;
 use App\Models\Currency;
@@ -21,6 +23,7 @@ class WishlistController extends FrontBaseController
     {
        
         $oldCart ='';
+         $tags='';
         if (!Session::has('wishlist')) {
            
             return view('frontend.my-wishlist');
@@ -40,8 +43,10 @@ class WishlistController extends FrontBaseController
         if (Session::has('coupon_percentage')) {
             Session::forget('coupon_percentage');
         }
+        $tags = Tag::all();
       
         $oldCart = Session::get('wishlist');
+       
       
         // foreach ($oldCart as $item) {
         //     dd($item['name']); // this will dump the name of the first item
@@ -53,11 +58,10 @@ class WishlistController extends FrontBaseController
         // $products = $oldCart->items;
         // $totalPrice = $oldCart->totalPrice;
         // $mainTotal = $oldCart;
-
         if ($request->ajax()) {
-            return view('frontend.ajax.cart-page', compact('oldCart'));
+            return view('frontend.ajax.cart-page', compact('oldCart', 'tags'));
         }
-        return view('frontend.my-wishlist', compact('oldCart'));
+        return view('frontend.my-wishlist', compact('oldCart', 'tags'));
     }
 
     public function wishlistview()
@@ -97,8 +101,9 @@ class WishlistController extends FrontBaseController
     public function addwishlist($id)
     {
         
+        
         $product = Product::find($id, [
-            'id', 'user_id', 'slug', 'name', 'photo', 'price', 'stock', 'type'
+            'id', 'user_id', 'slug', 'name', 'photo', 'price', 'stock', 'type','tags'
         ]);
     
         if (!$product) {
@@ -127,6 +132,8 @@ class WishlistController extends FrontBaseController
             'slug' => $product->slug,
             'photo' => $product->photo,
             'price' => $product->price,
+            'tags' => $product->tags,
+
         ];
     
         // Store updated wishlist in session

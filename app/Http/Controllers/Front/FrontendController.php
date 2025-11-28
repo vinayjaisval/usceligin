@@ -298,7 +298,7 @@ class FrontendController extends FrontBaseController
             ->withAvg('ratings', 'rating')
             ->orderby('id', 'desc')
             ->get();
-           
+
 
         $data['blogs'] =  Blog::latest()->take(3)->get();
         $data['testimonials'] = Testimonial::latest()->take(15)->get();
@@ -542,10 +542,10 @@ class FrontendController extends FrontBaseController
         if ($request->ajax()) {
             return view('frontend.ajax.blog', compact('blogs'));
         }
-        return view('frontend.blog', compact('blogs', 'bcats', 'tags','arrivals'));
+        return view('frontend.blog', compact('blogs', 'bcats', 'tags', 'arrivals'));
     }
 
-    public function blogcategory(Request $request, $slug) 
+    public function blogcategory(Request $request, $slug)
     {
 
         // BLOG TAGS
@@ -806,13 +806,13 @@ class FrontendController extends FrontBaseController
             // $prods = Product::where('nasme', 'like', '%' . $search . '%')->orWhere('name', 'like', $slug . '%')->where('status', '=', 1)->orderby('id', 'desc')->take(10)->get();
             $prods = Product::where(function ($query) use ($search, $slug) {
                 $query->where('name', 'like', '%' . $search . '%')
-                      ->orWhere('name', 'like', $slug . '%');
+                    ->orWhere('name', 'like', $slug . '%');
             })
-            ->where('status', '=', 1)
-            ->orderBy('id', 'desc')
-            ->take(10)
-            ->get();
-        
+                ->where('status', '=', 1)
+                ->orderBy('id', 'desc')
+                ->take(10)
+                ->get();
+
             return view('load.suggest', compact('prods', 'slug'));
         }
         return "";
@@ -1078,7 +1078,7 @@ class FrontendController extends FrontBaseController
             $cgm = 500;
             $url = "https://track.delhivery.com/api/kinko/v1/invoice/charges/.json";  // Fixed URL
 
-          
+
             try {
                 $response = $client->request('GET', $url, [
                     'headers' => [
@@ -1090,26 +1090,24 @@ class FrontendController extends FrontBaseController
                         'd_pin' => $d_pin,
                         'o_pin' => $o_pin,
                         'cgm' => 50,  // Increased weight
-                       
+
                     ],
                     'verify' => false,
                 ]);
-            
+
                 $data = json_decode($response->getBody(), true);
                 \Log::info('Delhivery API raw response:', $data);
-            
+
                 if (!empty($data[0]['total_amount']) && $data[0]['total_amount'] > 0) {
                     return $data[0]['total_amount'] * $item['qty'];
                 } else {
                     \Log::warning('No valid shipping cost returned from Delhivery for pincode ' . $d_pin);
                     return false;
                 }
-                
             } catch (\Exception $e) {
                 \Log::error('API Request Error: ' . $e->getMessage());
                 return 0;
             }
-            
         }
     }
 
@@ -1185,7 +1183,7 @@ class FrontendController extends FrontBaseController
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email|unique:influencers,email',
             'phone' => 'required|string|max:20',
-           
+
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -1229,6 +1227,6 @@ class FrontendController extends FrontBaseController
     {
         return view('frontend.privacy');
     }
-
+   
     // LEGAL PAGES SECTION ENDS
 }

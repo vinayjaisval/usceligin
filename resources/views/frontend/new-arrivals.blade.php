@@ -22,42 +22,31 @@
         {{-- Category Tags as Buttons --}}
         <nav class="mb-6 sm:mb-8" aria-label="Category filters">
           <div class="flex flex-wrap gap-2 sm:gap-3" role="list">
-            @php
-              $categories = [
-                'skin-care' => 'Skin Care',
-                'morning' => 'Morning',
-                'night' => 'Night',
-                'special-care' => 'Special Care',
-                'mens-care' => "Men's Care",
-                'dry-skin' => 'Dry Skin',
-                'complex-skin' => 'Complex Skin',
-                'sensitive-skin' => 'Sensitive Skin',
-                'troubled-skin' => 'Troubled Skin'
-              ];
-              $currentCategory = request()->query('category');
-            @endphp
-
-            @foreach($categories as $slug => $label)
-              <button
-                type="submit"
-                name="category"
-                value="{{ $slug }}"
-                class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ $currentCategory === $slug ? 'bg-orange-600 text-white hover:bg-orange-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
-                aria-pressed="{{ $currentCategory === $slug ? 'true' : 'false' }}"
-                role="listitem">
-                {{ $label }}
-              </button>
-            @endforeach
 
             <button
               type="submit"
-              name="category"
+              name="tags"
               value=""
               class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-orange-600 text-white hover:bg-orange-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
               aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}"
               role="listitem">
               All
             </button>
+
+            @foreach($tags as $tag)
+            <button
+              type="submit"
+              name="tags"
+              value="{{ $tag->slug }}"
+              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ isset($currentCategory) && $currentCategory === $tag->slug ? 'bg-orange-600 text-white hover:bg-orange-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+              aria-pressed="{{ isset($currentCategory) && $currentCategory === $tag->slug ? 'true' : 'false' }}"
+              role="listitem">
+              {{ $tag->name }}
+            </button>
+            @endforeach
+
+
+
           </div>
         </nav>
 
@@ -66,7 +55,7 @@
           {{-- Results Count --}}
           <div class="flex items-center">
             <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
-              <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $latest_products->count() }}</span> results
+              <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $prods->count() }}</span> results
             </span>
           </div>
 
@@ -82,7 +71,7 @@
               aria-label="Sort products by"
               onchange="this.form.submit()">
               @php
-                $currentSort = request()->query('sort', 'popularity');
+              $currentSort = request()->query('sort', 'popularity');
               @endphp
               <option value="popularity" {{ $currentSort === 'popularity' ? 'selected' : '' }}>Popularity</option>
               <option value="price-low" {{ $currentSort === 'price-low' ? 'selected' : '' }}>Price: Low to High</option>
@@ -100,26 +89,25 @@
       role="list"
       aria-label="Product listing">
       @forelse($prods as $prod)
-        <x-product-card :product="$prod" badge-type="new" />
+      <x-product-card :product="$prod" badge-type="new" />
       @empty
-        <div class="col-span-full py-12 text-center">
-          <p class="text-gray-600 dark:text-gray-400 text-lg">No products found.</p>
-        </div>
+      <div class="col-span-full py-12 text-center">
+        <p class="text-gray-600 dark:text-gray-400 text-lg">No products found.</p>
+      </div>
       @endforelse
     </div>
 
     {{-- Load More Section --}}
-    <div class="py-8 sm:py-12 text-center border-t border-gray-200 dark:border-gray-700">
-      <button
-        type="button"
-        class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-orange-600 text-white text-sm sm:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        aria-label="Load more products">
+   <div class="py-8 sm:py-12 text-center">
+    <button id="loadMoreBtn"
+        class="inline-flex items-center px-6 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700">
         Load More Products
-      </button>
-      <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-        Showing <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $latest_products->count() }}</span> of 48 products
-      </p>
-    </div>
+    </button>
+
+    <p class="mt-4 text-sm text-gray-600">
+        Showing <span id="productCount">{{ $latest_products->count() }}</span> of 48 products
+    </p>
+</div>
 
   </div>
 
@@ -129,5 +117,35 @@
 @endsection
 
 @section('scripts')
-  @include('frontend.include.cart-wishlist-script')
+@include('frontend.include.cart-wishlist-script')
+
+<script>
+   let skip = {{ $latest_products->count() }};
+let totalProducts = 48;
+
+document.getElementById("loadMoreBtn").addEventListener("click", function () {
+    fetch("{{ route('load.more.products') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({ skip: skip })
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("products-grid").insertAdjacentHTML('beforeend', data);
+
+        skip += 8;
+
+        document.getElementById("productCount").innerText = skip;
+
+        if (skip >= totalProducts) {
+            document.getElementById("loadMoreBtn").style.display = "none";
+        }
+    });
+});
+
+</script>
+
 @endSection

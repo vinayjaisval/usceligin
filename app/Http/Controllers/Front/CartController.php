@@ -18,7 +18,7 @@ class CartController extends FrontBaseController
 
     public function cart(Request $request)
     {
-        
+
         if (!Session::has('cart')) {
             return view('frontend.add-to-cart');
         }
@@ -88,7 +88,7 @@ class CartController extends FrontBaseController
     // public function addcart($id)
     // {
 
-  
+
 
     //     $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'size_all', 'color_all']);
 
@@ -190,7 +190,7 @@ class CartController extends FrontBaseController
 
     //     $oldCart = Session::has('cart') ? Session::get('cart') : null;
 
-        
+
     //     // $cart = new Cart($oldCart);
     //       $cart = Cart::restoreCart($oldCart);
 
@@ -200,11 +200,11 @@ class CartController extends FrontBaseController
 
     //       $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
     //     if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
-            
+
     //         return 'digital';
     //     }
     //     if (!empty($cart->items[$cartKey])) {
-           
+
     //         return response()->json(['status' => 'already_added']);
     //     }
 
@@ -226,19 +226,38 @@ class CartController extends FrontBaseController
     //     return response()->json($data);
     // }
 
-    public function addcart($id)
+    public function addcart_old($id)
     {
-        
+
         $prod = Product::where('id', '=', $id)->first([
-            'id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price',
-            'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty',
-            'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'size_all', 'color_all'
+            'id',
+            'user_id',
+            'slug',
+            'name',
+            'photo',
+            'size',
+            'size_qty',
+            'size_price',
+            'color',
+            'price',
+            'stock',
+            'type',
+            'file',
+            'link',
+            'license',
+            'license_qty',
+            'measure',
+            'whole_sell_qty',
+            'whole_sell_discount',
+            'attributes',
+            'size_all',
+            'color_all'
         ]);
-    
+
         if (!$prod) {
             return response()->json(['success' => false, 'message' => 'Product not found.']);
         }
-    
+
         // Set Attributes
         $keys = '';
         $values = '';
@@ -250,7 +269,7 @@ class CartController extends FrontBaseController
                 if (is_array($attrVal) && isset($attrVal['details_status']) && $attrVal['details_status'] == 1) {
                     $keys .= ($j == $count - 1) ? $attrKey : $attrKey . ',';
                     $j++;
-    
+
                     foreach ($attrVal['values'] as $optionKey => $optionVal) {
                         $values .= $optionVal . ',';
                         $prod->price += $attrVal['prices'][$optionKey]; // Adjust price
@@ -261,47 +280,139 @@ class CartController extends FrontBaseController
         }
         $keys = rtrim($keys, ',');
         $values = rtrim($values, ',');
-    
+
         $cartKey = $id . str_replace(str_split(' ,'), '', $values);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = Cart::restoreCart($oldCart);
-    
+
         if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
             return response()->json(['success' => false, 'message' => 'Digital product already in cart.']);
         }
-    
+
         if (!empty($cart->items[$cartKey])) {
             return response()->json(['success' => false, 'message' => 'Product already in cart.']);
         }
-    
+
         $size = '';
         $color = '';
         $cart->add($prod, $prod->id, $size, $color, $keys, $values);
-    
+
         // Stock Check
         $item = $cart->items[$cartKey] ?? null;
         if ($item) {
             if (isset($item['stock']) && $item['stock'] < 0) {
                 return response()->json(['success' => false, 'message' => 'Product is out of stock.']);
             }
-    
+
             // if (isset($item['size_qty']) && $item['qty'] > $item['size_qty']) {
             //     return response()->json(['success' => false, 'message' => 'Not enough stock available.']);
             // }
         }
-    
+
         // Recalculate total
         $cart->totalPrice = 0;
         foreach ($cart->items as $data) {
             $cart->totalPrice += $data['price'];
         }
-    
+
         Session::put('cart', $cart);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Successfully added to cart.',
             'cart_count' => count($cart->items)
+        ]);
+    }
+
+
+    public function addcart(Request $request, $id)
+    {
+        $qty = $request->quantity ?? 1;
+
+        $prod = Product::select(
+            'id',
+            'user_id',
+            'slug',
+            'name',
+            'photo',
+            'size',
+            'size_qty',
+            'size_price',
+            'color',
+            'price',
+            'stock',
+            'type',
+            'file',
+            'link',
+            'license',
+            'license_qty',
+            'measure',
+            'whole_sell_qty',
+            'whole_sell_discount',
+            'attributes',
+            'size_all',
+            'color_all'
+        )->find($id);
+
+        if (!$prod) {
+            return response()->json(['success' => false, 'message' => 'Product not found!']);
+        }
+
+        // Auto-selected attributes
+        $keys = '';
+        $values = '';
+        if (!empty($prod->attributes)) {
+            $attrArr = json_decode($prod->attributes, true);
+            foreach ($attrArr as $attrKey => $attrVal) {
+                if (!empty($attrVal['details_status']) && $attrVal['details_status'] == 1) {
+                    $keys .= $attrKey . ',';
+                    $values .= $attrVal['values'][0] . ',';
+                    $prod->price += $attrVal['prices'][0];
+                }
+            }
+        }
+
+        $keys = rtrim($keys, ',');
+        $values = rtrim($values, ',');
+
+        $cartKey = $id . str_replace(str_split(' ,'), '', $values);
+
+        // Get Cart Session
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = Cart::restoreCart($oldCart);
+
+        // 🚫 If product already exists → Show message instead of adding qty
+        if (!empty($cart->items[$cartKey])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product already added to cart!',
+                'cart_count' => count($cart->items)
+            ]);
+        }
+
+        // Add new product
+        $cart->add($prod, $prod->id, '', '', $keys, $values);
+        $cart->items[$cartKey]['qty'] = $qty;
+        $cart->items[$cartKey]['price'] = $qty * $prod->price;
+
+        // Stock validation
+        if ($prod->stock < $cart->items[$cartKey]['qty']) {
+            return response()->json(['success' => false, 'message' => 'Not enough stock available!']);
+        }
+
+        // Recalculate total price
+        $cart->totalPrice = 0;
+        foreach ($cart->items as $data) {
+            $cart->totalPrice += $data['price'];
+        }
+
+        Session::put('cart', $cart);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product added to cart successfully!',
+            'cart_count' => count($cart->items),
+            'total_price' => $cart->totalPrice
         ]);
     }
 
@@ -425,7 +536,7 @@ class CartController extends FrontBaseController
                 }
             }
         }
-        
+
         if ($cart->items != null && @$cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return redirect()->route('front.cart')->with('unsuccess', __('This item is already in the cart.'));
         }
@@ -450,11 +561,11 @@ class CartController extends FrontBaseController
     }
 
 
-     public function addnumcart_old(Request $request)
+    public function addnumcart_old(Request $request)
     {
 
         dd($request->all());
-        $id = $_GET['id'];        
+        $id = $_GET['id'];
         $qty = $_GET['qty'];
         $size = str_replace(' ', '-', $_GET['size']);
         $color = $_GET['color'];
@@ -470,11 +581,10 @@ class CartController extends FrontBaseController
         $curr = $this->curr;
         $size_price = ($size_price / $curr->value);
         $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'minimum_qty', 'stock_check', 'size_all', 'color_all']);
-        
+
         if ($prod->type != 'Physical') {
-            
+
             $qty = 1;
-        
         }
 
         if ($prod->user_id != 0) {
@@ -581,26 +691,26 @@ class CartController extends FrontBaseController
         }
 
         // if ($cart->items != null && $cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
-        
+
         //     return 'digital';
         // }
-       
-        
+
+
 
         // $cart->addnum($prod, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $affilate_user);
         $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
         if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
-            
+
             return 'digital';
         }
         if (!empty($cart->items[$cartKey])) {
             // Already in cart
             return response()->json(['status' => 'already_added']);
         }
-        
+
         // Not in cart yet, add now
         $cart->addnum($prod, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $affilate_user);
-        
+
 
 
         if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
@@ -627,31 +737,51 @@ class CartController extends FrontBaseController
     }
 
 
-    
-    
+
+
     public function addnumcart(Request $request)
     {
         // ✅ 1. Get data from POST request
-        $id = $request->input('id');        
+        $id = $request->input('id');
         $qty = (int)$request->input('qty');
-    
+
         // ✅ 2. Validate inputs
         if (!$id || $qty < 1) {
             return response()->json(['success' => false, 'message' => 'Invalid product ID or quantity']);
         }
-    
+
         // ✅ 3. Fetch product
         $prod = Product::where('id', $id)->first([
-            'id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color',
-            'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure',
-            'whole_sell_qty', 'whole_sell_discount', 'attributes', 'minimum_qty', 'stock_check',
-            'size_all', 'color_all'
+            'id',
+            'user_id',
+            'slug',
+            'name',
+            'photo',
+            'size',
+            'size_qty',
+            'size_price',
+            'color',
+            'price',
+            'stock',
+            'type',
+            'file',
+            'link',
+            'license',
+            'license_qty',
+            'measure',
+            'whole_sell_qty',
+            'whole_sell_discount',
+            'attributes',
+            'minimum_qty',
+            'stock_check',
+            'size_all',
+            'color_all'
         ]);
-    
+
         if (!$prod) {
             return response()->json(['success' => false, 'message' => 'Product not found']);
         }
-    
+
         // ✅ 4. Prepare variables
         $size = '';
         $color = '';
@@ -661,7 +791,7 @@ class CartController extends FrontBaseController
         $keys = '';
         $values = '';
         $affilate_user = '';
-    
+
         // Set default size/color if stock_check == 0
         if ($prod->stock_check == 0) {
             if (!empty($prod->size_all)) {
@@ -672,14 +802,14 @@ class CartController extends FrontBaseController
                 $color = explode(',', $prod->color_all)[0];
             }
         }
-    
+
         $color = str_replace('#', '', $color);
         $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
-    
+
         // ✅ 5. Get or create cart
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = Cart::restoreCart($oldCart);
-    
+
         // ✅ 6. Check for minimum quantity
         $minimum_qty = (int) $prod->minimum_qty;
         if ($qty < $minimum_qty) {
@@ -688,12 +818,12 @@ class CartController extends FrontBaseController
                 'message' => "Minimum quantity for this product is $minimum_qty"
             ]);
         }
-    
+
         // ✅ 7. If digital product already added, block it
         if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
             return response()->json(['success' => false, 'message' => 'Digital product already in cart']);
         }
-    
+
         // ✅ 8. If product already in cart, update qty and price
         if (isset($cart->items[$cartKey])) {
             $cart->items[$cartKey]['qty'] = $qty;
@@ -703,12 +833,12 @@ class CartController extends FrontBaseController
             // Add new product to cart
             $cart->addnum($prod, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $affilate_user);
         }
-    
+
         // ✅ 9. Check stock availability
         if ($cart->items[$cartKey]['stock'] < 0) {
             return response()->json(['success' => false, 'message' => 'Out of stock']);
         }
-    
+
         if ($prod->stock_check == 1) {
             if (
                 isset($cart->items[$cartKey]['size_qty']) &&
@@ -717,16 +847,16 @@ class CartController extends FrontBaseController
                 return response()->json(['success' => false, 'message' => 'Quantity exceeds available stock']);
             }
         }
-    
+
         // ✅ 10. Recalculate total price
         $cart->totalPrice = 0;
         foreach ($cart->items as $data) {
             $cart->totalPrice += $data['price'];
         }
-    
+
         // ✅ 11. Save cart back to session
         Session::put('cart', $cart);
-    
+
         // ✅ 12. Return success response
         return response()->json([
             'success' => true,
@@ -734,7 +864,7 @@ class CartController extends FrontBaseController
             'total_price' => \PriceHelper::showCurrencyPrice($cart->totalPrice)
         ]);
     }
-    
+
 
     public function addtonumcart(Request $request)
     {
@@ -757,7 +887,7 @@ class CartController extends FrontBaseController
         $values = $values == "" ? '' : implode(',', $values);
         $curr = $this->curr;
         $size_price = ($size_price / $curr->value);
-        $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'product_tax','whole_sell_discount', 'attributes', 'minimum_qty', 'stock_check', 'size_all', 'color_all']);
+        $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'product_tax', 'whole_sell_discount', 'attributes', 'minimum_qty', 'stock_check', 'size_all', 'color_all']);
         if ($prod->type != 'Physical') {
             $qty = 1;
         }
@@ -1039,9 +1169,9 @@ class CartController extends FrontBaseController
         $curr = $this->curr;
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = Cart::restoreCart($oldCart);
-    
+
         $cart->removeItem($id);
-    
+
         // Clear session
         Session::forget('cart');
         Session::forget('already');
@@ -1049,16 +1179,16 @@ class CartController extends FrontBaseController
         Session::forget('coupon_total');
         Session::forget('coupon_total1');
         Session::forget('coupon_percentage');
-    
+
         // If cart still has items, save updated cart
         if (count($cart->items) > 0) {
             Session::put('cart', $cart);
-    
+
             $total = $cart->totalPrice * $curr->value;
             $formattedTotal = $this->gs->currency_format == 0
                 ? $curr->sign . round($total, 2)
                 : round($total, 2) . $curr->sign;
-    
+
             return response()->json([
                 'success' => true,
                 'message' => 'Product removed from your cart',
@@ -1066,7 +1196,7 @@ class CartController extends FrontBaseController
                 'item_count' => count($cart->items)
             ]);
         }
-    
+
         // Cart is now empty
         return response()->json([
             'success' => true,
@@ -1077,7 +1207,7 @@ class CartController extends FrontBaseController
             'item_count' => 0
         ]);
     }
-    
+
 
 
     public function country_tax(Request $request)
@@ -1132,9 +1262,9 @@ class CartController extends FrontBaseController
         return response()->json($data);
     }
 
-    
-   
-    
+
+
+
     public function multiAddToCart(Request $request)
     {
         $ids = $request->input('ids');
@@ -1185,9 +1315,7 @@ class CartController extends FrontBaseController
             'outOfStock' => $outOfStockProducts,
             'message' => implode(' ', $messages)
         ]);
-    //    return redirect()->route('front.how-to-use')->with('success', __('Successfully Added To Cart.'));
+        //    return redirect()->route('front.how-to-use')->with('success', __('Successfully Added To Cart.'));
 
     }
-
-    
 }

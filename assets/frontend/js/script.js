@@ -191,7 +191,7 @@ class CeliginWebsite {
     initializeSearch() {
         const searchInput = document.getElementById('search-input');
         const searchDropdown = document.getElementById('search-dropdown');
-        const searchSuggestionsList = document.getElementById('search-suggestions-list');
+        const searchSuggestionsList = document.getElementById('search-suggestions-lists');
 
         if (!searchInput || !searchDropdown || !searchSuggestionsList) return;
 
@@ -246,7 +246,7 @@ class CeliginWebsite {
         this.searchResults = suggestions;
         this.currentSearchIndex = -1;
 
-        if (suggestions.length === 0) {
+        if (suggestions.length === 1) {
             this.renderEmptyState(query);
         } else {
             this.renderSuggestions(suggestions, query);
@@ -292,7 +292,7 @@ class CeliginWebsite {
         if (suggestions.length > 0) {
             searchSuggestionsList.innerHTML += `
                 <div class="search-view-all">
-                    <a href="/search?q=${encodeURIComponent(query)}" class="view-all-link">
+                    <a href="celigin/search?q=${encodeURIComponent(query)}" class="view-all-link">
                         View all results for "${query}"
                     </a>
                 </div>
@@ -1098,6 +1098,7 @@ class CeliginWebsite {
     getProductId(card) {
         return parseInt(card.getAttribute('data-product-id'));
     }
+
 }
 
 // Initialize when DOM is ready

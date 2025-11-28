@@ -38,7 +38,7 @@
         <!-- Free Shipping Banner -->
         <div
           class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 p-4 mb-6 text-center">
-          <span class="text-gray-900 dark:text-gray-100"><strong>FREE SHIPPING on all Beauty Steals!®</strong></span>
+          <span class="text-gray-900 dark:text-gray-100"><strong>FREE SHIPPING on all Beauty Steals!</strong></span>
           <span class="text-sm text-gray-600 dark:text-gray-400 ml-2">Diamond & Platinum members only.</span>
         </div>
 

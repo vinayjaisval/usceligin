@@ -316,7 +316,7 @@
 
       clearTimeout(searchTimeout);
 
-      if (query.length < 2) {
+      if (query.length < 1) {
         hideSearchDropdown();
         return;
       }
@@ -425,7 +425,8 @@
 
         // Add click handler to go to product page
         item.addEventListener('click', function() {
-          window.location.href = `/item/${product.slug}`;
+          window.location.href = "{{ url('/item') }}/" + product.slug;
+
         });
 
         suggestionsList.appendChild(item);
@@ -448,7 +449,9 @@
       viewAllItem.appendChild(textSpan);
 
       viewAllItem.addEventListener('click', function() {
-        window.location.href = `/search?q=${encodeURIComponent(query)}`;
+         window.location.href = "{{ url('/item') }}/" + encodeURIComponent(query);
+
+        
       });
       suggestionsList.appendChild(viewAllItem);
 
@@ -474,7 +477,8 @@
     dropdown.classList.add('show');
   }
 
-  function hideSearchDropdown() {
+  function 
+  hideSearchDropdown() {
     const dropdown = document.getElementById('search-dropdown');
     if (dropdown) {
       dropdown.classList.add('hidden');
