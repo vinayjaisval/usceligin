@@ -14,7 +14,13 @@
       "Bash(\"C:\\wamp64\\bin\\mysql\\bin\\mysql.exe\":*)",
       "Bash(netstat:*)",
       "Bash(C:wamp64binphpphp8.1.31php.exe artisan serve --host=127.0.0.1 --port=8888)",
-      "Bash(timeout /t 3:*)"
+      "Bash(timeout /t 3:*)",
+      "Bash(cat:*)",
+      "Bash(C:wamp64binphpphp8.1.31php.exe artisan route:clear)",
+      "Bash(C:/wamp64/bin/php/php8.1.31/php.exe artisan route:clear)",
+      "Bash(C:/wamp64/bin/php/php8.1.31/php.exe artisan:*)",
+      "Bash(C:/wamp64/bin/php/php8.1.31/php.exe -l resources/views/frontend/checkout.blade.php)",
+      "Bash(C:/wamp64/bin/mysql/bin/mysql.exe:*)"
     ],
     "deny": [],
     "ask": []
