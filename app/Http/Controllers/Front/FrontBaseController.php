@@ -119,7 +119,7 @@ class FrontBaseController extends Controller
     function getOS()
     {
 
-        $user_agent     =   $_SERVER['HTTP_USER_AGENT'];
+        $user_agent     =   $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
 
         $os_platform    =   "Unknown OS Platform";
 

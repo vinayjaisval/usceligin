@@ -464,9 +464,16 @@ public function verify_otp(Request $request)
     // Clear OTP session data
     Session::forget(['otp_data']);
 
+    // Get intended URL or default to home
+    $redirectUrl = session('url.intended', route('front.index'));
+
+    // Clear the intended URL from session
+    session()->forget('url.intended');
+
     return response()->json([
         'message' => 'Login successful!',
-        'success' => true
+        'success' => true,
+        'redirect_url' => $redirectUrl
     ]);
 }
 

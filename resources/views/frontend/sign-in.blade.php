@@ -886,8 +886,16 @@
         loginBtn.textContent = "Redirecting...";
         loginBtn.disabled = true;
 
-        // Use intended URL from session, fallback to homepage
-        const redirectUrl = this.redirectUrl || "{{ session('url.intended', route('front.index')) }}";
+        // Check sessionStorage for intended URL
+        const sessionIntendedUrl = sessionStorage.getItem('intendedUrl');
+
+        // Use intended URL from: 1) Backend response, 2) sessionStorage, 3) Laravel session, 4) homepage
+        const redirectUrl = this.redirectUrl || sessionIntendedUrl || "{{ session('url.intended', route('front.index')) }}";
+
+        // Clear sessionStorage
+        if (sessionIntendedUrl) {
+          sessionStorage.removeItem('intendedUrl');
+        }
 
         // Validate URL is from same origin (prevent open redirect)
         try {

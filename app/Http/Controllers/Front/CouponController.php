@@ -202,7 +202,7 @@ class CouponController extends FrontBaseController
         }
 
         if (count($discount_items) == 0) {
-            return 0;
+            return response()->json(0);
         }
 
         //dd($discount_items);

@@ -299,8 +299,11 @@ class CheckoutController extends FrontBaseController
         }
     
         // [Optional: Add guest user checkout logic if needed]
-    
-        return redirect()->route('user.login')->with('error', 'Please login to proceed to checkout.');
+
+        // Store intended URL for redirect after login
+        session(['url.intended' => route('front.checkout')]);
+
+        return redirect()->route('sign-in')->with('error', 'Please login to proceed to checkout.');
     }
     
     public function getState($country_id)
