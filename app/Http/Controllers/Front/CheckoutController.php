@@ -7,7 +7,6 @@ use App\{
     Models\Order,
     Models\PaymentGateway,
     Models\User,
-
 };
 use App\Models\City;
 use App\Models\State;
@@ -58,7 +57,7 @@ class CheckoutController extends FrontBaseController
 
     public function checkout1()
     {
-        if(isset($_GET['remove_coupon'])){
+        if (isset($_GET['remove_coupon'])) {
             Session::forget('already') ? Session::forget('already') : null;
             Session::forget('coupon');
             Session::forget('coupon_code');
@@ -80,19 +79,19 @@ class CheckoutController extends FrontBaseController
         $oldCart = Session::get('cart');
         // $cart = new Cart($oldCart);
 
-        $cart= $oldCart;
-       
+        $cart = $oldCart;
+
         $products = $cart->items;
         $paystack = PaymentGateway::whereKeyword('paystack')->first();
         $paystackData = $paystack->convertAutoData();
         // $voguepay = PaymentGateway::whereKeyword('voguepay')->first();
         // $voguepayData = $voguepay->convertAutoData();
         // If a user is Authenticated then there is no problm user can go for checkout
-      
+
         if (Auth::check()) {
-       
-           
-            
+
+
+
             $total = $cart->totalPrice;
             $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
 
@@ -105,28 +104,27 @@ class CheckoutController extends FrontBaseController
                 $total =  str_replace(',', '', str_replace($curr->sign, '', $total));
             }
             $orderCount = Order::where('user_id', Auth::user()->id)->count();
-           
+
             // $orderCompleted = Order::where('user_id', Auth::user()->id)->where('status', 'completed')->count();
-           
+
             if ($orderCount == 0) {
                 $user = User::where('id', Auth::user()->id)->select('reffered_by')->first();
                 dd($user);
                 if ($user && $user->reffered_by) {
                     $refferal_discount = $total * ($this->gs->referral_bonus / 100);
                     $total = $total - ($total * ($this->gs->referral_bonus / 100));
-                }else{
+                } else {
                     $refferal_discount = 0;
                 }
-            }
-            else{
+            } else {
                 $refferal_discount = 0;
             }
 
             // dd($cart->items);
-            return view('frontend.checkout', ['products' => $cart->items, 'refferal_discount'=>$refferal_discount,'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr,  'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id, 'paystack' => $paystackData]);
-        } 
-        
-        
+            return view('frontend.checkout', ['products' => $cart->items, 'refferal_discount' => $refferal_discount, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr,  'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id, 'paystack' => $paystackData]);
+        }
+
+
         // else {
         //     if ($this->gs->guest_checkout == 1) {
         //         if ($this->gs->multiple_shipping == 1) {
@@ -143,9 +141,9 @@ class CheckoutController extends FrontBaseController
         //             $vendor_packing_id = $pack_data['vendor_packing_id'];
         //         } else {
         //             $package_data  = DB::table('packages')->whereUserId('0')->get();
-                    
+
         //         }
-               
+
 
 
         //         foreach ($products as $prod) {
@@ -178,7 +176,7 @@ class CheckoutController extends FrontBaseController
         //     // If guest checkout is Deactivated then display pop up form with proper error message
 
         //     else {
-               
+
         //         // Shipping Method
 
         //         if ($this->gs->multiple_shipping == 1) {
@@ -187,8 +185,8 @@ class CheckoutController extends FrontBaseController
         //             $vendor_shipping_id = $ship_data['vendor_shipping_id'];
         //         } else {
         //             $shipping_data  = DB::table('shippings')->where('user_id', '=', 0)->get();
-             
-                
+
+
         //         }
 
         //         // Packaging
@@ -203,7 +201,7 @@ class CheckoutController extends FrontBaseController
 
         //         $total = $cart->totalPrice;
 
-               
+
         //         $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
 
         //         if (!Session::has('coupon_total')) {
@@ -214,98 +212,111 @@ class CheckoutController extends FrontBaseController
         //             $total = $total;
         //         }
 
-              
+
         //         $ck = 1;
         //         return view('frontend.checkout', ['products' => $cart->items, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id, 'paystack' => $paystackData]);
         //     }
         // }
-    
+
     }
 
-    public function checkout()
-    {
-        if (isset($_GET['remove_coupon'])) {
-            Session::forget('already');
-            Session::forget('coupon');
-            Session::forget('coupon_code');
-            Session::forget('coupon_id');
-            Session::forget('coupon_total1');
-            Session::forget('coupon_percentage');
-        }
-    
-        if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', __("You don't have any product to checkout."));
-        }
-        
-      
-
-        $dp = 1;
-        $vendor_shipping_id = 0;
-        $vendor_packing_id = 0;
-        $curr = $this->curr;
-        $totalQuantity = 0;
-        $gateways = PaymentGateway::scopeHasGateway($this->curr->id);
-        $pickups = DB::table('pickups')->get();
-        $cart = Session::get('cart');
-       
-        $products = $cart->items;
-        $paystack = PaymentGateway::whereKeyword('paystack')->first();
-        $paystackData = $paystack ? $paystack->convertAutoData() : null;
-    
-
-        foreach ($products as $key => $value) {
-        $totalQuantity += $value['qty'];
-        }
-
-       
-        if (Auth::check()) {
-            $total = $cart->totalPrice;
-            // dd($total);
-            $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
-    
-            if (!Session::has('coupon_total')) {
-                $total = $total - $coupon;
-            } else {
-                $total = preg_replace('/[^0-9.]/', '', Session::get('coupon_total'));
-                $total = (float)$total;
-            }
-    
-            $refferal_discount = 0;
-            $user = Auth::user();
-            $orderCount = Order::where('user_id', $user->id)->count();
-            
-    
-            if ($orderCount == 0 && $user->reffered_by) {
-                
-                $refferal_discount = $total * ($this->gs->referral_bonus / 100);
-                // dd($refferal_discount);
-                $total -= $refferal_discount;
-            }
-//    dd   ($refferal_discount);
-            return view('frontend.checkout', [
-                'products' => $products,
-                'refferal_discount' => $refferal_discount,
-                'totalPrice' => $total,
-                'pickups' => $pickups,
-                'totalQty' => $totalQuantity,
-                'gateways' => $gateways,
-                'shipping_cost' => 0,
-                'digital' => $dp,
-                'curr' => $curr,
-                'vendor_shipping_id' => $vendor_shipping_id,
-                'vendor_packing_id' => $vendor_packing_id,
-                'paystack' => $paystackData
-            ]);
-        }
-    
-        // [Optional: Add guest user checkout logic if needed]
-
-        // Store intended URL for redirect after login
-        session(['url.intended' => route('front.checkout')]);
-
-        return redirect()->route('sign-in')->with('error', 'Please login to proceed to checkout.');
+  public function checkout()
+{
+    // -----------------------------------------------------------
+    // 🔹 REMOVE COUPON (IF ?remove_coupon PRESENT IN URL)
+    // -----------------------------------------------------------
+    if (request()->has('remove_coupon')) {
+        Session::forget([
+            'already',
+            'coupon',
+            'coupon_code',
+            'coupon_id',
+            'coupon_total1',
+            'coupon_percentage',
+            'coupon_total'
+        ]);
     }
+
+    // -----------------------------------------------------------
+    // 🔹 IF CART EMPTY → REDIRECT TO CART
+    // -----------------------------------------------------------
+    if (!Session::has('cart')) {
+        return redirect()->route('front.cart')
+            ->with('success', __("You don't have any product to checkout."));
+    }
+
+    // -----------------------------------------------------------
+    // 🔹 BASE DATA
+    // -----------------------------------------------------------
+    $cart = Session::get('cart');
+    $products = $cart->items;
+    $totalQuantity = collect($products)->sum('qty');
+
+    $currency = $this->curr;
     
+    $gateways = PaymentGateway::scopeHasGateway($currency->id);
+   
+    $pickups = DB::table('pickups')->get();
+
+    $paystack = PaymentGateway::whereKeyword('paystack')->first();
+    $paystackData = $paystack ? $paystack->convertAutoData() : null;
+
+    // -----------------------------------------------------------
+    // 🔹 IF USER LOGGED IN
+    // -----------------------------------------------------------
+    if (Auth::check()) {
+
+        $total = $cart->totalPrice;
+
+        // -----------------------------------------------------------
+        // 🔹 APPLY COUPON IF EXISTS
+        // -----------------------------------------------------------
+        if (Session::has('coupon_total')) {
+            $total = (float) preg_replace('/[^0-9.]/', '', Session::get('coupon_total'));
+        } else {
+            $total -= Session::get('coupon', 0);
+        }
+
+        // -----------------------------------------------------------
+        // 🔹 REFERRAL DISCOUNT (APPLIED ONLY ON FIRST ORDER)
+        // -----------------------------------------------------------
+        $referralDiscount = 0;
+        $user = Auth::user();
+        $orderCount = Order::where('user_id', $user->id)->count();
+
+        if ($orderCount == 0 && $user->reffered_by) {
+            $referralDiscount = $total * ($this->gs->referral_bonus / 100);
+            $total -= $referralDiscount;
+        }
+
+        // -----------------------------------------------------------
+        // 🔹 RETURN VIEW
+        // -----------------------------------------------------------
+        return view('frontend.checkout', [
+            'products'           => $products,
+            'refferal_discount'  => $referralDiscount,
+            'totalPrice'         => $total,
+            'pickups'            => $pickups,
+            'totalQty'           => $totalQuantity,
+            'gateways'           => $gateways,
+            'shipping_cost'      => 0,
+            'digital'            => 1,
+            'curr'               => $currency,
+            'vendor_shipping_id' => 0,
+            'vendor_packing_id'  => 0,
+            'paystack'           => $paystackData
+        ]);
+    }
+
+    // -----------------------------------------------------------
+    // 🔹 NOT LOGGED IN → REDIRECT TO LOGIN
+    // -----------------------------------------------------------
+    session(['url.intended' => route('front.checkout')]);
+
+    return redirect()->route('sign-in')
+        ->with('error', 'Please login to proceed to checkout.');
+}
+
     public function getState($country_id)
     {
 
@@ -373,7 +384,7 @@ class CheckoutController extends FrontBaseController
         if (Session::has('tempcart')) {
             $oldCart = Session::get('tempcart');
             // $tempcart = new Cart($oldCart);
-            $tempcart =$oldCart;
+            $tempcart = $oldCart;
             // dd($tempcart);
             $order = Session::get('temporder');
         } else {
@@ -383,7 +394,3 @@ class CheckoutController extends FrontBaseController
         return view('frontend.success', compact('tempcart', 'order'));
     }
 }
-
-
-
-

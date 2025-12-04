@@ -250,42 +250,9 @@
 
                 <!-- City, State, ZIP, Country Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <!-- City -->
-                  <div>
-                    <label for="city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      City <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
-                      value="{{ Auth::check() ? Auth::user()->city : '' }}"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                      aria-required="true" />
-                  </div>
-
-                  <!-- State -->
-                  <div>
-                    <label for="state" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      State <span class="text-red-600">*</span>
-                    </label>
-                    <select
-                      id="state"
-                      name="state"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                      aria-required="true">
-                      <option value="">Select</option>
-                      <option value="Delhi" {{ Auth::check() && Auth::user()->state == 'Delhi' ? 'selected' : '' }}>Delhi</option>
-                      <option value="Maharashtra" {{ Auth::check() && Auth::user()->state == 'Maharashtra' ? 'selected' : '' }}>Maharashtra</option>
-                      <option value="Karnataka" {{ Auth::check() && Auth::user()->state == 'Karnataka' ? 'selected' : '' }}>Karnataka</option>
-                      <!-- Add more states as needed -->
-                    </select>
-                  </div>
 
                   <!-- ZIP Code -->
-                  <div>
+                  <div> 
                     <label for="zip_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       ZIP Code <span class="text-red-600">*</span>
                     </label>
@@ -299,6 +266,37 @@
                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                       aria-required="true" />
                   </div>
+                  <!-- City -->
+                  <div>
+                    <label for="city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      City <span class="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      value="{{ Auth::check() ? Auth::user()->city : '' }}"
+                      required
+                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
+                      aria-required="true" />
+                  </div>
+                 <div>
+                   <label for="state" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      State <span class="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                     id="state"
+                      name="state"
+                      required
+                      value="{{ Auth::check() ? Auth::user()->state : '' }}"
+                      required
+                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
+                      aria-required="true" />
+                  </div>
+                  <!-- State -->
+                
+                
 
                   <!-- Country -->
                   <div>
@@ -309,7 +307,7 @@
                       type="text"
                       id="country"
                       name="country"
-                      value="India"
+                      value="{{ Auth::check() ? Auth::user()->country : '' }}"
                       readonly
                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
                       aria-required="true" />
@@ -424,6 +422,18 @@
 
                   <!-- City, State, ZIP, Country -->
                   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <div>
+                      <label for="billing_zip" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        ZIP Code <span class="text-red-600">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="billing_zip"
+                        name="billing_zip"
+                        required
+                        maxlength="6"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                    </div>
                     <div>
                       <label for="billing_city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         City <span class="text-red-600">*</span>
@@ -450,18 +460,7 @@
                         <option value="Karnataka">Karnataka</option>
                       </select>
                     </div>
-                    <div>
-                      <label for="billing_zip" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        ZIP Code <span class="text-red-600">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="billing_zip"
-                        name="billing_zip"
-                        required
-                        maxlength="6"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
-                    </div>
+                  
                     <div>
                       <label for="billing_country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Country <span class="text-red-600">*</span>
@@ -482,176 +481,200 @@
         </section>
 
         <!-- Payment Method Section -->
-        <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700" id="payment-section">
-          <div class="p-4 sm:p-6">
-            <div class="flex items-center space-x-3 mb-4">
-              <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">Choose Payment Mode</h2>
+        <section id="payment-section"
+  class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+
+  <div class="p-4 sm:p-6">
+    <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+      Choose Payment Mode
+    </h2>
+
+    <div class="space-y-2">
+
+      @forelse($gateways as $index => $gateway)
+        @if ($gateway->checkout != 1)
+          @continue
+        @endif
+
+        @php
+          $keyword = strtolower($gateway->keyword);
+          $isOpen = $index === 0; // First payment method opened
+        @endphp
+
+        <!-- Payment Box -->
+        <div class="border border-gray-200 dark:border-gray-700 overflow-hidden">
+
+          <!-- Payment Header -->
+          <button type="button"
+            onclick="togglePaymentMethod('payment_{{ $gateway->id }}')"
+            class="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800
+                   hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+
+            <div class="flex items-center space-x-3">
+              <input type="radio"
+                name="payment_method"
+                value="{{ $gateway->id }}"
+                id="payment_radio_{{ $gateway->id }}"
+                class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500"
+                {{ $isOpen ? 'checked' : '' }} />
+
+              <label for="payment_radio_{{ $gateway->id }}"
+                class="font-medium text-gray-900 dark:text-gray-100 cursor-pointer">
+                {{ $gateway->title ?? ucfirst($keyword) }}
+              </label>
             </div>
 
-            <div class="space-y-2">
-              @if(!empty($gateways))
-                @foreach($gateways as $index => $gateway)
-                  @php
-                    $keyword = strtolower($gateway->keyword);
-                    $isOpen = $index === 0; // First payment method open by default
-                  @endphp
+            <svg id="chevron_{{ $gateway->id }}"
+              class="w-5 h-5 text-gray-600 dark:text-gray-400 transform transition-transform
+                     {{ $isOpen ? 'rotate-180' : '' }}"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+            </svg>
 
-                  <div class="border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <!-- Payment Method Header -->
-                    <button
-                      type="button"
-                      onclick="togglePaymentMethod('payment_{{ $gateway->id }}')"
-                      class="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                      <div class="flex items-center space-x-3">
-                        <input
-                          type="radio"
-                          name="payment_method"
-                          value="{{ $gateway->id }}"
-                          id="payment_radio_{{ $gateway->id }}"
-                          {{ $isOpen ? 'checked' : '' }}
-                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
-                        <label for="payment_radio_{{ $gateway->id }}" class="font-medium text-gray-900 dark:text-gray-100 cursor-pointer">
-                          {{ $gateway->title ?? ucfirst($keyword) }}
-                        </label>
-                      </div>
-                      <svg
-                        class="w-5 h-5 text-gray-600 dark:text-gray-400 transform transition-transform {{ $isOpen ? 'rotate-180' : '' }}"
-                        id="chevron_{{ $gateway->id }}"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                      </svg>
-                    </button>
+          </button>
 
-                    <!-- Payment Method Content -->
-                    <div id="payment_{{ $gateway->id }}" class="{{ $isOpen ? '' : 'hidden' }} p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                      @if($keyword == 'cod')
-                        <!-- Cash on Delivery -->
-                        <div class="flex items-center space-x-3">
-                          <input
-                            type="radio"
-                            name="cod_method"
-                            value="cash"
-                            id="cod_cash"
-                            checked
-                            class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
-                          <label for="cod_cash" class="text-sm text-gray-700 dark:text-gray-300">
-                            Cash on Delivery (Cash/UPI)
-                          </label>
-                        </div>
-                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 ml-7">You can pay via Cash/UPI on delivery.</p>
+          <!-- Payment Content -->
+          <div id="payment_{{ $gateway->id }}"
+            class="{{ $isOpen ? '' : 'hidden' }}
+                   p-4 border-t border-gray-200 dark:border-gray-700
+                   bg-gray-50 dark:bg-gray-900">
 
-                      @elseif($keyword == 'upi' || str_contains($keyword, 'upi'))
-                        <!-- UPI Payment -->
-                        <div class="space-y-3">
-                          <div class="flex items-center space-x-3">
-                            <input
-                              type="radio"
-                              name="upi_method"
-                              value="scan"
-                              id="upi_scan"
-                              class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
-                            <label for="upi_scan" class="text-sm text-gray-700 dark:text-gray-300">Scan & Pay</label>
-                          </div>
-                          <div class="flex items-center space-x-3">
-                            <input
-                              type="radio"
-                              name="upi_method"
-                              value="id"
-                              id="upi_id"
-                              checked
-                              class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
-                            <label for="upi_id" class="text-sm text-gray-700 dark:text-gray-300">Enter UPI ID</label>
-                          </div>
-                          <input
-                            type="text"
-                            placeholder="Enter UPI ID here"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 text-sm" />
-                        </div>
+            {{-- ##############################
+                PAYMENT TYPE CONDITIONS
+                ############################## --}}
 
-                      @elseif($keyword == 'card' || str_contains($keyword, 'card'))
-                        <!-- Credit/Debit Card -->
-                        <div class="space-y-3">
-                          <p class="text-sm text-gray-700 dark:text-gray-300">Please ensure your card can be used for online transactions.</p>
-                          <input
-                            type="text"
-                            placeholder="Card Number"
-                            maxlength="16"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 text-sm" />
-                          <input
-                            type="text"
-                            placeholder="Name on card"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 text-sm" />
-                          <div class="grid grid-cols-2 gap-3">
-                            <input
-                              type="text"
-                              placeholder="Valid Thru (MM/YY)"
-                              maxlength="5"
-                              class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 text-sm" />
-                            <input
-                              type="text"
-                              placeholder="CVV"
-                              maxlength="3"
-                              class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 text-sm" />
-                          </div>
-                        </div>
+            @if($keyword == 'cod')
+              {{-- CASH ON DELIVERY --}}
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="cod_method" value="cash" id="cod_cash"
+                  checked
+                  class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                <label for="cod_cash"
+                  class="text-sm text-gray-700 dark:text-gray-300">
+                  Cash on Delivery (Cash / UPI)
+                </label>
+              </div>
+              <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 ml-7">
+                You can pay via Cash or UPI on delivery.
+              </p>
 
-                      @elseif($keyword == 'wallet' || str_contains($keyword, 'wallet'))
-                        <!-- Wallet Payment -->
-                        <div class="space-y-3">
-                          <div class="flex items-center space-x-3 p-3 border border-gray-200 dark:border-gray-700 rounded">
-                            <input
-                              type="radio"
-                              name="wallet_provider"
-                              value="mobikwik"
-                              id="wallet_mobikwik"
-                              checked
-                              class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
-                            <label for="wallet_mobikwik" class="flex-1 text-sm text-gray-700 dark:text-gray-300">Mobikwik</label>
-                          </div>
-                          <input
-                            type="text"
-                            placeholder="+91 98XXXXX702"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 text-sm" />
-                          <p class="text-xs text-gray-600 dark:text-gray-400">Your account will be linked to this mobile number</p>
-                        </div>
+            @elseif(str_contains($keyword, 'upi'))
+              {{-- UPI PAYMENT --}}
+              <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                  <input type="radio" name="upi_method" value="scan" id="upi_scan"
+                    class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                  <label for="upi_scan" class="text-sm text-gray-700 dark:text-gray-300">
+                    Scan & Pay
+                  </label>
+                </div>
 
-                      @else
-                        <!-- Net Banking or Other -->
-                        <div class="space-y-2">
-                          @if(str_contains($keyword, 'bank') || $keyword == 'netbanking')
-                            <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">Select your bank:</p>
-                            @php
-                              $banks = ['Axis Bank', 'HDFC Bank', 'ICICI Bank', 'Kotak', 'SBI', 'Other Banks'];
-                            @endphp
-                            @foreach($banks as $bank)
-                            <div class="flex items-center space-x-3 p-2 hover:bg-white dark:hover:bg-gray-800 rounded transition-colors">
-                              <input
-                                type="radio"
-                                name="bank_name"
-                                value="{{ strtolower(str_replace(' ', '_', $bank)) }}"
-                                id="bank_{{ strtolower(str_replace(' ', '_', $bank)) }}"
-                                class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
-                              <label for="bank_{{ strtolower(str_replace(' ', '_', $bank)) }}" class="text-sm text-gray-700 dark:text-gray-300">
-                                {{ $bank }}
-                              </label>
-                            </div>
-                            @endforeach
-                          @else
-                            <p class="text-sm text-gray-700 dark:text-gray-300">Click "Pay Now" to proceed with {{ $gateway->title ?? ucfirst($keyword) }}</p>
-                          @endif
-                        </div>
-                      @endif
-                    </div>
-                  </div>
-                @endforeach
-              @else
-                <p class="text-sm text-gray-600 dark:text-gray-400 p-4 text-center">No payment methods available</p>
-              @endif
-            </div>
+                <div class="flex items-center space-x-3">
+                  <input type="radio" name="upi_method" value="id" id="upi_id"
+                    checked
+                    class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                  <label for="upi_id" class="text-sm text-gray-700 dark:text-gray-300">
+                    Enter UPI ID
+                  </label>
+                </div>
+
+                <input type="text" placeholder="Enter your UPI ID"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600
+                         rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
+                         focus:ring-2 focus:ring-orange-500 text-sm" />
+              </div>
+
+            @elseif(str_contains($keyword, 'card'))
+              {{-- CARD PAYMENT --}}
+              <div class="space-y-3">
+                <input type="text" placeholder="Card Number" maxlength="16"
+                  class="input-field" />
+
+                <input type="text" placeholder="Name on card"
+                  class="input-field" />
+
+                <div class="grid grid-cols-2 gap-3">
+                  <input type="text" placeholder="MM/YY" maxlength="5"
+                    class="input-field" />
+                  <input type="text" placeholder="CVV" maxlength="3"
+                    class="input-field" />
+                </div>
+              </div>
+
+            @elseif(str_contains($keyword, 'wallet'))
+              {{-- WALLET --}}
+              <div class="space-y-3">
+                <div class="flex items-center space-x-3 p-3 border rounded">
+                  <input type="radio" name="wallet_provider" value="mobikwik"
+                    id="wallet_mobikwik" checked
+                    class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+
+                  <label for="wallet_mobikwik"
+                    class="flex-1 text-sm text-gray-700 dark:text-gray-300">
+                    Mobikwik
+                  </label>
+                </div>
+
+                <input type="text" placeholder="+91 XXXXXXX702"
+                  class="input-field" />
+
+                <p class="text-xs text-gray-600 dark:text-gray-400">
+                  This number will be linked with wallet
+                </p>
+              </div>
+
+            @elseif(str_contains($keyword, 'bank'))
+              {{-- NET BANKING --}}
+              <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">
+                Select your bank:
+              </p>
+
+              @php
+                $banks = ['Axis Bank', 'HDFC Bank', 'ICICI Bank', 'Kotak', 'SBI', 'Other Bank'];
+              @endphp
+
+              @foreach($banks as $bank)
+                <div class="flex items-center space-x-3 p-2 hover:bg-white dark:hover:bg-gray-800 rounded">
+                  <input type="radio" name="bank_name"
+                    value="{{ strtolower(str_replace(' ', '_', $bank)) }}"
+                    id="bank_{{ strtolower(str_replace(' ', '_', $bank)) }}"
+                    class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                  <label for="bank_{{ strtolower(str_replace(' ', '_', $bank)) }}"
+                    class="text-sm text-gray-700 dark:text-gray-300">
+                    {{ $bank }}
+                  </label>
+                </div>
+              @endforeach
+
+            @else
+              {{-- OTHER PAYMENT TYPES --}}
+              <p class="text-sm text-gray-700 dark:text-gray-300">
+                Click "Pay Now" to proceed with {{ $gateway->title ?? ucfirst($keyword) }}.
+              </p>
+            @endif
+
           </div>
-        </section>
+        </div>
+
+      @empty
+        <p class="text-sm text-gray-600 dark:text-gray-400 p-4 text-center">
+          No payment methods available
+        </p>
+      @endforelse
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600
+           rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
+           focus:ring-2 focus:ring-orange-500 text-sm;
+  }
+</style>
+
 
       </div>
 
@@ -701,68 +724,69 @@
           <!-- Order Summary -->
           <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Order Summary</h3>
 
-          <div class="space-y-3 text-sm">
-            <!-- Subtotal MRP -->
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">
-                Subtotal MRP ({{ $totalQty }} {{ $totalQty === 1 ? 'item' : 'items' }})
-              </span>
-              <span class="font-semibold text-gray-900 dark:text-gray-100">
-                {{ App\Models\Product::convertPrice($subtotalMRP) }}
-              </span>
-            </div>
+<div class="space-y-3 text-sm">
+    
+    <!-- Subtotal -->
+    <div class="flex justify-between">
+        <span class="text-gray-600 dark:text-gray-400">
+            Subtotal MRP ({{ $totalQty }} {{ $totalQty === 1 ? 'item' : 'items' }})
+        </span>
+        <span class="font-semibold text-gray-900 dark:text-gray-100" id="subtotal-mrp">
+            {{ App\Models\Product::convertPrice($subtotalMRP) }}
+        </span>
+    </div>
 
-            <!-- Discount on MRP -->
-            @if($discountMRP > 0 || $referralDiscount > 0)
-            <div class="flex justify-between text-green-600 dark:text-green-400">
-              <span>Discount on MRP</span>
-              <span class="font-semibold">
-                -{{ App\Models\Product::convertPrice($discountMRP + $referralDiscount) }}
-              </span>
-            </div>
-            @endif
+    <!-- Discount -->
+    @if($discountMRP > 0 || $referralDiscount > 0)
+    <div class="flex justify-between text-green-600 dark:text-green-400">
+        <span>Discount on MRP</span>
+        <span class="font-semibold" id="mrp-discount">
+            -{{ App\Models\Product::convertPrice($discountMRP + $referralDiscount) }}
+        </span>
+    </div>
+    @endif
 
-            <!-- Applied Coupon Display -->
-            <div id="applied-coupon-display" class="hidden flex justify-between items-center text-green-600 dark:text-green-400">
-              <span>Coupon Discount</span>
-              <div class="flex items-center space-x-2">
-                <span class="font-semibold" id="coupon-discount-amount">-₹0</span>
-                <button type="button" onclick="removeCoupon()" class="text-red-600 hover:text-red-700" title="Remove coupon">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
+    <!-- Coupon -->
+    <div id="applied-coupon-display" class="hidden flex justify-between items-center text-green-600 dark:text-green-400">
+        <span>Coupon Discount</span>
+        <div class="flex items-center space-x-2">
+            <span class="font-semibold" id="coupon-discount-amount">-₹0</span>
+            <button type="button" onclick="removeCoupon()" class="text-red-600 hover:text-red-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    </div>
 
-            <!-- Shipping -->
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">Shipping</span>
-              <span class="font-semibold {{ $shippingCost == 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-gray-100' }}">
-                @if($shippingCost == 0)
-                  FREE
-                @else
-                  {{ App\Models\Product::convertPrice($shippingCost) }}
-                @endif
-              </span>
-            </div>
+    <!-- Shipping -->
+    <div class="flex justify-between">
+        <span class="text-gray-600 dark:text-gray-400">Shipping</span>
+        <span class="font-semibold text-gray-900 dark:text-gray-100" id="shipping-amount">
+            {{ $shippingCost == 0 ? 'FREE' : App\Models\Product::convertPrice($shippingCost) }}
+        </span>
+    </div>
 
-            <!-- Taxes -->
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">Estimated Taxes (GST 18%)</span>
-              <span class="font-semibold text-gray-900 dark:text-gray-100" id="tax-amount">
-                {{ App\Models\Product::convertPrice($taxAmount) }}
-              </span>
-            </div>
-          </div>
+    <!-- Taxes -->
+    <div class="flex justify-between">
+        <span class="text-gray-600 dark:text-gray-400">Estimated Taxes (GST 18%)</span>
+        <span class="font-semibold text-gray-900 dark:text-gray-100" id="tax-amount">
+            {{ App\Models\Product::convertPrice($taxAmount) }}
+        </span>
+    </div>
 
-          <!-- Total -->
-          <div class="flex justify-between items-center py-4 border-t border-gray-200 dark:border-gray-700 mt-4">
-            <span class="text-lg font-bold text-gray-900 dark:text-gray-100">Total</span>
-            <span class="text-lg font-bold text-gray-900 dark:text-gray-100" id="final-total">
-              {{ App\Models\Product::convertPrice($finalTotal) }}
-            </span>
-          </div>
+</div>
+
+<!-- Total -->
+<div class="flex justify-between items-center py-4 border-t border-gray-200 dark:border-gray-700 mt-4">
+    <span class="text-lg font-bold text-gray-900 dark:text-gray-100">Total</span>
+    <span class="text-lg font-bold text-gray-900 dark:text-gray-100" id="final-total">
+        {{ App\Models\Product::convertPrice($finalTotal) }}
+    </span>
+</div>
+
+         
 
           <!-- Place Order Button -->
           <button
@@ -788,6 +812,7 @@
 @endsection
 
 @section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   const userHasAddress = {{ $userHasAddress ? 'true' : 'false' }};
@@ -1070,4 +1095,132 @@
     }
   }
 </script>
+<script>
+$(document).ready(function () {
+
+    let fetchedPin = '';
+
+    // MAIN URL FOR AJAX
+    var mainurl = "{{ url('/') }}";
+
+    // ----------------------------------------------------------
+    // 🔹 ON PAGE LOAD → CHECK IF ZIP STORED IN LOCAL STORAGE
+    // ----------------------------------------------------------
+    if (localStorage.getItem("zip_code")) {
+        let savedPin = localStorage.getItem("zip_code");
+        $("#zip_code").val(savedPin);
+
+        // Auto-trigger fetch if pin valid
+        if (savedPin.length === 6 && /^\d{6}$/.test(savedPin)) {
+            fetchedPin = savedPin;
+            autoFillAddress(savedPin);
+        }
+    }
+
+    // ----------------------------------------------------------
+    // 🔹 WHEN USER TYPES PIN → SAVE TO LOCAL STORAGE
+    // ----------------------------------------------------------
+    $('#zip_code').on('keyup', function () {
+        let pincode = $(this).val().trim();
+
+        // Save pin live (even if incomplete)
+        localStorage.setItem("zip_code", pincode);
+
+        if (pincode.length === 6 && /^\d{6}$/.test(pincode) && pincode !== fetchedPin) {
+            fetchedPin = pincode;
+            autoFillAddress(pincode);
+        } else if (pincode.length < 6) {
+            $('#city, #state, #country').val('');
+        }
+    });
+
+    // ----------------------------------------------------------
+    // 🔹 FUNCTION: AUTO-FILL CITY / STATE / COUNTRY
+    // ----------------------------------------------------------
+    function autoFillAddress(pincode) {
+
+        $('#city').val('Loading...');
+        $('#state').val('Loading...');
+        $('#country').val('Loading...');
+
+        $.ajax({
+            url: "https://api.postalpincode.in/pincode/" + pincode,
+            type: "GET",
+            success: function (response) {
+                if (response[0].Status === "Success") {
+                    let post = response[0].PostOffice[0];
+
+                    $('#city').val(post.District);
+                    $('#state').val(post.State);
+                    $('#country').val(post.Country);
+
+                    // After valid PIN → fetch shipping
+                    fetchShippingCharge(pincode);
+                }
+                else {
+                    $('#city, #state, #country').val('');
+                    alert("Invalid PIN code.");
+                }
+            },
+            error: function () {
+                $('#city, #state, #country').val('');
+                alert("Could not fetch data. Try again.");
+            }
+        });
+    }
+
+    // ----------------------------------------------------------
+    // 🔹 FETCH SHIPPING COST
+    // ----------------------------------------------------------
+    function fetchShippingCharge(zip) {
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: mainurl + "/getPinCodeDetails",
+            type: "POST",
+            data: { zipcode: zip },
+
+            success: function (response) {
+                if (response.status) {
+                    const shippingCost = parseFloat(response.result.shipping_cost || 0);
+                    updateShipping(shippingCost);
+                }
+            },
+            error: function (err) {
+                console.error("Shipping cost fetch error:", err);
+            }
+        });
+    }
+
+    // ----------------------------------------------------------
+    // 🔹 UPDATE SHIPPING + TOTAL
+    // ----------------------------------------------------------
+    function updateShipping(shippingCost) {
+
+        if (shippingCost == 0) {
+            $('#shipping-amount').html("FREE").removeClass("text-gray-900").addClass("text-green-600");
+        } else {
+            $('#shipping-amount').html("₹" + shippingCost.toFixed(2)).removeClass("text-green-600").addClass("text-gray-900");
+        }
+
+        let subtotal = parseCurrency($("#subtotal-mrp").text());
+        let mrpDiscount = parseCurrency($("#mrp-discount").text());
+        let couponDiscount = parseCurrency($("#coupon-discount-amount").text());
+        let taxAmount = parseCurrency($("#tax-amount").text());
+
+        let finalTotal = subtotal - mrpDiscount - couponDiscount + shippingCost + taxAmount;
+
+        $("#final-total").html("₹" + finalTotal.toFixed(2));
+    }
+
+    // Helper
+    function parseCurrency(val) {
+        if (!val) return 0;
+        return parseFloat(val.replace(/[₹,]/g, "")) || 0;
+    }
+
+});
+</script>
+
+
+
 @endsection
