@@ -514,6 +514,13 @@ class FrontendController extends FrontBaseController
 
     // -------------------------------- HOME PAGE SECTION ENDS ----------------------------------------
 
+    // -------------------------------- DESIGN REFERENCE SECTION ----------------------------------------
+
+    public function sample()
+    {
+        return view('frontend.sample');
+    }
+
     // -------------------------------- BLOG SECTION ----------------------------------------
 
     public function blog(Request $request)

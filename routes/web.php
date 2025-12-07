@@ -1743,6 +1743,8 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/blog-search', 'Front\FrontendController@blogsearch')->name('front.blogsearch');
         Route::get('/blog/archive/{slug}', 'Front\FrontendController@blogarchive')->name('front.blogarchive');
 
+        // DESIGN REFERENCE SECTION
+        Route::get('/sample', 'Front\FrontendController@sample')->name('front.sample');
 
         Route::get('/supporter', 'Front\FrontendController@collaboration')->name('front.collaboration');
 
