@@ -7,6 +7,7 @@ use App\{
   Classes\GeniusMailer,
 };
 use App\Http\Controllers\Controller;
+use App\Services\WishlistMergeService;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
@@ -461,20 +462,45 @@ public function verify_otp(Request $request)
     // Log in the user
     Auth::login($user, $request->keep_signed_in ?? false);
 
+    // Merge guest wishlist to user account
+    $wishlistService = new WishlistMergeService();
+    $wishlistService->mergeGuestWishlistToUser();
+
     // Clear OTP session data
     Session::forget(['otp_data']);
 
-    // Get intended URL or default to home
-    $redirectUrl = session('url.intended', route('front.index'));
-
-    // Clear the intended URL from session
-    session()->forget('url.intended');
+    // Determine redirect URL with priority
+    $redirectUrl = $this->getRedirectUrl();
 
     return response()->json([
         'message' => 'Login successful!',
         'success' => true,
         'redirect_url' => $redirectUrl
     ]);
+}
+
+/**
+ * Get redirect URL after successful login
+ * Priority: 1) Intended URL  2) Checkout (if cart)  3) My Account
+ */
+private function getRedirectUrl()
+{
+    // Priority 1: Intended URL from middleware
+    if (session()->has('url.intended')) {
+        $intendedUrl = session()->pull('url.intended');
+        return $intendedUrl;
+    }
+
+    // Priority 2: Checkout if cart has items
+    if (Session::has('cart')) {
+        $cart = Session::get('cart');
+        if (isset($cart->items) && count($cart->items) > 0) {
+            return route('front.checkout');
+        }
+    }
+
+    // Priority 3: Default to My Account
+    return route('user.account');
 }
 
 }

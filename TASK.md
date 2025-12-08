@@ -8,19 +8,253 @@
 
 ## 🎯 Active Tasks
 
+### HIGHEST PRIORITY: User Flow Implementation (8 Phases)
+
+#### Phase 1: Update Header My Account Icon Logic
+**Status**: Ready to Start
+**Priority**: Critical
+**Complexity**: Low
+**Estimated Time**: 15 minutes
+
+**Tasks**:
+- [ ] Update header.blade.php (Desktop - Line 119)
+- [ ] Update header.blade.php (Mobile - Line 200)
+- [ ] Wrap `<a>` tag in `@auth/@else/@endauth` directive
+- [ ] Authenticated → `route('user.account')`
+- [ ] Guest → `route('otp.login.form')`
+- [ ] Test both authenticated and guest states
+
+**Files**:
+- `resources/views/frontend/include/header.blade.php:119, 200`
+
+**Code Change**:
+```blade
+@auth
+  <a href="{{ route('user.account') }}" ...>
+@else
+  <a href="{{ route('otp.login.form') }}" ...>
+@endauth
+```
+
+---
+
+#### Phase 2: Setup Authentication Middleware
+**Status**: Ready to Start
+**Priority**: Critical
+**Complexity**: Low
+**Estimated Time**: 30 minutes
+
+**Tasks**:
+- [ ] Update `Authenticate.php` middleware to capture intended URL
+- [ ] Apply `auth` middleware to protected routes
+- [ ] Update `routes/web.php` for `/myaccount` and `/checkout`
+- [ ] Test middleware redirects to sign-in page
+- [ ] Test intended URL preserved after login
+
+**Files**:
+- `app/Http/Middleware/Authenticate.php` (redirectTo method)
+- `routes/web.php:25-26, 1886`
+
+**Code Changes**:
+```php
+// Authenticate.php
+protected function redirectTo($request) {
+    if (!$request->expectsJson()) {
+        session(['url.intended' => $request->fullUrl()]);
+        return route('otp.login.form');
+    }
+}
+
+// routes/web.php
+Route::middleware(['auth'])->group(function () {
+    Route::get('/myaccount', 'User\AccountController@index')->name('user.account');
+    Route::post('/myaccount/update', 'User\AccountController@update')->name('user.account.update');
+});
+
+Route::get('/checkout', 'Front\CheckoutController@checkout')
+    ->middleware('auth')
+    ->name('front.checkout');
+```
+
+---
+
+#### Phase 3: Implement Sign-In Redirect Logic
+**Status**: Ready to Start
+**Priority**: Critical
+**Complexity**: Medium
+**Estimated Time**: 45 minutes
+
+**Tasks**:
+- [ ] Update `verify_otp()` in LoginController
+- [ ] Add `getRedirectUrl()` private method
+- [ ] Priority: intended URL → checkout (if cart) → my account
+- [ ] Update frontend sign-in.blade.php redirect default
+- [ ] Test all redirect scenarios
+
+**Files**:
+- `app/Http/Controllers/Auth/User/LoginController.php`
+- `resources/views/frontend/sign-in.blade.php:893`
+
+**Code Changes**:
+```php
+// LoginController.php - Add method
+private function getRedirectUrl() {
+    if (session()->has('url.intended')) {
+        return session()->pull('url.intended');
+    }
+    if (session()->has('cart') && count(session('cart')->items) > 0) {
+        return route('front.checkout');
+    }
+    return route('user.account');
+}
+```
+
+---
+
+#### Phase 4: Add Checkout Authentication Requirement
+**Status**: Ready to Start
+**Priority**: High
+**Complexity**: Low
+**Estimated Time**: 10 minutes
+
+**Tasks**:
+- [ ] Already covered in Phase 2 middleware setup
+- [ ] Test guest cart → checkout → sign-in → back to checkout
+- [ ] Verify cart preserved across redirect
+
+**Testing Scenarios**:
+1. Guest adds items to cart
+2. Guest clicks "Proceed to Checkout"
+3. Redirected to `/sign-in`
+4. After login → Back to `/checkout` with cart intact
+
+---
+
+#### Phase 5: Create Wishlist Merge Functionality
+**Status**: Ready to Start
+**Priority**: High
+**Complexity**: High
+**Estimated Time**: 2 hours
+
+**Tasks**:
+- [ ] Create migration: `create_wishlists_table`
+- [ ] Run migration: `php artisan migrate`
+- [ ] Create model: `app/Models/Wishlist.php`
+- [ ] Create service: `app/Services/WishlistMergeService.php`
+- [ ] Integrate service into `verify_otp()` method
+- [ ] Test guest wishlist → sign-in → merge to database
+
+**Files to Create**:
+- `database/migrations/YYYY_MM_DD_create_wishlists_table.php`
+- `app/Models/Wishlist.php`
+- `app/Services/WishlistMergeService.php`
+
+**Files to Modify**:
+- `app/Http/Controllers/Auth/User/LoginController.php`
+
+**Migration Code**:
+```php
+Schema::create('wishlists', function (Blueprint $table) {
+    $table->id();
+    $table->unsignedBigInteger('user_id');
+    $table->unsignedBigInteger('product_id');
+    $table->timestamps();
+    $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+    $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+    $table->unique(['user_id', 'product_id']);
+});
+```
+
+---
+
+#### Phase 6: Update My Account Dashboard with Dynamic Data
+**Status**: Ready to Start
+**Priority**: High
+**Complexity**: Medium
+**Estimated Time**: 1.5 hours
+
+**Tasks**:
+- [ ] Update `AccountController@index` to load real data
+- [ ] Get user's orders, wishlist, addresses, points
+- [ ] Pass data to view via compact()
+- [ ] Update dashboard quick stats (replace "0")
+- [ ] Update purchase history section
+- [ ] Update wishlist section
+- [ ] Test with different user data states
+
+**Files**:
+- `app/Http/Controllers/User/AccountController.php`
+- `resources/views/user/account/index.blade.php:140-153, 170-208`
+
+---
+
+#### Phase 7: Implement Address Management System
+**Status**: Ready to Start
+**Priority**: High
+**Complexity**: High
+**Estimated Time**: 3 hours
+
+**Tasks**:
+- [ ] Create migration: `create_addresses_table`
+- [ ] Run migration: `php artisan migrate`
+- [ ] Create model: `app/Models/Address.php` with boot() method
+- [ ] Create controller: `app/Http/Controllers/User/AddressController.php`
+- [ ] Add CRUD routes to `routes/web.php`
+- [ ] Create address UI in My Account page (accordion)
+- [ ] Implement max 3 addresses validation
+- [ ] Add set-default functionality
+- [ ] Test all CRUD operations
+
+**Files to Create**:
+- `database/migrations/YYYY_MM_DD_create_addresses_table.php`
+- `app/Models/Address.php`
+- `app/Http/Controllers/User/AddressController.php`
+- `resources/views/user/partials/address-item.blade.php`
+
+**Routes to Add**:
+```php
+Route::get('/myaccount/addresses', 'User\AddressController@index')->name('user.addresses');
+Route::post('/myaccount/addresses', 'User\AddressController@store')->name('user.addresses.store');
+Route::put('/myaccount/addresses/{id}', 'User\AddressController@update')->name('user.addresses.update');
+Route::delete('/myaccount/addresses/{id}', 'User\AddressController@destroy')->name('user.addresses.destroy');
+Route::post('/myaccount/addresses/{id}/set-default', 'User\AddressController@setDefault')->name('user.addresses.set-default');
+```
+
+---
+
+#### Phase 8: Integrate Addresses into Checkout Flow
+**Status**: Ready to Start
+**Priority**: High
+**Complexity**: Medium
+**Estimated Time**: 1.5 hours
+
+**Tasks**:
+- [ ] Update `CheckoutController@checkout` to load addresses
+- [ ] Pass addresses and default address to view
+- [ ] Update checkout.blade.php with address selection UI
+- [ ] Pre-select default address
+- [ ] Add "Add New Address" link
+- [ ] Test checkout with saved addresses
+- [ ] Test checkout without saved addresses
+
+**Files**:
+- `app/Http/Controllers/Front/CheckoutController.php`
+- `resources/views/frontend/checkout.blade.php`
+
+---
+
 ### High Priority
 
-#### 1. Complete My Account Page Features
-**Status**: In Progress
-**Assigned**: Current Sprint
-**Complexity**: Medium
+#### 1. Complete My Account Page Features (Dependent on Phases Above)
+**Status**: Blocked by User Flow Implementation
+**Assigned**: After Phase 5-7 Complete
+**Complexity**: Low (integration only)
 
 **Remaining Work**:
-- [ ] Connect purchase history to actual order data
-- [ ] Connect wishlist section to actual wishlist data
-- [ ] Implement Points system display
-- [ ] Add address management functionality
-- [ ] Test all tab navigation
+- [ ] Already covered in Phase 6 (Dynamic data)
+- [ ] Already covered in Phase 7 (Address management)
+- [ ] Implement Points system display (future)
+- [ ] Final integration testing
 
 **Files**:
 - `resources/views/user/account/index.blade.php`
@@ -387,10 +621,22 @@ Before marking any task complete, verify:
 
 ## 📊 Progress Metrics
 
+### User Flow Implementation Progress
+- **Phase 1**: ⏭️ Ready (Header icon update)
+- **Phase 2**: ⏭️ Ready (Middleware setup)
+- **Phase 3**: ⏭️ Ready (Sign-in redirects)
+- **Phase 4**: ⏭️ Ready (Checkout auth)
+- **Phase 5**: ⏭️ Ready (Wishlist merge)
+- **Phase 6**: ⏭️ Ready (Dynamic dashboard)
+- **Phase 7**: ⏭️ Ready (Address management)
+- **Phase 8**: ⏭️ Ready (Checkout integration)
+
+**Total Estimated Time**: ~9.5 hours for all 8 phases
+
 ### Overall Project Progress
 - **Phase 1 (Foundation)**: ✅ 100% Complete
 - **Phase 2 (Auth & Core)**: ✅ 100% Complete
-- **Phase 3 (E-commerce)**: 🔄 40% Complete (+10% this week)
+- **Phase 3 (E-commerce)**: 🔄 45% Complete (+5% this week)
 - **Phase 4 (Content)**: ⏭️ 0% Not Started
 - **Phase 5 (Polish)**: ⏭️ 0% Not Started
 

@@ -67,8 +67,8 @@ Modernize the frontend with Tailwind CSS while maintaining functionality and imp
   - Purchase history and wishlist sections
   - Full dark mode support
 
-### 🔄 Phase 3: E-commerce Pages (IN PROGRESS - 40% Complete)
-**Goal**: Optimize shopping and product pages
+### 🔄 Phase 3: E-commerce Pages (IN PROGRESS - 45% Complete)
+**Goal**: Optimize shopping and product pages + Complete user journey
 
 **Pages Completed**:
 1. **My Account Page** ✅
@@ -77,7 +77,8 @@ Modernize the frontend with Tailwind CSS while maintaining functionality and imp
    - ✅ Material Icons integration throughout
    - ✅ Quick stats display (Total Orders, Wishlist Items, Points Earned)
    - ✅ Full dark mode support
-   - ⏭️ Backend integration pending (real order/wishlist data)
+   - 🔄 Backend integration in progress (real order/wishlist data)
+   - 🔄 Address management being implemented
 
 2. **Wishlist Page** ✅ (Bug Fixes)
    - ✅ Fixed Tag::all() error in WishlistController
@@ -91,6 +92,14 @@ Modernize the frontend with Tailwind CSS while maintaining functionality and imp
    - ✅ Added empty tags arrays to prevent undefined variable errors
    - ⏭️ Standardize product listing layouts pending
 
+**User Flow Implementation** 🔄 (NEW - In Progress):
+- 🔄 **Phase 1-2**: Header authentication + middleware
+- 🔄 **Phase 3-4**: Sign-in redirect logic + checkout auth
+- ⏭️ **Phase 5**: Wishlist merge system (guest → user)
+- ⏭️ **Phase 6**: Dynamic My Account data integration
+- ⏭️ **Phase 7**: Address management CRUD
+- ⏭️ **Phase 8**: Checkout address integration
+
 **Pages to Complete**:
 4. **Product Detail Page**
    - Product image gallery
@@ -103,6 +112,7 @@ Modernize the frontend with Tailwind CSS while maintaining functionality and imp
    - Quantity controls
    - Price calculation display
    - Checkout button
+   - Authentication flow integration
 
 ### ⏭️ Phase 4: Content Pages (UPCOMING)
 **Goal**: Optimize blog and informational pages
@@ -229,9 +239,145 @@ Modernize the frontend with Tailwind CSS while maintaining functionality and imp
 
 ---
 
+## User Flow Implementation (Active)
+
+### New Database Tables Required
+
+#### 1. Wishlists Table
+**Purpose**: Store user wishlist items (migrate from session to database)
+
+```sql
+CREATE TABLE wishlists (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    product_id BIGINT UNSIGNED NOT NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_product (user_id, product_id)
+);
+```
+
+**Features**:
+- Guest wishlist stored in session
+- On sign-in: merge session wishlist to database
+- Prevent duplicate entries (unique constraint)
+- Auto-delete on user/product deletion
+
+#### 2. Addresses Table
+**Purpose**: Store user delivery and billing addresses
+
+```sql
+CREATE TABLE addresses (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    type VARCHAR(255) DEFAULT 'home',
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    address_line_1 TEXT NOT NULL,
+    address_line_2 TEXT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    pincode VARCHAR(6) NOT NULL,
+    country VARCHAR(100) DEFAULT 'India',
+    is_default BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+```
+
+**Features**:
+- Max 3 addresses per user (enforced in controller)
+- Only one default address (auto-managed in model)
+- Types: home, work, other
+- Integrated with checkout flow
+
+### User Journey Flows
+
+#### Flow 1: New User → My Account
+1. User clicks "My Account" icon → Redirects to `/sign-in`
+2. User enters phone/email → Receives OTP
+3. User verifies OTP → Auto-create user account
+4. Redirect to `/myaccount` dashboard
+5. Dashboard shows empty states (no orders, no wishlist, no addresses)
+
+#### Flow 2: Guest Cart → Checkout → Sign-In
+1. Guest adds products to cart (session storage)
+2. Guest clicks "Proceed to Checkout"
+3. Middleware redirects to `/sign-in` (intended URL: `/checkout`)
+4. Guest signs in with OTP
+5. After verification → Redirect to `/checkout` with cart preserved
+6. User must add delivery address to continue
+
+#### Flow 3: Guest Wishlist → Sign-In → Merge
+1. Guest adds 3 products to wishlist (session: `Session::get('wishlist')`)
+2. Guest clicks "My Account" → Redirects to `/sign-in`
+3. Guest signs in with OTP
+4. **Wishlist Merge Service** runs automatically:
+   - Reads session wishlist
+   - Checks if products already in database wishlist
+   - Adds new products to `wishlists` table
+   - Clears session wishlist
+5. User navigates to "Wishlists" tab → Sees all 3 items
+
+#### Flow 4: Existing User with Data
+1. User signs in
+2. Dashboard loads with real data:
+   - Total Orders: 5
+   - Wishlist Items: 12
+   - Points Earned: 250
+3. User clicks "Purchase History" → Lists recent orders
+4. User clicks "Manage Account" → Shows saved addresses
+5. User can edit profile, add/edit addresses
+
+### Implementation Checklist
+
+**Phase 1-2: Header & Middleware** (Quick Wins)
+- [ ] Update header My Account icon (`@auth` directive)
+- [ ] Setup authentication middleware for protected routes
+- [ ] Configure intended URL capture in `Authenticate.php`
+- [ ] Apply middleware to `/myaccount` and `/checkout` routes
+
+**Phase 3-4: Sign-In Redirects**
+- [ ] Update `verify_otp()` to determine redirect URL
+- [ ] Priority: intended URL → checkout (if cart) → my account
+- [ ] Update frontend sign-in redirect logic
+- [ ] Test all redirect scenarios
+
+**Phase 5: Wishlist Merge**
+- [ ] Create `wishlists` migration and model
+- [ ] Create `WishlistMergeService.php`
+- [ ] Integrate service into login flow
+- [ ] Test guest-to-user wishlist merge
+
+**Phase 6: Dynamic Dashboard**
+- [ ] Update `AccountController` to pass real data
+- [ ] Replace static "0" with order count, wishlist count, points
+- [ ] Show actual purchase history
+- [ ] Display real wishlist items
+- [ ] Test with different user data states
+
+**Phase 7: Address Management**
+- [ ] Create `addresses` migration and model
+- [ ] Create `AddressController` with CRUD methods
+- [ ] Add routes for address management
+- [ ] Build address UI in My Account (accordion)
+- [ ] Enforce max 3 addresses per user
+- [ ] Test add/edit/delete/set-default operations
+
+**Phase 8: Checkout Integration**
+- [ ] Update `CheckoutController` to load user addresses
+- [ ] Display saved addresses in checkout view
+- [ ] Pre-select default address
+- [ ] Allow address selection before payment
+- [ ] Save new addresses from checkout
+
 ## Future Enhancements
 
 ### Short Term (Next 2-4 Weeks)
+- ✅ Complete user flow implementation (sign-in → cart → checkout → account)
 - Complete Product Detail Page optimization
 - Finish Shopping Cart styling
 - Standardize all category page layouts
@@ -296,7 +442,7 @@ Modernize the frontend with Tailwind CSS while maintaining functionality and imp
 
 ---
 
-**Last Updated**: 2025-12-07 (Evening)
-**Current Phase**: Phase 3 - E-commerce Pages (40% Complete)
-**This Week**: My Account rebuild, Tag fixes, Documentation cleanup
-**Next Milestone**: Product Detail & Shopping Cart Pages
+**Last Updated**: 2025-12-07 (User Flow Planning)
+**Current Phase**: Phase 3 - E-commerce Pages (45% Complete)
+**This Week**: My Account rebuild, User flow implementation, Documentation updates
+**Next Milestone**: Complete user authentication journey (8 phases)

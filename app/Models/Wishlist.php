@@ -6,15 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wishlist extends Model
 {
-    public $timestamps = false;
+    protected $fillable = ['user_id', 'product_id'];
 
+    /**
+     * Get the user that owns the wishlist item
+     */
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->withDefault();
+        return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the product associated with the wishlist item
+     */
     public function product()
     {
-        return $this->belongsTo('App\Models\Product')->withDefault();
+        return $this->belongsTo(Product::class);
     }
 }

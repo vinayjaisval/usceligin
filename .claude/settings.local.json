@@ -22,7 +22,8 @@
       "Bash(C:/wamp64/bin/php/php8.1.31/php.exe -l resources/views/frontend/checkout.blade.php)",
       "Bash(C:/wamp64/bin/mysql/bin/mysql.exe:*)",
       "Bash(npm run build:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(C:wamp64binphpphp8.1.31php.exe artisan make:migration create_wishlists_table)"
     ],
     "deny": [],
     "ask": []

@@ -10,8 +10,15 @@ class Authenticate extends Middleware
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      */
-    protected function redirectTo(Request $request)
+    protected function redirectTo(Request $request): ?string
     {
+        if (!$request->expectsJson()) {
+            // Store the intended URL in session for redirect after login
+            session(['url.intended' => $request->fullUrl()]);
 
+            return route('otp.login.form');
+        }
+
+        return null;
     }
 }

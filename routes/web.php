@@ -1882,8 +1882,10 @@ Route::post('/load-more-products','Front\CatalogController@loadMoreProducts')->n
 
         // CHECKOUT SECTION
         Route::get('/buy-now/{id}', 'Front\CheckoutController@buynow')->name('front.buynow');
-        // Checkout
-        Route::get('/checkout', 'Front\CheckoutController@checkout')->name('front.checkout');
+        // Checkout (requires authentication)
+        Route::get('/checkout', 'Front\CheckoutController@checkout')
+            ->middleware('auth')
+            ->name('front.checkout');
         Route::get('/carts/coupon/check', 'Front\CouponController@couponcheck');
         Route::get('/carts/coupon/remove', 'Front\CouponController@removeCouponCode')->name('cart.coupon.remove');
         Route::get('/checkout/payment/{slug1}/{slug2}', 'Front\CheckoutController@loadpayment')->name('front.load.payment');

@@ -139,15 +139,15 @@
           {{-- Quick Stats at Top --}}
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">0</div>
+              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ $totalOrders }}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Total Orders</div>
             </div>
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">0</div>
+              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ $totalWishlistItems }}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Wishlist Items</div>
             </div>
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">0</div>
+              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ $points }}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Points Earned</div>
             </div>
           </div>
@@ -177,13 +177,39 @@
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Purchase History</h3>
               </div>
 
-              {{-- Empty State - will be replaced with purchase records --}}
-              <div class="text-center py-8">
-                <p class="text-gray-600 dark:text-gray-400 mb-4">You haven't made any purchases yet</p>
-                <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
-                  Start Shopping
-                </a>
-              </div>
+              @if($orders->count() > 0)
+                <div class="space-y-4">
+                  @foreach($orders as $order)
+                    <div class="border border-gray-200 dark:border-gray-700 p-4">
+                      <div class="flex justify-between items-start mb-2">
+                        <div>
+                          <h4 class="font-semibold text-gray-900 dark:text-gray-100">Order #{{ $order->order_number }}</h4>
+                          <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('M d, Y') }}</p>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold
+                          @if($order->status == 'completed') bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200
+                          @elseif($order->status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200
+                          @elseif($order->status == 'processing') bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200
+                          @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200
+                          @endif">
+                          {{ ucfirst($order->status) }}
+                        </span>
+                      </div>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Total: {{ $order->currency_sign }}{{ number_format($order->pay_amount, 2) }}
+                      </p>
+                    </div>
+                  @endforeach
+                </div>
+              @else
+                {{-- Empty State --}}
+                <div class="text-center py-8">
+                  <p class="text-gray-600 dark:text-gray-400 mb-4">You haven't made any purchases yet</p>
+                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                    Start Shopping
+                  </a>
+                </div>
+              @endif
             </div>
           </div>
 
@@ -197,13 +223,46 @@
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Wishlist</h3>
               </div>
 
-              {{-- Empty State - will be replaced with wishlist products --}}
-              <div class="text-center py-8">
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Your wishlist is empty</p>
-                <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
-                  Browse Products
-                </a>
-              </div>
+              @if($wishlist->count() > 0)
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  @foreach($wishlist->take(4) as $item)
+                    <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
+                      @if($item->product && $item->product->photo)
+                        <img src="{{ asset('assets/images/products/' . $item->product->photo) }}"
+                             alt="{{ $item->product->name ?? 'Product' }}"
+                             class="w-full h-32 object-cover mb-2">
+                      @else
+                        <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-2">
+                          <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
+                        </div>
+                      @endif
+                      <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                        {{ $item->product->name ?? 'Product' }}
+                      </h5>
+                      @if($item->product)
+                        <p class="text-sm text-orange-600 dark:text-orange-400 font-semibold">
+                          ${{ number_format($item->product->price, 2) }}
+                        </p>
+                      @endif
+                    </div>
+                  @endforeach
+                </div>
+                @if($wishlist->count() > 4)
+                  <div class="mt-4 text-center">
+                    <a href="{{ route('front.wishlist') }}" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 text-sm font-semibold">
+                      View All {{ $wishlist->count() }} Items →
+                    </a>
+                  </div>
+                @endif
+              @else
+                {{-- Empty State --}}
+                <div class="text-center py-8">
+                  <p class="text-gray-600 dark:text-gray-400 mb-4">Your wishlist is empty</p>
+                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                    Browse Products
+                  </a>
+                </div>
+              @endif
             </div>
           </div>
         </div>
@@ -212,26 +271,88 @@
         <div id="content-purchases" class="tab-content hidden">
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Purchase History</h1>
 
-          @include('frontend.include.empty-state', [
-            'icon' => 'shopping_bag',
-            'title' => 'No Purchases Yet',
-            'description' => 'You haven\'t made any purchases. Start shopping to see your order history here.',
-            'actionText' => 'Start Shopping',
-            'actionUrl' => route('front.index')
-          ])
+          @if($orders->count() > 0)
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
+              <div class="space-y-4">
+                @foreach($orders as $order)
+                  <div class="border border-gray-200 dark:border-gray-700 p-4">
+                    <div class="flex justify-between items-start mb-2">
+                      <div>
+                        <h4 class="font-semibold text-gray-900 dark:text-gray-100">Order #{{ $order->order_number }}</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('M d, Y h:i A') }}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Items: {{ $order->totalQty }}</p>
+                      </div>
+                      <span class="px-3 py-1 text-xs font-semibold
+                        @if($order->status == 'completed') bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200
+                        @elseif($order->status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200
+                        @elseif($order->status == 'processing') bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200
+                        @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200
+                        @endif">
+                        {{ ucfirst($order->status) }}
+                      </span>
+                    </div>
+                    <div class="flex justify-between items-center mt-3">
+                      <p class="text-base font-semibold text-gray-900 dark:text-gray-100">
+                        Total: {{ $order->currency_sign }}{{ number_format($order->pay_amount, 2) }}
+                      </p>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+            </div>
+          @else
+            @include('frontend.include.empty-state', [
+              'icon' => 'shopping_bag',
+              'title' => 'No Purchases Yet',
+              'description' => 'You haven\'t made any purchases. Start shopping to see your order history here.',
+              'actionText' => 'Start Shopping',
+              'actionUrl' => route('front.index')
+            ])
+          @endif
         </div>
 
         {{-- Wishlists Tab --}}
         <div id="content-wishlists" class="tab-content hidden">
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Wishlists</h1>
 
-          @include('frontend.include.empty-state', [
-            'icon' => 'favorite_border',
-            'title' => 'No Wishlist Items',
-            'description' => 'You haven\'t saved any items yet. Browse our products and add favorites to your wishlist.',
-            'actionText' => 'Browse Products',
-            'actionUrl' => route('front.index')
-          ])
+          @if($wishlist->count() > 0)
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
+              <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                @foreach($wishlist as $item)
+                  <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
+                    @if($item->product && $item->product->photo)
+                      <img src="{{ asset('assets/images/products/' . $item->product->photo) }}"
+                           alt="{{ $item->product->name ?? 'Product' }}"
+                           class="w-full h-32 object-cover mb-2">
+                    @else
+                      <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-2">
+                        <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
+                      </div>
+                    @endif
+                    <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate" title="{{ $item->product->name ?? 'Product' }}">
+                      {{ $item->product->name ?? 'Product' }}
+                    </h5>
+                    @if($item->product)
+                      <p class="text-sm text-orange-600 dark:text-orange-400 font-semibold">
+                        ${{ number_format($item->product->price, 2) }}
+                      </p>
+                    @endif
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Added {{ $item->created_at->diffForHumans() }}
+                    </p>
+                  </div>
+                @endforeach
+              </div>
+            </div>
+          @else
+            @include('frontend.include.empty-state', [
+              'icon' => 'favorite_border',
+              'title' => 'No Wishlist Items',
+              'description' => 'You haven\'t saved any items yet. Browse our products and add favorites to your wishlist.',
+              'actionText' => 'Browse Products',
+              'actionUrl' => route('front.index')
+            ])
+          @endif
         </div>
 
         {{-- Manage Account Tab --}}

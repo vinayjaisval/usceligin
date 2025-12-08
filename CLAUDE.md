@@ -59,9 +59,11 @@ resources/views/frontend/
 ### Key Models
 - **Product**: E-commerce products with variants and attributes
 - **Order**: Order management with vendor order splitting
-- **Cart**: Session-based shopping cart
+- **Cart**: Session-based shopping cart (guest + user)
 - **User**: Multi-role user system (admin, vendor, customer, rider)
 - **OtpVerification**: Phone/email OTP authentication
+- **Wishlist**: User wishlist items (NEW - being implemented)
+- **Address**: User delivery/billing addresses (NEW - being implemented)
 
 ### Payment Gateways
 Stripe • Razorpay • PayPal • Mollie • Authorize.net • Instamojo • MercadoPago
@@ -186,14 +188,114 @@ The `tags` table doesn't exist in the database. When encountering Tag model erro
 - ✅ Documentation consolidation (22 → 5 essential files)
 
 ### Active Development 🔄
+- **User Flow Implementation**: Complete sign-in → cart → checkout → my account journey
+- **Wishlist Merge System**: Guest wishlist sync to user account on login
+- **Address Management**: CRUD operations for delivery/billing addresses
 - Shopping cart page optimization
 - Product detail page
-- My Account backend integration (orders, wishlist data)
 
 ### Technical Debt 📋
 - Tags functionality disabled (table doesn't exist)
 - Some legacy custom CSS remaining
-- My Account page needs real data integration
+- Session-based cart/wishlist needs database migration for authenticated users
+
+## User Flow & Authentication Logic
+
+### Current Routes Structure
+```php
+// Authentication
+GET  /sign-in           → Auth\OtpController@showLoginForm (otp.login.form)
+POST /otp/send          → Auth\User\LoginController@send_otp
+POST /otp/verify        → Auth\User\LoginController@verify_otp
+POST /logout            → Auth\User\LoginController@logout
+
+// Protected Routes (require auth middleware)
+GET  /myaccount         → User\AccountController@index (user.account)
+POST /myaccount/update  → User\AccountController@update
+
+// Public Routes
+GET  /carts             → Front\CartController@cart (front.cart)
+GET  /checkout          → Front\CheckoutController@checkout (front.checkout)
+GET  /wishlist          → Front\WishlistController@wishlist (front.wishlist)
+```
+
+### User Journey Requirements
+
+#### 1. Header My Account Icon Logic
+- **Guest User**: Click → Redirect to `/sign-in`
+- **Authenticated User**: Click → Redirect to `/myaccount`
+- **Implementation**: Use `@auth/@guest` directives in header
+
+#### 2. Sign-In Redirect Priority
+After successful OTP verification:
+1. **Intended URL** (if redirected from protected route) → Go back
+2. **Checkout** (if cart has items) → `/checkout`
+3. **Default** → `/myaccount`
+
+#### 3. Cart-to-Checkout Flow
+- **Guest**: Can add to cart, but checkout requires sign-in
+- **After Sign-In**: Automatically redirect to checkout with cart preserved
+- **Implementation**: Add `auth` middleware to checkout route
+
+#### 4. Wishlist Sync (Guest → User)
+- **Guest**: Wishlist stored in session (`Session::get('wishlist')`)
+- **On Sign-In**: Merge session wishlist to database (`wishlists` table)
+- **After Merge**: Clear session wishlist
+- **Result**: User sees all items (guest + previous user items)
+
+#### 5. Address Management
+- **Max Addresses**: 3 per user
+- **Default Address**: Only one can be default
+- **Checkout Integration**: Pre-select default address
+- **Fields**: Name, Phone, Address Lines, City, State, Pincode, Type (home/work/other)
+
+### Database Schema (New Tables Needed)
+
+#### `wishlists` Table
+```sql
+CREATE TABLE wishlists (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    product_id BIGINT UNSIGNED NOT NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_product (user_id, product_id)
+);
+```
+
+#### `addresses` Table
+```sql
+CREATE TABLE addresses (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    type VARCHAR(255) DEFAULT 'home',
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    address_line_1 TEXT NOT NULL,
+    address_line_2 TEXT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    pincode VARCHAR(6) NOT NULL,
+    country VARCHAR(100) DEFAULT 'India',
+    is_default BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+```
+
+### Implementation Phases
+
+**See TASK.md for detailed implementation checklist**
+
+1. **Phase 1-2**: Header icon + middleware setup
+2. **Phase 3-4**: Sign-in redirects + checkout auth
+3. **Phase 5**: Wishlist merge functionality
+4. **Phase 6**: Dynamic My Account data
+5. **Phase 7**: Address CRUD operations
+6. **Phase 8**: Checkout address integration
 
 ## Getting Help
 
@@ -204,7 +306,7 @@ The `tags` table doesn't exist in the database. When encountering Tag model erro
 
 ---
 
-**Last Updated**: 2025-12-07
+**Last Updated**: 2025-12-07 (User Flow Planning Added)
 **Database**: us_devceligin_1nov25
 **PHP Version**: 8.1+
 **Laravel Version**: 10.x
