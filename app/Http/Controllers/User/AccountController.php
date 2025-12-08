@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Wishlist;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +29,9 @@ class AccountController extends Controller
             ->with('product')
             ->get();
 
+        // Get user's addresses
+        $addresses = Address::where('user_id', $user->id)->get();
+
         // Get user's points/rewards (if column exists, otherwise default to 0)
         $points = $user->reward_points ?? 0;
 
@@ -39,6 +43,7 @@ class AccountController extends Controller
             'user',
             'orders',
             'wishlist',
+            'addresses',
             'points',
             'totalOrders',
             'totalWishlistItems'

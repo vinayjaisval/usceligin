@@ -10,6 +10,7 @@ use App\{
 };
 use App\Models\City;
 use App\Models\State;
+use App\Models\Address;
 use DB;
 use Auth;
 use Illuminate\Http\Request;
@@ -290,6 +291,12 @@ class CheckoutController extends FrontBaseController
         }
 
         // -----------------------------------------------------------
+        // 🔹 LOAD USER ADDRESSES
+        // -----------------------------------------------------------
+        $addresses = Address::where('user_id', $user->id)->get();
+        $defaultAddress = $addresses->firstWhere('is_default', true);
+
+        // -----------------------------------------------------------
         // 🔹 RETURN VIEW
         // -----------------------------------------------------------
         return view('frontend.checkout', [
@@ -304,7 +311,10 @@ class CheckoutController extends FrontBaseController
             'curr'               => $currency,
             'vendor_shipping_id' => 0,
             'vendor_packing_id'  => 0,
-            'paystack'           => $paystackData
+            'paystack'           => $paystackData,
+            'addresses'          => $addresses,
+            'defaultAddress'     => $defaultAddress,
+            'user'               => $user
         ]);
     }
 

@@ -24,6 +24,12 @@ Route::post('/logout', 'Auth\User\LoginController@logout')->name('logout')->midd
 Route::middleware('auth')->group(function () {
     Route::get('/myaccount', 'User\AccountController@index')->name('user.account');
     Route::post('/myaccount/update', 'User\AccountController@update')->name('user.account.update');
+
+    // Address management
+    Route::post('/myaccount/addresses', 'User\AddressController@store')->name('user.addresses.store');
+    Route::put('/myaccount/addresses/{id}', 'User\AddressController@update')->name('user.addresses.update');
+    Route::delete('/myaccount/addresses/{id}', 'User\AddressController@destroy')->name('user.addresses.destroy');
+    Route::post('/myaccount/addresses/{id}/set-default', 'User\AddressController@setDefault')->name('user.addresses.set-default');
 });
 
 // ************************************ ADMIN SECTION **********************************************

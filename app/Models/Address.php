@@ -3,31 +3,49 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Address extends Model
 {
-  use SoftDeletes;
-  protected $table = "address";
-  protected $fillable = [
-    'user_id',
-    'customer_name',
-    'phone',
-    'zip',
-    'email',
-    'country_id',
-    'state_id',
-    'city',
-    'flat_no',
-    'landmark',
-    'address',
-    'is_billing',
-    'same_address_shipping',
-];
+    protected $fillable = [
+        'user_id',
+        'type',
+        'name',
+        'phone',
+        'address_line_1',
+        'address_line_2',
+        'city',
+        'state',
+        'pincode',
+        'country',
+        'is_default'
+    ];
 
-  public function user()
-  {
-    return $this->belongsTo('App\Models\User');
-  }
-   
+    protected $casts = [
+        'is_default' => 'boolean',
+    ];
+
+    /**
+     * Get the user that owns the address
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Boot method to ensure only one default address per user
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($address) {
+            if ($address->is_default) {
+                // Remove default from other addresses for this user
+                static::where('user_id', $address->user_id)
+                    ->where('id', '!=', $address->id)
+                    ->update(['is_default' => false]);
+            }
+        });
+    }
 }
