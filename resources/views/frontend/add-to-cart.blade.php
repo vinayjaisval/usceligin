@@ -6,27 +6,16 @@
 <main id="main-content" role="main" class="bg-gray-50 dark:bg-gray-900 min-h-screen">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <!-- Breadcrumb Navigation -->
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <li>
-          <a href="{{ route('front.index') }}" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Home</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <span class="text-gray-900 dark:text-gray-100" aria-current="page">Cart</span>
-        </li>
-      </ol>
-    </nav>
+    @include('frontend.include.breadcrumb', ['items' => [
+      ['label' => 'Home', 'url' => route('front.index')],
+      ['label' => 'Cart']
+    ]])
 
     <!-- Loading Spinner -->
-    <div class="hidden fixed inset-0 bg-white dark:bg-gray-900 bg-opacity-90 dark:bg-opacity-90 z-50 flex items-center justify-center" id="loading-section">
-      <div class="text-center">
-        <div class="inline-block w-12 h-12 border-4 border-orange-600 border-t-transparent animate-spin"></div>
-        <p class="mt-4 text-gray-900 dark:text-gray-100">Loading cart...</p>
-      </div>
-    </div>
+    @include('frontend.include.loading-spinner', [
+      'id' => 'loading-section',
+      'message' => 'Loading cart...'
+    ])
 
     @if(Session::has('cart'))
     <!-- Shopping Cart Section -->

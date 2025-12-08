@@ -8,7 +8,7 @@ use App\{
   Models\Subcategory,
   Models\Childcategory,
   Models\Report,
-  Models\Tag,
+  // Models\Tag, // Removed - tags table doesn't exist
   Models\Rating,
   Models\ArrivalSection
 };
@@ -245,13 +245,6 @@ class CatalogController extends FrontBaseController
 
   public function new_arrivals(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
-    
-    $tags = Tag::all();
-    $data['tags'] = $tags;
-
-    $tags = Tag::all();
-    $data['tags'] = $tags;
-
     $gs = $this->gs;
 
     if ($request->view_check) {
@@ -275,10 +268,8 @@ class CatalogController extends FrontBaseController
     $type = $request->has('type') ?? '';
     $tag = $request->tags ?? '';
 
-    $tag_data = Tag::where('slug', $tag)->first('id');
-    $tag_id = $tag_data->id ?? '';
-
-
+    // Tag functionality disabled - tags table doesn't exist
+    $tag_id = '';
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -426,6 +417,7 @@ class CatalogController extends FrontBaseController
         return $item;
       })->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
     $data['prods'] = $prods;
+    $data['tags'] = []; // Empty tags array - tags functionality disabled
 
     if ($request->ajax()) {
       $data['ajax_check'] = 1;
@@ -437,11 +429,6 @@ class CatalogController extends FrontBaseController
 
   public function best_sellers(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
-    $tags = Tag::all();
-    $data['tags'] = $tags;
-    $tags = Tag::all();
-    $data['tags'] = $tags;
-
     $gs = $this->gs;
 
     if ($request->view_check) {
@@ -465,8 +452,8 @@ class CatalogController extends FrontBaseController
     $type = $request->has('type') ?? '';
     $tag = $request->tags ?? '';
 
-    $tag_data = Tag::where('slug', $tag)->first('id');
-    $tag_id = $tag_data->id ?? '';
+    // Tag functionality disabled - tags table doesn't exist
+    $tag_id = '';
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -614,7 +601,7 @@ class CatalogController extends FrontBaseController
         return $item;
       })->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
     $data['prods'] = $prods;
-
+    $data['tags'] = []; // Empty tags array - tags functionality disabled
 
     if ($request->ajax()) {
       $data['ajax_check'] = 1;
@@ -626,13 +613,6 @@ class CatalogController extends FrontBaseController
 
   public function sales(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
-
-    $tags = Tag::all();
-    $data['tags'] = $tags;
-
-    $tags = Tag::all();
-    $data['tags'] = $tags;
-
     $gs = $this->gs;
 
     if ($request->view_check) {
@@ -656,8 +636,8 @@ class CatalogController extends FrontBaseController
     $type = $request->has('type') ?? '';
     $tag = $request->tags ?? '';
 
-    $tag_data = Tag::where('slug', $tag)->first('id');
-    $tag_id = $tag_data->id ?? '';
+    // Tag functionality disabled - tags table doesn't exist
+    $tag_id = '';
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -805,7 +785,7 @@ class CatalogController extends FrontBaseController
         return $item;
       })->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
     $data['prods'] = $prods;
-
+    $data['tags'] = []; // Empty tags array - tags functionality disabled
 
     if ($request->ajax()) {
       $data['ajax_check'] = 1;
@@ -816,11 +796,6 @@ class CatalogController extends FrontBaseController
 
   public function skin_care(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
-    $tags = Tag::all();
-    $data['tags'] = $tags;
-    $tags = Tag::all();
-    $data['tags'] = $tags;
-
     $gs = $this->gs;
 
     if ($request->view_check) {
@@ -844,8 +819,8 @@ class CatalogController extends FrontBaseController
     $type = $request->has('type') ?? '';
     $tag = $request->tags ?? '';
 
-    $tag_data = Tag::where('slug', $tag)->first('id');
-    $tag_id = $tag_data->id ?? '';
+    // Tag functionality disabled - tags table doesn't exist
+    $tag_id = '';
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -993,7 +968,7 @@ class CatalogController extends FrontBaseController
         return $item;
       })->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
     $data['prods'] = $prods;
-
+    $data['tags'] = []; // Empty tags array - tags functionality disabled
 
     if ($request->ajax()) {
       $data['ajax_check'] = 1;

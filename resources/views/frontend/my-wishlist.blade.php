@@ -5,19 +5,10 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
     {{-- Breadcrumb --}}
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <li>
-          <a href="{{ route('front.index') }}" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Home</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <span class="text-gray-900 dark:text-gray-100" aria-current="page">My Wishlist</span>
-        </li>
-      </ol>
-    </nav>
+    @include('frontend.include.breadcrumb', ['items' => [
+      ['label' => 'Home', 'url' => route('front.index')],
+      ['label' => 'My Wishlist']
+    ]])
 
     {{-- Category Header --}}
     <section class="py-6 sm:py-8 lg:py-12" aria-labelledby="category-title">
@@ -157,8 +148,8 @@
 
   </div>
 
-  {{-- CELIGIN Promotional Banners --}}
-  <x-celigin-banners />
+  {{-- Join CELIGIN Promotional Banners --}}
+  <x-join-celigin-banners />
 </main>
 @endsection
 

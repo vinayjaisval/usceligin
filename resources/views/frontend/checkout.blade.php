@@ -34,25 +34,11 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
     <!-- Breadcrumb Navigation -->
-    <nav aria-label="Breadcrumb" class="mb-4">
-      <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <li>
-          <a href="{{ route('front.index') }}" class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">Home</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <a href="{{ route('front.cart') }}" class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">Cart</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <span class="text-gray-900 dark:text-gray-100 font-medium" aria-current="page">Checkout</span>
-        </li>
-      </ol>
-    </nav>
+    @include('frontend.include.breadcrumb', ['items' => [
+      ['label' => 'Home', 'url' => route('front.index')],
+      ['label' => 'Cart', 'url' => route('front.cart')],
+      ['label' => 'Checkout']
+    ]])
 
     <!-- Page Title -->
     <div class="mb-6">

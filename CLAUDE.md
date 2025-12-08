@@ -1,224 +1,210 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with code in this repository.
 
 ## Project Overview
 
-This is a Laravel-based e-commerce platform called "Usceligin" - a multi-vendor marketplace with extensive payment gateway integrations and user management features.
+**Usceligin** - A Laravel-based multi-vendor e-commerce marketplace with extensive payment gateway integrations and modern OTP authentication.
 
-## Development Commands
+- **Framework**: Laravel 10.x with Vite
+- **Frontend**: Tailwind CSS with Blade templates
+- **Database**: MySQL (Port 3307)
+- **Development**: XAMPP (`http://localhost/usceligin`)
 
-### Build and Development
-- `npm run dev` - Start Vite development server for asset compilation
-- `npm run build` - Build assets for production using Vite
-- `php artisan serve` - Start Laravel development server (typically on http://localhost:8000)
+## Quick Start Commands
 
-### Testing and Quality
-- `vendor/bin/phpunit` - Run PHPUnit tests
-- `php artisan test` - Alternative Laravel test runner
-- `vendor/bin/pint` - Laravel Pint code formatter (if available)
+### Development
+```bash
+npm run dev              # Start Vite dev server with hot reload
+php artisan serve       # Alternative: Laravel dev server
+```
 
-### Database Operations
-- `php artisan migrate` - Run database migrations
-- `php artisan migrate:fresh --seed` - Fresh migration with seeders
-- `php artisan db:seed` - Run database seeders
+### Production
+```bash
+npm run build           # Build optimized assets
+php artisan optimize    # Optimize Laravel
+```
 
-### Cache and Optimization
-- `php artisan config:cache` - Cache configuration files
-- `php artisan route:cache` - Cache routes for production
-- `php artisan view:cache` - Cache compiled views
-- `php artisan optimize:clear` - Clear all cached data
+### Database
+```bash
+php artisan migrate              # Run migrations
+php artisan migrate:fresh --seed # Fresh migration with seeders
+```
 
-## Architecture Overview
+### Cache Management
+```bash
+php artisan optimize:clear  # Clear all caches
+php artisan config:cache    # Cache configuration
+php artisan route:cache     # Cache routes
+php artisan view:cache      # Cache views
+```
 
-### Multi-Role System
-The application supports multiple user types with dedicated controllers:
-- **Admin**: Full platform management (`app/Http/Controllers/Admin/`)
-- **Vendor**: Seller/merchant functionality (`app/Http/Controllers/Vendor/`)
-- **User**: Customer functionality (`app/Http/Controllers/User/`)
-- **Rider**: Delivery personnel (`app/Http/Controllers/Rider/`)
-- **Front**: Public-facing pages (`app/Http/Controllers/Front/`)
+## Architecture
 
-### Key Business Models
-- **Product**: Complex e-commerce product model with variants, attributes, and inventory management
-- **Order**: Comprehensive order management with vendor order splitting
-- **Cart**: Shopping cart with session and user persistence
-- **User**: Multi-role user system with vendor capabilities
-- **PaymentGateway**: Extensive payment provider integrations
+### Directory Structure
+```
+app/Http/Controllers/
+├── Admin/          # Admin panel management
+├── Vendor/         # Seller/merchant functionality
+├── User/           # Customer functionality
+├── Rider/          # Delivery personnel
+└── Front/          # Public-facing pages
 
-### Payment Integration
-The platform integrates with multiple payment providers:
-- Stripe, Razorpay, PayPal, Mollie, Authorize.net
-- Instamojo, MercadoPago
-- Custom payment gateway configurations
+resources/views/frontend/
+├── include/        # Reusable components (header, footer, breadcrumb, etc.)
+├── index.blade.php # Homepage
+└── [pages]/        # Product, cart, wishlist, blog, etc.
+```
 
-### API Structure
-- REST API endpoints in `routes/api.php`
-- JWT authentication via `tymon/jwt-auth`
-- API controllers in `app/Http/Controllers/Api/`
+### Key Models
+- **Product**: E-commerce products with variants and attributes
+- **Order**: Order management with vendor order splitting
+- **Cart**: Session-based shopping cart
+- **User**: Multi-role user system (admin, vendor, customer, rider)
+- **OtpVerification**: Phone/email OTP authentication
+
+### Payment Gateways
+Stripe • Razorpay • PayPal • Mollie • Authorize.net • Instamojo • MercadoPago
 
 ## Database Configuration
 
-- Default connection: MySQL
-- Database name: `us_devceligin_1nov25`
-- Port: 3307 (non-standard MySQL port)
-- Configured for local development with XAMPP
+**Important**: The database is configured for XAMPP with non-standard port.
 
-### OTP Authentication System
-- **OTP Service**: `app/Services/OtpService.php` - Complete OTP generation, sending, and verification
-- **OTP Model**: `app/Models/OtpVerification.php` - Database model for OTP storage
-- **Migration**: OTP verification table with phone/email support
-- **Configuration**: `.env` variables for OTP length, expiry, rate limiting
-- **Security**: Rate limiting, attempt tracking, IP logging, auto-cleanup
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3307
+DB_DATABASE=us_devceligin_1nov25
+```
 
-## Asset Management
-
-- Vite-powered asset compilation
-- Entry points: `resources/css/app.css`, `resources/js/app.js`
-- Laravel Vite plugin with hot reloading enabled
-
-## Key Features
-
-### E-commerce Core
-- Multi-vendor marketplace
-- Product variants and attributes
-- Shopping cart and wishlist
-- Order management and tracking
-- Inventory management
-
-### User Management
-- Role-based access control
-- Vendor registration and management
-- Customer accounts with addresses
-- **OTP Authentication**: Phone and email verification system
-- Auto-user creation on OTP verification
-- Phone verification status tracking
-- Social login integration
-
-### Content Management
-- Blog system with categories
-- CMS pages and SEO tools
-- Banner and slider management
-- Testimonials and reviews
-
-### Communication
-- Admin-user messaging system
-- Notifications and email templates
-- SMS integration capabilities
-
-## Development Notes
-
-- Laravel 10.x framework
-- PHP 8.1+ requirement
-- Extensive use of Eloquent relationships
-- Multi-language support structure
-- Image processing via Intervention Image
-- PDF generation with DomPDF
-
-## Tailwind CSS Migration Plan
-
-### Current State ✅ COMPLETED
-- ✅ Custom CSS: Reduced from 7,396 to 458 lines (94% reduction)
-- ✅ Tailwind CSS integration with Vite
-- ✅ CSS variables preserved and converted to RGB format
-- ✅ Modern component system (tooltips, alerts)
-- ✅ WCAG AA accessibility compliance
-- ✅ Full light/dark mode support
-
-### Migration Strategy ✅ PHASE 1 COMPLETE
-**✅ Phase 1: Setup & Foundation (COMPLETED)**
-- ✅ Tailwind CSS installed and configured
-- ✅ CSS variables extracted and preserved
-- ✅ Tailwind configured to use existing design tokens
-- ✅ Base configuration and build system working
-
-**✅ Phase 2: Component Systems & Optimization (COMPLETED)**
-- ✅ Modern alert system with 4 variants (info, success, error, warning)
-- ✅ Reusable tooltip system with accessibility
-- ✅ Semantic checkbox implementation
-- ✅ **Sign-in page complete optimization with DRY principles**
-- ✅ **OTP system optimization and production-ready configuration**
-- ✅ **Auto-redirect functionality after OTP verification**
-- ✅ **Component-based CSS architecture implementation**
-- ✅ **DOM element caching and performance optimization**
-
-**✅ Phase 3: Homepage Migration (COMPLETED)**
-- ✅ **Hero Carousel**: DRY refactoring - eliminated duplicate code, single responsive layout
-- ✅ **Responsive Typography**: Fluid text scaling across all breakpoints (mobile → xl)
-- ✅ **Content Width Optimization**: Tablet (35%) and Desktop (40%) responsive sizing
-- ✅ **Min-height Consistency**: All carousel slides have uniform heading/description heights
-- ✅ **Search Functionality**: Fixed mobile/tablet search dropdown display issues
-- ✅ **Image Asset Management**: Resolved missing image paths and asset deployment
-- ✅ **Design System**: Removed all rounded corners for sharp, modern aesthetic
-- ✅ **Dark Mode**: Fixed hero carousel and hot deals text visibility in dark mode
-- ✅ **Visual Consistency**: Hot Deals styling matches Bestsellers (removed borders)
-
-**⏭️ Phase 4: Additional Pages Migration (UPCOMING)**
-- Product Detail Page
-- Shopping Cart & Wishlist
-- Blog Pages (listing & detail)
-- Category Pages (Best Sellers, New Arrivals, Sale, Skin Care)
-- Performance optimization and testing
-- Cross-browser and accessibility testing
-
-### Achievements So Far
-- **CSS Bundle Size**: 7,396 lines → 458 lines (94% reduction)
-- **Component System**: Modern, accessible, reusable
-- **Accessibility**: WCAG 2.1 AA compliant
-- **Theme Support**: Full light/dark mode with CSS variables
-- **Performance**: Vite hot-reload optimized
-- **OTP System**: Production-ready with comprehensive error handling
-- **Sign-in Page**: Fully optimized with DRY principles and auto-redirect
-- **Homepage**: Fully responsive with DRY hero carousel, fluid typography, sharp design
-- **Search System**: Mobile/tablet dropdown functionality restored
-- **XAMPP Integration**: Seamless deployment with traditional XAMPP setup
-
-### Architecture Improvements
-- **Design System**: CSS custom properties for consistent theming
-- **Accessibility**: Proper ARIA roles, semantic HTML, screen reader support
-- **Maintainability**: Single CSS file with organized layers
-- **Future-proof**: Modern CSS features and Tailwind utilities
-- **Configuration-Driven**: Centralized config objects for validation and settings
-- **Performance**: DOM element caching and optimized event handling
-- **Security**: Comprehensive OTP system with rate limiting and validation
-
-## OTP Authentication System Details
+## OTP Authentication System
 
 ### Core Files
-- **Service**: `app/Services/OtpService.php` - Main OTP business logic
-- **Model**: `app/Models/OtpVerification.php` - Database operations
-- **Controller**: OTP endpoints for send/verify/resend operations
-- **Frontend**: `resources/views/frontend/sign-in.blade.php` - Optimized UI
-- **Styles**: `assets/frontend/css/styles.css` - Component-based CSS
-- **Documentation**: `signIn.md` - Comprehensive technical documentation
+- **Service**: `app/Services/OtpService.php`
+- **Model**: `app/Models/OtpVerification.php`
+- **Frontend**: `resources/views/frontend/sign-in.blade.php`
 
-### Key Features
-- **Dual Method Support**: Phone and email OTP verification
-- **Indian Phone Validation**: Supports 6-9 starting digit pattern
-- **Rate Limiting**: 5 attempts per hour per contact
-- **Auto-User Creation**: Creates users automatically on successful verification
-- **Security**: IP logging, attempt tracking, auto-cleanup of expired OTPs
-- **Development Mode**: Fixed OTP for testing, comprehensive logging
-- **Production Ready**: XAMPP deployment, optimized asset building
-- **Auto-Redirect**: 2-second auto-navigation after successful verification
+### Features
+- Dual method support (phone + email)
+- Indian phone validation (6-9 starting digits)
+- Rate limiting (5 attempts/hour)
+- Auto-user creation on verification
+- IP logging and attempt tracking
+- Development mode with fixed OTP (123456)
 
-### Environment Configuration
+### Configuration
 ```env
-# OTP Configuration
 OTP_LENGTH=6
 OTP_EXPIRY_MINUTES=10
 OTP_MAX_ATTEMPTS_PER_HOUR=5
 OTP_MAX_VERIFICATION_ATTEMPTS=3
 OTP_DEVELOPMENT_CODE=123456
-
-# Security Options
 OTP_HASH_IN_DATABASE=false
 OTP_LOG_IN_DEVELOPMENT=true
-OTP_CLEANUP_EXPIRED=true
 ```
 
-### Deployment
-- **XAMPP Ready**: Works with `http://localhost/usceligin`
-- **Production Assets**: Use `npm run build` for production deployment
-- **Laravel Serve**: Alternative development with `php artisan serve`
-- **Database**: MySQL on port 3307 with `us_devceligin` database
+## Frontend Development
+
+### Tailwind CSS Setup
+- **Config**: `tailwind.config.js`
+- **Entry**: `resources/css/app.css`
+- **Output**: `public/assets/frontend/css/styles.css`
+- **Components**: Modern alert, tooltip, form, and button systems
+
+### Design System
+- **Colors**: Orange primary (#EA580C), gray scale
+- **Typography**: Fluid responsive scaling
+- **Theme**: Full light/dark mode support
+- **Accessibility**: WCAG 2.1 AA compliant
+
+### Reusable Components
+```blade
+@include('frontend.include.breadcrumb', ['items' => [...]])
+@include('frontend.include.empty-state', ['icon' => '...', 'title' => '...'])
+@include('frontend.include.accordion', ['items' => [...]])
+<x-join-celigin-banners />
+<x-cart-button :product-id="$id" />
+```
+
+## Known Issues & Fixes
+
+### Tags Table Missing
+The `tags` table doesn't exist in the database. When encountering Tag model errors:
+
+1. Remove Tag model import
+2. Comment out `Tag::all()` or `Tag::where()` calls
+3. Replace with `$tags = []`
+
+**Files Fixed**: CatalogController.php, WishlistController.php
+
+### Route Naming
+- Join Club: `front.celigin-join-club` (not `front.join-club`)
+- Sign In: `otp.login.form` (not `front.sign-in`)
+
+### XAMPP Deployment
+- URL: `http://localhost/usceligin`
+- Assets: Use `npm run build` for production
+- Ensure `.env` has `APP_URL=http://localhost/usceligin`
+
+## Code Guidelines
+
+### When Making Changes
+1. **Always read files first** before modifying
+2. **Use existing patterns** - check similar pages for consistency
+3. **Tailwind-first approach** - use utility classes over custom CSS
+4. **Component reuse** - leverage existing Blade components
+5. **Accessibility** - maintain ARIA labels and semantic HTML
+6. **Dark mode** - always include `dark:` variants
+7. **Mobile-first** - use responsive breakpoints (sm, md, lg, xl)
+
+### Forbidden Actions
+- ❌ Never commit hardcoded values
+- ❌ Never use rounded corners (sharp design aesthetic)
+- ❌ Never skip dark mode variants
+- ❌ Never ignore accessibility attributes
+- ❌ Never create duplicate components
+
+### Performance Best Practices
+- ✅ Use Vite for asset compilation
+- ✅ Implement lazy loading for images
+- ✅ Cache DOM queries in JavaScript
+- ✅ Use configuration objects over inline validation
+- ✅ Optimize CSS with Tailwind purge
+
+## Current Project State
+
+### Completed Features ✅
+- ✅ OTP authentication system (production-ready)
+- ✅ Homepage responsive design with DRY carousel
+- ✅ Sign-in page optimization
+- ✅ Tailwind CSS integration (94% CSS reduction: 7,396 → 458 lines)
+- ✅ Component system (alerts, tooltips, forms, breadcrumb, accordion)
+- ✅ Full dark mode support across all pages
+- ✅ My Account page with sidebar navigation and tabs
+- ✅ Category pages Tag model fixes (new-arrivals, best-sellers, sale, skin-care)
+- ✅ Wishlist page Tag model fix and banner correction
+- ✅ Documentation consolidation (22 → 5 essential files)
+
+### Active Development 🔄
+- Shopping cart page optimization
+- Product detail page
+- My Account backend integration (orders, wishlist data)
+
+### Technical Debt 📋
+- Tags functionality disabled (table doesn't exist)
+- Some legacy custom CSS remaining
+- My Account page needs real data integration
+
+## Getting Help
+
+- **Documentation**: See PLANNING.md for roadmap, TASK.md for current tasks
+- **Issues**: Check existing .md files before creating new ones
+- **Code Review**: Always test in both light and dark modes
+- **Deployment**: Test on XAMPP before considering production
+
+---
+
+**Last Updated**: 2025-12-07
+**Database**: us_devceligin_1nov25
+**PHP Version**: 8.1+
+**Laravel Version**: 10.x

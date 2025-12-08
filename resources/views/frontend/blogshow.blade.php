@@ -5,25 +5,11 @@
 <main id="main-content" role="main" class="bg-white dark:bg-gray-900">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <!-- Breadcrumb Navigation -->
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <li>
-          <a href="{{ route('front.index') }}" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Home</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <a href="/blog" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Blog</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <span class="text-gray-900 dark:text-gray-100 line-clamp-1" aria-current="page">{{ Str::limit($blog->title, 30) }}</span>
-        </li>
-      </ol>
-    </nav>
+    @include('frontend.include.breadcrumb', ['items' => [
+      ['label' => 'Home', 'url' => route('front.index')],
+      ['label' => 'Blog', 'url' => route('front.blog')],
+      ['label' => Str::limit($blog->title, 30)]
+    ]])
 
     <!-- Blog Article -->
     <article class="max-w-4xl mx-auto" itemscope itemtype="https://schema.org/BlogPosting">

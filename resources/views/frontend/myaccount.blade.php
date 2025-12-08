@@ -6,432 +6,293 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
 
     <!-- Breadcrumb Navigation -->
-    <nav aria-label="Breadcrumb" class="mb-6 lg:mb-8">
-      <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <li>
-          <a href="{{ route('front.index') }}" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Home</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <span class="text-gray-900 dark:text-gray-100" aria-current="page">My Account</span>
-        </li>
-      </ol>
-    </nav>
+    @include('frontend.include.breadcrumb', ['items' => [
+      ['label' => 'Home', 'url' => route('front.index')],
+      ['label' => 'My Account']
+    ]])
 
-    <!-- Account Page Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+    <!-- Account Page Grid: Sidebar + Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
 
-      <!-- Left Sidebar: Navigation -->
-      <div class="lg:col-span-1">
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <!-- Left Sidebar: Navigation Menu -->
+      <aside class="lg:col-span-3">
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
 
-          <!-- Account Header -->
-          <div class="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
-            <h1 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">Account</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              Welcome <span class="text-orange-600 dark:text-orange-400 font-medium">{{ Auth::check() ? Auth::user()->name : 'Guest' }}</span>
-            </p>
+          <!-- User Profile Header -->
+          <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-orange-600 text-white flex items-center justify-center text-xl font-bold uppercase">
+                  {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 truncate">
+                  {{ Auth::user()->name ?? 'User' }}
+                </h2>
+              </div>
+            </div>
           </div>
 
           <!-- Navigation Menu -->
           <nav class="p-2" aria-label="Account navigation">
-
-            <!-- Overview -->
-            <a href="#overview"
-               onclick="switchTab('overview'); return false;"
-               id="tab-overview"
-               class="account-tab active flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-              </svg>
-              <span>Overview</span>
+            <a href="#dashboard"
+               onclick="switchTab('dashboard'); return false;"
+               id="nav-dashboard"
+               class="account-nav-item active flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span>Dashboard</span>
+              <span class="material-icons-outlined text-base">chevron_right</span>
             </a>
 
-            <!-- Orders Section -->
-            <div class="mt-4">
-              <p class="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Orders</p>
-              <a href="#orders"
-                 onclick="switchTab('orders'); return false;"
-                 id="tab-orders"
-                 class="account-tab flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                </svg>
-                <span>Orders & Returns</span>
-              </a>
-            </div>
+            <a href="#purchase-history"
+               onclick="switchTab('purchase-history'); return false;"
+               id="nav-purchase-history"
+               class="account-nav-item flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span>Purchase History</span>
+            </a>
 
-            <!-- Credits Section -->
-            <div class="mt-4">
-              <p class="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Credits</p>
-              <a href="#coupons"
-                 onclick="switchTab('coupons'); return false;"
-                 id="tab-coupons"
-                 class="account-tab flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                </svg>
-                <span>Coupons</span>
-              </a>
-              <a href="#rewards"
-                 onclick="switchTab('rewards'); return false;"
-                 id="tab-rewards"
-                 class="account-tab flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span>Celigin RewardCash</span>
-              </a>
-            </div>
+            <a href="#wishlists"
+               onclick="switchTab('wishlists'); return false;"
+               id="nav-wishlists"
+               class="account-nav-item flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span>Wishlists</span>
+            </a>
 
-            <!-- Account Section -->
-            <div class="mt-4">
-              <p class="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Account</p>
-              <a href="#profile"
-                 onclick="switchTab('profile'); return false;"
-                 id="tab-profile"
-                 class="account-tab flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
-                <span>Profile</span>
-              </a>
-              <a href="#addresses"
-                 onclick="switchTab('addresses'); return false;"
-                 id="tab-addresses"
-                 class="account-tab flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-                <span>Addresses</span>
-              </a>
-              <a href="#password"
-                 onclick="switchTab('password'); return false;"
-                 id="tab-password"
-                 class="account-tab flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                </svg>
-                <span>Password</span>
-              </a>
-            </div>
+            <a href="#manage-account"
+               onclick="switchTab('manage-account'); return false;"
+               id="nav-manage-account"
+               class="account-nav-item flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span>Manage Account</span>
+            </a>
 
-            <!-- List Section -->
-            <div class="mt-4 mb-4">
-              <p class="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">List</p>
-              <a href="#wishlist"
-                 onclick="switchTab('wishlist'); return false;"
-                 id="tab-wishlist"
-                 class="account-tab flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-                <span>My Wishlist</span>
-              </a>
-              <a href="#savelater"
-                 onclick="switchTab('savelater'); return false;"
-                 id="tab-savelater"
-                 class="account-tab flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-l-4 border-transparent">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-                </svg>
-                <span>Save Later</span>
-              </a>
-            </div>
+            <a href="#customer-service"
+               onclick="switchTab('customer-service'); return false;"
+               id="nav-customer-service"
+               class="account-nav-item flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span>Customer Service</span>
+            </a>
 
+            <a href="#affiliate"
+               onclick="switchTab('affiliate'); return false;"
+               id="nav-affiliate"
+               class="account-nav-item flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span>Affiliate</span>
+            </a>
+
+            <a href="#celigin-points"
+               onclick="switchTab('celigin-points'); return false;"
+               id="nav-celigin-points"
+               class="account-nav-item flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span>CELIGIN Points</span>
+            </a>
+
+            <a href="{{ route('user.logout') }}"
+               class="account-nav-item flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-200 dark:border-gray-700 mt-2">
+              <span>Sign Out</span>
+            </a>
           </nav>
         </div>
-      </div>
+      </aside>
 
       <!-- Right Content Area -->
-      <div class="lg:col-span-3">
+      <div class="lg:col-span-9">
 
-        <!-- Overview Tab -->
-        <div id="content-overview" class="tab-content">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 lg:mb-8">Account Overview</h2>
+        <!-- Dashboard Tab -->
+        <div id="content-dashboard" class="tab-content">
+          <div class="space-y-6">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-              <!-- Account Details Card -->
-              <div class="border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
-                <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Account Details</h3>
-                <div class="space-y-3 text-sm sm:text-base">
-                  <p class="text-gray-600 dark:text-gray-400">
-                    <span class="font-medium text-gray-900 dark:text-gray-100">Name:</span> {{ Auth::user()->name ?? 'N/A' }}
-                  </p>
-                  <p class="text-gray-600 dark:text-gray-400">
-                    <span class="font-medium text-gray-900 dark:text-gray-100">Email:</span> {{ Auth::user()->email ?? 'N/A' }}
-                  </p>
-                  <p class="text-gray-600 dark:text-gray-400">
-                    <span class="font-medium text-gray-900 dark:text-gray-100">Phone:</span> {{ Auth::user()->phone ?? 'N/A' }}
-                  </p>
-                </div>
-                <a href="#profile" onclick="switchTab('profile'); return false;" class="inline-block mt-4 sm:mt-6 text-sm sm:text-base text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors duration-200">
-                  Edit Profile →
-                </a>
+            <!-- Join CELIGIN CLUB Card -->
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 text-center">
+              <div class="flex justify-center mb-6">
+                <span class="material-icons-outlined text-6xl text-gray-400 dark:text-gray-500">card_giftcard</span>
               </div>
-
-              <!-- Address Card -->
-              <div class="border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
-                <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Default Address</h3>
-                @if(Auth::check() && Auth::user()->address)
-                <div class="text-sm sm:text-base text-gray-600 dark:text-gray-400 space-y-1">
-                  <p>{{ Auth::user()->address }}</p>
-                  <p>{{ Auth::user()->city }}, {{ Auth::user()->state }} {{ Auth::user()->zip }}</p>
-                </div>
-                @else
-                <p class="text-sm sm:text-base text-gray-500 dark:text-gray-400">No default address set</p>
-                @endif
-                <a href="#addresses" onclick="switchTab('addresses'); return false;" class="inline-block mt-4 sm:mt-6 text-sm sm:text-base text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors duration-200">
-                  Manage Addresses →
-                </a>
-              </div>
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Join CELIGIN CLUB</h2>
+              <p class="text-base text-gray-600 dark:text-gray-400 mb-2">
+                You currently don't have an Ulta Beauty Rewards® membership. Already signed up in store? Link your
+              </p>
+              <p class="text-base text-gray-600 dark:text-gray-400 mb-6">
+                Member ID so you don't miss out on rewards! Not a member? Join free below.
+              </p>
+              <a href="{{ route('front.celigin-join-club') }}"
+                 class="inline-block px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-base font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors">
+                Join Now
+              </a>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="mt-8 lg:mt-12">
-              <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 lg:mb-6">Quick Actions</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-                <a href="#orders" onclick="switchTab('orders'); return false;" class="flex flex-col items-center p-4 sm:p-6 border border-gray-200 dark:border-gray-700 hover:border-orange-500 dark:hover:border-orange-500 transition-colors group">
-                  <svg class="w-8 h-8 sm:w-10 sm:h-10 text-orange-600 dark:text-orange-400 mb-2 sm:mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                  </svg>
-                  <span class="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 text-center">My Orders</span>
-                </a>
-                <a href="#wishlist" onclick="switchTab('wishlist'); return false;" class="flex flex-col items-center p-4 sm:p-6 border border-gray-200 dark:border-gray-700 hover:border-orange-500 dark:hover:border-orange-500 transition-colors group">
-                  <svg class="w-8 h-8 sm:w-10 sm:h-10 text-orange-600 dark:text-orange-400 mb-2 sm:mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                  </svg>
-                  <span class="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 text-center">Wishlist</span>
-                </a>
-                <a href="#coupons" onclick="switchTab('coupons'); return false;" class="flex flex-col items-center p-4 sm:p-6 border border-gray-200 dark:border-gray-700 hover:border-orange-500 dark:hover:border-orange-500 transition-colors group">
-                  <svg class="w-8 h-8 sm:w-10 sm:h-10 text-orange-600 dark:text-orange-400 mb-2 sm:mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                  </svg>
-                  <span class="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 text-center">Coupons</span>
-                </a>
-                <a href="{{ route('front.cart') }}" class="flex flex-col items-center p-4 sm:p-6 border border-gray-200 dark:border-gray-700 hover:border-orange-500 dark:hover:border-orange-500 transition-colors group">
-                  <svg class="w-8 h-8 sm:w-10 sm:h-10 text-orange-600 dark:text-orange-400 mb-2 sm:mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                  </svg>
-                  <span class="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 text-center">Shopping Cart</span>
-                </a>
+            <!-- No Purchases Card -->
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 text-center">
+              <div class="flex justify-center mb-6">
+                <svg viewBox="0 0 64 64" class="w-20 h-20" fill="none">
+                  <path d="M16 24L32 8L48 24" fill="#F97316" opacity="0.2"/>
+                  <path d="M16 24H48L44 56H20L16 24Z" fill="#F97316"/>
+                  <circle cx="28" cy="52" r="2" fill="white"/>
+                  <circle cx="40" cy="52" r="2" fill="white"/>
+                  <path d="M32 8V24" stroke="#F97316" stroke-width="2"/>
+                </svg>
               </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">No Purchases</h3>
+              <p class="text-base text-gray-600 dark:text-gray-400">
+                See order details after your first purchase.
+              </p>
             </div>
+
+            <!-- Wishlist Card -->
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 text-center">
+              <div class="flex justify-center mb-6">
+                <svg viewBox="0 0 64 64" class="w-20 h-20" fill="none">
+                  <path d="M32 52C32 52 8 38 8 22C8 14 14 8 22 8C26 8 30 10 32 14C34 10 38 8 42 8C50 8 56 14 56 22C56 38 32 52 32 52Z" fill="#F97316"/>
+                  <path d="M32 52C32 52 8 38 8 22C8 14 14 8 22 8C26 8 30 10 32 14" fill="#EA580C"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Wishlist</h3>
+              <p class="text-base text-gray-600 dark:text-gray-400">
+                Save a product to start tracking your favorites.
+              </p>
+            </div>
+
           </div>
         </div>
 
-        <!-- Orders Tab -->
-        <div id="content-orders" class="tab-content hidden">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8 min-h-[600px]">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 lg:mb-8">Orders & Returns</h2>
+        <!-- Purchase History Tab -->
+        <div id="content-purchase-history" class="tab-content hidden">
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Purchase History</h2>
 
             <!-- Empty State -->
-            <div class="flex flex-col items-center justify-center py-12 lg:py-16">
-              <div class="w-48 h-48 sm:w-64 sm:h-64 mb-6 lg:mb-8">
-                <svg viewBox="0 0 200 200" class="w-full h-full" aria-hidden="true">
-                  <!-- Wardrobe illustration -->
-                  <rect x="50" y="40" width="100" height="120" fill="#A0D8D8" stroke="#6B7280" stroke-width="2"/>
-                  <rect x="50" y="40" width="50" height="120" fill="#FCA5A5" stroke="#6B7280" stroke-width="2"/>
-                  <rect x="100" y="40" width="50" height="120" fill="#FCA5A5" stroke="#6B7280" stroke-width="2"/>
-                  <!-- Top -->
-                  <path d="M 40 40 L 50 30 L 150 30 L 160 40 Z" fill="#C084FC"/>
-                  <!-- Handles -->
-                  <circle cx="75" cy="100" r="3" fill="#374151"/>
-                  <circle cx="125" cy="100" r="3" fill="#374151"/>
-                  <!-- Cat -->
-                  <ellipse cx="125" cy="90" rx="15" ry="10" fill="#FCD34D"/>
-                  <circle cx="120" cy="88" r="2" fill="#374151"/>
-                  <circle cx="130" cy="88" r="2" fill="#374151"/>
-                  <!-- Hangers -->
-                  <line x1="60" y1="50" x2="60" y2="70" stroke="#EC4899" stroke-width="2"/>
-                  <line x1="70" y1="50" x2="70" y2="75" stroke="#EC4899" stroke-width="2"/>
-                  <line x1="80" y1="50" x2="80" y2="70" stroke="#EC4899" stroke-width="2"/>
-                  <!-- Shadow -->
-                  <ellipse cx="105" cy="165" rx="60" ry="5" fill="#E5E7EB"/>
-                </svg>
-              </div>
-              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 text-center px-4">You haven't placed any order yet!</h3>
-              <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-6 lg:mb-8 text-center px-4">Order section is empty. After placing order, You can track them from here!</p>
-              <a href="{{ route('front.index') }}" class="px-6 py-3 bg-orange-600 text-white text-sm sm:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
-                Start Shopping
+            @include('frontend.include.empty-state', [
+              'icon' => 'cart',
+              'title' => 'No orders yet',
+              'message' => 'You haven\'t placed any orders. Start shopping to see your purchase history here.',
+              'buttonText' => 'Start Shopping',
+              'buttonUrl' => route('front.index')
+            ])
+          </div>
+        </div>
+
+        <!-- Wishlists Tab -->
+        <div id="content-wishlists" class="tab-content hidden">
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">My Wishlists</h2>
+
+            <!-- Empty State -->
+            <div class="text-center py-12">
+              <span class="material-icons-outlined text-6xl text-gray-300 dark:text-gray-600 mb-4">favorite_border</span>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Your wishlist is empty</h3>
+              <p class="text-base text-gray-600 dark:text-gray-400 mb-6">
+                Save products you love to your wishlist.
+              </p>
+              <a href="{{ route('front.index') }}"
+                 class="inline-block px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 transition-colors">
+                Browse Products
               </a>
             </div>
           </div>
         </div>
 
-        <!-- Coupons Tab -->
-        <div id="content-coupons" class="tab-content hidden">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">My Coupons</h2>
-            <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">No coupons available at the moment.</p>
-          </div>
-        </div>
-
-        <!-- Rewards Tab -->
-        <div id="content-rewards" class="tab-content hidden">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 lg:mb-8">Celigin RewardCash</h2>
-            <div class="border border-gray-200 dark:border-gray-700 p-6 sm:p-8 lg:p-12 text-center">
-              <p class="text-4xl sm:text-5xl lg:text-6xl font-bold text-orange-600 dark:text-orange-400 mb-3">₹0</p>
-              <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">Available RewardCash</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Profile Tab -->
-        <div id="content-profile" class="tab-content hidden">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 lg:mb-8">My Profile</h2>
+        <!-- Manage Account Tab -->
+        <div id="content-manage-account" class="tab-content hidden">
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Manage Account</h2>
 
             <form class="space-y-6 max-w-2xl">
               @csrf
+
               <div>
-                <label for="profile_name" class="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="name" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   Full Name <span class="text-red-600">*</span>
                 </label>
-                <input
-                  type="text"
-                  id="profile_name"
-                  name="name"
-                  value="{{ Auth::user()->name ?? '' }}"
-                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-                  required />
+                <input type="text" id="name" name="name" value="{{ Auth::user()->name ?? '' }}" required
+                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-base" />
               </div>
 
               <div>
-                <label for="profile_email" class="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   Email Address <span class="text-red-600">*</span>
                 </label>
-                <input
-                  type="email"
-                  id="profile_email"
-                  name="email"
-                  value="{{ Auth::user()->email ?? '' }}"
-                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-                  required />
+                <input type="email" id="email" name="email" value="{{ Auth::user()->email ?? '' }}" required
+                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-base" />
               </div>
 
               <div>
-                <label for="profile_phone" class="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="phone" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   Phone Number <span class="text-red-600">*</span>
                 </label>
-                <input
-                  type="tel"
-                  id="profile_phone"
-                  name="phone"
-                  value="{{ Auth::user()->phone ?? '' }}"
-                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-                  required />
+                <input type="tel" id="phone" name="phone" value="{{ Auth::user()->phone ?? '' }}" required
+                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-base" />
               </div>
 
-              <button type="submit" class="px-6 py-2.5 sm:py-3 bg-orange-600 text-white text-sm sm:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
-                Save Changes
-              </button>
+              <div>
+                <button type="submit"
+                  class="px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                  Save Changes
+                </button>
+              </div>
             </form>
           </div>
         </div>
 
-        <!-- Addresses Tab -->
-        <div id="content-addresses" class="tab-content hidden">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 lg:mb-8 gap-4">
-              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">My Addresses</h2>
-              <button class="px-4 sm:px-6 py-2.5 sm:py-3 bg-orange-600 text-white text-sm sm:text-base font-semibold hover:bg-orange-700 transition-colors w-full sm:w-auto">
-                + Add New Address
-              </button>
-            </div>
+        <!-- Customer Service Tab -->
+        <div id="content-customer-service" class="tab-content hidden">
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Customer Service</h2>
+            <p class="text-base text-gray-600 dark:text-gray-400 mb-6">
+              Need help? Contact our customer service team.
+            </p>
 
-            @if(Auth::check() && Auth::user()->address)
-            <div class="border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
-              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div class="flex-1">
-                  <p class="font-semibold text-base sm:text-lg text-gray-900 dark:text-gray-100">{{ Auth::user()->name }}</p>
-                  <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-2">{{ Auth::user()->address }}</p>
-                  <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">{{ Auth::user()->city }}, {{ Auth::user()->state }} {{ Auth::user()->zip }}</p>
-                  <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-2">Phone: {{ Auth::user()->phone }}</p>
-                </div>
-                <button class="text-sm sm:text-base text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors self-start">Edit</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="border border-gray-200 dark:border-gray-700 p-6">
+                <span class="material-icons-outlined text-4xl text-orange-600 dark:text-orange-400 mb-4">email</span>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Email Support</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Send us an email and we'll respond within 24 hours.
+                </p>
+                <a href="mailto:{{ $ps->email }}" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium">
+                  {{ $ps->email }}
+                </a>
+              </div>
+
+              <div class="border border-gray-200 dark:border-gray-700 p-6">
+                <span class="material-icons-outlined text-4xl text-orange-600 dark:text-orange-400 mb-4">phone</span>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Phone Support</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Call us for immediate assistance.
+                </p>
+                <a href="tel:{{ $ps->phone }}" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium">
+                  {{ $ps->phone }}
+                </a>
               </div>
             </div>
-            @else
-            <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">No saved addresses yet.</p>
-            @endif
           </div>
         </div>
 
-        <!-- Password Tab -->
-        <div id="content-password" class="tab-content hidden">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 lg:mb-8">Change Password</h2>
-
-            <form class="space-y-6 max-w-2xl">
-              @csrf
-              <div>
-                <label for="current_password" class="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Current Password <span class="text-red-600">*</span>
-                </label>
-                <input
-                  type="password"
-                  id="current_password"
-                  name="current_password"
-                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-                  required />
-              </div>
-
-              <div>
-                <label for="new_password" class="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  New Password <span class="text-red-600">*</span>
-                </label>
-                <input
-                  type="password"
-                  id="new_password"
-                  name="new_password"
-                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-                  required />
-              </div>
-
-              <div>
-                <label for="confirm_password" class="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Confirm New Password <span class="text-red-600">*</span>
-                </label>
-                <input
-                  type="password"
-                  id="confirm_password"
-                  name="confirm_password"
-                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-                  required />
-              </div>
-
-              <button type="submit" class="px-6 py-2.5 sm:py-3 bg-orange-600 text-white text-sm sm:text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
-                Update Password
-              </button>
-            </form>
+        <!-- Affiliate Tab -->
+        <div id="content-affiliate" class="tab-content hidden">
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Affiliate Program</h2>
+            <p class="text-base text-gray-600 dark:text-gray-400">
+              Join our affiliate program and earn rewards by referring friends and family.
+            </p>
           </div>
         </div>
 
-        <!-- Wishlist Tab -->
-        <div id="content-wishlist" class="tab-content hidden">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">My Wishlist</h2>
-            <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">Your wishlist is empty.</p>
-          </div>
-        </div>
+        <!-- CELIGIN Points Tab -->
+        <div id="content-celigin-points" class="tab-content hidden">
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">CELIGIN Points</h2>
 
-        <!-- Save Later Tab -->
-        <div id="content-savelater" class="tab-content hidden">
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 sm:p-6 lg:p-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Saved for Later</h2>
-            <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">No items saved for later.</p>
+            <div class="border border-gray-200 dark:border-gray-700 p-8 text-center">
+              <div class="mb-4">
+                <span class="material-icons-outlined text-6xl text-orange-600 dark:text-orange-400">stars</span>
+              </div>
+              <p class="text-5xl font-bold text-orange-600 dark:text-orange-400 mb-3">0</p>
+              <p class="text-base text-gray-600 dark:text-gray-400">Available Points</p>
+            </div>
           </div>
         </div>
 
       </div>
-
     </div>
+
   </div>
 </main>
 @endsection
@@ -439,22 +300,20 @@
 @section('scripts')
 <script>
   function switchTab(tabName) {
-    // Remove active styling from all tabs
-    document.querySelectorAll('.account-tab').forEach(tab => {
-      tab.classList.remove('bg-orange-50', 'dark:bg-orange-900/20', 'text-orange-600', 'dark:text-orange-400', 'border-orange-600');
-      tab.classList.add('text-gray-700', 'dark:text-gray-300', 'border-transparent');
+    // Remove active class from all nav items
+    document.querySelectorAll('.account-nav-item').forEach(item => {
+      item.classList.remove('active', 'bg-gray-50', 'dark:bg-gray-700');
     });
 
-    // Hide all content
+    // Hide all content tabs
     document.querySelectorAll('.tab-content').forEach(content => {
       content.classList.add('hidden');
     });
 
-    // Add active styling to clicked tab
-    const activeTab = document.getElementById(`tab-${tabName}`);
-    if (activeTab) {
-      activeTab.classList.remove('text-gray-700', 'dark:text-gray-300', 'border-transparent');
-      activeTab.classList.add('bg-orange-50', 'dark:bg-orange-900/20', 'text-orange-600', 'dark:text-orange-400', 'border-orange-600');
+    // Add active class to clicked nav item
+    const activeNav = document.getElementById(`nav-${tabName}`);
+    if (activeNav) {
+      activeNav.classList.add('active', 'bg-gray-50', 'dark:bg-gray-700');
     }
 
     // Show selected content
@@ -463,17 +322,14 @@
       activeContent.classList.remove('hidden');
     }
 
-    // Scroll to top of content area smoothly
+    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Set default tab styling on page load
+  // Initialize on page load
   document.addEventListener('DOMContentLoaded', function() {
-    const overviewTab = document.getElementById('tab-overview');
-    if (overviewTab) {
-      overviewTab.classList.remove('border-transparent');
-      overviewTab.classList.add('bg-orange-50', 'dark:bg-orange-900/20', 'text-orange-600', 'dark:text-orange-400', 'border-orange-600');
-    }
+    // Set dashboard as default active
+    switchTab('dashboard');
   });
 </script>
 @endsection

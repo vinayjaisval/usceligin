@@ -6,19 +6,10 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
 
     <!-- Breadcrumb Navigation -->
-    <nav aria-label="Breadcrumb" class="mb-6 lg:mb-8">
-      <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <li>
-          <a href="{{ route('front.index') }}" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Home</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <span class="text-gray-900 dark:text-gray-100" aria-current="page">Sample Page</span>
-        </li>
-      </ol>
-    </nav>
+    @include('frontend.include.breadcrumb', ['items' => [
+      ['label' => 'Home', 'url' => route('front.index')],
+      ['label' => 'Sample Page']
+    ]])
 
     <!-- Page Header -->
     <div class="mb-8 lg:mb-12">
@@ -432,63 +423,7 @@
       </div>
     </section>
 
-    <!-- Icons Section -->
-    <section class="mb-12 lg:mb-16">
-      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Common Icons</h2>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          <!-- User Icon -->
-          <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-            <p class="text-xs text-gray-600 dark:text-gray-400">User</p>
-          </div>
-
-          <!-- Cart Icon -->
-          <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-            <p class="text-xs text-gray-600 dark:text-gray-400">Cart</p>
-          </div>
-
-          <!-- Heart Icon -->
-          <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-            </svg>
-            <p class="text-xs text-gray-600 dark:text-gray-400">Wishlist</p>
-          </div>
-
-          <!-- Search Icon -->
-          <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8"></circle>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35"></path>
-            </svg>
-            <p class="text-xs text-gray-600 dark:text-gray-400">Search</p>
-          </div>
-
-          <!-- Home Icon -->
-          <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
-            <p class="text-xs text-gray-600 dark:text-gray-400">Home</p>
-          </div>
-
-          <!-- Tag Icon -->
-          <div class="flex flex-col items-center">
-            <svg class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-            </svg>
-            <p class="text-xs text-gray-600 dark:text-gray-400">Tag</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Note: This section has been moved to Material Icons section below -->
 
     <!-- Spacing Reference -->
     <section class="mb-12 lg:mb-16">
@@ -514,6 +449,341 @@
           <div>
             <p class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Section Margins</p>
             <p class="text-sm text-gray-600 dark:text-gray-400">mb-8 lg:mb-12 (32px → 48px)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reusable Components Section -->
+    <section class="mb-12 lg:mb-16">
+      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Reusable Components</h2>
+        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-8">
+          These are pre-built, reusable components located in <code class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-orange-600 dark:text-orange-400 text-xs">resources/views/frontend/include/</code>
+        </p>
+
+        <div class="space-y-12">
+          <!-- Breadcrumb Component -->
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">1. Breadcrumb Navigation</h3>
+
+            <!-- Live Example -->
+            <div class="mb-4 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600">
+              @include('frontend.include.breadcrumb', ['items' => [
+                ['label' => 'Home', 'url' => route('front.index')],
+                ['label' => 'Shop', 'url' => '#'],
+                ['label' => 'Current Page']
+              ]])
+            </div>
+
+            <!-- Code Example -->
+            <div class="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-xs sm:text-sm">
+              <pre><code>@include('frontend.include.breadcrumb', [
+  'items' => [
+    ['label' => 'Home', 'url' => route('front.index')],
+    ['label' => 'Shop', 'url' => '#'],
+    ['label' => 'Current Page'] // Last item has no URL
+  ]
+])</code></pre>
+            </div>
+          </div>
+
+          <!-- Loading Spinner Component -->
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">2. Loading Spinner</h3>
+
+            <!-- Demo Button -->
+            <div class="mb-4">
+              <button
+                onclick="showLoadingSpinner()"
+                class="px-6 py-3 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                Show Loading Spinner (3 seconds)
+              </button>
+            </div>
+
+            <!-- Code Example -->
+            <div class="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-xs sm:text-sm mb-4">
+              <pre><code>@include('frontend.include.loading-spinner', [
+  'id' => 'my-spinner',
+  'message' => 'Loading products...'
+])</code></pre>
+            </div>
+
+            <div class="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-xs sm:text-sm">
+              <pre><code>// Show spinner
+document.getElementById('my-spinner').classList.remove('hidden');
+
+// Hide spinner
+document.getElementById('my-spinner').classList.add('hidden');</code></pre>
+            </div>
+          </div>
+
+          <!-- Accordion Component -->
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">3. Accordion</h3>
+
+            <!-- Live Example - Default Type -->
+            <div class="mb-6">
+              <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Default Accordion (Multiple Open):</p>
+              <div class="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600">
+                @include('frontend.include.accordion', [
+                  'id' => 'sample-accordion',
+                  'type' => 'default',
+                  'items' => [
+                    [
+                      'id' => 'acc1',
+                      'title' => 'What is your return policy?',
+                      'content' => '<p class="text-gray-600 dark:text-gray-400">We offer a 30-day return policy on all items. Products must be unused and in original packaging.</p>',
+                      'open' => true
+                    ],
+                    [
+                      'id' => 'acc2',
+                      'title' => 'How long does shipping take?',
+                      'content' => '<p class="text-gray-600 dark:text-gray-400">Standard shipping takes 5-7 business days. Express shipping is available for 2-3 day delivery.</p>'
+                    ],
+                    [
+                      'id' => 'acc3',
+                      'title' => 'Do you ship internationally?',
+                      'content' => '<p class="text-gray-600 dark:text-gray-400">Yes, we ship to over 50 countries worldwide. International shipping rates vary by destination.</p>'
+                    ]
+                  ]
+                ])
+              </div>
+            </div>
+
+            <!-- Live Example - Radio Type -->
+            <div class="mb-6">
+              <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Radio Accordion (Single Selection):</p>
+              <div class="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600">
+                @include('frontend.include.accordion', [
+                  'id' => 'payment-accordion',
+                  'type' => 'radio',
+                  'items' => [
+                    [
+                      'id' => 'payment1',
+                      'title' => 'Credit/Debit Card',
+                      'content' => '<p class="text-gray-600 dark:text-gray-400">Pay securely with Visa, MasterCard, or American Express.</p>',
+                      'radio_name' => 'payment_method',
+                      'radio_value' => 'card',
+                      'open' => true
+                    ],
+                    [
+                      'id' => 'payment2',
+                      'title' => 'PayPal',
+                      'content' => '<p class="text-gray-600 dark:text-gray-400">Fast and secure payment via PayPal account.</p>',
+                      'radio_name' => 'payment_method',
+                      'radio_value' => 'paypal'
+                    ],
+                    [
+                      'id' => 'payment3',
+                      'title' => 'Cash on Delivery',
+                      'content' => '<p class="text-gray-600 dark:text-gray-400">Pay when you receive your order.</p>',
+                      'radio_name' => 'payment_method',
+                      'radio_value' => 'cod'
+                    ]
+                  ]
+                ])
+              </div>
+            </div>
+
+            <!-- Code Example -->
+            <div class="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-xs sm:text-sm">
+              <pre><code>@include('frontend.include.accordion', [
+  'id' => 'payment-accordion',
+  'type' => 'radio', // 'default' or 'radio'
+  'items' => [
+    [
+      'id' => 'item1',
+      'title' => 'Accordion Title',
+      'content' => '&lt;p&gt;HTML content here&lt;/p&gt;',
+      'open' => true, // Optional: open by default
+      'radio_name' => 'payment_method', // For radio type
+      'radio_value' => 'card' // For radio type
+    ]
+  ]
+])</code></pre>
+            </div>
+          </div>
+
+          <!-- Empty State Component -->
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">4. Empty State</h3>
+
+            <!-- Live Examples -->
+            <div class="space-y-6 mb-6">
+              <!-- Empty Cart -->
+              <div class="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600">
+                @include('frontend.include.empty-state', [
+                  'title' => 'Your cart is empty',
+                  'message' => 'Looks like you haven\'t added anything to your cart yet',
+                  'icon' => 'cart',
+                  'buttonText' => 'Start Shopping',
+                  'buttonUrl' => route('front.index')
+                ])
+              </div>
+
+              <!-- No Search Results -->
+              <div class="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600">
+                @include('frontend.include.empty-state', [
+                  'title' => 'No results found',
+                  'message' => 'We couldn\'t find any products matching your search',
+                  'icon' => 'search',
+                  'buttonText' => 'Clear Search',
+                  'buttonUrl' => '#'
+                ])
+              </div>
+
+              <!-- Default/No Items -->
+              <div class="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600">
+                @include('frontend.include.empty-state', [
+                  'title' => 'No items in your wardrobe',
+                  'message' => 'Start adding items to build your collection',
+                  'icon' => 'box',
+                  'buttonText' => 'Browse Collection',
+                  'buttonUrl' => route('front.index')
+                ])
+              </div>
+            </div>
+
+            <!-- Code Example -->
+            <div class="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-xs sm:text-sm">
+              <pre><code>@include('frontend.include.empty-state', [
+  'title' => 'Your cart is empty',
+  'message' => 'Looks like you haven\'t added anything yet',
+  'icon' => 'cart', // 'box', 'cart', 'search', or 'custom'
+  'customSvg' => null, // Optional: provide custom SVG
+  'buttonText' => 'Start Shopping',
+  'buttonUrl' => route('front.index')
+])</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Material Icons Section -->
+    <section class="mb-12 lg:mb-16">
+      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Material Icons</h2>
+        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-8">
+          Google Material Icons are integrated and ready to use. Browse all icons at
+          <a href="https://fonts.google.com/icons" target="_blank" class="text-orange-600 dark:text-orange-400 hover:underline">fonts.google.com/icons</a>
+        </p>
+
+        <div class="space-y-8">
+          <!-- Icon Variants -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Icon Variants</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+              <!-- Outlined -->
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'outlined', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Outlined</p>
+              </div>
+
+              <!-- Filled -->
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'filled', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Filled</p>
+              </div>
+
+              <!-- Round -->
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'round', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Round</p>
+              </div>
+
+              <!-- Sharp -->
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'sharp', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Sharp</p>
+              </div>
+
+              <!-- Two Tone -->
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'two-tone', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Two-Tone</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Common Icons -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Common Icons</h3>
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6">
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'shopping_cart', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">shopping_cart</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'favorite_border', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">favorite_border</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'search', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">search</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'account_circle', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">account_circle</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'home', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">home</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'menu', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">menu</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'star', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">star</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'local_offer', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">local_offer</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'visibility', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">visibility</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'arrow_forward', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">arrow_forward</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'close', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">close</p>
+              </div>
+
+              <div class="text-center">
+                @include('frontend.include.icon', ['name' => 'check_circle', 'size' => 'xl', 'class' => 'text-gray-600 dark:text-gray-400'])
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">check_circle</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Usage Code -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Usage Example</h3>
+            <div class="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-xs sm:text-sm">
+              <pre><code>@include('frontend.include.icon', [
+  'name' => 'shopping_cart',
+  'variant' => 'outlined', // or 'filled', 'round', 'sharp', 'two-tone'
+  'size' => 'lg',          // 'xs', 'sm', 'base', 'lg', 'xl', '2xl'
+  'class' => 'text-orange-600 dark:text-orange-400'
+])</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -570,6 +840,12 @@
 </main>
 @endsection
 
+<!-- Loading Spinner for Demo -->
+@include('frontend.include.loading-spinner', [
+  'id' => 'demo-spinner',
+  'message' => 'Loading...'
+])
+
 @section('scripts')
 <script>
   // Sample JavaScript for demonstration
@@ -578,5 +854,16 @@
   // Theme-aware logging
   const isDarkMode = document.documentElement.classList.contains('dark');
   console.log('Current theme:', isDarkMode ? 'Dark' : 'Light');
+
+  // Loading Spinner Demo Function
+  function showLoadingSpinner() {
+    const spinner = document.getElementById('demo-spinner');
+    spinner.classList.remove('hidden');
+
+    // Hide after 3 seconds
+    setTimeout(() => {
+      spinner.classList.add('hidden');
+    }, 3000);
+  }
 </script>
 @endsection

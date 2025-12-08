@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Front;
 
 use App\{
     Models\Cart,
-    Models\Product,
-    Models\Tag
-
+    Models\Product
+    // Models\Tag // Removed - tags table doesn't exist
 };
 use App\Models\Country;
 use App\Models\Currency;
@@ -21,12 +20,13 @@ class WishlistController extends FrontBaseController
 
     public function wishlist(Request $request)
     {
-       
+
         $oldCart ='';
-         $tags='';
+        $tags = []; // Empty tags array - tags functionality disabled
+
         if (!Session::has('wishlist')) {
-           
-            return view('frontend.my-wishlist');
+
+            return view('frontend.my-wishlist', compact('tags'));
         }
         if (Session::has('already')) {
             Session::forget('already');
@@ -43,8 +43,8 @@ class WishlistController extends FrontBaseController
         if (Session::has('coupon_percentage')) {
             Session::forget('coupon_percentage');
         }
-        $tags = Tag::all();
-      
+        // $tags = Tag::all(); // Removed - tags table doesn't exist
+
         $oldCart = Session::get('wishlist');
        
       

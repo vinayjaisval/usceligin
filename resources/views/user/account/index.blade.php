@@ -1,261 +1,486 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('frontend.include.app')
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Your CELIGIN account dashboard. Manage your profile, orders, and preferences." />
-  <meta name="keywords" content="CELIGIN account, user dashboard, profile management, my account" />
-  <meta name="theme-color" content="#bc4f38" />
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>My Account | CELIGIN - Premium Beauty & Skincare</title>
+@section('content')
+<main id="main-content" role="main" class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
 
-  <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {{-- Breadcrumb --}}
+    @include('frontend.include.breadcrumb', ['items' => [
+      ['label' => 'Home', 'url' => route('front.index')],
+      ['label' => 'My Account']
+    ]])
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-
-  <!-- Compiled CSS with Tailwind and Custom Styles -->
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-  <!-- Theme System Integration -->
-  <script>
-    (function() {
-      const THEME_KEY = 'usceligin-theme';
-      const LEGACY_KEY = 'theme';
-      const VALID_THEMES = ['light', 'dark'];
-
-      const getInitialTheme = () => {
-        const saved = localStorage.getItem(THEME_KEY);
-        if (saved && VALID_THEMES.includes(saved)) return saved;
-
-        const legacy = localStorage.getItem(LEGACY_KEY);
-        if (legacy && VALID_THEMES.includes(legacy)) return legacy;
-
-        return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      };
-
-      const theme = getInitialTheme();
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    })();
-  </script>
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="{{asset('assets/frontend/images/favicon.ico')}}" />
-</head>
-
-<body>
-  <main class="min-h-screen bg-bg-tertiary">
-    <!-- Header -->
-    <header class="bg-bg-primary border-b border-border-light shadow-sm">
-      <div class="w-full max-w-container-2xl mx-auto px-md lg:px-lg xl:px-xl py-md">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-lg">
-            <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}"
-              alt="{{ config('app.name', 'CELIGIN') }} - Premium Beauty & Skincare"
-              class="h-8 max-w-[6rem] object-contain" width="96" height="32" />
-            <h1 class="text-xl font-semibold text-text-primary">My Account</h1>
+    {{-- Success Message --}}
+    @if(session('success'))
+      <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200">
+        <div class="flex items-start">
+          <span class="material-icons-outlined text-green-600 dark:text-green-400 mr-3 mt-0.5">check_circle</span>
+          <div class="flex-1">
+            <p class="font-semibold">{{ session('success') }}</p>
           </div>
-
-          <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="btn btn--secondary btn--sm">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="mr-xs">
-                <path d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-                <path d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-              </svg>
-              Logout
-            </button>
-          </form>
         </div>
       </div>
-    </header>
+    @endif
 
-    <!-- Main Content -->
-    <div class="w-full max-w-container-2xl mx-auto px-md lg:px-lg xl:px-xl py-xl">
-      <div class="max-w-2xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
 
-        <!-- Success Message -->
-        @if(session('success'))
-        <div class="alert alert-success mb-lg">
-          <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-          </svg>
-          <div class="alert-content">
-            <div class="alert-message">{{ session('success') }}</div>
+      {{-- Left Sidebar: Navigation (3 columns) --}}
+      <aside class="lg:col-span-3">
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+
+          {{-- User Avatar --}}
+          <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex flex-col items-center">
+            <div class="w-20 h-20 rounded-full bg-orange-600 dark:bg-orange-500 text-white flex items-center justify-center text-3xl font-bold mb-3">
+              {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
+            </div>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 text-center">{{ Auth::user()->name ?? 'User' }}</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400 text-center">{{ Auth::user()->email }}</p>
+          </div>
+
+          {{-- Navigation Menu --}}
+          <nav class="p-2">
+            <a href="#dashboard"
+               onclick="switchTab(event, 'dashboard')"
+               data-tab="dashboard"
+               class="tab-link active flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">dashboard</span>
+                <span>Dashboard</span>
+              </div>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+            </a>
+
+            <a href="#purchases"
+               onclick="switchTab(event, 'purchases')"
+               data-tab="purchases"
+               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">shopping_bag</span>
+                <span>Purchase History</span>
+              </div>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+            </a>
+
+            <a href="#wishlists"
+               onclick="switchTab(event, 'wishlists')"
+               data-tab="wishlists"
+               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">favorite_border</span>
+                <span>Wishlists</span>
+              </div>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+            </a>
+
+            <a href="#account"
+               onclick="switchTab(event, 'account')"
+               data-tab="account"
+               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">person</span>
+                <span>Manage Account</span>
+              </div>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+            </a>
+
+            <a href="#support"
+               onclick="switchTab(event, 'support')"
+               data-tab="support"
+               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">support_agent</span>
+                <span>Customer Service</span>
+              </div>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+            </a>
+
+            <a href="#affiliate"
+               onclick="switchTab(event, 'affiliate')"
+               data-tab="affiliate"
+               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">groups</span>
+                <span>Affiliate</span>
+              </div>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+            </a>
+
+            <a href="#points"
+               onclick="switchTab(event, 'points')"
+               data-tab="points"
+               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">stars</span>
+                <span>CELIGIN Points</span>
+              </div>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+            </a>
+
+            <form method="POST" action="{{ route('logout') }}" class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
+              @csrf
+              <button type="submit" class="w-full flex items-center justify-between px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                <div class="flex items-center">
+                  <span class="material-icons-outlined mr-3">logout</span>
+                  <span>Sign Out</span>
+                </div>
+              </button>
+            </form>
+          </nav>
+        </div>
+      </aside>
+
+      {{-- Right Content Area (9 columns) --}}
+      <div class="lg:col-span-9">
+
+        {{-- Dashboard Tab --}}
+        <div id="content-dashboard" class="tab-content">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Dashboard</h1>
+
+          {{-- Quick Stats at Top --}}
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
+              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">0</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Total Orders</div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
+              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">0</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Wishlist Items</div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
+              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">0</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Points Earned</div>
+            </div>
+          </div>
+
+          {{-- Join CELIGIN CLUB Section --}}
+          <div class="mb-6">
+            <a href="{{ route('front.celigin-join-club') }}" class="block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 hover:border-orange-500 dark:hover:border-orange-400 transition-colors group">
+              <div class="flex items-center">
+                <div class="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center group-hover:bg-orange-200 dark:group-hover:bg-orange-900/50 transition-colors">
+                  <span class="material-icons-outlined text-3xl text-orange-600 dark:text-orange-400">card_membership</span>
+                </div>
+                <div class="ml-6">
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Join CELIGIN CLUB</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Exclusive benefits and rewards for our members</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          {{-- Purchase History Section --}}
+          <div class="mb-6">
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center">
+                  <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-2xl">receipt_long</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Purchase History</h3>
+              </div>
+
+              {{-- Empty State - will be replaced with purchase records --}}
+              <div class="text-center py-8">
+                <p class="text-gray-600 dark:text-gray-400 mb-4">You haven't made any purchases yet</p>
+                <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                  Start Shopping
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {{-- Wishlist Section --}}
+          <div class="mb-6">
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center">
+                  <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-2xl">favorite_border</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Wishlist</h3>
+              </div>
+
+              {{-- Empty State - will be replaced with wishlist products --}}
+              <div class="text-center py-8">
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Your wishlist is empty</p>
+                <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                  Browse Products
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-        @endif
 
-        <!-- Profile Information -->
-        <section class="bg-bg-primary border border-border-light rounded-lg shadow-heavy p-xl mb-lg">
-          <header class="mb-lg">
-            <h2 class="text-2xl font-semibold text-text-primary mb-xs">Profile Information</h2>
-            <p class="text-text-secondary">Update your account details and verified contact information.</p>
-          </header>
+        {{-- Purchase History Tab --}}
+        <div id="content-purchases" class="tab-content hidden">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Purchase History</h1>
 
-          <form method="POST" action="{{ route('user.account.update') }}" novalidate>
-            @csrf
+          @include('frontend.include.empty-state', [
+            'icon' => 'shopping_bag',
+            'title' => 'No Purchases Yet',
+            'description' => 'You haven\'t made any purchases. Start shopping to see your order history here.',
+            'actionText' => 'Start Shopping',
+            'actionUrl' => route('front.index')
+          ])
+        </div>
 
-            <!-- Name Field -->
-            <div class="mb-lg">
-              <label for="name" class="block text-sm font-medium text-text-primary mb-xs">
-                Full Name<abbr class="text-danger ml-1" title="required">*</abbr>
-              </label>
-              <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
-                class="w-full px-md py-sm border border-border-medium rounded-none text-base text-text-primary bg-bg-primary transition-all duration-fast focus:outline-none focus:border-accent-primary focus:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)] placeholder:text-text-tertiary"
-                placeholder="Enter your full name" required />
-              @error('name')
-              <p class="text-sm text-danger mt-xs">{{ $message }}</p>
-              @enderror
-            </div>
+        {{-- Wishlists Tab --}}
+        <div id="content-wishlists" class="tab-content hidden">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Wishlists</h1>
 
-            <!-- Email Field -->
-            <div class="mb-lg">
-              <label for="email" class="block text-sm font-medium text-text-primary mb-xs">
-                Email Address
-                @if($user->email_verified_at)
-                <span class="text-success text-xs ml-xs">✓ Verified</span>
-                @endif
-              </label>
-              <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
-                class="w-full px-md py-sm border border-border-medium rounded-none text-base text-text-primary bg-bg-primary transition-all duration-fast focus:outline-none focus:border-accent-primary focus:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)] placeholder:text-text-tertiary"
-                placeholder="your@email.com" />
-              @error('email')
-              <p class="text-sm text-danger mt-xs">{{ $message }}</p>
-              @enderror
-            </div>
+          @include('frontend.include.empty-state', [
+            'icon' => 'favorite_border',
+            'title' => 'No Wishlist Items',
+            'description' => 'You haven\'t saved any items yet. Browse our products and add favorites to your wishlist.',
+            'actionText' => 'Browse Products',
+            'actionUrl' => route('front.index')
+          ])
+        </div>
 
-            <!-- Phone Field -->
-            <div class="mb-lg">
-              <label for="phone" class="block text-sm font-medium text-text-primary mb-xs">
-                Mobile Number
-                @if($user->phone_verified_at)
-                <span class="text-success text-xs ml-xs">✓ Verified</span>
-                @endif
-              </label>
-              <div class="relative flex items-center border border-border-medium rounded-none overflow-hidden focus-within:border-accent-primary focus-within:shadow-[0_0_0_0.125rem_rgba(188,79,56,0.1)]">
-                <span class="bg-bg-tertiary text-text-secondary px-sm py-sm text-sm font-medium border-r border-border-medium flex-shrink-0">+91</span>
-                <input type="tel" id="phone" name="phone" value="{{ old('phone', $user->phone ? substr($user->phone, -10) : '') }}"
-                  class="flex-1 px-md py-sm border-0 text-base text-text-primary bg-bg-primary outline-none placeholder:text-text-tertiary"
-                  placeholder="12345 67890" maxlength="11" />
+        {{-- Manage Account Tab --}}
+        <div id="content-account" class="tab-content hidden">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Manage Account</h1>
+
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+            <form method="POST" action="{{ route('user.account.update') }}" novalidate>
+              @csrf
+
+              {{-- Name Field --}}
+              <div class="mb-6">
+                <label for="name" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                  Full Name <span class="text-red-600 dark:text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value="{{ old('name', $user->name) }}"
+                  required
+                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+                  placeholder="Enter your full name" />
+                @error('name')
+                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                @enderror
               </div>
-              @error('phone')
-              <p class="text-sm text-danger mt-xs">{{ $message }}</p>
-              @enderror
-            </div>
 
-            <!-- Account Information -->
-            <div class="mb-lg p-md bg-bg-tertiary rounded border border-border-light">
-              <h3 class="text-sm font-medium text-text-primary mb-sm">Account Details</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-sm text-sm">
-                <div>
-                  <span class="text-text-secondary">Account Type:</span>
-                  <span class="text-text-primary font-medium ml-xs">
-                    @if($user->is_admin) Admin
-                    @elseif($user->is_vendor) Vendor
-                    @else Customer
-                    @endif
-                  </span>
-                </div>
-                <div>
-                  <span class="text-text-secondary">Joined:</span>
-                  <span class="text-text-primary font-medium ml-xs">{{ $user->created_at->format('M d, Y') }}</span>
-                </div>
-                <div>
-                  <span class="text-text-secondary">Status:</span>
-                  <span class="text-success font-medium ml-xs">{{ $user->status ? 'Active' : 'Inactive' }}</span>
-                </div>
-                <div>
-                  <span class="text-text-secondary">Last Login:</span>
-                  <span class="text-text-primary font-medium ml-xs">{{ $user->last_otp_sent_at ? $user->last_otp_sent_at->diffForHumans() : 'Never' }}</span>
-                </div>
+              {{-- Email Field --}}
+              <div class="mb-6">
+                <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                  Email Address
+                  @if($user->email_verified_at)
+                    <span class="text-green-600 dark:text-green-400 text-xs ml-2">✓ Verified</span>
+                  @endif
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value="{{ old('email', $user->email) }}"
+                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+                  placeholder="your@email.com" />
+                @error('email')
+                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                @enderror
               </div>
-            </div>
 
-            <!-- Update Button -->
-            <button type="submit" class="btn btn--primary">
-              Update Profile
-            </button>
-          </form>
-        </section>
-
-        <!-- Additional Account Actions -->
-        <section class="bg-bg-primary border border-border-light rounded-lg shadow-heavy p-xl">
-          <header class="mb-lg">
-            <h2 class="text-2xl font-semibold text-text-primary mb-xs">Account Actions</h2>
-            <p class="text-text-secondary">Manage your account settings and preferences.</p>
-          </header>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-            <!-- Orders -->
-            <a href="#" class="block p-md border border-border-light rounded hover:border-accent-primary transition-colors duration-fast group">
-              <div class="flex items-center gap-sm">
-                <div class="w-10 h-10 bg-accent-primary/10 rounded flex items-center justify-center group-hover:bg-accent-primary/20 transition-colors duration-fast">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" class="text-accent-primary">
-                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                  </svg>
+              {{-- Phone Field --}}
+              <div class="mb-6">
+                <label for="phone" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                  Mobile Number
+                  @if($user->phone_verified_at)
+                    <span class="text-green-600 dark:text-green-400 text-xs ml-2">✓ Verified</span>
+                  @endif
+                </label>
+                <div class="relative flex items-center border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-orange-500">
+                  <span class="bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2.5 sm:py-3 text-sm font-medium border-r border-gray-300 dark:border-gray-600">+91</span>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value="{{ old('phone', $user->phone ? substr($user->phone, -10) : '') }}"
+                    class="flex-1 px-4 py-2.5 sm:py-3 border-0 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 outline-none text-sm sm:text-base"
+                    placeholder="12345 67890"
+                    maxlength="10" />
                 </div>
-                <div>
-                  <h3 class="font-medium text-text-primary">Order History</h3>
-                  <p class="text-sm text-text-secondary">View your past orders and tracking</p>
-                </div>
+                @error('phone')
+                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                @enderror
               </div>
-            </a>
 
-            <!-- Wishlist -->
-            <a href="#" class="block p-md border border-border-light rounded hover:border-accent-primary transition-colors duration-fast group">
-              <div class="flex items-center gap-sm">
-                <div class="w-10 h-10 bg-accent-primary/10 rounded flex items-center justify-center group-hover:bg-accent-primary/20 transition-colors duration-fast">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" class="text-accent-primary">
-                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="font-medium text-text-primary">Wishlist</h3>
-                  <p class="text-sm text-text-secondary">Manage your saved products</p>
+              {{-- Account Info Box --}}
+              <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Account Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <span class="text-gray-600 dark:text-gray-400">Account Type:</span>
+                    <span class="text-gray-900 dark:text-gray-100 font-medium ml-2">
+                      @if($user->is_admin) Admin
+                      @elseif($user->is_vendor) Vendor
+                      @else Customer
+                      @endif
+                    </span>
+                  </div>
+                  <div>
+                    <span class="text-gray-600 dark:text-gray-400">Member Since:</span>
+                    <span class="text-gray-900 dark:text-gray-100 font-medium ml-2">{{ $user->created_at->format('M d, Y') }}</span>
+                  </div>
+                  <div>
+                    <span class="text-gray-600 dark:text-gray-400">Status:</span>
+                    <span class="text-green-600 dark:text-green-400 font-medium ml-2">{{ $user->status ? 'Active' : 'Inactive' }}</span>
+                  </div>
+                  <div>
+                    <span class="text-gray-600 dark:text-gray-400">Last Login:</span>
+                    <span class="text-gray-900 dark:text-gray-100 font-medium ml-2">{{ $user->last_otp_sent_at ? $user->last_otp_sent_at->diffForHumans() : 'Never' }}</span>
+                  </div>
                 </div>
               </div>
-            </a>
 
-            <!-- Addresses -->
-            <a href="#" class="block p-md border border-border-light rounded hover:border-accent-primary transition-colors duration-fast group">
-              <div class="flex items-center gap-sm">
-                <div class="w-10 h-10 bg-accent-primary/10 rounded flex items-center justify-center group-hover:bg-accent-primary/20 transition-colors duration-fast">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" class="text-accent-primary">
-                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="font-medium text-text-primary">Addresses</h3>
-                  <p class="text-sm text-text-secondary">Manage delivery addresses</p>
-                </div>
-              </div>
-            </a>
-
-            <!-- Support -->
-            <a href="#" class="block p-md border border-border-light rounded hover:border-accent-primary transition-colors duration-fast group">
-              <div class="flex items-center gap-sm">
-                <div class="w-10 h-10 bg-accent-primary/10 rounded flex items-center justify-center group-hover:bg-accent-primary/20 transition-colors duration-fast">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" class="text-accent-primary">
-                    <path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="font-medium text-text-primary">Help & Support</h3>
-                  <p class="text-sm text-text-secondary">Get help with your account</p>
-                </div>
-              </div>
-            </a>
+              {{-- Update Button --}}
+              <button
+                type="submit"
+                class="w-full px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
+                Update Profile
+              </button>
+            </form>
           </div>
-        </section>
+        </div>
+
+        {{-- Customer Service Tab --}}
+        <div id="content-support" class="tab-content hidden">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Customer Service</h1>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
+              <div class="flex items-start">
+                <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-3xl mr-4">email</span>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Email Support</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Get help via email within 24 hours</p>
+                  <a href="mailto:support@celigin.com" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 text-sm font-semibold">
+                    support@celigin.com
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
+              <div class="flex items-start">
+                <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-3xl mr-4">phone</span>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Phone Support</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Talk to our support team</p>
+                  <a href="tel:+911234567890" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 text-sm font-semibold">
+                    +91 123 456 7890
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{-- Affiliate Tab --}}
+        <div id="content-affiliate" class="tab-content hidden">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Affiliate Program</h1>
+
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8 text-center">
+            <span class="material-icons-outlined text-6xl text-orange-600 dark:text-orange-400 mb-4">groups</span>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Join Our Affiliate Program</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
+              Earn rewards by referring friends and family. Share your unique referral link and get exclusive benefits.
+            </p>
+            <button class="px-6 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors">
+              Learn More
+            </button>
+          </div>
+        </div>
+
+        {{-- CELIGIN Points Tab --}}
+        <div id="content-points" class="tab-content hidden">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">CELIGIN Points</h1>
+
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+            <div class="text-center mb-8">
+              <div class="text-5xl font-bold text-orange-600 dark:text-orange-400 mb-2">0</div>
+              <p class="text-gray-600 dark:text-gray-400">Available Points</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
+                <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">shopping_cart</span>
+                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Earn on Purchases</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Get 1 point for every ₹100 spent</p>
+              </div>
+
+              <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
+                <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">card_giftcard</span>
+                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Redeem Rewards</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Use points for discounts on orders</p>
+              </div>
+
+              <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
+                <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">share</span>
+                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Refer Friends</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Earn bonus points for referrals</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  </main>
-</body>
+  </div>
+</main>
 
-</html>
+{{-- Tab Switching JavaScript --}}
+<script>
+  function switchTab(event, tabName) {
+    if (event) event.preventDefault();
+
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.add('hidden');
+    });
+
+    // Remove active class from all tab links
+    document.querySelectorAll('.tab-link').forEach(link => {
+      link.classList.remove('active', 'bg-orange-50', 'dark:bg-orange-900/20', 'text-orange-600', 'dark:text-orange-400');
+    });
+
+    // Show selected tab content
+    const selectedContent = document.getElementById('content-' + tabName);
+    if (selectedContent) {
+      selectedContent.classList.remove('hidden');
+    }
+
+    // Add active class to selected tab link
+    const selectedLink = document.querySelector(`[data-tab="${tabName}"]`);
+    if (selectedLink) {
+      selectedLink.classList.add('active', 'bg-orange-50', 'dark:bg-orange-900/20', 'text-orange-600', 'dark:text-orange-400');
+    }
+
+    // Update URL hash without scrolling
+    if (history.pushState) {
+      history.pushState(null, null, '#' + tabName);
+    } else {
+      window.location.hash = tabName;
+    }
+  }
+
+  // Handle initial page load with hash
+  document.addEventListener('DOMContentLoaded', function() {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      switchTab(null, hash);
+    }
+  });
+</script>
+
+<style>
+  .tab-link.active {
+    background-color: rgb(255 247 237 / var(--tw-bg-opacity));
+    color: rgb(234 88 12 / var(--tw-text-opacity));
+  }
+
+  .dark .tab-link.active {
+    background-color: rgb(234 88 12 / 0.2);
+    color: rgb(251 146 60 / var(--tw-text-opacity));
+  }
+</style>
+@endsection
