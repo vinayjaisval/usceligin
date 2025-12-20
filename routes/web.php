@@ -1898,6 +1898,7 @@ Route::post('/load-more-products','Front\CatalogController@loadMoreProducts')->n
         Route::get('/checkout/payment/return', 'Front\CheckoutController@payreturn')->name('front.payment.return');
         Route::get('/checkout/payment/cancle', 'Front\CheckoutController@paycancle')->name('front.payment.cancle');
         Route::get('/checkout/payment/wallet-check', 'Front\CheckoutController@walletcheck')->name('front.wallet.check');
+        Route::get('/payment/status', 'Front\CheckoutController@paymentStatus')->name('front.payment.status');
     });
     // Paypal
     Route::post('/checkout/payment/paypal/submit', 'Payment\Checkout\PaypalController@store')->name('front.paypal.submit');

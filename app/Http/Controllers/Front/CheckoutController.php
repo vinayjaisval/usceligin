@@ -403,4 +403,19 @@ class CheckoutController extends FrontBaseController
         }
         return view('frontend.success', compact('tempcart', 'order'));
     }
+
+    // Payment Status Page (Success/Failed/Pending)
+    public function paymentStatus(Request $request)
+    {
+        // Get the payment status from query parameter (success, failed, pending)
+        $status = $request->get('status', 'success');
+
+        // Get order data from session or request
+        // In production, you'll fetch this from the database based on order ID
+        $order = Session::get('temporder');
+        $cart = Session::get('tempcart');
+
+        // You can pass additional data like order details, payment info, etc.
+        return view('frontend.payment-status', compact('status', 'order', 'cart'));
+    }
 }
