@@ -415,7 +415,13 @@ class CheckoutController extends FrontBaseController
         $order = Session::get('temporder');
         $cart = Session::get('tempcart');
 
+        // Settings for support contact
+        $settings = [
+            'support_email' => $this->gs->contact_email ?? config('mail.from.address', 'support@example.com'),
+            'support_phone' => $this->gs->contact_phone ?? '+1234567890',
+        ];
+
         // You can pass additional data like order details, payment info, etc.
-        return view('frontend.payment-status', compact('status', 'order', 'cart'));
+        return view('frontend.payment-status', compact('status', 'order', 'cart', 'settings'));
     }
 }
