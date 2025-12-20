@@ -23,7 +23,8 @@
       "Bash(C:/wamp64/bin/mysql/bin/mysql.exe:*)",
       "Bash(npm run build:*)",
       "Bash(ls:*)",
-      "Bash(C:wamp64binphpphp8.1.31php.exe artisan make:migration create_wishlists_table)"
+      "Bash(C:wamp64binphpphp8.1.31php.exe artisan make:migration create_wishlists_table)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
