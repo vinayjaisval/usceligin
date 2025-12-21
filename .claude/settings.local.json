@@ -24,7 +24,11 @@
       "Bash(npm run build:*)",
       "Bash(ls:*)",
       "Bash(C:wamp64binphpphp8.1.31php.exe artisan make:migration create_wishlists_table)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(C:wamp64binmysqlbinmysql.exe -u root -h 127.0.0.1 -P 3307 -e \"USE us_devceligin_1nov25; SHOW TABLES LIKE ''wishlists'';\")",
+      "Bash(C:wamp64binmysqlbinmysql.exe -u root -h 127.0.0.1 -P 3307 -e \"USE us_devceligin_1nov25; SHOW TABLES LIKE ''addresses'';\")",
+      "Bash(del C:wamp64wwwusceligindatabasemigrations2025_12_21_005016_create_wishlists_table.php)",
+      "Bash(del:*)"
     ],
     "deny": [],
     "ask": []
