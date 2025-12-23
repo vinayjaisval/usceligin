@@ -25,7 +25,8 @@ class CashOnDeliveryController extends CheckoutBaseControlller
 {
     public function store(Request $request)
     {
-    //  dd($request->billingAddress);
+        
+   
         $input = $request->all();
 
         if ($request->pass_check) {
@@ -44,7 +45,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         }
             $totalQuantity = 0;
            $oldCart = Session::get('cart');
-           
+          
            // $cart = new Cart($oldCart);
            $cart = Cart::restoreCart($oldCart);
            OrderHelper::license_check($cart); // For License Checking
@@ -65,65 +66,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         $affilate_users = $temp_affilate_users == null ? null : json_encode($temp_affilate_users);
 
 
-        // $orderCalculate = PriceHelper::getOrderTotal($input, $cart);
-        // if (isset($orderCalculate['success']) && $orderCalculate['success'] == false) {
-        // dd('okbnn');
-
-        //     return redirect()->back()->with('unsuccess', $orderCalculate['message']);
-        // }
-
-        // if ($this->gs->multiple_shipping == 0) {
-        //     $orderTotal = $orderCalculate['total_amount'];
-        //     $shipping = $orderCalculate['shipping'];
-        //     $packeing = $orderCalculate['packeing'];
-        //     $is_shipping = $orderCalculate['is_shipping'];
-        //     $vendor_shipping_ids = $orderCalculate['vendor_shipping_ids'];
-        //     $vendor_packing_ids = $orderCalculate['vendor_packing_ids'];
-        //     $vendor_ids = $orderCalculate['vendor_ids'];
-
-        //     $input['shipping_title'] = $shipping->title;
-        //     $input['vendor_shipping_id'] = $shipping->id;
-        //     $input['packing_title'] = $packeing->title;
-        //     $input['vendor_packing_id'] = $packeing->id;
-        //     // $input['shipping_cost'] = $packeing->price;
-
-        //     $input['shipping_cost'] = $input['shipping_cost'];
-
-        //     $input['packing_cost'] = $packeing->price;
-        //     $input['is_shipping'] = $is_shipping;
-        //     $input['vendor_shipping_ids'] = $vendor_shipping_ids;
-        //     $input['vendor_packing_ids'] = $vendor_packing_ids;
-        //     $input['vendor_ids'] = $vendor_ids;
-        // } else {
-
-
-        //     // multi shipping
-
-        //     $orderTotal = $orderCalculate['total_amount'];
-        //     $shipping = $orderCalculate['shipping'];
-        //     $packeing = $orderCalculate['packeing'];
-        //     $is_shipping = $orderCalculate['is_shipping'];
-        //     $vendor_shipping_ids = $orderCalculate['vendor_shipping_ids'];
-        //     $vendor_packing_ids = $orderCalculate['vendor_packing_ids'];
-        //     $vendor_ids = $orderCalculate['vendor_ids'];
-        //     // $shipping_cost = $orderCalculate['shipping_cost'];
-        //     $shipping_cost =$input['shipping_cost'];
-
-        //     $packing_cost = $orderCalculate['packing_cost'];
-
-        //     $input['shipping_title'] = $vendor_shipping_ids;
-        //     $input['vendor_shipping_id'] = $vendor_shipping_ids;
-        //     $input['packing_title'] = $vendor_packing_ids;
-        //     $input['vendor_packing_id'] = $vendor_packing_ids;
-        //     $input['shipping_cost'] = $shipping_cost;
-        //     $input['packing_cost'] = $packing_cost;
-        //     $input['is_shipping'] = $is_shipping;
-        //     $input['vendor_shipping_ids'] = $vendor_shipping_ids;
-        //     $input['vendor_packing_ids'] = $vendor_packing_ids;
-        //     $input['vendor_ids'] = $vendor_ids;
-        //     unset($input['shipping']);
-        //     unset($input['packeging']);
-        // }
+        
 
 
 
@@ -155,13 +98,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
             $tax += isset($data['price']) && isset($data['item']['product_tax']) ? $data['price'] * $data['item']['product_tax'] / 100 : 0;
         }
         $input['tax'] = $tax;
-        // if ($input['tax_type'] == 'state_tax') {
-        //     $input['tax_location'] = State::findOrFail($input['tax'])->state;
-        // } else {
-        //     dd($input);
-        //     $input['tax_location'] = Country::findOrFail($input['tax'])->country_name;
-        // }
-        // $input['tax'] = Session::get('current_tax');
+        
 
         if (Session::has('refferel_user_id')) {
             $val =  preg_replace('/\D/', '',$request->total) / $this->curr->value;
@@ -261,11 +198,6 @@ class CashOnDeliveryController extends CheckoutBaseControlller
             'onumber' => $order->order_number,
         ];
 
-        // $mailer = new GeniusMailer();
-
-        // $mailer->sendAutoOrderMail($data, $order->id);
-
-        //Sending Email To Admin
 
         $data = [
             'to' => $this->ps->contact_email,

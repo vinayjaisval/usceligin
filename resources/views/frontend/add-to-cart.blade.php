@@ -558,7 +558,7 @@
     // Store cart metadata in sessionStorage
     const cartData = {
       itemCount: {{ Session::has('cart') ? count(Session::get('cart')->items) : 0 }},
-      totalPrice: {{ $totalPrice }},
+      totalPrice: {{ $totalPrice  }},
       timestamp: Date.now()
     };
 

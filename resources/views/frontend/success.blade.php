@@ -161,9 +161,9 @@
                                                             <h5>{{ __('Billing Address') }}</h5>
 
                                                             <address>
-                                                                {{ __('Name:') }} {{$billingAddress->customer_name}}<br>
-                                                                {{ __('Email:') }} {{$billingAddress->email}}<br>
-                                                                {{ __('Phone:') }} {{$billingAddress->phone}}<br>
+                                                                {{ __('Name:') }} {{$billingAddress->customer_name ?? '--'}}<br>
+                                                                {{ __('Email:') }} {{$billingAddress->email ?? '--'}}<br>
+                                                                {{ __('Phone:') }} {{$billingAddress->phone ?? 1}}<br>
                                                                 {{ __('Country:') }} {{$billingAddress->country_id ?? '--'}}<br>
 
                                                                 {{ __('State:') }} {{$billingAddress->state_id ?? '--'}}<br>

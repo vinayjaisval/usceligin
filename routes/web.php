@@ -1868,7 +1868,7 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/addtonumwishlist', 'Front\WishlistController@addtonumwishlist');
         Route::post('add-multiple-product-wishlist', 'Front\WishlistController@multiAddTowishlist')->name('product.wishlist.add.multiple');
         
-Route::post('/load-more-products','Front\CatalogController@loadMoreProducts')->name('load.more.products');
+        Route::post('/load-more-products','Front\CatalogController@loadMoreProducts')->name('load.more.products');
 
         
         // aad multiple project

@@ -146,6 +146,8 @@ class RazorpayController extends CheckoutBaseControlller
     public function store(Request $request)
     {
         $input = $request->all();
+
+
         // dd($input);
         // Check currency
         if ($this->curr->name !== "INR") {
@@ -600,14 +602,14 @@ class RazorpayController extends CheckoutBaseControlller
             //     Session::forget('affilate');
             // }
 
-           // Affiliate/referral check
+            // Affiliate/referral check
             foreach (['refferel_user_id', 'affilate'] as $key) {
                 if (Session::has($key)) {
                     $val = (float) preg_replace('/[^\d.]/', '', $input['total']); // Keep decimal
                     $percentage = $this->gs->affilate_charge; // e.g., 10
                     $sub = $val * ($percentage / 100); // convert to decimal
-                    
-                    
+
+
                     if ($temp_affilate_users) {
                         foreach ($temp_affilate_users as $t_cost) {
                             $sub -= $t_cost['charge'];
@@ -624,7 +626,7 @@ class RazorpayController extends CheckoutBaseControlller
                     Session::forget($key);
                 }
             }
-             
+
             $order->fill($input)->save();
             $order->tracks()->create([
                 'title' => 'Pending',
