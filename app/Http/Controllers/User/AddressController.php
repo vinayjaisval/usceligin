@@ -38,6 +38,16 @@ class AddressController extends Controller
         $validated['country'] = 'India';
         $validated['is_default'] = $request->has('is_default') ? true : false;
 
+        // If this is set as default, unset all other defaults
+        if ($validated['is_default']) {
+            Address::where('user_id', Auth::id())->update(['is_default' => false]);
+        }
+
+        // If this is the user's first address, make it default automatically
+        if (Address::where('user_id', Auth::id())->count() === 0) {
+            $validated['is_default'] = true;
+        }
+
         $address = Address::create($validated);
 
         if ($request->expectsJson()) {
@@ -85,6 +95,11 @@ class AddressController extends Controller
 
         $validated['is_default'] = $request->has('is_default') ? true : false;
 
+        // If this is set as default, unset all other defaults
+        if ($validated['is_default']) {
+            Address::where('user_id', Auth::id())->where('id', '!=', $id)->update(['is_default' => false]);
+        }
+
         $address->update($validated);
 
         if ($request->expectsJson()) {
@@ -121,6 +136,10 @@ class AddressController extends Controller
      */
     public function setDefault(Request $request, $id)
     {
+        // First, unset all defaults for this user
+        Address::where('user_id', Auth::id())->update(['is_default' => false]);
+
+        // Then set this address as default
         $address = Address::where('user_id', Auth::id())->findOrFail($id);
         $address->update(['is_default' => true]);
 

@@ -107,107 +107,7 @@
           </div>
         </section>
 
-        <!-- Address Section -->
-        <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700" id="address-section">
-          <div class="p-4 sm:p-6">
-
-            @if(isset($addresses) && $addresses->count() > 0)
-              <!-- Existing User: Show Selected Address Summary -->
-              <div id="address-summary-view">
-                @php
-                  $selectedAddress = $defaultAddress ?? $addresses->first();
-                @endphp
-
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                      Delivering to {{ $selectedAddress->name }}
-                    </h2>
-                    <div class="text-sm text-gray-700 dark:text-gray-300">
-                      <p>{{ $selectedAddress->address_line_1 }}@if($selectedAddress->address_line_2), {{ $selectedAddress->address_line_2 }}@endif</p>
-                      <p>{{ $selectedAddress->city }}, {{ $selectedAddress->state }} - {{ $selectedAddress->pincode }}, {{ $selectedAddress->country }}</p>
-                      <p class="mt-1 text-gray-600 dark:text-gray-400">Phone: {{ $selectedAddress->phone }}</p>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onclick="showAddressSelection()"
-                    class="ml-4 text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors">
-                    Change
-                  </button>
-                </div>
-              </div>
-
-              <!-- Address Selection View (Hidden initially) -->
-              <div id="address-selection-view" class="hidden">
-                <div class="mb-4">
-                  <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">Select a delivery address</h2>
-                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Or add a new address
-                  </p>
-                </div>
-
-                <!-- Your saved addresses ({{ $addresses->count() }}) -->
-                <div class="mb-4">
-                  <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-3">
-                    Delivery addresses ({{ $addresses->count() }})
-                  </h3>
-
-                  <div class="space-y-3">
-                    @foreach($addresses as $address)
-                      <x-address-card
-                        :address="$address"
-                        :selectable="true"
-                        :selected="$address->is_default"
-                        :showActions="false" />
-                    @endforeach
-                  </div>
-                </div>
-
-                @if($addresses->count() < 3)
-                <!-- Add New Address Button -->
-                <button
-                  type="button"
-                  onclick="showAddNewAddressForm()"
-                  id="add-new-address-btn"
-                  class="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors mb-4">
-                  + Add a new address
-                </button>
-
-                <!-- Add New Address Form (Hidden initially) -->
-                <div id="new-address-form-container" class="hidden mt-4 p-4 border-2 border-orange-300 dark:border-orange-600 bg-orange-50 dark:bg-orange-900/10">
-                  <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-3">Add a new address</h3>
-                  <x-address-form formId="newAddressForm" :showCancel="true" />
-                </div>
-                @endif
-
-                <!-- Use Selected Address Button -->
-                <div class="mt-4 flex gap-3">
-                  <button
-                    type="button"
-                    onclick="confirmAddressSelection()"
-                    class="px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
-                    Use this address
-                  </button>
-                  <button
-                    type="button"
-                    onclick="cancelAddressSelection()"
-                    class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                    Cancel
-                  </button>
-                </div>
-              </div>
-
-            @else
-              <!-- First-time User: Show Form Directly -->
-              <div id="first-time-address-container">
-                <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Add a delivery address</h2>
-                <x-address-form formId="firstAddressForm" :showCancel="false" />
-              </div>
-            @endif
-
-          </div>
-        </section>
+        @include('frontend.checkout-address-section')
 
         <!-- Payment Method Section -->
         <section id="payment-section"
@@ -538,6 +438,10 @@
     </div>
   </div>
 </main>
+
+<!-- Address Management Script -->
+@include('frontend.checkout-address-script')
+
 @endsection
 
 @section('scripts')
