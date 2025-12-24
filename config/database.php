@@ -47,6 +47,9 @@ return [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'celiginnew'),
+
             'port' => env('DB_PORT', '3307'),
             'database' => env('DB_DATABASE', 'devceligin'),
             'username' => env('DB_USERNAME', 'root'),

@@ -108,7 +108,7 @@
           <!-- Center: Logo -->
           <div class="flex justify-center">
             <a href="{{ route('front.index') }}" aria-label="CELIGIN - Go to homepage">
-              <img src="{{ asset('assets/images/' . $gs->logo) }}" alt="CELIGIN - Premium Cosmetics & Skincare"
+              <img src="{{ asset('assets/images/' . $gs->logo) }}" alt="celigin"
                 class="h-10 w-auto" />
             </a>
           </div>
@@ -200,8 +200,8 @@
           <!-- Logo - h-4 = 1rem -->
           <div class="flex-shrink-0">
             <a href="{{ route('front.index') }}" aria-label="CELIGIN - Go to homepage">
-              <img src="{{ asset('assets/images/' . $gs->logo) }}" alt="CELIGIN - Premium Cosmetics & Skincare"
-                class="h-4 w-auto" />
+              <img src="{{ asset('assets/images/' . $gs->logo) }}" alt="CELIGIN"
+                class=" w-auto" />
             </a>
           </div>
 

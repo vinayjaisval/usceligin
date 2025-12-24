@@ -1234,6 +1234,19 @@ class FrontendController extends FrontBaseController
     {
         return view('frontend.privacy');
     }
-   
+
+
+
+
+    public function thankyou()
+{
+    return view('frontend.thankyou');
+}
+
+    public function affiliated()
+{
+    return view('frontend.affiliated');
+}
+
     // LEGAL PAGES SECTION ENDS
 }

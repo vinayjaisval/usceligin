@@ -1785,6 +1785,8 @@ Route::group(['middleware' => 'maintenance'], function () {
         // LEGAL PAGES SECTION
         Route::get('/terms', 'Front\FrontendController@terms')->name('terms');
         Route::get('/privacy', 'Front\FrontendController@privacy')->name('privacy');
+        Route::get('/thankyou', 'Front\FrontendController@thankyou')->name('thankyou');
+        Route::get('/affiliated', 'Front\FrontendController@affiliated')->name('affilated');
         // LEGAL PAGES SECTION ENDS
 
         // CONTACT SECTION
@@ -2085,7 +2087,7 @@ Route::post('/apply-coupon', 'Front\CouponController@applyCoupon')->name('applyC
 
 Route::get('admin/journey', 'User\UserController@journey')->name('user-journey');
 
-
+Route::get('thankyou', 'Front\FrontendController@thankyou')->name('thankyou');
 
 
 

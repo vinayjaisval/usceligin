@@ -100,7 +100,7 @@
     </article>
 
     <!-- Related Articles -->
-    <section class="mt-16 lg:mt-24" aria-labelledby="related-articles-title">
+    <section class="mt-8 lg:mt-8" aria-labelledby="related-articles-title">
       <h2 id="related-articles-title" class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">Related Articles</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         @foreach (App\Models\Blog::latest()->limit(4)->get() as $reblog)
