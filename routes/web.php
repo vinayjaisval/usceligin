@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
 
     // Address management
     Route::post('/myaccount/addresses', 'User\AddressController@store')->name('user.addresses.store');
+    Route::get('/myaccount/addresses/{id}/edit', 'User\AddressController@edit')->name('user.addresses.edit');
     Route::put('/myaccount/addresses/{id}', 'User\AddressController@update')->name('user.addresses.update');
     Route::delete('/myaccount/addresses/{id}', 'User\AddressController@destroy')->name('user.addresses.destroy');
     Route::post('/myaccount/addresses/{id}/set-default', 'User\AddressController@setDefault')->name('user.addresses.set-default');

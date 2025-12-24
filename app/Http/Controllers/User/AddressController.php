@@ -15,7 +15,7 @@ class AddressController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'type' => 'required|in:home,work,other',
+            'type' => 'nullable|in:home,work,other',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'address_line_1' => 'required|string',
@@ -28,6 +28,9 @@ class AddressController extends Controller
 
         // Check address limit (max 3 per user)
         if (Address::where('user_id', Auth::id())->count() >= 3) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'error' => 'You can only save up to 3 addresses.'], 422);
+            }
             return back()->with('error', 'You can only save up to 3 addresses.');
         }
 
@@ -35,9 +38,30 @@ class AddressController extends Controller
         $validated['country'] = 'India';
         $validated['is_default'] = $request->has('is_default') ? true : false;
 
-        Address::create($validated);
+        $address = Address::create($validated);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Address added successfully.',
+                'address' => $address
+            ]);
+        }
 
         return back()->with('success', 'Address added successfully.');
+    }
+
+    /**
+     * Get address data for editing
+     */
+    public function edit($id)
+    {
+        $address = Address::where('user_id', Auth::id())->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'address' => $address
+        ]);
     }
 
     /**
@@ -48,7 +72,7 @@ class AddressController extends Controller
         $address = Address::where('user_id', Auth::id())->findOrFail($id);
 
         $validated = $request->validate([
-            'type' => 'required|in:home,work,other',
+            'type' => 'nullable|in:home,work,other',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'address_line_1' => 'required|string',
@@ -63,16 +87,31 @@ class AddressController extends Controller
 
         $address->update($validated);
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Address updated successfully.',
+                'address' => $address->fresh()
+            ]);
+        }
+
         return back()->with('success', 'Address updated successfully.');
     }
 
     /**
      * Delete an address
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $address = Address::where('user_id', Auth::id())->findOrFail($id);
         $address->delete();
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Address deleted successfully.'
+            ]);
+        }
 
         return back()->with('success', 'Address deleted successfully.');
     }
@@ -80,10 +119,18 @@ class AddressController extends Controller
     /**
      * Set address as default
      */
-    public function setDefault($id)
+    public function setDefault(Request $request, $id)
     {
         $address = Address::where('user_id', Auth::id())->findOrFail($id);
         $address->update(['is_default' => true]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Default address updated.',
+                'address' => $address->fresh()
+            ]);
+        }
 
         return back()->with('success', 'Default address updated.');
     }

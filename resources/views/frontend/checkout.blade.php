@@ -110,359 +110,102 @@
         <!-- Address Section -->
         <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700" id="address-section">
           <div class="p-4 sm:p-6">
-            <div class="flex items-center space-x-3 mb-4">
-              <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">Delivery Address</h2>
-            </div>
 
-            @if($userHasAddress)
-              <!-- Existing User: Show Saved Address -->
-              <div id="saved-address-display" class="border border-gray-200 dark:border-gray-700 p-4 mb-4">
+            @if(isset($addresses) && $addresses->count() > 0)
+              <!-- Existing User: Show Selected Address Summary -->
+              <div id="address-summary-view">
+                @php
+                  $selectedAddress = $defaultAddress ?? $addresses->first();
+                @endphp
+
                 <div class="flex items-start justify-between">
                   <div class="flex-1">
-                    <p class="font-semibold text-gray-900 dark:text-gray-100">{{ Auth::user()->name }}</p>
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">{{ Auth::user()->address }}</p>
-                    @if(Auth::user()->city || Auth::user()->state || Auth::user()->zip)
-                    <p class="text-sm text-gray-700 dark:text-gray-300">
-                      {{ Auth::user()->city }}{{ Auth::user()->city && Auth::user()->state ? ', ' : '' }}{{ Auth::user()->state }} {{ Auth::user()->zip }}
-                    </p>
-                    @endif
-                    @if(Auth::user()->phone)
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">
-                      <span class="font-medium">Phone:</span> {{ Auth::user()->phone }}
-                    </p>
-                    @endif
+                    <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                      Delivering to {{ $selectedAddress->name }}
+                    </h2>
+                    <div class="text-sm text-gray-700 dark:text-gray-300">
+                      <p>{{ $selectedAddress->address_line_1 }}@if($selectedAddress->address_line_2), {{ $selectedAddress->address_line_2 }}@endif</p>
+                      <p>{{ $selectedAddress->city }}, {{ $selectedAddress->state }} - {{ $selectedAddress->pincode }}, {{ $selectedAddress->country }}</p>
+                      <p class="mt-1 text-gray-600 dark:text-gray-400">Phone: {{ $selectedAddress->phone }}</p>
+                    </div>
                   </div>
                   <button
                     type="button"
-                    onclick="toggleAddressForm()"
-                    class="text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors">
+                    onclick="showAddressSelection()"
+                    class="ml-4 text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors">
                     Change
                   </button>
                 </div>
               </div>
 
-              <!-- Hidden Address Form (for editing) -->
-              <div id="address-form-container" class="hidden">
-            @else
-              <!-- New User: Show Form Directly -->
-              <div id="address-form-container">
-            @endif
-
-              <form id="addressForm" class="space-y-4">
-                @csrf
-
-                <!-- Full Name -->
-                <div>
-                  <label for="full_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Full name (First and Last name) <span class="text-red-600">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="full_name"
-                    name="full_name"
-                    value="{{ Auth::check() ? Auth::user()->name : '' }}"
-                    required
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                    aria-required="true" />
+              <!-- Address Selection View (Hidden initially) -->
+              <div id="address-selection-view" class="hidden">
+                <div class="mb-4">
+                  <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">Select a delivery address</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    Or add a new address
+                  </p>
                 </div>
 
-                <!-- Phone Number and Email -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <!-- Phone Number -->
-                  <div>
-                    <label for="phone_number" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Phone number <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone_number"
-                      name="phone_number"
-                      value="{{ Auth::check() ? Auth::user()->phone : '' }}"
-                      required
-                      placeholder="+919999499035"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                      aria-required="true"
-                      aria-describedby="phone-help" />
-                    <p id="phone-help" class="text-xs text-gray-600 dark:text-gray-400 mt-1">May be used to assist delivery</p>
-                  </div>
+                <!-- Your saved addresses ({{ $addresses->count() }}) -->
+                <div class="mb-4">
+                  <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-3">
+                    Delivery addresses ({{ $addresses->count() }})
+                  </h3>
 
-                  <!-- Email Address -->
-                  <div>
-                    <label for="email_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Email address <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="email_address"
-                      name="email_address"
-                      value="{{ Auth::check() ? Auth::user()->email : '' }}"
-                      required
-                      placeholder="example@domain.com"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                      aria-required="true"
-                      aria-describedby="email-help" />
-                    <p id="email-help" class="text-xs text-gray-600 dark:text-gray-400 mt-1">For order updates</p>
+                  <div class="space-y-3">
+                    @foreach($addresses as $address)
+                      <x-address-card
+                        :address="$address"
+                        :selectable="true"
+                        :selected="$address->is_default"
+                        :showActions="false" />
+                    @endforeach
                   </div>
                 </div>
 
-                <!-- Street Address -->
-                <div>
-                  <label for="street_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Street address <span class="text-red-600">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="street_address"
-                    name="street_address"
-                    value="{{ Auth::check() ? Auth::user()->address : '' }}"
-                    required
-                    placeholder="Street address or P.O. Box"
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                    aria-required="true" />
+                @if($addresses->count() < 3)
+                <!-- Add New Address Button -->
+                <button
+                  type="button"
+                  onclick="showAddNewAddressForm()"
+                  id="add-new-address-btn"
+                  class="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors mb-4">
+                  + Add a new address
+                </button>
+
+                <!-- Add New Address Form (Hidden initially) -->
+                <div id="new-address-form-container" class="hidden mt-4 p-4 border-2 border-orange-300 dark:border-orange-600 bg-orange-50 dark:bg-orange-900/10">
+                  <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-3">Add a new address</h3>
+                  <x-address-form formId="newAddressForm" :showCancel="true" />
                 </div>
+                @endif
 
-                <!-- Landmark -->
-                <div>
-                  <label for="landmark" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Landmark
-                  </label>
-                  <input
-                    type="text"
-                    id="landmark"
-                    name="landmark"
-                    placeholder="Apt, suite, unit, building, floor, etc."
-                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
-                </div>
-
-                <!-- City, State, ZIP, Country Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
-                  <!-- ZIP Code -->
-                  <div> 
-                    <label for="zip_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      ZIP Code <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="zip_code"
-                      name="zip_code"
-                      value="{{ Auth::check() ? Auth::user()->zip : '' }}"
-                      required
-                      maxlength="6"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                      aria-required="true" />
-                  </div>
-                  <!-- City -->
-                  <div>
-                    <label for="city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      City <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
-                      value="{{ Auth::check() ? Auth::user()->city : '' }}"
-                      required
-                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
-                      aria-required="true" />
-                  </div>
-                 <div>
-                   <label for="state" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      State <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                     id="state"
-                      name="state"
-                      required
-                      value="{{ Auth::check() ? Auth::user()->state : '' }}"
-                      required
-                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
-                      aria-required="true" />
-                  </div>
-                  <!-- State -->
-                
-                
-
-                  <!-- Country -->
-                  <div>
-                    <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Country <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="country"
-                      name="country"
-                      value="{{ Auth::check() ? Auth::user()->country : '' }}"
-                      readonly
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
-                      aria-required="true" />
-                  </div>
-                </div>
-
-                <!-- Make this my default address -->
-                <div class="flex items-start space-x-2">
-                  <input
-                    type="checkbox"
-                    id="default_address"
-                    name="default_address"
-                    class="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
-                    {{ $userHasAddress ? '' : 'checked' }} />
-                  <label for="default_address" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                    Make this my default address
-                  </label>
-                </div>
-
-                <!-- Save Button (for existing users editing) -->
-                @if($userHasAddress)
-                <div class="flex gap-3">
+                <!-- Use Selected Address Button -->
+                <div class="mt-4 flex gap-3">
                   <button
                     type="button"
-                    onclick="saveAddress()"
+                    onclick="confirmAddressSelection()"
                     class="px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
-                    Save Address
+                    Use this address
                   </button>
                   <button
                     type="button"
-                    onclick="toggleAddressForm()"
-                    class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
+                    onclick="cancelAddressSelection()"
+                    class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
                     Cancel
                   </button>
                 </div>
-                @endif
-              </form>
-            </div>
-
-            <!-- Billing Address Toggle -->
-            <div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
-              <div class="flex items-start space-x-2">
-                <input
-                  type="checkbox"
-                  id="same_as_delivery"
-                  name="same_as_delivery"
-                  checked
-                  onchange="toggleBillingAddress()"
-                  class="mt-1 w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
-                <label for="same_as_delivery" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                  Billing address same as delivery address
-                </label>
               </div>
 
-              <!-- Billing Address Form (Hidden by default) -->
-              <div id="billing-address-container" class="hidden mt-4">
-                <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-3">Billing Address</h3>
-                <form id="billingAddressForm" class="space-y-4">
-                  @csrf
-
-                  <!-- Full Name -->
-                  <div>
-                    <label for="billing_full_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Full name <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="billing_full_name"
-                      name="billing_full_name"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
-                  </div>
-
-                  <!-- Phone and Email -->
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label for="billing_phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Phone number <span class="text-red-600">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        id="billing_phone"
-                        name="billing_phone"
-                        required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
-                    </div>
-                    <div>
-                      <label for="billing_email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Email address <span class="text-red-600">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="billing_email"
-                        name="billing_email"
-                        required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
-                    </div>
-                  </div>
-
-                  <!-- Street Address -->
-                  <div>
-                    <label for="billing_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Street address <span class="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="billing_address"
-                      name="billing_address"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
-                  </div>
-
-                  <!-- City, State, ZIP, Country -->
-                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <div>
-                      <label for="billing_zip" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        ZIP Code <span class="text-red-600">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="billing_zip"
-                        name="billing_zip"
-                        required
-                        maxlength="6"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
-                    </div>
-                    <div>
-                      <label for="billing_city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        City <span class="text-red-600">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="billing_city"
-                        name="billing_city"
-                        required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
-                    </div>
-                    <div>
-                      <label for="billing_state" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        State <span class="text-red-600">*</span>
-                      </label>
-                      <select
-                        id="billing_state"
-                        name="billing_state"
-                        required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors">
-                        <option value="">Select</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Karnataka">Karnataka</option>
-                      </select>
-                    </div>
-                  
-                    <div>
-                      <label for="billing_country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Country <span class="text-red-600">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="billing_country"
-                        name="billing_country"
-                        value="India"
-                        readonly
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
-                    </div>
-                  </div>
-                </form>
+            @else
+              <!-- First-time User: Show Form Directly -->
+              <div id="first-time-address-container">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Add a delivery address</h2>
+                <x-address-form formId="firstAddressForm" :showCancel="false" />
               </div>
-            </div>
+            @endif
+
           </div>
         </section>
 
@@ -801,43 +544,151 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  const userHasAddress = {{ $userHasAddress ? 'true' : 'false' }};
+  const hasAddresses = {{ (isset($addresses) && $addresses->count() > 0) ? 'true' : 'false' }};
+  let selectedAddressId = {{ isset($defaultAddress) && $defaultAddress ? $defaultAddress->id : (isset($addresses) && $addresses->count() > 0 ? $addresses->first()->id : 'null') }};
 
-  // Toggle address form (for existing users)
-  function toggleAddressForm() {
-    const display = document.getElementById('saved-address-display');
-    const form = document.getElementById('address-form-container');
+  // Show address selection view
+  function showAddressSelection() {
+    document.getElementById('address-summary-view').classList.add('hidden');
+    document.getElementById('address-selection-view').classList.remove('hidden');
+  }
 
-    if (display && form) {
-      display.classList.toggle('hidden');
-      form.classList.toggle('hidden');
+  // Cancel address selection (go back to summary)
+  function cancelAddressSelection() {
+    document.getElementById('address-selection-view').classList.add('hidden');
+    document.getElementById('address-summary-view').classList.remove('hidden');
+
+    // Hide add new form if open
+    const newAddressForm = document.getElementById('new-address-form-container');
+    if (newAddressForm) {
+      newAddressForm.classList.add('hidden');
     }
   }
 
-  // Save address
-  function saveAddress() {
-    const form = document.getElementById('addressForm');
+  // Confirm address selection and go back to summary
+  function confirmAddressSelection() {
+    if (!selectedAddressId) {
+      showToast('Please select an address', 'error');
+      return;
+    }
+
+    // For now, just hide the selection view
+    // In production, you might want to reload to update the summary
+    showToast('Address selected successfully', 'success');
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  }
+
+  // Show add new address form
+  function showAddNewAddressForm() {
+    const container = document.getElementById('new-address-form-container');
+    const addBtn = document.getElementById('add-new-address-btn');
+
+    if (container) {
+      container.classList.remove('hidden');
+      if (addBtn) addBtn.classList.add('hidden');
+      document.getElementById('newAddressForm_name').focus();
+    }
+  }
+
+  // Cancel address form
+  function cancelAddressForm() {
+    const container = document.getElementById('new-address-form-container');
+    const addBtn = document.getElementById('add-new-address-btn');
+
+    if (container) {
+      container.classList.add('hidden');
+      if (addBtn) addBtn.classList.remove('hidden');
+      document.getElementById('newAddressForm').reset();
+    }
+  }
+
+  // Select address (from radio button)
+  function selectAddress(addressId) {
+    selectedAddressId = addressId;
+    console.log('Selected address ID:', addressId);
+  }
+
+  // Select address card (from card click)
+  function selectAddressCard(addressId) {
+    selectedAddressId = addressId;
+
+    // Update radio button
+    const radio = document.querySelector(`input[name="selected_address"][value="${addressId}"]`);
+    if (radio) radio.checked = true;
+
+    // Update card styling
+    document.querySelectorAll('[onclick*="selectAddressCard"]').forEach(card => {
+      card.classList.remove('ring-2', 'ring-orange-600', 'dark:ring-orange-400', 'bg-orange-50', 'dark:bg-orange-900/10');
+    });
+
+    event.currentTarget.classList.add('ring-2', 'ring-orange-600', 'dark:ring-orange-400', 'bg-orange-50', 'dark:bg-orange-900/10');
+
+    console.log('Selected address ID:', addressId);
+  }
+
+  // Handle form submissions for new address (first-time or add new)
+  document.addEventListener('DOMContentLoaded', function() {
+    // First-time address form
+    const firstAddressForm = document.getElementById('firstAddressForm');
+    if (firstAddressForm) {
+      firstAddressForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        saveNewAddress(this);
+      });
+    }
+
+    // New address form (for existing users adding more)
+    const newAddressForm = document.getElementById('newAddressForm');
+    if (newAddressForm) {
+      newAddressForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        saveNewAddress(this);
+      });
+    }
+  });
+
+  // Save new address via AJAX
+  function saveNewAddress(form) {
     const formData = new FormData(form);
 
-    // Basic validation
-    const requiredFields = ['full_name', 'phone_number', 'email_address', 'street_address', 'city', 'state', 'zip_code'];
-    for (const field of requiredFields) {
-      if (!formData.get(field)) {
-        showToast(`Please fill in ${field.replace('_', ' ')}`, 'error');
-        return;
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    fetch('{{ route("user.addresses.store") }}', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Accept': 'application/json'
+      },
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+
+      if (data.success || data.message) {
+        showToast(data.message || 'Address saved successfully', 'success');
+
+        // Reload page to show new address
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        showToast(data.error || 'Failed to save address', 'error');
       }
-    }
-
-    // TODO: Implement AJAX call to save address
-    // For now, just toggle back and show success
-    showToast('Address saved successfully', 'success');
-
-    // Recalculate tax based on new ZIP code
-    calculateTax(formData.get('zip_code'));
-
-    if (userHasAddress) {
-      toggleAddressForm();
-    }
+    })
+    .catch(error => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      console.error('Error:', error);
+      showToast('An error occurred while saving the address', 'error');
+    });
   }
 
   // Toggle billing address form
@@ -852,6 +703,45 @@
         billingContainer.classList.remove('hidden');
       }
     }
+  }
+
+  // Fetch pincode details (for address forms)
+  function fetchPincodeDetails(formId) {
+    const pincodeInput = document.getElementById(`${formId}_pincode`);
+    if (!pincodeInput) return;
+
+    const pincode = pincodeInput.value.trim();
+
+    if (pincode.length !== 6 || !/^\d{6}$/.test(pincode)) {
+      document.getElementById(`${formId}_city`).value = '';
+      document.getElementById(`${formId}_state`).value = '';
+      return;
+    }
+
+    // Set loading state
+    document.getElementById(`${formId}_city`).value = 'Loading...';
+    document.getElementById(`${formId}_state`).value = 'Loading...';
+
+    fetch(`https://api.postalpincode.in/pincode/${pincode}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data[0].Status === 'Success') {
+          const post = data[0].PostOffice[0];
+          document.getElementById(`${formId}_city`).value = post.District;
+          document.getElementById(`${formId}_state`).value = post.State;
+          document.getElementById(`${formId}_country`).value = post.Country;
+        } else {
+          document.getElementById(`${formId}_city`).value = '';
+          document.getElementById(`${formId}_state`).value = '';
+          showToast('Invalid pincode', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching pincode details:', error);
+        document.getElementById(`${formId}_city`).value = '';
+        document.getElementById(`${formId}_state`).value = '';
+        showToast('Could not fetch location details', 'error');
+      });
   }
 
   // Calculate tax based on ZIP code

@@ -20,7 +20,11 @@ class CartController extends FrontBaseController
     {
 
         if (!Session::has('cart')) {
-            return view('frontend.add-to-cart');
+            return view('frontend.add-to-cart', [
+                'products' => [],
+                'totalPrice' => 0,
+                'mainTotal' => 0
+            ]);
         }
         if (Session::has('already')) {
             Session::forget('already');

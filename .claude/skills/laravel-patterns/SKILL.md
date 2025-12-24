@@ -141,7 +141,7 @@ Route::middleware('throttle:10,1')->group(function () {
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3307                        # ⚠️ NON-STANDARD PORT
-DB_DATABASE=us_devceligin_1nov25
+DB_DATABASE=us_devceligin_23dec25
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -150,7 +150,7 @@ DB_PASSWORD=
 
 ```bash
 # ALWAYS use port 3307
-C:/wamp64/bin/mysql/bin/mysql.exe -u root -h 127.0.0.1 -P 3307 -e "USE us_devceligin_1nov25; SHOW TABLES;"
+C:/wamp64/bin/mysql/bin/mysql.exe -u root -h 127.0.0.1 -P 3307 -e "USE us_devceligin_23dec25; SHOW TABLES;"
 ```
 
 #### Laravel Artisan Commands
@@ -529,7 +529,7 @@ EOF
 
 ```bash
 C:/wamp64/bin/mysql/bin/mysql.exe -u root -h 127.0.0.1 -P 3307 \
-  -e "USE us_devceligin_1nov25; SHOW TABLES;"
+  -e "USE us_devceligin_23dec25; SHOW TABLES;"
 ```
 
 ### Clear Laravel Caches

@@ -719,15 +719,15 @@ Route::post('/logout', 'Auth\User\LoginController@logout')->name('logout')->midd
 ```bash
 # List all tables
 C:/wamp64/bin/mysql/bin/mysql.exe -u root -h 127.0.0.1 -P 3307 \
-  -e "USE us_devceligin_1nov25; SHOW TABLES;"
+  -e "USE us_devceligin_23dec25; SHOW TABLES;"
 
 # Describe table structure
 C:/wamp64/bin/mysql/bin/mysql.exe -u root -h 127.0.0.1 -P 3307 \
-  -e "USE us_devceligin_1nov25; DESCRIBE wishlists;"
+  -e "USE us_devceligin_23dec25; DESCRIBE wishlists;"
 
 # Count records
 C:/wamp64/bin/mysql/bin/mysql.exe -u root -h 127.0.0.1 -P 3307 \
-  -e "USE us_devceligin_1nov25; SELECT COUNT(*) FROM wishlists;"
+  -e "USE us_devceligin_23dec25; SELECT COUNT(*) FROM wishlists;"
 ```
 
 ### Tinker Commands
