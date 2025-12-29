@@ -11,8 +11,9 @@ Route::middleware('guest')->group(function () {
 Route::middleware('throttle:5,1')->group(function () {
     // Route::post('/otp/send', 'Auth\OtpController@sendOtp')->name('otp.send');
     Route::post('/otp/send', 'Auth\User\LoginController@send_otp')->name('otp.send');
+    Route::post('/otp/resend', 'Auth\User\LoginController@resendOtp')->name('otp.resend');
 
-    Route::post('/otp/resend', 'Auth\OtpController@resendOtp')->name('otp.resend');
+    // Route::post('/otp/resend', 'Auth\OtpController@resendOtp')->name('otp.resend');
 });
 
 Route::middleware('throttle:10,1')->group(function () {
@@ -1872,7 +1873,7 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/addtonumwishlist', 'Front\WishlistController@addtonumwishlist');
         Route::post('add-multiple-product-wishlist', 'Front\WishlistController@multiAddTowishlist')->name('product.wishlist.add.multiple');
         
-Route::post('/load-more-products','Front\CatalogController@loadMoreProducts')->name('load.more.products');
+        Route::post('/load-more-products','Front\CatalogController@loadMoreProducts')->name('load.more.products');
 
         
         // aad multiple project

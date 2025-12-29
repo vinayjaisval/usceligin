@@ -8,6 +8,7 @@ use App\Models\Wishlist;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AccountController extends Controller
 {
@@ -23,6 +24,16 @@ class AccountController extends Controller
         }
 
         $user = Auth::user();
+       
+        
+         $data =[];
+
+        $data = array_values(Session::get('wishlist') ?? []);
+
+        foreach ($data as $item) {
+            $this->addwish($item['id']);
+        }
+
 
         // Get user's recent orders (limit to 5 most recent)
         $orders = Order::where('user_id', $user->id)
@@ -34,6 +45,8 @@ class AccountController extends Controller
         $wishlist = Wishlist::where('user_id', $user->id)
             ->with('product')
             ->get();
+
+           
 
         // Get user's addresses
         $addresses = Address::where('user_id', $user->id)->get();
@@ -54,6 +67,26 @@ class AccountController extends Controller
             'totalOrders',
             'totalWishlistItems'
         ));
+    }
+     public function addwish($id)
+    {
+         $user = Auth::user();
+        $data[0] = 0;
+        $ck = Wishlist::where('user_id','=',$user->id)->where('product_id','=',$id)->get()->count();
+        if($ck > 0)
+        {
+            $data['error'] = __('Already Added To The Wishlist.');
+            return response()->json($data);
+        }
+        $wish = new Wishlist();
+        $wish->user_id = $user->id;
+        $wish->product_id = $id;
+        $wish->save();
+        $data[0] = 1;
+        $data[1] = count($user->wishlists);
+        $data['success'] = __('Successfully Added To The Wishlist.');
+        return response()->json($data);
+
     }
 
     /**

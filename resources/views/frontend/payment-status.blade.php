@@ -338,19 +338,22 @@
 
         <div class="{{ $classes['card-body'] }}">
           <ul class="space-y-6" role="list">
-            @foreach($orderProducts as $product)
+    
+              @foreach($tempcart->items as $product)
+
+        
             <li class="flex gap-4 pb-6 @if(!$loop->last) border-b border-gray-200 dark:border-gray-700 @endif">
               <!-- Product Image -->
               <div class="flex-shrink-0 relative">
-                <img src="{{ $product['image'] }}"
-                     alt="{{ $product['name'] }}"
+                <img src="{{ $product['item']['photo'] ? asset('assets/images/products/'.$product['item']['photo']) : asset('assets/images/noimage.png') }}"
+                     alt=""
                      class="w-20 h-20 object-cover bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600"
                      loading="lazy" />
 
-                @if($product['quantity'] > 1)
+                @if($product['qty'] > 1)
                 <span class="absolute -top-2 -right-2 bg-orange-600 text-white text-xs font-bold px-2 py-1 shadow-md min-w-[28px] text-center border-2 border-white dark:border-gray-800"
-                      aria-label="Quantity: {{ $product['quantity'] }}">
-                  ×{{ $product['quantity'] }}
+                      aria-label="Quantity: {{ $product['qty'] }}">
+                  ×{{ $product['qty'] }}
                 </span>
                 @endif
               </div>
@@ -358,14 +361,14 @@
               <!-- Product Details -->
               <div class="flex-1 min-w-0">
                 <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-3">
-                  {{ $product['name'] }}
+                  {{ $product['item']['name'] }}
                 </h3>
 
                 <dl class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   <div>
-                    <dt class="{{ $classes['label'] }}">Quantity</dt>
-                    <dd class="text-sm font-bold {{ $product['quantity'] > 1 ? 'text-orange-600 dark:text-orange-400' : 'text-gray-900 dark:text-gray-100' }}">
-                      {{ $product['quantity'] }}
+                    <dt class="text-xs uppercase tracking-wide font-medium text-gray-500 dark:text-gray-400 mb-1">Quantity</dt>
+                    <dd class="text-sm font-bold {{ $product['qty'] > 1 ? 'text-orange-600 dark:text-orange-400' : 'text-gray-900 dark:text-gray-100' }}">
+                      {{ $product['qty'] }}
                     </dd>
                   </div>
 
@@ -379,7 +382,7 @@
                   <div>
                     <dt class="{{ $classes['label'] }}">Subtotal</dt>
                     <dd class="text-sm font-bold text-orange-600 dark:text-orange-400">
-                      {{ App\Models\Product::convertPrice($product['total']) }}
+                      {{ App\Models\Product::convertPrice($product['item_price']) }}
                     </dd>
                   </div>
                 </dl>

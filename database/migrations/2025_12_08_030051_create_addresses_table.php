@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('country', 100)->default('India');
             $table->boolean('is_default')->default(false);
             $table->timestamps();
-
             // Foreign key constraint
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

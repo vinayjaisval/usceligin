@@ -241,7 +241,7 @@
                       </h5>
                       @if($item->product)
                         <p class="text-sm text-orange-600 dark:text-orange-400 font-semibold">
-                          ${{ number_format($item->product->price, 2) }}
+                          ₹ {{ number_format($item->product->price, 2) }}
                         </p>
                       @endif
                     </div>
@@ -334,7 +334,7 @@
                     </h5>
                     @if($item->product)
                       <p class="text-sm text-orange-600 dark:text-orange-400 font-semibold">
-                        ${{ number_format($item->product->price, 2) }}
+                        ₹ {{ number_format($item->product->price, 2) }}
                       </p>
                     @endif
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">

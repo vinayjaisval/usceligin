@@ -19,12 +19,16 @@ class CartController extends FrontBaseController
     public function cart(Request $request)
     {
 
+        $oldCart = Session::get('cart');
+        // $cart = new Cart($oldCart);
+        $cart = Cart::restoreCart($oldCart);
+        $products = $cart->items;
+        $totalPrice = $cart->totalPrice;
+        $mainTotal = $totalPrice;
+
         if (!Session::has('cart')) {
-            return view('frontend.add-to-cart', [
-                'products' => [],
-                'totalPrice' => 0,
-                'mainTotal' => 0
-            ]);
+
+            return view('frontend.add-to-cart', compact('products', 'totalPrice', 'mainTotal'));
         }
         if (Session::has('already')) {
             Session::forget('already');
@@ -41,15 +45,10 @@ class CartController extends FrontBaseController
         if (Session::has('coupon_percentage')) {
             Session::forget('coupon_percentage');
         }
-        $oldCart = Session::get('cart');
-        // $cart = new Cart($oldCart);
-        $cart = Cart::restoreCart($oldCart);
 
-        $products = $cart->items;
-        $totalPrice = $cart->totalPrice;
-        $mainTotal = $totalPrice;
 
         if ($request->ajax()) {
+
             return view('frontend.ajax.cart-page', compact('products', 'totalPrice', 'mainTotal'));
         }
         return view('frontend.add-to-cart', compact('products', 'totalPrice', 'mainTotal'));
