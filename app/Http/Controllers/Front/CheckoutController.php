@@ -310,7 +310,7 @@ class CheckoutController extends FrontBaseController
             $tempcart = '';
             return redirect()->back();
         }
-        return view('frontend.success', compact('tempcart', 'order'));
+        return view('frontend.payment-status', compact('tempcart', 'order'));
     }
 
     // Payment Status Page (Success/Failed/Pending)

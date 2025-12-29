@@ -9,8 +9,9 @@ Route::get('/sign-in', 'Auth\OtpController@showLoginForm')->name('otp.login.form
 Route::middleware('throttle:5,1')->group(function () {
     // Route::post('/otp/send', 'Auth\OtpController@sendOtp')->name('otp.send');
     Route::post('/otp/send', 'Auth\User\LoginController@send_otp')->name('otp.send');
+    Route::post('/otp/resend', 'Auth\User\LoginController@resendOtp')->name('otp.resend');
 
-    Route::post('/otp/resend', 'Auth\OtpController@resendOtp')->name('otp.resend');
+    // Route::post('/otp/resend', 'Auth\OtpController@resendOtp')->name('otp.resend');
 });
 
 Route::middleware('throttle:10,1')->group(function () {

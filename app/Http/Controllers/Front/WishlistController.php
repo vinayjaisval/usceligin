@@ -9,23 +9,32 @@ use App\{
 };
 use App\Models\Country;
 use App\Models\Currency;
+use App\Models\Wishlist;
+
 use App\Models\Generalsetting;
 use App\Models\State;
 use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends FrontBaseController
 {
 
     public function wishlist(Request $request)
     {
-
-        $oldCart ='';
+        $user = Auth::user();
+        $oldCart = '';
         $tags = []; // Empty tags array - tags functionality disabled
+       $oldCart = Session::get('wishlist');
+
+        $oldCart = Wishlist::where('user_id', $user->id)
+            ->with('product')
+            ->get();
+
 
         if (!Session::has('wishlist')) {
-
+             
             return view('frontend.my-wishlist', compact('tags'));
         }
         if (Session::has('already')) {
@@ -45,13 +54,12 @@ class WishlistController extends FrontBaseController
         }
         // $tags = Tag::all(); // Removed - tags table doesn't exist
 
-        $oldCart = Session::get('wishlist');
        
-      
+
         // foreach ($oldCart as $item) {
         //     dd($item['name']); // this will dump the name of the first item
         // }
-      
+
         // $cart = new Cart($oldCart);
         // $cart = Cart::restoreCart($oldCart);
 
@@ -59,8 +67,11 @@ class WishlistController extends FrontBaseController
         // $totalPrice = $oldCart->totalPrice;
         // $mainTotal = $oldCart;
         if ($request->ajax()) {
+             dd($oldCart);
             return view('frontend.ajax.cart-page', compact('oldCart', 'tags'));
         }
+
+       
         return view('frontend.my-wishlist', compact('oldCart', 'tags'));
     }
 
@@ -100,23 +111,31 @@ class WishlistController extends FrontBaseController
 
     public function addwishlist($id)
     {
-        
-        
+
+
         $product = Product::find($id, [
-            'id', 'user_id', 'slug', 'name', 'photo', 'price', 'stock', 'type','tags'
+            'id',
+            'user_id',
+            'slug',
+            'name',
+            'photo',
+            'price',
+            'stock',
+            'type',
+            'tags'
         ]);
-    
+
         if (!$product) {
             return response()->json([
                 'success' => false,
                 'message' => 'Product not found.'
             ]);
         }
-    
+
         // Get existing wishlist from session
         $wishlist = Session::get('wishlist', []);
-    
-    
+
+
         // Avoid duplicates
         if (array_key_exists($id, $wishlist)) {
             return response()->json([
@@ -124,7 +143,7 @@ class WishlistController extends FrontBaseController
                 'message' => 'Product is already in your wishlist.'
             ]);
         }
-    
+
         // Add product to wishlist
         $wishlist[$id] = [
             'id' => $product->id,
@@ -135,17 +154,17 @@ class WishlistController extends FrontBaseController
             'tags' => $product->tags,
 
         ];
-    
+
         // Store updated wishlist in session
         Session::put('wishlist', $wishlist);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Successfully added to wishlist.',
             'wishlist_count' => count($wishlist)
         ]);
     }
-    
+
     public function addtowishlist($id)
     {
 
@@ -266,7 +285,7 @@ class WishlistController extends FrontBaseController
                 }
             }
         }
-        
+
         if ($cart->items != null && @$cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return redirect()->route('front.cart')->with('unsuccess', __('This item is already in the cart.'));
         }
@@ -291,12 +310,12 @@ class WishlistController extends FrontBaseController
     }
 
 
-     public function addnumwishlist(Request $request)
+    public function addnumwishlist(Request $request)
     {
-        
+
 
         $id = $_GET['id'];
-        
+
         $qty = $_GET['qty'];
         $size = str_replace(' ', '-', $_GET['size']);
         $color = $_GET['color'];
@@ -422,26 +441,26 @@ class WishlistController extends FrontBaseController
         }
 
         // if ($cart->items != null && $cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
-        
+
         //     return 'digital';
         // }
-       
-        
+
+
 
         // $cart->addnum($prod, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $affilate_user);
         $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
         if (isset($cart->items[$cartKey]) && isset($cart->items[$cartKey]['dp']) && $cart->items[$cartKey]['dp'] == 1) {
-            
+
             return 'digital';
         }
         if (!empty($cart->items[$cartKey])) {
             // Already in cart
             return response()->json(['status' => 'already_added']);
         }
-        
+
         // Not in cart yet, add now
         $cart->addnum($prod, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $affilate_user);
-        
+
 
 
         if ($cart->items[$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
@@ -488,7 +507,7 @@ class WishlistController extends FrontBaseController
         $values = $values == "" ? '' : implode(',', $values);
         $curr = $this->curr;
         $size_price = ($size_price / $curr->value);
-        $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'product_tax','whole_sell_discount', 'attributes', 'minimum_qty', 'stock_check', 'size_all', 'color_all']);
+        $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'product_tax', 'whole_sell_discount', 'attributes', 'minimum_qty', 'stock_check', 'size_all', 'color_all']);
         if ($prod->type != 'Physical') {
             $qty = 1;
         }
@@ -863,9 +882,9 @@ class WishlistController extends FrontBaseController
         return response()->json($data);
     }
 
-    
-   
-    
+
+
+
     public function multiAddTowishlist(Request $request)
     {
         $ids = $request->input('ids');
@@ -916,9 +935,7 @@ class WishlistController extends FrontBaseController
             'outOfStock' => $outOfStockProducts,
             'message' => implode(' ', $messages)
         ]);
-    //    return redirect()->route('front.how-to-use')->with('success', __('Successfully Added To Cart.'));
+        //    return redirect()->route('front.how-to-use')->with('success', __('Successfully Added To Cart.'));
 
     }
-
-    
 }

@@ -56,7 +56,7 @@
           {{-- Results Count --}}
           <div class="flex items-center">
             <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
-              <span class="font-semibold text-gray-900 dark:text-gray-100">{{ count($oldCart) }}</span> results
+              <span class="font-semibold text-gray-900 dark:text-gray-100">{{ count($oldCart ?? []) }}</span> results
             </span>
           </div>
 

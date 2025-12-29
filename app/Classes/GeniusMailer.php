@@ -117,10 +117,9 @@ class GeniusMailer
         return true;
     }
 
-    public function sendCustomMail(array $mailData)
+    public function sendCustomMaill(array $mailData)
     {
 
-        // dd($mailData);
         
         try {
             $this->mail->setFrom($this->gs->from_email, $this->gs->from_name);
@@ -133,6 +132,34 @@ class GeniusMailer
             return true;          
         } catch (\Exception $e) {
             \Log::error("Mail send failed to {$mailData['to']}: " . $e->getMessage());
+            return false;
+        }
+    }
+    public function sendCustomMail(array $mailData)
+    {
+        try {
+            $this->mail->isSMTP();
+            $this->mail->Host = 'mail27.skylabstech.com';
+            $this->mail->SMTPAuth = true;
+            $this->mail->Username = 'enquiry@skylabstech.com';
+            $this->mail->Password = 'Tech123!@#';
+            $this->mail->SMTPSecure = 'tls';
+            $this->mail->Port = 587;
+
+            $this->mail->setFrom('enquiry@skylabstech.com', 'Celigin Global Pvt Ltd');
+            $this->mail->addAddress($mailData['to']);
+
+            $this->mail->isHTML(true);
+            $this->mail->Subject = $mailData['subject'];
+            $this->mail->Body = $mailData['body'];
+            $this->mail->AltBody = strip_tags($mailData['body']);
+
+            $this->mail->send();
+            \Log::info("Email sent to {$mailData['to']}");
+
+            return true;
+        } catch (\Exception $e) {
+            \Log::error("Mail send failed: " . $e->getMessage());
             return false;
         }
     }
