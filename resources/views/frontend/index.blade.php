@@ -77,7 +77,7 @@
     </section>
  @endif
     <!-- Category Banners -->
-    <section class="py-12 lg:py-16 bg-white dark:bg-gray-900" aria-labelledby="category-banners-title" role="region">
+    <section class="py-12 lg:py-8 bg-white dark:bg-gray-900" aria-labelledby="category-banners-title" role="region">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 id="category-banners-title"
           class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 lg:mb-12 text-center">
@@ -189,7 +189,7 @@
     </section>
 
     @if($ps->best_sellers == 1)
-      <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="bestsellers-title" role="region">
+      <section class="py-12 lg:py-8 bg-gray-50 dark:bg-gray-800" aria-labelledby="bestsellers-title" role="region">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
             <h2 id="bestsellers-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">
@@ -232,7 +232,7 @@
 
     @if($ps->deal_of_the_day == 1)
       <!-- Special Offer Banner -->
-      <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="special-offer-title" role="region">
+      <section class="py-12 lg:py-8 bg-gray-50" aria-labelledby="special-offer-title" role="region">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-1 lg:grid-cols-10 gap-6 lg:gap-8 items-stretch">
 
@@ -285,7 +285,7 @@
     @endif
 
     <!-- Hot Deals -->
-    <section class="py-12 lg:py-16 bg-red-50 dark:bg-gray-900" aria-labelledby="hotdeals-title" role="region">
+    <section class="py-12 lg:py-8 bg-red-50 dark:bg-gray-900" aria-labelledby="hotdeals-title" role="region">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
           <h2 id="hotdeals-title"
@@ -328,7 +328,7 @@
     </section>
 
     <!-- Instagram Feed -->
-    <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="instagram-title">
+    <section class="py-12 lg:py-8 bg-gray-50 dark:bg-gray-800" aria-labelledby="instagram-title">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between mb-8 lg:mb-12">
           <div class="flex items-center space-x-3">
@@ -340,7 +340,7 @@
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
             </div>
-            <h2 id="instagram-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">
+            <h2 id="instagram-title" class="text-base sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">
               Instagram Feed</h2>
           </div>
           <a href="#"
@@ -644,7 +644,7 @@
 
     @if($ps->blog == 1)
       <!-- Blog Section -->
-      <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="blog-title">
+      <section class="py-12 lg:py-8 bg-gray-50 dark:bg-gray-800" aria-labelledby="blog-title">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between mb-8 lg:mb-12">
             <h2 id="blog-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Blog
