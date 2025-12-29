@@ -359,64 +359,82 @@
         <div id="content-account" class="tab-content hidden">
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Manage Account</h1>
 
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
-            <form method="POST" action="{{ route('user.account.update') }}" novalidate>
+          {{-- Personal Information Card --}}
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm mb-6">
+            <div class="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 px-6 py-4">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Personal Information</h2>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Update your account details and contact information</p>
+            </div>
+
+            <form method="POST" action="{{ route('user.account.update') }}" novalidate class="p-6 lg:p-8">
               @csrf
 
-              {{-- Name Field --}}
-              <div class="mb-6">
-                <label for="name" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  Full Name <span class="text-red-600 dark:text-red-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value="{{ old('name', $user->name) }}"
-                  required
-                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-                  placeholder="Enter your full name" />
-                @error('name')
-                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                @enderror
-              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {{-- Name Field --}}
+                <div>
+                  <label for="name" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+                    Full Name <span class="text-red-600 dark:text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ old('name', $user->name) }}"
+                    required
+                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm"
+                    placeholder="Enter your full name" />
+                  @error('name')
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                  @enderror
+                </div>
 
-              {{-- Email Field --}}
-              <div class="mb-6">
-                <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  Email Address
-                  @if($user->email_verified_at)
-                    <span class="text-green-600 dark:text-green-400 text-xs ml-2">✓ Verified</span>
-                  @endif
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value="{{ old('email', $user->email) }}"
-                  class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-                  placeholder="your@email.com" />
-                @error('email')
-                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                @enderror
+                {{-- Email Field --}}
+                <div>
+                  <label for="email" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+                    Email Address
+                    @if($user->email_verified_at)
+                      <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 ml-2">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        Verified
+                      </span>
+                    @endif
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ old('email', $user->email) }}"
+                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm"
+                    placeholder="your@email.com" />
+                  @error('email')
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                  @enderror
+                </div>
               </div>
 
               {{-- Phone Field --}}
               <div class="mb-6">
-                <label for="phone" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                <label for="phone" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                   Mobile Number
                   @if($user->phone_verified_at)
-                    <span class="text-green-600 dark:text-green-400 text-xs ml-2">✓ Verified</span>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 ml-2">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                      </svg>
+                      Verified
+                    </span>
                   @endif
                 </label>
-                <div class="relative flex items-center border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-orange-500">
-                  <span class="bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2.5 sm:py-3 text-sm font-medium border-r border-gray-300 dark:border-gray-600">+91</span>
+                <div class="relative flex items-center border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-orange-500 transition-all">
+                  <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2.5 text-sm font-medium border-r border-gray-300 dark:border-gray-600">+91</span>
                   <input
                     type="tel"
                     id="phone"
                     name="phone"
                     value="{{ old('phone', $user->phone ? substr($user->phone, -10) : '') }}"
-                    class="flex-1 px-4 py-2.5 sm:py-3 border-0 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 outline-none text-sm sm:text-base"
+                    class="flex-1 px-4 py-2.5 border-0 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 outline-none text-sm"
                     placeholder="12345 67890"
                     maxlength="10" />
                 </div>
@@ -426,40 +444,461 @@
               </div>
 
               {{-- Account Info Box --}}
-              <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Account Details</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                  <div>
-                    <span class="text-gray-600 dark:text-gray-400">Account Type:</span>
-                    <span class="text-gray-900 dark:text-gray-100 font-medium ml-2">
-                      @if($user->is_admin) Admin
-                      @elseif($user->is_vendor) Vendor
-                      @else Customer
-                      @endif
-                    </span>
-                  </div>
-                  <div>
-                    <span class="text-gray-600 dark:text-gray-400">Member Since:</span>
-                    <span class="text-gray-900 dark:text-gray-100 font-medium ml-2">{{ $user->created_at->format('M d, Y') }}</span>
-                  </div>
-                  <div>
-                    <span class="text-gray-600 dark:text-gray-400">Status:</span>
-                    <span class="text-green-600 dark:text-green-400 font-medium ml-2">{{ $user->status ? 'Active' : 'Inactive' }}</span>
-                  </div>
-                  <div>
-                    <span class="text-gray-600 dark:text-gray-400">Last Login:</span>
-                    <span class="text-gray-900 dark:text-gray-100 font-medium ml-2">{{ $user->last_otp_sent_at ? $user->last_otp_sent_at->diffForHumans() : 'Never' }}</span>
+              <div class="mb-6 p-5 bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-800">
+                <div class="flex items-start gap-3 mb-4">
+                  <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-xl mt-0.5">info</span>
+                  <div class="flex-1">
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Account Details</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2.5 gap-x-6 text-sm">
+                      <div class="flex justify-between sm:flex-col sm:justify-start">
+                        <span class="text-gray-600 dark:text-gray-400">Account Type:</span>
+                        <span class="text-gray-900 dark:text-gray-100 font-medium sm:mt-1">
+                          @if($user->is_admin) Admin
+                          @elseif($user->is_vendor) Vendor
+                          @else Customer
+                          @endif
+                        </span>
+                      </div>
+                      <div class="flex justify-between sm:flex-col sm:justify-start">
+                        <span class="text-gray-600 dark:text-gray-400">Member Since:</span>
+                        <span class="text-gray-900 dark:text-gray-100 font-medium sm:mt-1">{{ $user->created_at->format('M d, Y') }}</span>
+                      </div>
+                      <div class="flex justify-between sm:flex-col sm:justify-start">
+                        <span class="text-gray-600 dark:text-gray-400">Status:</span>
+                        <span class="inline-flex items-center gap-1 font-medium sm:mt-1 {{ $user->status ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
+                          <span class="w-2 h-2 rounded-full {{ $user->status ? 'bg-green-600 dark:bg-green-400' : 'bg-red-600 dark:bg-red-400' }}"></span>
+                          {{ $user->status ? 'Active' : 'Inactive' }}
+                        </span>
+                      </div>
+                      <div class="flex justify-between sm:flex-col sm:justify-start">
+                        <span class="text-gray-600 dark:text-gray-400">Last Login:</span>
+                        <span class="text-gray-900 dark:text-gray-100 font-medium sm:mt-1">{{ $user->last_otp_sent_at ? $user->last_otp_sent_at->diffForHumans() : 'Never' }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {{-- Update Button --}}
-              <button
-                type="submit"
-                class="w-full px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
-                Update Profile
-              </button>
+              <div class="flex gap-3">
+                <button
+                  type="submit"
+                  class="flex-1 sm:flex-none sm:px-8 py-3 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
+                  Update Profile
+                </button>
+              </div>
             </form>
+          </div>
+
+          {{-- Saved Addresses Section --}}
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div class="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 px-6 py-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Saved Addresses</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage your delivery and billing addresses (Maximum 3 addresses)</p>
+                </div>
+                @if($addresses->count() < 3)
+                <button
+                  type="button"
+                  onclick="toggleAddAddressForm()"
+                  class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                  </svg>
+                  Add New Address
+                </button>
+                @endif
+              </div>
+            </div>
+
+            <div class="p-6 lg:p-8">
+              @if($addresses->count() > 0)
+                {{-- Mobile Add Button --}}
+                @if($addresses->count() < 3)
+                <button
+                  type="button"
+                  onclick="toggleAddAddressForm()"
+                  class="sm:hidden w-full mb-4 flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-dashed border-orange-300 dark:border-orange-700 text-orange-600 dark:text-orange-400 text-sm font-semibold hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                  </svg>
+                  Add New Address
+                </button>
+                @endif
+
+                {{-- Address Cards Grid --}}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="address-cards-container">
+                  @foreach($addresses as $address)
+                    <div class="relative group border-2 {{ $address->is_default ? 'border-orange-500 dark:border-orange-400 bg-orange-50/30 dark:bg-orange-900/10' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }} p-5 transition-all duration-200">
+
+                      {{-- Default Badge (Top Right) --}}
+                      @if($address->is_default)
+                      <div class="absolute -top-2 -right-2 bg-orange-600 dark:bg-orange-500 text-white px-3 py-1 text-xs font-semibold shadow-md">
+                        DEFAULT
+                      </div>
+                      @endif
+
+                      {{-- Address Type Icon & Badge --}}
+                      <div class="flex items-center gap-2 mb-3">
+                        <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-lg">
+                          @if($address->type === 'home') home
+                          @elseif($address->type === 'work') business
+                          @else location_on
+                          @endif
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 uppercase tracking-wide">
+                          {{ ucfirst($address->type ?? 'home') }}
+                        </span>
+                      </div>
+
+                      {{-- Address Details --}}
+                      <div class="mb-4">
+                        <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">
+                          {{ $address->name }}
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 flex items-center gap-1.5">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                          </svg>
+                          {{ $address->phone }}
+                        </p>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                          {{ $address->address_line_1 }}@if($address->address_line_2), {{ $address->address_line_2 }}@endif
+                          <br>
+                          {{ $address->city }}, {{ $address->state }} - {{ $address->pincode }}
+                        </p>
+                      </div>
+
+                      {{-- Actions --}}
+                      <div class="flex flex-wrap gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+                        @if(!$address->is_default)
+                        <button
+                          type="button"
+                          onclick="setDefaultAddress({{ $address->id }})"
+                          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 border border-orange-200 dark:border-orange-700 transition-colors">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                          </svg>
+                          Set as default
+                        </button>
+                        @endif
+
+                        <button
+                          type="button"
+                          onclick="editAddress({{ $address->id }})"
+                          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 transition-colors">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                          </svg>
+                          Edit
+                        </button>
+
+                        <button
+                          type="button"
+                          onclick="deleteAddress({{ $address->id }})"
+                          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-700 transition-colors">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                          </svg>
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  @endforeach
+                </div>
+
+              {{-- Add Address Form (Hidden) --}}
+              <div id="add-address-form" class="hidden border-t border-gray-200 dark:border-gray-700 pt-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Add New Address</h3>
+                <form id="myAccountAddressForm" class="space-y-4">
+                  @csrf
+
+                  {{-- Address Type --}}
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Address Type <span class="text-red-600">*</span>
+                    </label>
+                    <div class="flex gap-4">
+                      <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="type" value="home" checked
+                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
+                      </label>
+                      <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="type" value="work"
+                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
+                      </label>
+                      <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="type" value="other"
+                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {{-- Name --}}
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Full Name <span class="text-red-600">*</span>
+                    </label>
+                    <input type="text" name="name" id="myAccountAddressForm_name" required
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                  </div>
+
+                  {{-- Phone --}}
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Phone Number <span class="text-red-600">*</span>
+                    </label>
+                    <input type="tel" name="phone" required maxlength="15"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                  </div>
+
+                  {{-- Address Line 1 --}}
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Address Line 1 <span class="text-red-600">*</span>
+                    </label>
+                    <input type="text" name="address_line_1" required
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                  </div>
+
+                  {{-- Address Line 2 --}}
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Address Line 2
+                    </label>
+                    <input type="text" name="address_line_2"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                  </div>
+
+                  {{-- Pincode, City, State, Country --}}
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Pincode <span class="text-red-600">*</span>
+                      </label>
+                      <input type="text" name="pincode" id="myAccountAddressForm_pincode" required maxlength="6" pattern="[0-9]{6}"
+                        onblur="fetchPincodeDetails('myAccountAddressForm')"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        City <span class="text-red-600">*</span>
+                      </label>
+                      <input type="text" name="city" id="myAccountAddressForm_city" required readonly
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        State <span class="text-red-600">*</span>
+                      </label>
+                      <input type="text" name="state" id="myAccountAddressForm_state" required readonly
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Country <span class="text-red-600">*</span>
+                      </label>
+                      <input type="text" name="country" id="myAccountAddressForm_country" value="India" readonly
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                    </div>
+                  </div>
+
+                  {{-- Default Checkbox --}}
+                  <div class="flex items-start space-x-2">
+                    <input type="checkbox" name="is_default" value="1"
+                      class="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500" />
+                    <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                      Make this my default address
+                    </label>
+                  </div>
+
+                  {{-- Buttons --}}
+                  <div class="flex gap-3">
+                    <button type="submit"
+                      class="px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                      Save Address
+                    </button>
+                    <button type="button" onclick="cancelAddressForm()"
+                      class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {{-- Edit Address Modal/Form (Hidden) --}}
+              <div id="edit-address-form" class="hidden border-t border-gray-200 dark:border-gray-700 pt-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Edit Address</h3>
+                <div id="edit-address-form-content"></div>
+              </div>
+
+              @else
+                {{-- No Addresses Empty State --}}
+                <div class="text-center py-16 px-6 border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-900/20">
+                  <div class="max-w-md mx-auto">
+                    <div class="w-20 h-20 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span class="material-icons-outlined text-5xl text-orange-600 dark:text-orange-400">add_location_alt</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">No Saved Addresses</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                      Add your delivery address to make checkout faster and easier. You can save up to 3 addresses.
+                    </p>
+                    <button
+                      type="button"
+                      onclick="toggleAddAddressForm()"
+                      class="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors shadow-md">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                      </svg>
+                      Add Your First Address
+                    </button>
+                  </div>
+                </div>
+
+                {{-- Add Address Form (Will be shown when clicked) --}}
+                <div id="add-address-form" class="hidden mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Add New Address</h3>
+                  <form id="myAccountAddressForm" class="space-y-4">
+                    @csrf
+
+                    {{-- Address Type --}}
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Address Type <span class="text-red-600">*</span>
+                      </label>
+                      <div class="flex gap-4">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                          <input type="radio" name="type" value="home" checked
+                            class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                          <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                          <input type="radio" name="type" value="work"
+                            class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                          <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                          <input type="radio" name="type" value="other"
+                            class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                          <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    {{-- Name --}}
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Full Name <span class="text-red-600">*</span>
+                      </label>
+                      <input type="text" name="name" id="myAccountAddressForm_name" required
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                    </div>
+
+                    {{-- Phone --}}
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Phone Number <span class="text-red-600">*</span>
+                      </label>
+                      <input type="tel" name="phone" required maxlength="15"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                    </div>
+
+                    {{-- Address Line 1 --}}
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Address Line 1 <span class="text-red-600">*</span>
+                      </label>
+                      <input type="text" name="address_line_1" required
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                    </div>
+
+                    {{-- Address Line 2 --}}
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Address Line 2
+                      </label>
+                      <input type="text" name="address_line_2"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                    </div>
+
+                    {{-- Pincode, City, State, Country --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          Pincode <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="pincode" id="myAccountAddressForm_pincode" required maxlength="6" pattern="[0-9]{6}"
+                          onblur="fetchPincodeDetails('myAccountAddressForm')"
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          City <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="city" id="myAccountAddressForm_city" required readonly
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          State <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="state" id="myAccountAddressForm_state" required readonly
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          Country <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="country" id="myAccountAddressForm_country" value="India" readonly
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      </div>
+                    </div>
+
+                    {{-- Default Checkbox --}}
+                    <div class="flex items-start space-x-2">
+                      <input type="checkbox" name="is_default" value="1"
+                        class="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500" />
+                      <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                        Make this my default address
+                      </label>
+                    </div>
+
+                    {{-- Buttons --}}
+                    <div class="flex gap-3">
+                      <button type="submit"
+                        class="px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                        Save Address
+                      </button>
+                      <button type="button" onclick="cancelAddressForm()"
+                        class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              @endif
+
+              {{-- Maximum Limit Reached Message --}}
+              @if($addresses->count() >= 3)
+                <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 flex items-start gap-3">
+                  <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                  </svg>
+                  <div class="flex-1">
+                    <p class="text-sm font-medium text-blue-900 dark:text-blue-200">
+                      Maximum Address Limit Reached
+                    </p>
+                    <p class="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                      You've saved 3 addresses (maximum allowed). To add a new address, please delete an existing one first.
+                    </p>
+                  </div>
+                </div>
+              @endif
+            </div>
           </div>
         </div>
 
@@ -590,7 +1029,394 @@
     if (hash) {
       switchTab(null, hash);
     }
+
+    // Attach event listener to add address form
+    const addAddressForm = document.getElementById('myAccountAddressForm');
+    if (addAddressForm) {
+      addAddressForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        saveNewAddress(this);
+      });
+    }
   });
+
+  // Toggle add address form
+  function toggleAddAddressForm() {
+    const form = document.getElementById('add-address-form');
+    const editForm = document.getElementById('edit-address-form');
+
+    // Hide edit form if open
+    if (editForm && !editForm.classList.contains('hidden')) {
+      editForm.classList.add('hidden');
+    }
+
+    // Toggle add form
+    if (form) {
+      form.classList.toggle('hidden');
+      if (!form.classList.contains('hidden')) {
+        const nameInput = document.getElementById('myAccountAddressForm_name');
+        if (nameInput) nameInput.focus();
+      }
+    }
+  }
+
+  // Cancel address form
+  function cancelAddressForm() {
+    const addForm = document.getElementById('add-address-form');
+    const editForm = document.getElementById('edit-address-form');
+
+    if (addForm && !addForm.classList.contains('hidden')) {
+      addForm.classList.add('hidden');
+      const form = document.getElementById('myAccountAddressForm');
+      if (form) form.reset();
+    }
+
+    if (editForm && !editForm.classList.contains('hidden')) {
+      editForm.classList.add('hidden');
+    }
+  }
+
+  // Edit address
+  function editAddress(addressId) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch(`/user/addresses/${addressId}/edit`, {
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.address) {
+        showEditForm(data.address);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showToast('Failed to load address details', 'error');
+    });
+  }
+
+  // Show edit form
+  function showEditForm(address) {
+    const addForm = document.getElementById('add-address-form');
+    const editFormContainer = document.getElementById('edit-address-form');
+    const editFormContent = document.getElementById('edit-address-form-content');
+
+    // Hide add form
+    if (addForm) addForm.classList.add('hidden');
+
+    // Create edit form with populated data
+    editFormContent.innerHTML = `
+      <form id="editAddressForm" class="space-y-4">
+        <input type="hidden" name="address_id" value="${address.id}">
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Address Type <span class="text-red-600">*</span>
+          </label>
+          <div class="flex gap-4">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input type="radio" name="type" value="home" ${address.type === 'home' ? 'checked' : ''}
+                class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+              <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input type="radio" name="type" value="work" ${address.type === 'work' ? 'checked' : ''}
+                class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+              <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input type="radio" name="type" value="other" ${address.type === 'other' ? 'checked' : ''}
+                class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+              <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Full Name <span class="text-red-600">*</span>
+          </label>
+          <input type="text" name="name" value="${address.name}" required
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Phone Number <span class="text-red-600">*</span>
+          </label>
+          <input type="tel" name="phone" value="${address.phone}" required maxlength="15"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Address Line 1 <span class="text-red-600">*</span>
+          </label>
+          <input type="text" name="address_line_1" value="${address.address_line_1}" required
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Address Line 2
+          </label>
+          <input type="text" name="address_line_2" value="${address.address_line_2 || ''}"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Pincode <span class="text-red-600">*</span>
+            </label>
+            <input type="text" name="pincode" value="${address.pincode}" required maxlength="6" pattern="[0-9]{6}"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              City <span class="text-red-600">*</span>
+            </label>
+            <input type="text" name="city" value="${address.city}" required readonly
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              State <span class="text-red-600">*</span>
+            </label>
+            <input type="text" name="state" value="${address.state}" required readonly
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Country <span class="text-red-600">*</span>
+            </label>
+            <input type="text" name="country" value="India" readonly
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-2">
+          <input type="checkbox" name="is_default" value="1" ${address.is_default ? 'checked' : ''}
+            class="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500" />
+          <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+            Make this my default address
+          </label>
+        </div>
+
+        <div class="flex gap-3">
+          <button type="submit"
+            class="px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+            Update Address
+          </button>
+          <button type="button" onclick="cancelAddressForm()"
+            class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
+            Cancel
+          </button>
+        </div>
+      </form>
+    `;
+
+    // Show edit form
+    editFormContainer.classList.remove('hidden');
+
+    // Attach submit handler
+    document.getElementById('editAddressForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      updateAddress(address.id, this);
+    });
+  }
+
+  // Update address
+  function updateAddress(addressId, form) {
+    const formData = new FormData(form);
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Updating...';
+
+    fetch(`/user/addresses/${addressId}`, {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'X-HTTP-Method-Override': 'PUT',
+        'Accept': 'application/json'
+      },
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+
+      if (data.success || data.message) {
+        showToast(data.message || 'Address updated successfully', 'success');
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        showToast(data.error || 'Failed to update address', 'error');
+      }
+    })
+    .catch(error => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      console.error('Error:', error);
+      showToast('An error occurred while updating the address', 'error');
+    });
+  }
+
+  // Delete address
+  function deleteAddress(addressId) {
+    if (!confirm('Are you sure you want to delete this address?')) {
+      return;
+    }
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch(`/user/addresses/${addressId}`, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success || data.message) {
+        showToast(data.message || 'Address deleted successfully', 'success');
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        showToast(data.error || 'Failed to delete address', 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showToast('An error occurred while deleting the address', 'error');
+    });
+  }
+
+  // Set default address
+  function setDefaultAddress(addressId) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch(`/user/addresses/${addressId}/set-default`, {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success || data.message) {
+        showToast(data.message || 'Default address updated', 'success');
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        showToast(data.error || 'Failed to update default address', 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showToast('An error occurred while updating default address', 'error');
+    });
+  }
+
+  // Save new address
+  function saveNewAddress(form) {
+    const formData = new FormData(form);
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    fetch('{{ route("user.addresses.store") }}', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Accept': 'application/json'
+      },
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+
+      if (data.success || data.message) {
+        showToast(data.message || 'Address saved successfully', 'success');
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        showToast(data.error || 'Failed to save address', 'error');
+      }
+    })
+    .catch(error => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      console.error('Error:', error);
+      showToast('An error occurred while saving the address', 'error');
+    });
+  }
+
+  // Fetch pincode details
+  function fetchPincodeDetails(formId) {
+    const pincodeInput = document.getElementById(`${formId}_pincode`);
+    if (!pincodeInput) return;
+
+    const pincode = pincodeInput.value.trim();
+
+    if (pincode.length !== 6 || !/^\d{6}$/.test(pincode)) {
+      document.getElementById(`${formId}_city`).value = '';
+      document.getElementById(`${formId}_state`).value = '';
+      return;
+    }
+
+    document.getElementById(`${formId}_city`).value = 'Loading...';
+    document.getElementById(`${formId}_state`).value = 'Loading...';
+
+    fetch(`https://api.postalpincode.in/pincode/${pincode}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data[0].Status === 'Success') {
+          const post = data[0].PostOffice[0];
+          document.getElementById(`${formId}_city`).value = post.District;
+          document.getElementById(`${formId}_state`).value = post.State;
+          document.getElementById(`${formId}_country`).value = post.Country;
+        } else {
+          document.getElementById(`${formId}_city`).value = '';
+          document.getElementById(`${formId}_state`).value = '';
+          showToast('Invalid pincode', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching pincode details:', error);
+        document.getElementById(`${formId}_city`).value = '';
+        document.getElementById(`${formId}_state`).value = '';
+        showToast('Could not fetch location details', 'error');
+      });
+  }
+
+  // Show toast notification
+  function showToast(message, type = 'success') {
+    const backgroundColor = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b';
+
+    if (typeof Toastify !== 'undefined') {
+      Toastify({
+        text: message,
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: backgroundColor
+      }).showToast();
+    } else {
+      alert(message);
+    }
+  }
 </script>
 
 <style>
