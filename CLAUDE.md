@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Framework**: Laravel 10.x with Vite
 - **Frontend**: Tailwind CSS with Blade templates
-- **Database**: MySQL (Port 3307)
-- **Development**: XAMPP (`http://localhost/usceligin`)
+- **Database**: MySQL (Port 3306)
+- **Development**: WAMP (`http://localhost/usceligin`)
 
 ## Quick Start Commands
 
@@ -70,13 +70,13 @@ Stripe • Razorpay • PayPal • Mollie • Authorize.net • Instamojo • Me
 
 ## Database Configuration
 
-**Important**: The database is configured for XAMPP with non-standard port.
+**Important**: The database is configured for WAMP with standard MySQL port.
 
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
-DB_PORT=3307
-DB_DATABASE=us_devceligin_1nov25
+DB_PORT=3306
+DB_DATABASE=us_devceligin_23dec25
 ```
 
 ## OTP Authentication System
@@ -307,6 +307,6 @@ CREATE TABLE addresses (
 ---
 
 **Last Updated**: 2025-12-07 (User Flow Planning Added)
-**Database**: us_devceligin_1nov25
+**Database**: us_devceligin_23dec25
 **PHP Version**: 8.1+
 **Laravel Version**: 10.x

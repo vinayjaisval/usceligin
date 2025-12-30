@@ -36,35 +36,142 @@ http://localhost/usceligin/payment/status?status=pending
 
 **Note**: The yellow demo switcher should be removed in production.
 
-## Integration with Payment Gateways
+## Data Structure Required from Controller
 
-When integrating with actual payment gateways, redirect to the status page based on the payment result:
+### Controller Implementation (DRY Approach)
 
-### Success Example
+The view expects the following data arrays. Update `CheckoutController::paymentStatus()`:
+
 ```php
-// In your payment gateway controller (e.g., RazorpayController)
-if ($paymentSuccess) {
-    return redirect()->route('front.payment.status', ['status' => 'success'])
-        ->with('order', $order)
-        ->with('transaction_id', $transactionId);
+public function paymentStatus(Request $request)
+{
+    $status = $request->get('status', 'success');
+    $orderId = $request->get('order_id');
+
+    // Fetch order from database
+    $orderData = Order::with('items')->findOrFail($orderId);
+
+    // Build required data arrays
+    $order = [
+        'order_number' => $orderData->order_number,
+        'order_date' => $orderData->created_at->format('d-M-Y'),
+        'transaction_id' => $orderData->txnid, // Optional, only for success
+        'payment_method' => $orderData->method,
+    ];
+
+    $paymentInfo = [
+        'subtotal' => $orderData->pay_amount,
+        'shipping' => $orderData->shipping_cost ?? 0,
+        'discount' => $orderData->coupon_discount ?? 0,
+        'tax' => $orderData->tax ?? 0,
+        'total' => $orderData->pay_amount,
+    ];
+
+    $billingAddress = [
+        'name' => $orderData->customer_name,
+        'email' => $orderData->customer_email,
+        'phone' => $orderData->customer_phone,
+        'address' => $orderData->customer_address,
+        'flat' => $orderData->customer_address2 ?? '',
+        'city' => $orderData->customer_city,
+        'state' => $orderData->customer_state,
+        'zip' => $orderData->customer_zip,
+        'country' => $orderData->customer_country ?? 'India',
+    ];
+
+    $orderProducts = $orderData->items->map(function($item) {
+        return [
+            'name' => $item->product_name,
+            'image' => $item->product_image ?? asset('assets/images/noimage.png'),
+            'quantity' => $item->qty,
+            'price' => $item->price,
+            'total' => $item->qty * $item->price,
+        ];
+    })->toArray();
+
+    // Support settings
+    $settings = [
+        'support_email' => $this->gs->contact_email ?? config('mail.from.address', 'support@example.com'),
+        'support_phone' => $this->gs->contact_phone ?? '+1234567890',
+    ];
+
+    return view('frontend.payment-status', compact(
+        'status',
+        'order',
+        'paymentInfo',
+        'billingAddress',
+        'orderProducts',
+        'settings'
+    ));
 }
 ```
 
-### Failed Example
+### Integration with Payment Gateways
+
+Redirect to status page based on payment result:
+
+**Success:**
 ```php
-if ($paymentFailed) {
-    return redirect()->route('front.payment.status', ['status' => 'failed'])
-        ->with('error_message', $errorMessage);
-}
+return redirect()->route('front.payment.status', [
+    'status' => 'success',
+    'order_id' => $order->id
+]);
 ```
 
-### Pending Example
+**Failed:**
 ```php
-if ($paymentPending) {
-    return redirect()->route('front.payment.status', ['status' => 'pending'])
-        ->with('order', $order);
-}
+return redirect()->route('front.payment.status', [
+    'status' => 'failed',
+    'order_id' => $order->id
+]);
 ```
+
+**Pending:**
+```php
+return redirect()->route('front.payment.status', [
+    'status' => 'pending',
+    'order_id' => $order->id
+]);
+```
+
+## DRY Implementation
+
+The view follows **Don't Repeat Yourself (DRY)** principles:
+
+### Reusable Components
+
+**1. SVG Icons Dictionary**
+```php
+$icons = [
+  'success' => '...',
+  'failed' => '...',
+  'tag' => '...',
+  // 12 icons total
+];
+```
+Used with: `{!! $icons['icon-name'] !!}`
+
+**2. CSS Classes Dictionary**
+```php
+$classes = [
+  'card' => 'bg-white dark:bg-gray-800...',
+  'label' => 'text-xs uppercase...',
+  'btn-primary' => 'flex-1 py-3...',
+  // 9 classes total
+];
+```
+Used with: `{{ $classes['class-name'] }}`
+
+**3. Configuration Arrays**
+- `$orderDetails` - Loops through order fields with icons
+- `$paymentBreakdown` - Dynamically builds payment lines
+- `$contactInfo` - Email/phone with icons
+
+**Benefits:**
+- ✅ ~70% less HTML repetition
+- ✅ Easy to maintain (change once, apply everywhere)
+- ✅ Consistent styling across the page
+- ✅ Loop-driven rendering instead of copy-paste
 
 ## Features
 
@@ -73,8 +180,9 @@ if ($paymentPending) {
 - Full dark mode support
 - Responsive design (mobile, tablet, desktop)
 - Orange primary color (#EA580C) matching brand
-- No rounded corners (sharp design aesthetic)
+- **No rounded corners** (sharp design aesthetic)
 - Accessibility features (ARIA labels, semantic HTML)
+- DRY code structure (reusable components)
 
 ### Payment Success Page Includes
 - ✅ Success icon with green theme
@@ -100,42 +208,19 @@ if ($paymentPending) {
 
 ## Removing Demo Mode (Production)
 
-Before deploying to production, remove the demo switcher:
+Demo mode automatically hides when `APP_DEBUG=false` in `.env`.
 
-1. Open `resources/views/frontend/payment-status.blade.php`
-2. Delete lines 50-61 (the yellow demo switcher section):
-
+The demo switcher is wrapped in:
 ```blade
-<!-- Status Demo Switcher (Remove in production) -->
-<div class="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
-  <p class="text-sm text-yellow-800 dark:text-yellow-200 font-medium mb-2">Demo Mode: Switch payment status</p>
-  <div class="flex flex-wrap gap-2">
-    <a href="?status=success" class="px-4 py-2 text-sm bg-green-600 text-white hover:bg-green-700 transition-colors">Success</a>
-    <a href="?status=failed" class="px-4 py-2 text-sm bg-red-600 text-white hover:bg-red-700 transition-colors">Failed</a>
-    <a href="?status=pending" class="px-4 py-2 text-sm bg-orange-600 text-white hover:bg-orange-700 transition-colors">Pending</a>
-  </div>
-</div>
+@if(config('app.debug'))
+  <!-- Demo switcher here -->
+@endif
 ```
 
-3. Update the controller to fetch real order data from the database:
-
-```php
-public function paymentStatus(Request $request)
-{
-    $status = $request->get('status', 'success');
-    $orderId = $request->get('order_id');
-
-    // Fetch order from database
-    $order = Order::with('items')->findOrFail($orderId);
-
-    // Verify the order belongs to the authenticated user
-    if (Auth::check() && $order->user_id !== Auth::id()) {
-        abort(403);
-    }
-
-    return view('frontend.payment-status', compact('status', 'order'));
-}
-```
+**For production:**
+1. Set `APP_DEBUG=false` in `.env`
+2. Ensure controller passes real data (see "Controller Implementation" above)
+3. Demo data has fallback values with `??` operator for testing
 
 ## Customization
 
@@ -172,6 +257,69 @@ Uncomment lines in the scripts section to enable auto-refresh every 30 seconds f
 - [ ] Test all action buttons
 - [ ] Verify accessibility with screen reader
 - [ ] Test payment gateway integration
+
+## Troubleshooting
+
+### Error: "Using $this when not in object context"
+
+**Cause:** Trying to use `$this->gs` in Blade view's `@php` block.
+
+**Solution:**
+1. Pass `$settings` from controller (see "Controller Implementation" above)
+2. Don't use `$this` in view files
+3. The view uses fallback: `config('mail.from.address')` if settings not passed
+
+**Fixed in:** Lines 153-156 of `payment-status.blade.php`
+
+### Error: "Undefined variable: order"
+
+**Cause:** Controller not passing required data arrays.
+
+**Solution:**
+Ensure controller passes all required arrays:
+```php
+return view('frontend.payment-status', compact(
+    'status',
+    'order',
+    'paymentInfo',
+    'billingAddress',
+    'orderProducts',
+    'settings'
+));
+```
+
+View has fallback demo data for all variables using `??` operator.
+
+### Error: "Call to a member function convertPrice() on null"
+
+**Cause:** Product model not found or method doesn't exist.
+
+**Solution:**
+Verify `App\Models\Product::convertPrice()` method exists. Alternative:
+```php
+// In your helper or model
+public static function convertPrice($amount) {
+    return config('app.currency_symbol', '₹') . number_format($amount, 2);
+}
+```
+
+### Layout/Styling Issues
+
+**Cause:** Tailwind CSS not compiled or missing.
+
+**Solution:**
+```bash
+npm run build
+# or for development
+npm run dev
+```
+
+### Demo Switcher Not Showing
+
+**Cause:** `APP_DEBUG=false` in `.env`.
+
+**Solution:**
+Set `APP_DEBUG=true` for local testing. Demo switcher only shows in debug mode.
 
 ## Support
 For issues or questions, refer to:

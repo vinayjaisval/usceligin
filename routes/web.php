@@ -2,8 +2,10 @@
 
 // ************************************ OTP AUTHENTICATION SECTION **********************************************
 
-// OTP Login Routes
-Route::get('/sign-in', 'Auth\OtpController@showLoginForm')->name('otp.login.form');
+// OTP Login Routes (Guest only - redirect to account if already logged in)
+Route::middleware('guest')->group(function () {
+    Route::get('/sign-in', 'Auth\OtpController@showLoginForm')->name('otp.login.form');
+});
 
 // OTP Routes with rate limiting
 Route::middleware('throttle:5,1')->group(function () {
@@ -18,6 +20,7 @@ Route::middleware('throttle:10,1')->group(function () {
     Route::post('/user/check', 'Auth\OtpController@checkUser')->name('user.check');
 });
 
+// Logout (Authenticated users only)
 Route::post('/logout', 'Auth\User\LoginController@logout')->name('logout')->middleware('auth');
 
 // ************************************ USER ACCOUNT SECTION **********************************************
@@ -26,10 +29,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/myaccount/update', 'User\AccountController@update')->name('user.account.update');
 
     // Address management
-    Route::post('/myaccount/addresses', 'User\AddressController@store')->name('user.addresses.store');
-    Route::put('/myaccount/addresses/{id}', 'User\AddressController@update')->name('user.addresses.update');
-    Route::delete('/myaccount/addresses/{id}', 'User\AddressController@destroy')->name('user.addresses.destroy');
-    Route::post('/myaccount/addresses/{id}/set-default', 'User\AddressController@setDefault')->name('user.addresses.set-default');
+    Route::post('/user/addresses', 'User\AddressController@store')->name('user.addresses.store');
+    Route::get('/user/addresses/{id}/edit', 'User\AddressController@edit')->name('user.addresses.edit');
+    Route::put('/user/addresses/{id}', 'User\AddressController@update')->name('user.addresses.update');
+    Route::delete('/user/addresses/{id}', 'User\AddressController@destroy')->name('user.addresses.destroy');
+    Route::post('/user/addresses/{id}/set-default', 'User\AddressController@setDefault')->name('user.addresses.set-default');
 });
 
 // ************************************ ADMIN SECTION **********************************************
@@ -1902,73 +1906,67 @@ Route::post('/load-more-products','Front\CatalogController@loadMoreProducts')->n
         Route::get('/checkout/payment/wallet-check', 'Front\CheckoutController@walletcheck')->name('front.wallet.check');
         Route::get('/payment/status', 'Front\CheckoutController@paymentStatus')->name('front.payment.status');
     });
-    // Paypal
-    Route::post('/checkout/payment/paypal/submit', 'Payment\Checkout\PaypalController@store')->name('front.paypal.submit');
-    Route::get('/checkout/payment/paypal-notify', 'Payment\Checkout\PaypalController@notify')->name('front.paypal.notify');
 
-    // Stripe
-    Route::post('/checkout/payment/stripe-submit', 'Payment\Checkout\StripeController@store')->name('front.stripe.submit');
-    Route::get('/payment/stripe/notify', 'Payment\Checkout\StripeController@notify')->name('front.stripe.notify');
+    // ************************************ PAYMENT SUBMISSION SECTION (Protected) **********************************************
+    Route::middleware('auth')->group(function () {
+        // Paypal
+        Route::post('/checkout/payment/paypal/submit', 'Payment\Checkout\PaypalController@store')->name('front.paypal.submit');
+        Route::get('/checkout/payment/paypal-notify', 'Payment\Checkout\PaypalController@notify')->name('front.paypal.notify');
 
-    // Instamojo
-    Route::post('/checkout/payment/instamojo-submit', 'Payment\Checkout\InstamojoController@store')->name('front.instamojo.submit');
-    Route::get('/checkout/payment/instamojo-notify', 'Payment\Checkout\InstamojoController@notify')->name('front.instamojo.notify');
+        // Stripe
+        Route::post('/checkout/payment/stripe-submit', 'Payment\Checkout\StripeController@store')->name('front.stripe.submit');
+        Route::get('/payment/stripe/notify', 'Payment\Checkout\StripeController@notify')->name('front.stripe.notify');
 
-    // Paystack
-    Route::post('/checkout/payment/paystack-submit', 'Payment\Checkout\PaystackController@store')->name('front.paystack.submit');
+        // Instamojo
+        Route::post('/checkout/payment/instamojo-submit', 'Payment\Checkout\InstamojoController@store')->name('front.instamojo.submit');
+        Route::get('/checkout/payment/instamojo-notify', 'Payment\Checkout\InstamojoController@notify')->name('front.instamojo.notify');
 
-    // PayTM
-    Route::post('/checkout/payment/paytm-submit', 'Payment\Checkout\PaytmController@store')->name('front.paytm.submit');;
-    Route::post('/checkout/payment/paytm-notify', 'Payment\Checkout\PaytmController@notify')->name('front.paytm.notify');
+        // Paystack
+        Route::post('/checkout/payment/paystack-submit', 'Payment\Checkout\PaystackController@store')->name('front.paystack.submit');
 
-    // Molly
-    Route::post('/checkout/payment/molly-submit', 'Payment\Checkout\MollieController@store')->name('front.molly.submit');
-    Route::get('/checkout/payment/molly-notify', 'Payment\Checkout\MollieController@notify')->name('front.molly.notify');
+        // PayTM
+        Route::post('/checkout/payment/paytm-submit', 'Payment\Checkout\PaytmController@store')->name('front.paytm.submit');;
+        Route::post('/checkout/payment/paytm-notify', 'Payment\Checkout\PaytmController@notify')->name('front.paytm.notify');
 
-    // RazorPay
-    Route::match(['get', 'post'], '/checkout/payment/razorpay-submit', 'Payment\Checkout\RazorpayController@store')->name('front.razorpay.submit');
+        // Molly
+        Route::post('/checkout/payment/molly-submit', 'Payment\Checkout\MollieController@store')->name('front.molly.submit');
+        Route::get('/checkout/payment/molly-notify', 'Payment\Checkout\MollieController@notify')->name('front.molly.notify');
 
-    // Route::post('/checkout/payment/razorpay-submit', 'Payment\Checkout\RazorpayController@store')->name('front.razorpay.submit');
-    Route::post('/checkout/payment/razorpay-notify', 'Payment\Checkout\RazorpayController@notify')->name('front.razorpay.notify');
+        // RazorPay
+        Route::match(['get', 'post'], '/checkout/payment/razorpay-submit', 'Payment\Checkout\RazorpayController@store')->name('front.razorpay.submit');
+        Route::post('/checkout/payment/razorpay-notify', 'Payment\Checkout\RazorpayController@notify')->name('front.razorpay.notify');
 
-    // Authorize.Net
-    Route::post('/checkout/payment/authorize-submit', 'Payment\Checkout\AuthorizeController@store')->name('front.authorize.submit');
+        // Authorize.Net
+        Route::post('/checkout/payment/authorize-submit', 'Payment\Checkout\AuthorizeController@store')->name('front.authorize.submit');
 
-    // Mercadopago
-    Route::post('/checkout/payment/mercadopago-submit', 'Payment\Checkout\MercadopagoController@store')->name('front.mercadopago.submit');
+        // Mercadopago
+        Route::post('/checkout/payment/mercadopago-submit', 'Payment\Checkout\MercadopagoController@store')->name('front.mercadopago.submit');
 
-    // Flutter Wave
-    Route::post('/checkout/payment/flutter-submit', 'Payment\Checkout\FlutterwaveController@store')->name('front.flutter.submit');
+        // Flutter Wave
+        Route::post('/checkout/payment/flutter-submit', 'Payment\Checkout\FlutterwaveController@store')->name('front.flutter.submit');
 
+        // SSLCommerz
+        Route::post('/checkout/payment/ssl-submit', 'Payment\Checkout\SslController@store')->name('front.ssl.submit');
+        Route::post('/checkout/payment/ssl-notify', 'Payment\Checkout\SslController@notify')->name('front.ssl.notify');
 
-    // SSLCommerz
-    Route::post('/checkout/payment/ssl-submit', 'Payment\Checkout\SslController@store')->name('front.ssl.submit');
-    Route::post('/checkout/payment/ssl-notify', 'Payment\Checkout\SslController@notify')->name('front.ssl.notify');
+        // Voguepay
+        Route::post('/checkout/payment/voguepay-submit', 'Payment\Checkout\VoguepayController@store')->name('front.voguepay.submit');
 
-    // Voguepay
-    Route::post('/checkout/payment/voguepay-submit', 'Payment\Checkout\VoguepayController@store')->name('front.voguepay.submit');
+        // Wallet
+        Route::post('/checkout/payment/wallet-submit', 'Payment\Checkout\WalletPaymentController@store')->name('front.wallet.submit');
 
-    // Wallet
-    Route::post('/checkout/payment/wallet-submit', 'Payment\Checkout\WalletPaymentController@store')->name('front.wallet.submit');
+        // Manual
+        Route::post('/checkout/payment/manual-submit', 'Payment\Checkout\ManualPaymentController@store')->name('front.manual.submit');
 
-    // Manual
-    Route::post('/checkout/payment/manual-submit', 'Payment\Checkout\ManualPaymentController@store')->name('front.manual.submit');
+        // Cash On Delivery
+        Route::post('/checkout/payment/cod-submit', 'Payment\Checkout\CashOnDeliveryController@store')->name('front.cod.submit');
 
-    // Cash On Delivery
-    Route::post('/checkout/payment/cod-submit', 'Payment\Checkout\CashOnDeliveryController@store')->name('front.cod.submit');
-
-    // Flutterwave Notify Routes
-
-    // Deposit
-    Route::post('/dflutter/notify', 'Payment\Deposit\FlutterwaveController@notify')->name('deposit.flutter.notify');
-
-    // Subscription
-    Route::post('/uflutter/notify', 'Payment\Subscription\FlutterwaveController@notify')->name('user.flutter.notify');
-
-    // Checkout
-    Route::post('/cflutter/notify', 'Payment\Checkout\FlutterwaveController@notify')->name('front.flutter.notify');
-
-    // CHECKOUT SECTION ENDS
+        // Flutterwave Notify Routes
+        Route::post('/dflutter/notify', 'Payment\Deposit\FlutterwaveController@notify')->name('deposit.flutter.notify');
+        Route::post('/uflutter/notify', 'Payment\Subscription\FlutterwaveController@notify')->name('user.flutter.notify');
+        Route::post('/cflutter/notify', 'Payment\Checkout\FlutterwaveController@notify')->name('front.flutter.notify');
+    });
+    // CHECKOUT & PAYMENT SECTION ENDS
 
     //   Mobile Checkout section
 
