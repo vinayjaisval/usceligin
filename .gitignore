@@ -41,3 +41,8 @@ composer.lock
 # Temporary files
 *.zip
 *.mp4
+nul
+check_*.php
+test_*.php
+verify_*.php
+read_*.php

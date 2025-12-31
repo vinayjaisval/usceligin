@@ -2,7 +2,7 @@
 -- Run these commands in phpMyAdmin or MySQL command line
 
 -- 1. First, verify your database exists
-USE us_devceligin;
+USE us_devceligin_23dec25;
 
 -- 2. Create otp_verifications table
 CREATE TABLE IF NOT EXISTS `otp_verifications` (
@@ -53,7 +53,7 @@ DESCRIBE users;
 -- 7. Check if all required columns exist
 SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT
 FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_SCHEMA = 'us_devceligin_1nov25'
+WHERE TABLE_SCHEMA = 'us_devceligin_23dec25'
 AND TABLE_NAME = 'users'
 AND COLUMN_NAME IN ('phone', 'phone_verified_at', 'last_otp_sent_at', 'otp_attempts_count', 'is_phone_primary');
 

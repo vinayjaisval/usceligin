@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('type')->default('home'); // home, work, other
+            $table->string('type')->nullable(); // home, work, other (optional)
             $table->string('name');
             $table->string('phone', 15);
             $table->text('address_line_1');

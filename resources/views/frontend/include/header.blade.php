@@ -39,14 +39,15 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Promotion Bar -->
+  @php
+    use App\Models\Coupon;
+    $available_coupons = Coupon::where('id', 1)->select('id', 'code', 'price')->get();
+  @endphp
+
+  @if($available_coupons->isNotEmpty())
   <div class="bg-orange-600 dark:bg-orange-700 text-white" role="banner" aria-label="Promotional announcement">
     <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8">
       <div class="flex items-center justify-between py-1">
-        @php
-          use App\Models\Coupon;
-          $available_coupons = Coupon::where('id', 1)->select('id', 'code', 'price')->get();
-        @endphp
-
         <!-- Promotion Content -->
         <div class="flex items-center space-x-2 flex-1 min-w-0">
           <p class="text-sm font-medium truncate">
@@ -72,6 +73,7 @@
       </div>
     </div>
   </div>
+  @endif
 
   <!-- Header -->
   <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50" role="banner">

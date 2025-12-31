@@ -17,6 +17,12 @@ class AccountController extends Controller
      */
     public function index()
     {
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('otp.login.form')
+                ->with('error', 'Please login to access your account.');
+        }
+
         $user = Auth::user();
        
         
