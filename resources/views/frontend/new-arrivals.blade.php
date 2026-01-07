@@ -10,7 +10,7 @@
     </div>
 
     {{-- Category Header with Form-based Filtering --}}
-    <section class="py-6 sm:py-8 lg:py-8" aria-labelledby="category-title">
+    <section class="py-6 sm:py-8 lg:py-12" aria-labelledby="category-title">
       {{-- Title --}}
       <div class="mb-6 sm:mb-8">
         <h1 id="category-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">

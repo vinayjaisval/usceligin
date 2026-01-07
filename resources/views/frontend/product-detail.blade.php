@@ -312,7 +312,7 @@
     </div>
 
     <!-- Recommendations -->
-    <section class="py-12 lg:py-8 bg-gray-50 dark:bg-gray-800" aria-labelledby="recommendations-title" role="region">
+    <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="recommendations-title" role="region">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
           <h2 id="recommendations-title"

@@ -50,15 +50,15 @@
           <div class="sign-in-section" id="signInSection">
             <div class="mb-lg" id="methodSelection">
               <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-lg" id="signin-heading">Sign In with OTP</h1>
-              <fieldset class="flex gap-0 mb-lg flex-col sm:flex-row  gap-y-3">
+              <fieldset class="flex gap-0 mb-lg">
                 <legend class="sr-only">Select your preferred verification method</legend>
                 <button type="button"
-                  class="method-btn method-btn--active text-xs sm:text-sm"
+                  class="method-btn method-btn--active"
                   id="phoneMethodBtn" data-method="phone" aria-pressed="true" aria-describedby="phone-help">
                   <span>Phone Number</span>
                 </button>
                 <button type="button"
-                  class="method-btn method-btn--inactive text-xs sm:text-sm"
+                  class="method-btn method-btn--inactive"
                   id="emailMethodBtn" data-method="email" aria-pressed="false" aria-describedby="email-help">
                   <span>Email Address</span>
                 </button>

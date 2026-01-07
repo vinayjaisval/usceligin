@@ -1,7 +1,3 @@
-@extends('frontend.include.app')
-
-@section('content')
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,81 +35,56 @@
 </head>
 
 <body>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-        <li>
-          <a href="http://localhost/celigin" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Home</a>
-        </li>
-        <li class="flex items-center">
-          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-          <span class="text-gray-900 dark:text-gray-100" aria-current="page">Privacy Policy</span>
-        </li>
-      </ol>
-    </nav>
-  </div>
-  <div class="bg-gray-50 dark:bg-gray-800 py-12 lg:py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">Privacy Policy</h1>
-      <!-- <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Expert skincare tips, beauty trends, and product insights</p> -->
+  <main class="min-h-screen flex items-center justify-center px-0 py-xl bg-gray-50 dark:bg-gray-900">
+    <div class="w-full max-w-container-2xl mx-auto px-md lg:px-lg xl:px-xl">
+      <div class="w-full max-w-4xl mx-auto">
+        <article class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-heavy px-3xl py-3xl">
+          <header class="mb-xl text-center">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-md">Privacy Policy</h1>
+            <p class="text-gray-600 dark:text-gray-400">{{ config('app.name', 'CELIGIN') }} - Premium Beauty & Skincare</p>
+          </header>
+
+          <div class="prose max-w-none text-gray-900 dark:text-gray-100">
+            <p class="text-lg mb-lg">
+              At {{ config('app.name', 'CELIGIN') }}, we are committed to protecting your privacy and ensuring the security of your personal information.
+            </p>
+
+            <h2 class="text-xl font-semibold mb-md mt-xl">1. Information We Collect</h2>
+            <p class="mb-lg">
+              We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support.
+            </p>
+
+            <h2 class="text-xl font-semibold mb-md mt-xl">2. How We Use Your Information</h2>
+            <p class="mb-lg">
+              We use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.
+            </p>
+
+            <h2 class="text-xl font-semibold mb-md mt-xl">3. Information Sharing</h2>
+            <p class="mb-lg">
+              We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.
+            </p>
+
+            <h2 class="text-xl font-semibold mb-md mt-xl">4. Data Security</h2>
+            <p class="mb-lg">
+              We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.
+            </p>
+
+            <h2 class="text-xl font-semibold mb-md mt-xl">5. Contact Us</h2>
+            <p class="mb-lg">
+              If you have any questions about this Privacy Policy, please contact us through our official channels.
+            </p>
+          </div>
+
+          <footer class="mt-xl pt-lg border-t border-gray-200 dark:border-gray-700 text-center">
+            <a href="{{ route('front.index') }}"
+               class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline transition-colors duration-fast">
+              Return to Homepage
+            </a>
+          </footer>
+        </article>
+      </div>
     </div>
-  </div>
-
-
-  <article class="bg-white w-full max-w-4xl mx-auto dark:bg-gray-800 
-   
-    rounded-2xl p-10 transition-all duration-300">
-
-    <div class="space-y-10 text-gray-800 dark:text-gray-200 leading-relaxed">
-      <section class="border-l-4 border-orange-600 pl-6">
-        <h2 class="text-lg font-semibold mb-md mt-xl">1. Information We Collect</h2>
-        <p class="text-justify text-gray-600 text-base">
-          We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support.
-        </p>
-      </section>
-
-      <section class="border-l-4 border-orange-600 pl-6">
-        <h2 class="text-lg font-semibold mb-md mt-xl">2. How We Use Your Information</h2>
-         <p class="text-justify text-gray-600 text-base">
-          We use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.
-        </p>
-      </section>
-
-      <section class="border-l-4 border-orange-600 pl-6">
-        <h2 class="text-lg font-semibold mb-md mt-xl">3. Information Sharing</h2>
-         <p class="text-justify text-gray-600 text-base">
-          We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.
-        </p>
-      </section>
-
-      <section class="border-l-4 border-orange-600 pl-6">
-        <h2 class="text-lg font-semibold mb-md mt-xl">4. Data Security</h2>
-         <p class="text-justify text-gray-600 text-base">
-          We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.
-        </p>
-      </section>
-
-      <section class="border-l-4 border-orange-600 pl-6">
-        <h2 class="text-lg font-semibold mb-md mt-xl">5. Contact Us</h2>
-         <p class="text-justify text-gray-600 text-base">
-          If you have any questions about this Privacy Policy, please contact us through our official channels.
-        </p>
-      </section>
-
-    </div>
-
-    <footer class="mt-14 text-center">
-      <a href="{{ route('front.index') }}"
-        class="inline-block bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 
-                  text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300">
-        ⟵ Return to Homepage
-      </a>
-    </footer>
-
-  </article>
+  </main>
 </body>
 
 </html>
-@endsection

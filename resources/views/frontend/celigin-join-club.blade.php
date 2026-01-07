@@ -1,20 +1,17 @@
 @extends('frontend.include.app')
 
 @section('content')
-<main id="main-content" role="main" class="  min-h-screen">
-  <div class="py-4 sm:py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+<main id="main-content" role="main" class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
 
     {{-- Breadcrumb --}}
     @include('frontend.include.breadcrumb', ['items' => [
       ['label' => 'Home', 'url' => route('front.index')],
       ['label' => 'Join Celigin Club']
     ]])
- </div>
+
     {{-- Page Header --}}
-    <div class="bg-gray-50 dark:bg-gray-800 py-6 lg:py-12">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <div class="text-center mb-8 lg:mb-12 ">
+    <div class="text-center mb-8 lg:mb-12">
       <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
         Join Celigin Club
       </h1>
@@ -22,11 +19,9 @@
         Become a member of our exclusive community and enjoy special benefits, rewards, and early access to new products.
       </p>
     </div>
-    </div>
-    </div>
 
     {{-- Registration Form --}}
-    <div class="max-w-4xl mx-auto py-12">
+    <div class="max-w-2xl mx-auto">
       <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
 
         {{-- Error Messages --}}
@@ -62,8 +57,7 @@
           @csrf
 
           {{-- Name Field --}}
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="">
+          <div>
             <label for="name" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
               Name <span class="text-red-600 dark:text-red-400">*</span>
             </label>
@@ -73,7 +67,7 @@
               name="name"
               required
               value="{{ old('name') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border outline-none  border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
               placeholder="Enter your full name"
               aria-required="true" />
             @error('name')
@@ -81,8 +75,7 @@
             @enderror
           </div>
 
-
-       {{-- Email Field --}}
+          {{-- Email Field --}}
           <div>
             <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
               Email Address <span class="text-red-600 dark:text-red-400">*</span>
@@ -93,7 +86,7 @@
               name="email"
               required
               value="{{ old('email') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border outline-none border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
               placeholder="Enter your email address"
               aria-required="true" />
             @error('email')
@@ -101,8 +94,7 @@
             @enderror
           </div>
 
-
-           {{-- Phone Field --}}
+          {{-- Phone Field --}}
           <div>
             <label for="phone" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
               Phone Number <span class="text-red-600 dark:text-red-400">*</span>
@@ -113,7 +105,7 @@
               name="phone"
               required
               value="{{ old('phone') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border outline-none border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
               placeholder="Enter your phone number"
               pattern="[0-9]{10,15}"
               aria-required="true" />
@@ -121,7 +113,6 @@
               <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
             @enderror
           </div>
-
 
           {{-- Instagram Profile Link --}}
           <div>
@@ -134,34 +125,32 @@
               id="instagram"
               name="instagram_profile_link"
               value="{{ old('instagram_profile_link') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border outline-none border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-             
-              
-              placeholder ="Instagram link"/>
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+              placeholder="https://instagram.com/yourusername" />
             @error('instagram_profile_link')
               <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
             @enderror
           </div>
-    </div>
 
-     {{-- YouTube Profile Link --}}
+          {{-- YouTube Profile Link --}}
           <div>
             <label for="youtube" class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
               YouTube Profile Link
               <span class="text-gray-500 dark:text-gray-400 font-normal">(Optional)</span>
             </label>
             <input
-              type="url" 
+              type="url"
               id="youtube"
               name="youtube_profile_link"
               value="{{ old('youtube_profile_link') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border outline-none border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
-              placeholder="youtube link" />
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+              placeholder="https://youtube.com/yourchannel" />
             @error('youtube_profile_link')
               <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
             @enderror
           </div>
-     {{-- Submit Button --}}
+
+          {{-- Submit Button --}}
           <div class="pt-4">
             <button
               type="submit"
@@ -169,6 +158,7 @@
               Register for Celigin Club
             </button>
           </div>
+
           {{-- Additional Info --}}
           <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
             <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
@@ -182,7 +172,7 @@
       </div>
 
       {{-- Benefits Section --}}
-      <div class="mt-8 lg:mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 px-4 sm:px-6  lg:gap-6">
+      <div class="mt-8 lg:mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 text-center">
           <span class="material-icons-outlined text-4xl text-orange-600 dark:text-orange-400 mb-3">card_giftcard</span>
           <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Exclusive Rewards</h3>
@@ -204,6 +194,5 @@
     </div>
 
   </div>
-   
 </main>
 @endsection

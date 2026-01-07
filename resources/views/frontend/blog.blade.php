@@ -77,9 +77,7 @@
             </a>
 
             <div class="hidden sm:flex items-center space-x-2">
-              <div class="flex">
               {{ $blogs->links() }}
-              </div>
             </div>
 
             <a href="#" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200" aria-label="Next page">
@@ -108,9 +106,9 @@
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col justify-end p-6">
-                      <h3 class="text-lg font-bold text-black mb-1">{{$arrival['title']}}</h3>
-                      <p class="text-sm text-black/90 mb-3">{{$arrival['up_sale']}}</p>
-                      <span class="inline-flex items-center text-sm font-medium text-black group-hover:translate-x-1 transition-transform duration-200">
+                      <h3 class="text-lg font-bold text-white mb-1">{{$arrival['title']}}</h3>
+                      <p class="text-sm text-white/90 mb-3">{{$arrival['up_sale']}}</p>
+                      <span class="inline-flex items-center text-sm font-medium text-white group-hover:translate-x-1 transition-transform duration-200">
                         Shop Now
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-1">
                           <line x1="7" y1="17" x2="17" y2="7"></line>
@@ -132,8 +130,8 @@
                   alt="Join CELIGIN Club - Become a Brand Ambassador"
                   class="w-full aspect-[4/3] object-cover" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-                  <span class="inline-block px-3 py-1 bg-orange-600 text-white text-xs font-bold uppercase mb-2 w-fit">JOIN CELIGIN CLUB</span>
-                  <h3 class="text-lg font-bold text-black mb-4">Become a Brand Ambassador</h3>
+                  <span class="inline-block px-3 py-1 bg-pink-600 text-white text-xs font-bold uppercase mb-2 w-fit">JOIN CELIGIN CLUB</span>
+                  <h3 class="text-lg font-bold text-white mb-4">Become a Brand Ambassador</h3>
                   <a href="/join" class="inline-block px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors w-fit">Join Now</a>
                 </div>
               </div>
@@ -144,7 +142,7 @@
                   alt="Cell For Education - CELIGIN Skincare Products"
                   class="w-full aspect-[4/3] object-cover" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-                  <h3 class="text-lg font-bold text-black mb-4">Cell For Education</h3>
+                  <h3 class="text-lg font-bold text-white mb-4">Cell For Education</h3>
                   <a href="/education" class="inline-block px-4 py-2 bg-white text-gray-900 text-sm font-semibold hover:bg-gray-100 transition-colors w-fit">Read More</a>
                 </div>
               </div>
