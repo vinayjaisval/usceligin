@@ -23,14 +23,22 @@ class WishlistController extends FrontBaseController
 
     public function wishlist(Request $request)
     {
-        $user = Auth::user();
+        // $user = Auth::user();
         $oldCart = '';
         $tags = []; // Empty tags array - tags functionality disabled
        $oldCart = Session::get('wishlist');
 
+        $user = Auth::user();
+
+    if ($user) {
+        // Logged-in user: fetch wishlist from DB
         $oldCart = Wishlist::where('user_id', $user->id)
             ->with('product')
             ->get();
+    } else {
+        // Guest: fetch wishlist from session
+        $oldCart = Session::get('wishlist', collect()); // Use empty collection if none
+    }
 
 
         if (!Session::has('wishlist')) {

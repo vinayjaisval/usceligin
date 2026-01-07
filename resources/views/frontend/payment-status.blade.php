@@ -47,6 +47,7 @@
     'payment_method' => 'Razorpay',
   ];
 
+  
   $paymentInfo = $paymentInfo ?? [
     'subtotal' => 8092,
     'shipping' => 150,
@@ -124,7 +125,7 @@
   // Order detail items configuration
   $orderDetails = [
     ['icon' => 'tag', 'label' => 'Order Number', 'value' => $order['order_number']],
-    ['icon' => 'calendar', 'label' => 'Payment Date', 'value' => $order['order_date']],
+    ['icon' => 'calendar', 'label' => 'Payment Date', 'value' => $order['created_at']],
     ['icon' => 'credit-card', 'label' => 'Payment Method', 'value' => $order['payment_method']],
     ['icon' => 'user', 'label' => 'Customer Name', 'value' => $billingAddress['name']],
   ];
@@ -332,16 +333,15 @@
       <section class="lg:col-span-2 {{ $classes['card'] }}" aria-labelledby="ordered-items-heading">
         <div class="{{ $classes['card-header'] }}">
           <h2 id="ordered-items-heading" class="text-lg font-bold text-gray-900 dark:text-gray-100">
-            Ordered Items ({{ count($orderProducts) }})
+            Ordered Items ({{ count($tempcart->items) }})
           </h2>
         </div>
 
         <div class="{{ $classes['card-body'] }}">
           <ul class="space-y-6" role="list">
-    
-              @foreach($tempcart->items as $product)
 
-        
+            @foreach($tempcart->items as $product)
+                    
             <li class="flex gap-4 pb-6 @if(!$loop->last) border-b border-gray-200 dark:border-gray-700 @endif">
               <!-- Product Image -->
               <div class="flex-shrink-0 relative">

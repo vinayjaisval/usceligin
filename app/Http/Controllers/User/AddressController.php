@@ -14,6 +14,7 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
+       
         $validated = $request->validate([
             'type' => 'nullable|in:home,work,other',
             'name' => 'required|string|max:255',
@@ -40,14 +41,17 @@ class AddressController extends Controller
 
         // If this is set as default, unset all other defaults
         if ($validated['is_default']) {
+             
             Address::where('user_id', Auth::id())->update(['is_default' => false]);
         }
 
         // If this is the user's first address, make it default automatically
         if (Address::where('user_id', Auth::id())->count() === 0) {
+           
             $validated['is_default'] = true;
-        }
 
+        }
+        
         $address = Address::create($validated);
 
         if ($request->expectsJson()) {
@@ -118,7 +122,9 @@ class AddressController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+       
         $address = Address::where('user_id', Auth::id())->findOrFail($id);
+       
         $address->delete();
 
         if ($request->expectsJson()) {
@@ -154,3 +160,6 @@ class AddressController extends Controller
         return back()->with('success', 'Default address updated.');
     }
 }
+
+
+ 

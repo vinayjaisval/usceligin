@@ -567,7 +567,7 @@ class CartController extends FrontBaseController
     public function addnumcart_old(Request $request)
     {
 
-        dd($request->all());
+        // dd($request->all());
         $id = $_GET['id'];
         $qty = $_GET['qty'];
         $size = str_replace(' ', '-', $_GET['size']);
