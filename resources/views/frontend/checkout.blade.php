@@ -434,24 +434,25 @@
           </p>
         </div>
       </div>
-<form id="checkoutForm" method="POST">
-    @csrf
+          <form id="checkoutForm" method="POST">
+          @csrf
 
-    <input type="hidden" name="selected_payment_method" id="selected_payment_method">
-    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
-    <input type="hidden" name="total" id="total_hidden" value="{{ $finalTotal }}">
-   
-     <input type="hidden" name="shippingCost" id="shippingCost" value="{{ $shippingCost }}">
+          <input type="hidden" name="selected_payment_method" id="selected_payment_method">
+          <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+          <input type="hidden" name="total" id="total_hidden" value="{{ $finalTotal }}">
+        
+          <input type="hidden" name="shippingCost" id="shippingCost" value="{{ $shippingCost }}">
 
-     <input type="hidden" name="coupon_discount" id="coupon_discount" value="{{ $discountMRP }}">
-     <input type="hidden" name="refferal_discount" id="refferal_discount" value="{{ $discountMRP }}">
-   
-     <input type="hidden" name="refferal_discount" id="refferal_discount" value="{{ $discountMRP }}">
-     <input type="hidden" name="coupon_code" id="coupon_code" value="123">
+          <input type="hidden" name="coupon_discount" id="coupon_discount" value="{{ $discountMRP }}">
+
+          <input type="hidden" name="refferal_discount" id="refferal_discount" value="{{ $discountMRP }}">
+        
+          <input type="hidden" name="refferal_discount" id="refferal_discount" value="{{ $discountMRP }}">
+          <input type="hidden" name="coupon_code" id="coupon_code" >
 
 
 
-</form>
+      </form>
 
     </div>
   </div>
@@ -483,6 +484,8 @@
 
     // Hide add new form if open
     const newAddressForm = document.getElementById('new-address-form-container');
+
+    alert(newAddressForm);
     if (newAddressForm) {
       newAddressForm.classList.add('hidden');
     }
@@ -558,7 +561,7 @@
     if (firstAddressForm) {
       firstAddressForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        saveNewAddress(this);
+        // saveNewAddress(this);
       });
     }
 
@@ -567,52 +570,52 @@
     if (newAddressForm) {
       newAddressForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        saveNewAddress(this);
+        // saveNewAddress(this);
       });
     }
   });
 
   // Save new address via AJAX
-  function saveNewAddress(form) {
-    const formData = new FormData(form);
+  // function saveNewAddress(form) {
+  //   const formData = new FormData(form);
 
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Saving...';
+  //   // Show loading state
+  //   const submitBtn = form.querySelector('button[type="submit"]');
+  //   const originalText = submitBtn.textContent;
+  //   submitBtn.disabled = true;
+  //   submitBtn.textContent = 'Saving...';
 
-    fetch('{{ route("user.addresses.store") }}', {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json'
-      },
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+  //   fetch('{{ route("user.addresses.store") }}', {
+  //     method: 'POST',
+  //     headers: {
+  //       'X-CSRF-TOKEN': csrfToken,
+  //       'Accept': 'application/json'
+  //     },
+  //     body: formData
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     submitBtn.disabled = false;
+  //     submitBtn.textContent = originalText;
+  //     console.log(data);
+  //     if (data.success || data.message) {
+  //       showToast(data.message || 'Address saved successfully', 'success');
 
-      if (data.success || data.message) {
-        showToast(data.message || 'Address saved successfully', 'success');
-
-        // Reload page to show new address
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        showToast(data.error || 'Failed to save address', 'error');
-      }
-    })
-    .catch(error => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      console.error('Error:', error);
-      showToast('An error occurred while saving the address', 'error');
-    });
-  }
+  //       // Reload page to show new address
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, 1000);
+  //     } else {
+  //       showToast(data.error || 'Failed to save address', 'error');
+  //     }
+  //   })
+  //   .catch(error => {
+  //     submitBtn.disabled = false;
+  //     submitBtn.textContent = originalText;
+  //     console.error('Error:', error);
+  //     showToast('An error occurred while saving the address', 'error');
+  //   });
+  // }
 
   // Toggle billing address form
   function toggleBillingAddress() {
@@ -759,6 +762,7 @@
   function applyCoupon() {
     const couponCode = document.getElementById('coupon_code').value.trim();
 
+
     if (!couponCode) {
       showToast('Please enter a coupon code', 'error');
       return false;
@@ -771,7 +775,7 @@
 
     const totalPrice = parseFloat('{{ $totalPrice }}');
 
-    fetch(`/carts/coupon/check?code=${encodeURIComponent(couponCode)}&total=${totalPrice}`, {
+    fetch(`/celigin/carts/coupon/check?code=${encodeURIComponent(couponCode)}&total=${totalPrice}`, {
       method: 'GET',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -818,7 +822,6 @@
       showToast('Error applying coupon', 'error');
       console.error('Coupon error:', err);
     });
-
     return false;
   }
 
@@ -834,13 +837,12 @@
   function updateTotal(couponDiscount = 0) {
     const subtotal = parseFloat('{{ $subtotalMRP }}');
     const existingDiscount = parseFloat('{{ $discountMRP + $referralDiscount }}');
-    const shipping = parseFloat('{{ $shippingCost }}');
+    console.log(existingDiscount);
+    const shipping = parseFloat('{{ $shippingCost }}');    
     const taxRate = 0.18; // 18% GST
-
     // Calculate tax on taxable amount (after all discounts)
     const taxableAmount = subtotal - existingDiscount - couponDiscount;
     const taxAmount = taxableAmount * taxRate;
-
     // Update tax display
     const taxElement = document.getElementById('tax-amount');
     if (taxElement) {
@@ -863,14 +865,14 @@
       }
 
       // 🔹 2. Address validation
-      if (!userHasAddress) {
-          const form = document.getElementById('addressForm');
-          if (!form.checkValidity()) {
-              form.reportValidity();
-              showToast('Please fill in all required address fields', 'error');
-              return;
-          }
-      }
+      // if (!userHasAddress) {
+      //     const form = document.getElementById('addressForm');
+      //     if (!form.checkValidity()) {
+      //         form.reportValidity();
+      //         showToast('Please fill in all required address fields', 'error');
+      //         return;
+      //     }
+      // }
 
       showToast('Processing order...', 'info');
 
@@ -888,15 +890,11 @@
       document.getElementById('shippingCost').value = shippingCost;
       document.getElementById('coupon_discount').value = discountCoupen;
      
-
-      
-
       // =============================
       // 🔹 COD FLOW (DIRECT SUBMIT)
       // =============================
 
-      if (checkoutUrl.includes('cod')) {
-       
+      if (checkoutUrl.includes('cod')) {      
           document.getElementById('checkoutForm').action = checkoutUrl;
           document.getElementById('checkoutForm').submit();
           return;
@@ -906,11 +904,8 @@
       // 🔹 ONLINE PAYMENT FLOW
       // =============================
 
-      if (checkoutUrl.includes('razorpay')) {
-
-        
-        
-         document.getElementById('checkoutForm').action = checkoutUrl;
+      if (checkoutUrl.includes('razorpay')) {                
+          document.getElementById('checkoutForm').action = checkoutUrl;
           document.getElementById('checkoutForm').submit();
           return;
       }

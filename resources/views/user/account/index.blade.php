@@ -973,12 +973,12 @@
                 <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Redeem Rewards</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">Use points for discounts on orders</p>
               </div>
-
+              <a href="">
               <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">share</span>
-                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Refer Friends</h3>
+               <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Refer Friends</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">Earn bonus points for referrals</p>
-              </div>
+              </div></a>
             </div>
           </div>
         </div>

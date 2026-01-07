@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Submit address form via AJAX
-function submitAddressForm(form, action, addressId = null) {
+function submitAddressFormold(form, action, addressId = null) {
   const formData = new FormData(form);
   const submitBtn = form.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
@@ -40,7 +40,7 @@ function submitAddressForm(form, action, addressId = null) {
   submitBtn.textContent = 'Saving...';
 
   let url, method;
-  if (action === 'create') {
+  if (action === 'creates') {
     url = '{{ route("user.addresses.store") }}';
     method = 'POST';
   } else if (action === 'update') {
@@ -56,8 +56,10 @@ function submitAddressForm(form, action, addressId = null) {
     },
     body: formData
   })
+  
   .then(response => response.json())
   .then(data => {
+    console.log(data);
     if (data.success) {
       // Reload page to show updated addresses
       window.location.reload();
@@ -70,6 +72,66 @@ function submitAddressForm(form, action, addressId = null) {
   .catch(error => {
     console.error('Error:', error);
     alert('An error occurred. Please try again.');
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+  });
+}
+function submitAddressForm(form, action, addressId = null) {
+  const formData = new FormData(form);
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Saving...';
+
+  let url = '';
+  let method = 'POST';
+
+  // ✅ FIX: create (not creates)
+  if (action === 'create') {
+    url = "{{ route('user.addresses.store') }}";
+  } 
+  else if (action === 'update' && addressId) {
+    url = `/celigin/user/addresses/${addressId}`;
+    formData.append('_method', 'PUT');
+  } 
+  else {
+    alert('Invalid action');
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+    return;
+  }
+
+  fetch(url, {
+    method: method,
+    headers: {
+      'X-CSRF-TOKEN': document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute('content'),
+      'Accept': 'application/json' // ✅ VERY IMPORTANT
+    },
+    body: formData
+  })
+  .then(async response => {
+    const data = await response.json();
+    if (!response.ok) {
+      throw data;
+    }
+    return data;
+  })
+  .then(data => {
+    console.log(data);
+    if (data.success) {
+      window.location.reload();
+    } else {
+      alert(data.error || 'Failed to save address.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert(error.error || 'Validation or server error occurred.');
+  })
+  .finally(() => {
     submitBtn.disabled = false;
     submitBtn.textContent = originalText;
   });

@@ -141,6 +141,7 @@ class CouponController extends FrontBaseController
     {
         $code = $_GET['code'];
         
+        
         // $coupon = Coupon::where('code', '=', $code)->first();
         $user = auth()->user();
         if ($user == null) {
@@ -302,7 +303,7 @@ class CouponController extends FrontBaseController
                     return response()->json(0);
                 }
             } else {
-                dd('coupon expired');
+                // dd('coupon expired');
                 return response()->json(0);
             }
         }
