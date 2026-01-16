@@ -75,12 +75,15 @@ class FrontendController extends FrontBaseController
     public function index(Request $request)
     {
 
+       
         $gs = $this->gs;
         $data['ps'] = $this->ps;
         if (!empty($request->reff)) {
             $affilate_user = DB::table('users')
                 ->where('affilate_code', '=', $request->reff)
                 ->first();
+
+              
             if (!empty($affilate_user)) {
                 if ($gs->is_affilate == 1) {
                     Session::put('affilate', $affilate_user->id);
@@ -88,14 +91,17 @@ class FrontendController extends FrontBaseController
                 }
             }
         }
+       
         if (!empty($request->refferel_code)) {
+            
             $refferel_user = DB::table('users')
                 ->where('refferel_code', '=', $request->refferel_code)
                 ->first();
+               
             if (!empty($refferel_user)) {
                 // if ($gs->is_affilate == 1) {
                 Session::put('refferel_user_id', $refferel_user->id);
-                return redirect()->route('front.category');
+                return redirect()->route('sign-in');
                 // }
             }
         }

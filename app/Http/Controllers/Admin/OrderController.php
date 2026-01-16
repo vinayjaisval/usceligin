@@ -548,10 +548,11 @@ class OrderController extends AdminBaseController
     {
         $order = Order::findOrFail($id);
         $input = $request->all();
-    
+   
         // Handle status update
         if ($request->has('status')) {
             $newStatus = $input['status'];
+           
             $currentStatus = $order->status;
    
             // Prevent status change if already completed
@@ -563,60 +564,7 @@ class OrderController extends AdminBaseController
     
             // Handle if status is being updated to 'completed'
             if ($newStatus === 'completed') {
-                // 1. Rider payout
-                // if ($order->vendor_ids) {
-                //     $vendorIds = json_decode($order->vendor_ids, true);
-                //     foreach ($vendorIds as $vendorId) {
-                //         $deliveryRider = DeliveryRider::where('order_id', $order->id)->where('vendor_id', $vendorId)->first();
-                //         if ($deliveryRider) {
-                //             $rider = Rider::find($deliveryRider->rider_id);
-                //             $serviceArea = RiderServiceArea::find($deliveryRider->service_area_id);
-                //             if ($rider && $serviceArea) {
-                //                 $rider->balance += $serviceArea->price;
-                //                 $rider->update();
-                //             }
-                //         }
-                //     }
-                // }
-    
-                // 2. Vendor order update and payout
-                // foreach ($order->vendororders as $vorder) {
-                //     $user = User::find($vorder->user_id);
-                //     if ($user) {
-                //         $user->current_balance = ($user->current_balance ?? 0) + ($vorder->price ?? 0);
-                //         $user->update();
-    
-                //         $vorder->status = 'completed';
-                //         $vorder->update();
-                //     }
-                // }
-    
-                // 3. Shipping and packaging fees
-                // if ($order->is_shipping == 1) {
-                //     $vendorIds = json_decode($order->vendor_ids, true);
-                //     $shippingIds = json_decode($order->vendor_shipping_id, true);
-                //     $packagingIds = json_decode($order->vendor_packing_id, true);
-    
-                //     foreach ($vendorIds as $vendorId) {
-                //         $vendor = User::find($vendorId);
-                //         if ($vendor) {
-                //             $shipping = Shipping::find($shippingIds[$vendorId] ?? null);
-                //             $packaging = Package::find($packagingIds[$vendorId] ?? null);
-    
-                //             $extra = 0;
-                //             if ($shipping) $extra += $shipping->price;
-                //             if ($packaging) $extra += $packaging->price;
-    
-                //             $vendor->current_balance += $extra;
-                //             if ($order->method === 'Cash On Delivery') {
-                //                 $vendor->admin_commission += $extra;
-                //             }
-                //             $vendor->update();
-                //         }
-                //     }
-                // }
-    
-                // 4. Affiliate bonuses
+               
                
                 if ($order->affilate_user) {
                     $userRefBy = User::where('id', $order->affilate_user)->pluck('reffered_by');
@@ -708,11 +656,12 @@ class OrderController extends AdminBaseController
             
             if (User::where('id', $order->user_id)->exists()) {
                 $orderCount = Order::where('user_id', $order->user_id)->where('status', 'completed')->count();
+                    
                 if ($orderCount == 1) {
                     $user = User::find($order->user_id);
                     if ($user && $user->reffered_by) {
                         $referrer = User::find($user->reffered_by);
-                        // dd($referrer);
+                        
                         if ($referrer) {
                             $referrer->referral_income += 250;
                             $referrer->current_balance += 250;
@@ -720,11 +669,11 @@ class OrderController extends AdminBaseController
                             $referrer->save();
                         }
                     }
-    
+     
                     if ($user && $user->affiliated_by) {
                        
                         $affiliated = User::find($user->affiliated_by);
-                       
+                     
                         if ($affiliated) {
                             $total = $order->pay_amount;
                             $affiliated->affilate_income += ($total / 100) * 8;
@@ -744,7 +693,7 @@ class OrderController extends AdminBaseController
     
             return response()->json(__('Status Updated Successfully.'));
         }
-    
+     
         // Non-status update logic
         $order->update($input);
         return redirect()->back()->with('success', __('Data Updated Successfully.'));

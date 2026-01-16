@@ -92,44 +92,51 @@
     </div>
 
     {{-- Wishlist Products --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12" id="products-grid">
-      @if (!empty($oldCart) && is_array($oldCart) && count($oldCart))
-        @foreach($oldCart as $prod)
-          <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300" itemscope itemtype="https://schema.org/Product">
-            <a href="{{ url('/item/'.$prod['slug']) }}" class="block focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
-              <div class="relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-700">
-                <img
-                  src="{{ $prod['photo'] ? asset('assets/images/products/'.$prod['photo']) : asset('assets/images/noimage.png') }}"
-                  alt="{{ $prod['name'] }}"
-                  width="300"
-                  height="300"
-                  loading="lazy"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                <div class="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1">
-                  <span class="inline-block px-2 py-1 bg-green-600 text-white text-sm font-semibold" role="status">New</span>
-                  <span class="inline-block px-2 py-1 bg-red-600 text-white text-sm font-semibold" role="status">15% Off</span>
-                </div>
-              </div>
-              <div class="p-3 sm:p-4">
-                <div class="mb-2">
-                  <span class="text-base font-bold text-gray-900 dark:text-gray-100" itemprop="price">₹ {{ $prod['price'] }}</span>
-                </div>
-                <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 leading-relaxed" itemprop="name">
-                  {{ ucfirst(mb_strtolower($prod['name'])) }}
-                </h3>
-              </div>
-            </a>
-            <div class="px-3 sm:px-4 pb-3 sm:pb-4">
-              <x-cart-button :product-id="$prod['id']" />
-            </div>
-          </article>
-        @endforeach
-      @else
-        <div class="col-span-full py-16 text-center">
-          <p class="text-gray-600 dark:text-gray-400 text-lg">No items in your wishlist.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12">
+
+  @if($oldCart->count() > 0)
+
+    @foreach($oldCart as $prod)
+      <article class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300">
+
+        <a href="{{ url('/item/'.$prod['slug']) }}">
+          <div class="relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-700">
+            <img
+              src="{{ $prod['photo']
+                    ? asset('assets/images/products/'.$prod['photo'])
+                    : asset('assets/images/noimage.png') }}"
+              alt="{{ $prod['name'] }}"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+          </div>
+
+          <div class="p-4">
+            <span class="text-base font-bold text-gray-900 dark:text-gray-100">
+              ₹ {{ $prod['price'] }}
+            </span>
+
+            <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 mt-1">
+              {{ ucfirst(mb_strtolower($prod['name'])) }}
+            </h3>
+          </div>
+        </a>
+
+        <div class="px-4 pb-4">
+          <x-cart-button :product-id="$prod['id']" />
         </div>
-      @endif
+
+      </article>
+    @endforeach
+
+  @else
+    <div class="col-span-full py-16 text-center">
+      <p class="text-gray-600 dark:text-gray-400 text-lg">
+        No items in your wishlist.
+      </p>
     </div>
+  @endif
+
+</div>
+
 
     {{-- Load More --}}
     @if (!empty($oldCart) && is_array($oldCart) && count($oldCart) > 0)

@@ -148,7 +148,10 @@
               <span id="wishlist-count"
                 class="absolute -top-1 -right-1 bg-orange-600 dark:bg-orange-500 text-white text-xs h-5 w-5 flex items-center justify-center "
                 aria-label="{{ Session::has('wishlist') ? count(Session::get('wishlist')) : '0' }} items in wishlist">
-                {{ Session::has('wishlist') ? count(Session::get('wishlist')) : '0' }}
+              {{ Auth::check()
+    ? \App\Models\Wishlist::where('user_id', Auth::id())->count()
+    : count(Session::get('wishlist', []))
+}}
               </span>
             </a>
 

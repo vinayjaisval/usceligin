@@ -148,7 +148,7 @@ class RazorpayController extends CheckoutBaseControlller
         $input = $request->all();
 
 
-        // dd($input);
+        
         // Check currency
         if ($this->curr->name !== "INR") {
             return redirect()->back()->with('unsuccess', __('Please Select INR Currency For This Payment.'));
@@ -167,8 +167,10 @@ class RazorpayController extends CheckoutBaseControlller
             return redirect()->route('front.cart')->with('success', __("You don't have any product to checkout."));
         }
 
-        $total = round($request->total, 2);
+         $totalc = $request->subtotalMRP + $request->shippingCost + $request->taxAmount - $request->coupon_discount - $request->refferal_discount;
 
+        // $total = round($request->total, 2);
+        $total = round($totalc, 2);
         // Minimum order amount check
         if ($total < 1) {
             return redirect()->back()->with('unsuccess', __('Minimum order amount must be at least ₹1.'));
@@ -496,7 +498,7 @@ class RazorpayController extends CheckoutBaseControlller
 
 
         $input = Session::get('input_data');
-
+        
         $order_data = Session::get('order_data');
         $success_url = route('front.payment.return');
         $cancel_url = route('front.payment.cancle');
@@ -532,10 +534,12 @@ class RazorpayController extends CheckoutBaseControlller
 
             // Calculate final order total
             $shippingCost = $input['shippingCost'] ?? 0;
+            $taxAmount = $input['taxAmount'] ?? 0;
+
             $couponDiscount = $input['coupon_discount'] ?? 0;
             $refferal_discount = $input['refferal_discount'] ?? 0;
 
-            $orderTotal = $cart->totalPrice + $shippingCost - $couponDiscount - $refferal_discount;
+            $orderTotal = $cart->totalPrice + $shippingCost + $taxAmount  - $couponDiscount - $refferal_discount ;
 
             // Create order
             $order = new Order;
@@ -559,6 +563,8 @@ class RazorpayController extends CheckoutBaseControlller
             $input['txnid'] = $input_data['razorpay_payment_id'];
             // $input['status'] = $input['dp'] == 1 ? 'completed' : 'pending';
             $input['status'] = 'pending';
+            $input['tax'] = $input['taxAmount'] ?? 0;
+
 
             // dd($input);
             if ($request->filled('refferal_discount')) {

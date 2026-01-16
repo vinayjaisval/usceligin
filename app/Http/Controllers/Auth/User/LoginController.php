@@ -129,6 +129,7 @@ class LoginController extends Controller
       'expires_at' => now()->addMinutes(5)
     ]);
 
+  
     // Send OTP
     if ($method === 'email') {
       $mailer = new GeniusMailer();
@@ -141,7 +142,7 @@ class LoginController extends Controller
       $mailer->sendCustomMail($mailData);
     } elseif ($method === 'phone') {
       \Log::info("OTP sent to phone {$identifier}: {$otp}");
-      $this->resend_otp($identifier, $otp); // Replace with actual SMS logic
+      // $this->resend_otp($identifier, $otp); // Replace with actual SMS logic
     }
 
     return response()->json(['message' => 'OTP sent successfully!', 'otp' => $otp]);
@@ -177,9 +178,9 @@ class LoginController extends Controller
         'affilate_code' => md5(($request->name ?? 'User') . $identifier),
         'refferel_code' => md5(($request->name ?? 'User') . $identifier . rand(1111, 9999)),
       ];
-
       if (Session::has('refferel_user_id')) {
         $input['reffered_by'] = Session::get('refferel_user_id');
+       
       }
 
       if (Session::has('affilate')) {

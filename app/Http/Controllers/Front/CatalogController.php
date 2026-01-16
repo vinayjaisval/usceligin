@@ -12,6 +12,7 @@ use App\{
   Models\Rating,
   Models\ArrivalSection
 };
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -245,6 +246,10 @@ class CatalogController extends FrontBaseController
 
   public function new_arrivals(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
+
+     $tags = Tag::all();
+    
+    $data['tags'] = $tags;
     $gs = $this->gs;
 
     if ($request->view_check) {
@@ -268,8 +273,14 @@ class CatalogController extends FrontBaseController
     $type = $request->has('type') ?? '';
     $tag = $request->tags ?? '';
 
+
+    $tag_data = Tag::where('slug', $tag)->first('id');
+    $tag_id = $tag_data->id ?? '';
+
+    
     // Tag functionality disabled - tags table doesn't exist
-    $tag_id = '';
+    
+    
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -424,6 +435,7 @@ class CatalogController extends FrontBaseController
       return view('frontend.new-arrivals', $data);
     }
 
+    
     return view('frontend.new-arrivals', $data);
   }
 

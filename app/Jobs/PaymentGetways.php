@@ -30,7 +30,7 @@ class PaymentGetways implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handleold(): void
     {
         $order = Order::where('status', 'pending')->where('order_number', $this->input)->get();
        
@@ -146,5 +146,141 @@ class PaymentGetways implements ShouldQueue
         }
         \Log::info('Processing job with data vinay');
     }
+
+
+    public function handle(): void
+{
+    $orders = Order::where('status', 'pending')
+        ->where('order_number', $this->input)
+        ->get();
+
+    if ($orders->isEmpty()) {
+        Log::info('No pending orders found for input', ['input' => $this->input]);
+        return;
+    }
+
+    foreach ($orders as $order) {
+
+        // Decode cart JSON
+        if (empty($order->cart)) {
+            Log::warning('Order cart is empty', ['order_id' => $order->id]);
+            continue;
+        }
+
+        $cartArray = json_decode($order->cart, true);
+
+        if (!is_array($cartArray) || empty($cartArray['items']) || !is_array($cartArray['items'])) {
+            Log::warning('Invalid cart structure', [
+                'order_id' => $order->id,
+                'cart' => $order->cart
+            ]);
+            continue;
+        }
+
+        foreach ($cartArray['items'] as $item) {
+
+            if (empty($item['item']['id'])) {
+                Log::warning('Invalid cart item structure', ['item' => $item]);
+                continue;
+            }
+
+            // Fetch product safely
+            $product = Product::find($item['item']['id']);
+
+            if (!$product) {
+                Log::warning('Product not found', ['product_id' => $item['item']['id']]);
+                continue;
+            }
+
+            // Price calculations
+            $total_cod_price = $order->pay_amount ?? 0;
+            $total_discount  = $order->coupon_discount ?? 0;
+            $total_cod       = max(0, $total_cod_price - $total_discount);
+
+            $paid = ($order->method === 'Razorpay') ? 'Prepaid' : 'COD';
+
+            // Delhivery API
+            $client = new \GuzzleHttp\Client();
+            $url    = 'https://track.delhivery.com/api/cmu/create.json';
+            $token  = '4fe90509d391df11535a3533bc932022b11f9fd4';
+
+            $payload = [
+                'shipments' => [
+                    [
+                        'name'           => $order->customer_name,
+                        'add'            => $order->shipping_address ?? $order->customer_address,
+                        'pin'            => $order->customer_zip ?? $order->shipping_zip,
+                        'city'           => $order->customer_city ?? $order->shipping_city,
+                        'country'        => $order->customer_country ?? $order->shipping_country,
+                        'phone'          => $order->customer_phone ?? $order->shipping_phone,
+                        'order'          => $order->order_number,
+                        'payment_mode'   => $paid,
+                        'products_desc'  => $product->name,
+                        'hsn_code'       => $product->sku,
+                        'cod_amount'     => $total_cod,
+                        'order_date'     => now()->toDateTimeString(),
+                        'total_amount'   => $total_cod,
+                        'quantity'       => $item['qty'] ?? 1,
+                        'weight'         => $product->weight ?? 1,
+                        'shipment_width' => $product->weight ?? 1,
+                        'shipment_height'=> $product->weight ?? 1,
+                        'shipping_mode'  => 'Surface',
+                    ]
+                ],
+                'pickup_location' => [
+                    'name'    => 'Celigin Global Pvt Ltd',
+                    'add'     => 'A 12/13, 2nd floor, sector 16, Noida, Uttar Pradesh',
+                    'city'    => 'Noida',
+                    'pin_code'=> '201301',
+                    'country' => 'India',
+                    'phone'   => '9667054665',
+                ]
+            ];
+
+            try {
+                $response = $client->post($url, [
+                    'headers' => [
+                        'Authorization' => "Token $token",
+                        'Accept'        => 'application/json',
+                    ],
+                    'form_params' => [
+                        'format' => 'json',
+                        'data'   => json_encode($payload),
+                    ],
+                    'verify' => false,
+                ]);
+
+                $responseBody = $response->getBody()->getContents();
+                $responseData = json_decode($responseBody);
+
+                if (!isset($responseData->packages[0]->waybill)) {
+                    Log::error('Delhivery API error', ['response' => $responseBody]);
+                    continue;
+                }
+
+                DB::table('orders')
+                    ->where('order_number', $order->order_number)
+                    ->update([
+                        'status' => 'on delivery',
+                        'third_party_delivery_tracking_id' => $responseData->packages[0]->waybill
+                    ]);
+
+                Log::info('Delhivery order created', [
+                    'order_number' => $order->order_number,
+                    'waybill' => $responseData->packages[0]->waybill
+                ]);
+
+            } catch (\Exception $e) {
+                Log::error('Delhivery API exception', [
+                    'order_id' => $order->id,
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
+    }
+
+    Log::info('Order delivery job completed', ['input' => $this->input]);
+}
+
 }
 

@@ -140,33 +140,26 @@ class CouponController extends FrontBaseController
     public function couponcheck()
     {
         $code = $_GET['code'];
-        
-        
+
+
         // $coupon = Coupon::where('code', '=', $code)->first();
         $user = auth()->user();
+
         if ($user == null) {
 
             $coupon = Coupon::where('code', '=', $code)->first();
         } else {
 
             $coupon = Coupon::where('code', '=', $code)->first();
-             
+
 
             $couponUsed = Order::where('coupon_code', $code)->where('user_id', $user->id)->exists();
             if ($couponUsed) {
-               
+
                 return response()->json(8);
             }
         }
 
-        // dd($user);
-        // $code = $_GET['code'];
-
-        // $coupon = Coupon::where('code', '=', $code)->first();
-
-        // $couponUsed = Order::where('coupon_code', $code)->where('user_id', $user->id)->exists();
-
-        // dd($_GET['applied_coupon']);
         if (isset($_GET['applied_coupon'])) {
 
             Session::forget('already');
@@ -174,22 +167,28 @@ class CouponController extends FrontBaseController
             Session::forget('coupon_code');
             Session::forget('coupon_id');
             Session::forget('coupon_total1');
-            $total = preg_replace('/[^0-9.]/', '', $_GET['total']) + (float)($_GET['coupon_discount']+$_GET['shipping_cost']);
+            $total = preg_replace('/[^0-9.]/', '', $_GET['total']) + (float)($_GET['coupon_discount'] + $_GET['shipping_cost']);
             return response()->json(['total' => "₹" . $total, 'remove_coupen' => true]);
         }
 
         if (!$coupon) {
-           
+
             return response()->json(0);
         }
-        // dd($coupon);
+        
         $cart = Session::get('cart');
+      
         $discount_items = [];
         foreach ($cart->items as $key => $item) {
             $product = Product::findOrFail($item['item']['id']);
+       
             if ($coupon->coupon_type == 'category') {
+              
                 if ($product->category_id == $coupon->category) {
+                    
                     $discount_items[] = $key;
+
+                   
                 }
             } elseif ($coupon->coupon_type == 'sub_category') {
                 if ($product->sub_category == $coupon->sub_category) {
@@ -201,8 +200,9 @@ class CouponController extends FrontBaseController
                 }
             }
         }
-
+       
         if (count($discount_items) == 0) {
+            
             return response()->json(0);
         }
 
@@ -236,10 +236,10 @@ class CouponController extends FrontBaseController
             $to = date('Y-m-d', strtotime($coupon->end_date));
             if ($from <= $today && $to >= $today) {
                 if ($coupon->status == 1) {
-                   
+
                     $oldCart = Session::has('cart') ? Session::get('cart') : null;
                     $val = Session::has('alreadyy') ? Session::get('alreadyy') : null;
-                    
+
                     if ($val == $code) {
                         return response()->json([2, $val]);
                     }
@@ -313,16 +313,16 @@ class CouponController extends FrontBaseController
     //     $code = $_GET['code'];
     //     $user = auth()->user();
     //     $coupon = Coupon::where('code', '=', $code)->first();
-    
+
     //     if (!$coupon) {
     //         return response()->json(0); // Coupon not found
     //     }
-    
+
     //     // If coupon already used by user
     //     if ($user && Order::where('coupon_code', $code)->where('user_id', $user->id)->exists()) {
     //         return response()->json(8); // Already used
     //     }
-    
+
     //     // Removing coupon logic
     //     if (isset($_GET['applied_coupon'])) {
     //         Session::forget('already');
@@ -334,18 +334,18 @@ class CouponController extends FrontBaseController
     //         $total = preg_replace('/[^0-9.]/', '', $_GET['total']) + (float)($_GET['coupon_discount']);
     //         return response()->json(['total' => "₹" . $total, 'remove_coupen' => true]);
     //     }
-    
+
     //     $cart = Session::get('cart');
     //     if (!$cart || !isset($cart->items)) {
     //         return response()->json(0); // No cart
     //     }
-    
+
     //     // Check applicable items
     //     $discount_items = [];
     //     foreach ($cart->items as $key => $item) {
     //         $product = Product::find($item['item']['id']);
     //         if (!$product) continue;
-    
+
     //         if (
     //             ($coupon->coupon_type == 'category' && $product->category_id == $coupon->category) ||
     //             ($coupon->coupon_type == 'sub_category' && $product->sub_category == $coupon->sub_category) ||
@@ -354,11 +354,11 @@ class CouponController extends FrontBaseController
     //             $discount_items[] = $key;
     //         }
     //     }
-    
+
     //     if (empty($discount_items)) {
     //         return response()->json(0); // No applicable items for coupon
     //     }
-    
+
     //     // Total discountable amount
     //     $main_discount_price = 0;
     //     foreach ($cart->items as $ckey => $cproduct) {
@@ -366,42 +366,42 @@ class CouponController extends FrontBaseController
     //             $main_discount_price += $cproduct['price'];
     //         }
     //     }
-    
+
     //     $total = (float)preg_replace('/[^0-9\.]/ui', '', $main_discount_price);
-    
+
     //     // Check validity
     //     if ($coupon->times !== null && $coupon->times == "0") {
     //         return response()->json(0);
     //     }
-    
+
     //     $today = date('Y-m-d');
     //     $from = date('Y-m-d', strtotime($coupon->start_date));
     //     $to = date('Y-m-d', strtotime($coupon->end_date));
-    
+
     //     if ($today < $from || $today > $to || $coupon->status != 1) {
     //         return response()->json(0); // Expired or inactive
     //     }
-    
+
     //     // Prevent duplicate apply in session
     //     if (Session::get('already') === $code) {
     //         return response()->json([2, $code]); // Already applied in session
     //     }
-    
+
     //     Session::put('already', $code);
     //     $curr = $this->curr;
-    
+
     //     $shippingCost = isset($_GET['shipping_cost']) ? (float)$_GET['shipping_cost'] : 0;
-    
+
     //     // Calculate discount
     //     if ($coupon->type == 0) {
     //         // Percentage
     //         if ($coupon->price >= 100) return response()->json(3); // Invalid %
-    
+
     //         $discountAmount = round(($total * $coupon->price) / 100, 2);
     //         if ($discountAmount >= $total) return response()->json(3);
-    
+
     //         $finalTotal = $total - $discountAmount + $shippingCost;
-    
+
     //         $data = [
     //             \PriceHelper::showCurrencyPrice($finalTotal),
     //             $code,
@@ -415,9 +415,9 @@ class CouponController extends FrontBaseController
     //         // Fixed
     //         $discountAmount = round($coupon->price * $curr->value, 2);
     //         if ($discountAmount >= $total) return response()->json(3);
-    
+
     //         $finalTotal = $total - $discountAmount + $shippingCost;
-    
+
     //         $data = [
     //             \PriceHelper::showCurrencyPrice($finalTotal),
     //             $code,
@@ -428,7 +428,7 @@ class CouponController extends FrontBaseController
     //             round($finalTotal, 2)
     //         ];
     //     }
-    
+
     //     // Set session values
     //     Session::put('coupon', $discountAmount);
     //     Session::put('coupon_code', $code);
@@ -436,10 +436,10 @@ class CouponController extends FrontBaseController
     //     Session::put('coupon_total1', round($finalTotal, 2));
     //     Session::put('coupon_percentage', $data[4]);
     //     Session::forget('coupon_total');
-    
+
     //     return response()->json($data);
     // }
-    
+
 
 
     public function applyCoupon(Request $request)
@@ -485,4 +485,20 @@ class CouponController extends FrontBaseController
 
         ]);
     }
+
+
+    public function removeCouponCode()
+{
+    session()->forget([
+        'coupon',
+        'coupon_code',
+        'coupon_id',
+        'coupon_total1',
+        'coupon_percentage',
+        'already'
+    ]);
+
+    return response()->json(['status' => 'removed']);
+}
+
 }

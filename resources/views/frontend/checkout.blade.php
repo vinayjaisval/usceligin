@@ -3,11 +3,15 @@
 @section('content')
 @php
   // Calculate order totals
-  $subtotalMRP = $totalPrice;
-  $discountMRP = Session::get('coupon', 0);
-  $shippingCost = $totalPrice >= ($gs->free_shipping_amount ?? 500) ? 0 : ($gs->shipping_cost ?? 50);
-  $referralDiscount = $refferal_discount ?? 0;
-
+    $user = App\Models\User::where('id', Auth::id())->select('reffered_by')->first();
+    $orderCount = App\Models\Order::where('user_id', Auth::id())->count();
+    $discountMRP =  0;
+    $couponDiscount=0;
+    $cart = Session::get('cart');
+    $subtotalMRP = $cart->totalPrice;
+    $shippingCost = $subtotalMRP >= ($gs->free_shipping_amount ?? 500) ? 0 : ($gs->shipping_cost ?? 50);
+    $referralDiscount = $refferal_discount ?? 0;
+   
   // Calculate tax based on shipping address
   $userZip = Auth::check() ? Auth::user()->zip : '';
   $taxRate = 0.18; // Default 18% GST
@@ -20,10 +24,10 @@
   }
 
   $taxableAmount = $subtotalMRP - $discountMRP - $referralDiscount;
-  $taxAmount = $taxableAmount * $taxRate;
+  $taxAmount = $subtotalMRP * $taxRate;
 
   // Final total calculation
-  $finalTotal = $subtotalMRP - $discountMRP - $referralDiscount + $shippingCost + $taxAmount;
+  $finalTotal = $totalPrice + $shippingCost + $taxAmount;
 
   // Check if user has saved addresses
   $userHasAddress = Auth::check() && Auth::user()->address;
@@ -368,9 +372,9 @@
               <!-- Discount -->
               @if($discountMRP > 0 || $referralDiscount > 0)
               <div class="flex justify-between text-green-600 dark:text-green-400">
-                  <span>Discount on MRP</span>
+                  <span>Promo</span>
                   <span class="font-semibold" id="mrp-discount">
-                      -{{ App\Models\Product::convertPrice($discountMRP + $referralDiscount) }}
+                      -{{ App\Models\Product::convertPrice($referralDiscount) }}
                   </span>
               </div>
               @endif
@@ -388,7 +392,14 @@
                       </button>
                   </div>
               </div>
-
+            <!-- @if($orderCount == 0 && $user && $user->reffered_by)
+              <div class="flex justify-between " id="applied-refferal-display">
+                <span class="text-gray-600 dark:text-gray-400">Refferal Discount</span>
+                <span class="font-semibold text-gray-900 dark:text-gray-100" id="shipping-amount">
+                  {{ App\Models\Product::convertPrice($refferal_discount ?? 0) }}
+                </span>
+              </div>
+              @endif -->
               <!-- Shipping -->
               <div class="flex justify-between">
                   <span class="text-gray-600 dark:text-gray-400">Shipping</span>
@@ -440,16 +451,20 @@
           <input type="hidden" name="selected_payment_method" id="selected_payment_method">
           <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
           <input type="hidden" name="total" id="total_hidden" value="{{ $finalTotal }}">
+
+          <input type="hidden" name="subtotalMRP" id="subtotalMRP" value="{{ $subtotalMRP }}">
         
           <input type="hidden" name="shippingCost" id="shippingCost" value="{{ $shippingCost }}">
 
-          <input type="hidden" name="coupon_discount" id="coupon_discount" value="{{ $discountMRP }}">
+          <input type="hidden" name="taxAmount" id="taxAmount" value="{{ $taxAmount }}">
 
-          <input type="hidden" name="refferal_discount" id="refferal_discount" value="{{ $discountMRP }}">
         
-          <input type="hidden" name="refferal_discount" id="refferal_discount" value="{{ $discountMRP }}">
-          <input type="hidden" name="coupon_code" id="coupon_code" >
+          <input type="hidden" name="coupon_code" id="hidden_coupon_code" value="">
+          <input type="hidden" name="coupon_discount" id="hidden_coupon_discount" value="">
 
+          @if($orderCount == 0 && $user && $user->reffered_by)
+          <input type="hidden" id="refferal_discount" name="refferal_discount" value="{{ $refferal_discount ?? '0' }}">
+          @endif
 
 
       </form>
@@ -690,7 +705,7 @@
     const referralDiscount = {{ $referralDiscount }};
     const shipping = {{ $shippingCost }};
 
-    const taxableAmount = subtotal - discount - referralDiscount;
+    const taxableAmount = subtotal;
     const taxAmount = taxableAmount * taxRate;
     const finalTotal = taxableAmount + shipping + taxAmount;
 
@@ -795,7 +810,9 @@
         document.getElementById('coupon-discount-amount').textContent = '-{{ $gs->currency_sign ?? "₹" }}' + discount;
 
         // Clear input field
-        document.getElementById('coupon_code').value = '';
+        document.getElementById('hidden_coupon_code').value = couponCode;
+        document.getElementById('hidden_coupon_discount').value = discount;
+
 
         // Recalculate total
         updateTotal(discount);
@@ -805,6 +822,7 @@
         // Close promo section
         togglePromoCode();
       } else if (data === 0) {
+       
         showToast('Invalid or expired coupon code', 'error');
       } else if (data === 2) {
         showToast('Coupon already applied', 'info');
@@ -837,11 +855,11 @@
   function updateTotal(couponDiscount = 0) {
     const subtotal = parseFloat('{{ $subtotalMRP }}');
     const existingDiscount = parseFloat('{{ $discountMRP + $referralDiscount }}');
-    console.log(existingDiscount);
+   
     const shipping = parseFloat('{{ $shippingCost }}');    
     const taxRate = 0.18; // 18% GST
     // Calculate tax on taxable amount (after all discounts)
-    const taxableAmount = subtotal - existingDiscount - couponDiscount;
+    const taxableAmount = subtotal ;
     const taxAmount = taxableAmount * taxRate;
     // Update tax display
     const taxElement = document.getElementById('tax-amount');
@@ -850,8 +868,10 @@
     }
 
     // Calculate final total
-    const newTotal = taxableAmount + shipping + taxAmount;
+    const newTotal = taxableAmount - existingDiscount - couponDiscount + shipping + taxAmount;
+    
     document.getElementById('final-total').textContent = '{{ $gs->currency_sign ?? "₹" }}' + newTotal.toFixed(2);
+    document.getElementById('total_hidden').value = newTotal;
   }
 
   // Place order
@@ -873,9 +893,7 @@
       //         return;
       //     }
       // }
-
       showToast('Processing order...', 'info');
-
       // 🔹 3. Get selected gateway details
       const gatewayId   = paymentMethod.value;
       const checkoutUrl = paymentMethod.dataset.form; // 👈 VERY IMPORTANT
@@ -888,7 +906,8 @@
       // 🔹 4. Set hidden inputs
       document.getElementById('selected_payment_method').value = gatewayId;
       document.getElementById('shippingCost').value = shippingCost;
-      document.getElementById('coupon_discount').value = discountCoupen;
+
+
      
       // =============================
       // 🔹 COD FLOW (DIRECT SUBMIT)
@@ -1040,14 +1059,13 @@ $(document).ready(function () {
         } else {
             $('#shipping-amount').html("₹" + shippingCost.toFixed(2)).removeClass("text-green-600").addClass("text-gray-900");
         }
-
-        let subtotal = parseCurrency($("#subtotal-mrp").text());
+        let subtotal = parseCurrency($("#subtotal-mrp").text());       
         let mrpDiscount = parseCurrency($("#mrp-discount").text());
         let couponDiscount = parseCurrency($("#coupon-discount-amount").text());
         let taxAmount = parseCurrency($("#tax-amount").text());
-
+        
         let finalTotal = subtotal - mrpDiscount - couponDiscount + shippingCost + taxAmount;
-
+      
         $("#final-total").html("₹" + finalTotal.toFixed(2));
     }
 

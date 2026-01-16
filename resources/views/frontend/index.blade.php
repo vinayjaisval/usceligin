@@ -17,7 +17,7 @@
               <div class="relative bg-white dark:bg-gray-900 md:h-[300px] lg:h-[400px] xl:h-[600px]">
                 <!-- Image Container: Responsive sizing -->
                 <div class="relative w-full h-[200px] md:absolute md:inset-0 md:h-full overflow-hidden">
-                  <img src="{{asset('assets/images/sliders/'.$data->photo)}}"
+                  <img src="{{asset('public/assets/images/sliders/'.$data->photo)}}"
                     alt="Woman with glowing skin representing premium skincare" class="w-full h-full object-cover" />
                 </div>
 
