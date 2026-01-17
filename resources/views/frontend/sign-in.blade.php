@@ -40,7 +40,7 @@
 <body class="bg-gray-50 dark:bg-gray-900">
   <main class="min-h-screen flex items-center justify-center px-4 py-8">
     <div class="w-full max-w-md">
-      <section class="bg-white border border-gray-200 dark:border-gray-700 p-8 relative" aria-labelledby="signin-heading">
+      <section class="bg-white border border-gray-200 dark:border-gray-700 shadow-xl p-8 relative" aria-labelledby="signin-heading">
         <!-- Logo -->
         <header class="mb-8">
           <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}"
@@ -73,7 +73,7 @@
                 <span>Phone Number</span>
               </button>
               <button type="button"
-                class="flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600"
+                class="flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white text-gray-900 border-gray-300 hover:bg-gray-50"
                 id="emailMethodBtn" data-method="email" aria-pressed="false" aria-describedby="email-help">
                 <span>Email Address</span>
               </button>
@@ -86,19 +86,19 @@
 
             <!-- Phone Input (default) -->
             <div class="mb-6" id="phoneGroup">
-              <label for="phoneNumber" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label for="phoneNumber" class="block text-sm font-semibold text-gray-900 dark:text-gray-900 mb-2">
                 Mobile Number<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
               </label>
-              <div class="flex border border-gray-300 dark:border-gray-600 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/20">
-                <span class="flex items-center px-3 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-400 font-semibold text-sm border-r border-gray-300 dark:border-gray-600" aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
+              <div class="flex border border-gray-300 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/20">
+                <span class="flex items-center px-3 bg-gray-50 text-gray-600 font-semibold text-sm border-r border-gray-300" aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
                 <input type="tel" id="phoneNumber" name="contact"
-                  class="flex-1 px-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm border-0 focus:outline-none"
+                  class="flex-1 px-4 py-3 bg-white text-gray-900 text-sm border-0 focus:outline-none"
                   placeholder="{{ config('app.phone_placeholder', '00000 00000') }}"
                   maxlength="{{ config('app.phone_max_length', '11') }}"
                   required autocomplete="tel"
                   aria-describedby="phoneHelp phoneError" aria-invalid="false" aria-label="Enter your mobile number" />
               </div>
-              <p class="mt-2 text-xs text-gray-600 dark:text-gray-400" id="phoneHelp">
+              <p class="mt-2 text-xs text-gray-900 dark:text-gray-900" id="phoneHelp">
                 Enter your 10-digit Indian mobile number. We'll send a secure OTP for verification.
               </p>
               <div class="hidden mt-2 flex items-start space-x-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3" id="phoneError" role="alert" aria-live="assertive">
@@ -119,11 +119,11 @@
                 Email Address<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
               </label>
               <input type="email" id="emailAddress" name="contact"
-                class="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
+                class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
                 placeholder="{{ config('app.email_placeholder', 'your@email.com') }}"
                 autocomplete="email" aria-describedby="emailHelp emailError"
                 aria-invalid="false" aria-label="Enter your email address" />
-              <p class="mt-2 text-xs text-gray-600 dark:text-gray-400" id="emailHelp">
+              <p class="mt-2 text-xs text-gray-900 dark:text-gray-400" id="emailHelp">
                 We'll send a secure OTP to your email address for verification.
               </p>
               <div class="hidden mt-2 flex items-start space-x-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3" id="emailError" role="alert" aria-live="assertive">
@@ -144,7 +144,7 @@
                 <input type="checkbox" id="keepSignedIn" name="keep_signed_in"
                   class="mt-1 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 focus:ring-blue-600">
                 <div class="flex items-center gap-2">
-                  <label for="keepSignedIn" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer font-medium">
+                  <label for="keepSignedIn" class="text-sm text-gray-700 dark:text-gray-900 cursor-pointer font-medium">
                     Keep me signed in
                   </label>
                   <div class="relative inline-block">
@@ -171,15 +171,15 @@
             </button>
 
             <!-- Terms and Privacy -->
-            <div class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+            <div class="mt-6 text-center text-sm text-gray-900 dark:text-gray-900">
               <p>
                 By signing in, you agree to our
                 <a href="{{ route('terms') ?? '#' }}"
-                  class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">Terms
+                  class="text-blue-600 dark:text-blue-900 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">Terms
                   and Conditions</a>
                 and that you've read our
                 <a href="{{ route('privacy') ?? '#' }}"
-                  class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">Privacy
+                  class="text-blue-600 dark:text-blue-900 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">Privacy
                   Policy</a>.
               </p>
             </div>
@@ -200,7 +200,7 @@
           </button>
 
           <div class="mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center" id="otp-heading">Enter Verification Code</h2>
+            <h2 class="text-2xl font-bold text-gray-900 text-center" id="otp-heading">Enter Verification Code</h2>
           </div>
 
           <p class="text-sm text-gray-600 dark:text-gray-400 text-center mb-6" id="otpSubtitle">
@@ -214,7 +214,7 @@
                 6-Digit Verification Code<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
               </label>
               <input type="text" id="otpInput" name="otp_code"
-                class="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
+                class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
                 placeholder="{{ config('app.otp_placeholder', '000000') }}"
                 maxlength="{{ config('app.otp_length', '6') }}"
                 required autocomplete="one-time-code" inputmode="numeric"
@@ -444,7 +444,7 @@
         // Update button styles
         activeBtn.className = "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-blue-600 text-white border-blue-600";
         activeBtn.setAttribute("aria-pressed", "true");
-        inactiveBtn.className = "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600";
+        inactiveBtn.className = "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white text-gray-600 border-gray-300 hover:bg-gray-50";
         inactiveBtn.setAttribute("aria-pressed", "false");
 
         // Update form group visibility
