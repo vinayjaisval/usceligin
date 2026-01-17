@@ -45,8 +45,8 @@
                   </a>
                 </div>
                 <div class="md:col-span-2 p-6">
-                  <div class="inline-block px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs font-semibold mb-3">{{ $blog->tags }}</div>
-                  <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 leading-tight hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
+                  <div class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold mb-3">{{ $blog->tags }}</div>
+                  <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 leading-tight hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     <a href="{{ route('front.blogshow',$blog->slug) }}">{{ $blog->title }}</a>
                   </h2>
                   <div class="flex items-center space-x-3 text-xs text-gray-600 dark:text-gray-400 mb-4">
@@ -54,7 +54,7 @@
                     <span>•</span>
                     <span class="uppercase">BY TERESA GREENFELD</span>
                   </div>
-                  <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors group">
+                  <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors group">
                     Read More
                     <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <line x1="7" y1="17" x2="17" y2="7"></line>
@@ -132,7 +132,7 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
                   <span class="inline-block px-3 py-1 bg-pink-600 text-white text-xs font-bold uppercase mb-2 w-fit">JOIN CELIGIN CLUB</span>
                   <h3 class="text-lg font-bold text-white mb-4">Become a Brand Ambassador</h3>
-                  <a href="/join" class="inline-block px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors w-fit">Join Now</a>
+                  <a href="/join" class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors w-fit">Join Now</a>
                 </div>
               </div>
 

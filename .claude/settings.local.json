@@ -72,7 +72,8 @@
       "Bash(cmd /c \"type C:\\\\wamp64\\\\www\\\\usceligin\\\\.env | more\")",
       "Bash(cmd /c:*)",
       "Bash(git clean:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

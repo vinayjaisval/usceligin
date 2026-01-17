@@ -26,13 +26,13 @@
         <div class="lg:col-span-2 space-y-6">
 
           <!-- Rewards Section with Collapsible -->
-          <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-300 dark:border-orange-700">
+          <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-300 dark:border-blue-700">
             <button
               type="button"
               onclick="toggleRewards()"
-              class="w-full flex items-center justify-between p-4 text-left bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors">
+              class="w-full flex items-center justify-between p-4 text-left bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
               <div class="flex items-center space-x-2">
-                <svg class="w-5 h-5 text-orange-600 dark:text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
                 <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Unlock Exclusive Rewards</h2>
@@ -47,10 +47,10 @@
               </svg>
             </button>
 
-            <div id="rewards-content" class="p-4 border-t border-orange-300 dark:border-orange-700 bg-orange-50 dark:bg-orange-900/20">
+            <div id="rewards-content" class="p-4 border-t border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/20">
               <div class="space-y-4">
                 <p class="text-sm text-gray-700 dark:text-gray-300">
-                  Join our rewards program and earn points with every purchase. New members get <strong class="text-orange-600 dark:text-orange-400">20 bonus points</strong> instantly!
+                  Join our rewards program and earn points with every purchase. New members get <strong class="text-blue-600 dark:text-blue-400">20 bonus points</strong> instantly!
                 </p>
                 <p class="text-xs text-gray-600 dark:text-gray-400">
                   Redeem your points for discounts on future orders. The more you shop, the more you save.
@@ -60,19 +60,19 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   <div class="bg-white dark:bg-gray-800 px-4 py-3 border border-gray-200 dark:border-gray-700 text-center">
                     <span class="block text-xs font-semibold text-gray-600 dark:text-gray-400">100 PTS</span>
-                    <span class="block text-sm font-bold text-orange-600 dark:text-orange-400">₹3 off</span>
+                    <span class="block text-sm font-bold text-blue-600 dark:text-blue-400">₹3 off</span>
                   </div>
                   <div class="bg-white dark:bg-gray-800 px-4 py-3 border border-gray-200 dark:border-gray-700 text-center">
                     <span class="block text-xs font-semibold text-gray-600 dark:text-gray-400">500 PTS</span>
-                    <span class="block text-sm font-bold text-orange-600 dark:text-orange-400">₹17.50 off</span>
+                    <span class="block text-sm font-bold text-blue-600 dark:text-blue-400">₹17.50 off</span>
                   </div>
                   <div class="bg-white dark:bg-gray-800 px-4 py-3 border border-gray-200 dark:border-gray-700 text-center">
                     <span class="block text-xs font-semibold text-gray-600 dark:text-gray-400">1000 PTS</span>
-                    <span class="block text-sm font-bold text-orange-600 dark:text-orange-400">₹50 off</span>
+                    <span class="block text-sm font-bold text-blue-600 dark:text-blue-400">₹50 off</span>
                   </div>
                 </div>
 
-                <a href="{{ route('sign-in') }}" class="inline-block px-6 py-2.5 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200">
+                <a href="{{ route('sign-in') }}" class="inline-block px-6 py-2.5 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
                   Join Now & Earn Points
                 </a>
               </div>
@@ -157,7 +157,7 @@
                       <label for="qty-{{ $product['item']['id'] }}" class="text-sm text-gray-600 dark:text-gray-400">Qty:</label>
                       <select
                         id="qty-{{ $product['item']['id'] }}"
-                        class="quantity-select px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        class="quantity-select px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         data-id="{{ $product['item']['id'] }}"
                         data-size="{{ $product['size'] }}"
                         data-color="{{ $product['color'] }}"
@@ -229,7 +229,7 @@
                 <span class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ App\Models\Product::convertPrice($mainTotal) }}</span>
               </div>
 
-              <a href="{{ route('front.checkout') }}" onclick="prepareCheckout(event)" class="block w-full px-6 py-3 bg-orange-600 text-white text-center text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200">
+              <a href="{{ route('front.checkout') }}" onclick="prepareCheckout(event)" class="block w-full px-6 py-3 bg-blue-600 text-white text-center text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
                 Proceed to Checkout
               </a>
             </div>
@@ -252,7 +252,7 @@
         </div>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Your Cart is Empty</h2>
         <p class="text-gray-600 dark:text-gray-400 mb-6">Start shopping to add items to your cart</p>
-        <a href="{{ route('front.index') }}" class="inline-block px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200">
+        <a href="{{ route('front.index') }}" class="inline-block px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
           Continue Shopping
         </a>
       </div>

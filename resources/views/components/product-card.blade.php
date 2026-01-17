@@ -35,18 +35,18 @@
   // Calculate discount percentage
   $discount = round($product->offPercentage());
 
-  // Determine badge to show
+  // Determine badge to show - LUXURY COLOR SCHEME
   $badgeConfig = null;
   if ($badgeType === 'new') {
-    $badgeConfig = ['label' => 'New', 'class' => 'bg-green-600'];
+    $badgeConfig = ['label' => 'New', 'class' => 'bg-gradient-to-r from-teal-600 to-blue-600'];
   } elseif ($badgeType === 'bestseller') {
-    $badgeConfig = ['label' => 'Best Seller', 'class' => 'bg-red-600'];
+    $badgeConfig = ['label' => 'Best Seller', 'class' => 'bg-gradient-to-r from-fuchsia-600 to-rose-600'];
   } elseif ($badgeType === 'sale') {
-    $badgeConfig = ['label' => 'Final Sale', 'class' => 'bg-red-600'];
+    $badgeConfig = ['label' => 'Final Sale', 'class' => 'bg-gradient-to-r from-indigo-600 to-violet-600'];
   } elseif ($badgeType === 'hot') {
-    $badgeConfig = ['label' => 'Hot', 'class' => 'bg-red-600'];
+    $badgeConfig = ['label' => 'Hot', 'class' => 'bg-gradient-to-r from-fuchsia-600 to-rose-600'];
   } elseif ($badgeType === 'featured' && ($product->is_featured ?? false)) {
-    $badgeConfig = ['label' => 'Featured', 'class' => 'bg-red-600'];
+    $badgeConfig = ['label' => 'Featured', 'class' => 'bg-gradient-to-r from-blue-600 to-indigo-600'];
   }
 @endphp
 
@@ -82,7 +82,7 @@
           @endif
 
           @if($discount > 0)
-            <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-white bg-orange-600">
+            <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-white bg-blue-600">
               {{ $discount }}% off
             </span>
           @endif
@@ -94,7 +94,7 @@
     <div class="p-3 sm:p-4">
       {{-- Pricing --}}
       <div class="flex items-center gap-2 mb-1.5 sm:mb-2">
-        <span class="text-base sm:text-lg font-bold text-orange-600 dark:text-orange-500" itemprop="price">
+        <span class="text-base sm:text-lg font-bold text-rose-700 dark:text-rose-400" itemprop="price">
           {{ $product->showPrice() }}
         </span>
         @if($product->showPreviousPrice())
@@ -105,7 +105,7 @@
       </div>
 
       {{-- Product Name --}}
-      <h3 class="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-orange-600 dark:group-hover:text-orange-500 transition-colors duration-200"
+      <h3 class="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200"
           itemprop="name"
           title="{{ $product->name }}">
         {{ ucfirst(mb_strtolower($product->showName())) }}
@@ -118,7 +118,7 @@
     @if($showCart)
       {{-- Wide Add to Cart Button --}}
       <a href="javascript:void(0);"
-         class="add-to-cart-btn flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200"
+         class="add-to-cart-btn flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-slate-950 hover:from-indigo-700 hover:to-violet-700 text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-all duration-200"
          data-id="{{ $product->id }}"
          role="button"
          tabindex="0"
@@ -136,7 +136,7 @@
     @if($showWishlist)
       {{-- Icon-only Wishlist Button --}}
       <a href="javascript:void(0);"
-         class="add-wishlist-btn p-2 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
+         class="add-wishlist-btn p-2 text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-200"
          data-id="{{ $product->id }}"
          role="button"
          tabindex="0"

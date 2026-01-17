@@ -40,7 +40,7 @@
 @endphp
 
 <a href="javascript:void(0);"
-   class="add-wishlist-btn inline-flex items-center justify-center gap-1.5 {{ $buttonSize }} bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ $attributes->get('class', '') }}"
+   class="add-wishlist-btn inline-flex items-center justify-center gap-1.5 {{ $buttonSize }} bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ $attributes->get('class', '') }}"
    data-id="{{ $productId }}"
    aria-label="Add to wishlist"
    title="Add to Wishlist"

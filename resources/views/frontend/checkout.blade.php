@@ -36,7 +36,7 @@
   .input-field {
     @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600
            rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-           focus:ring-2 focus:ring-orange-500 text-sm;
+           focus:ring-2 focus:ring-blue-500 text-sm;
   }
 </style>
 <!-- Main Content -->
@@ -108,7 +108,7 @@
               @endif
             </div>
 
-            <a href="{{ route('front.cart') }}" class="inline-flex items-center space-x-1 text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium mt-4 transition-colors">
+            <a href="{{ route('front.cart') }}" class="inline-flex items-center space-x-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium mt-4 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
               </svg>
@@ -158,7 +158,7 @@
                        data-form="{{ $gateway->showCheckoutLink() }}"
                       value="{{ $gateway->id }}"
                       id="payment_radio_{{ $gateway->id }}"
-                      class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500"
+                      class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                       {{ $isOpen ? 'checked' : '' }} />
 
                     <label for="payment_radio_{{ $gateway->id }}"
@@ -192,7 +192,7 @@
                     <div class="flex items-center space-x-3">
                       <input type="radio" name="cod_method" value="cash" id="cod_cash"
                         checked
-                        class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                        class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
                       <label for="cod_cash"
                         class="text-sm text-gray-700 dark:text-gray-300">
                         Cash on Delivery (Cash / UPI)
@@ -207,7 +207,7 @@
                     <div class="space-y-3">
                       <div class="flex items-center space-x-3">
                         <input type="radio" name="upi_method" value="scan" id="upi_scan"
-                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
                         <label for="upi_scan" class="text-sm text-gray-700 dark:text-gray-300">
                           Scan & Pay
                         </label>
@@ -216,7 +216,7 @@
                       <div class="flex items-center space-x-3">
                         <input type="radio" name="upi_method" value="id" id="upi_id"
                           checked
-                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
                         <label for="upi_id" class="text-sm text-gray-700 dark:text-gray-300">
                           Enter UPI ID
                         </label>
@@ -225,7 +225,7 @@
                       <input type="text" placeholder="Enter your UPI ID"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600
                               rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                              focus:ring-2 focus:ring-orange-500 text-sm" />
+                              focus:ring-2 focus:ring-blue-500 text-sm" />
                     </div>
 
                   @elseif(str_contains($keyword, 'card'))
@@ -251,7 +251,7 @@
                       <div class="flex items-center space-x-3 p-3 border rounded">
                         <input type="radio" name="wallet_provider" value="mobikwik"
                           id="wallet_mobikwik" checked
-                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
 
                         <label for="wallet_mobikwik"
                           class="flex-1 text-sm text-gray-700 dark:text-gray-300">
@@ -282,7 +282,7 @@
                         <input type="radio" name="bank_name"
                           value="{{ strtolower(str_replace(' ', '_', $bank)) }}"
                           id="bank_{{ strtolower(str_replace(' ', '_', $bank)) }}"
-                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500">
+                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
                         <label for="bank_{{ strtolower(str_replace(' ', '_', $bank)) }}"
                           class="text-sm text-gray-700 dark:text-gray-300">
                           {{ $bank }}
@@ -322,7 +322,7 @@
               onclick="togglePromoCode()"
               class="w-full flex items-center justify-between p-3 text-left">
               <div class="flex items-center space-x-2">
-                <svg class="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                 </svg>
                 <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Apply Promo Code</span>
@@ -343,11 +343,11 @@
                   type="text"
                   id="coupon_code"
                   placeholder="Enter code"
-                  class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500"
+                  class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
                   aria-label="Promo code" />
                 <button
                   type="submit"
-                  class="px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                  class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                   Apply
                 </button>
               </form>
@@ -432,16 +432,16 @@
           <button
             type="button"
             onclick="placeOrder()"
-            class="w-full px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200">
+            class="w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
             Place your order
           </button>
 
           <!-- Terms -->
           <p class="text-xs text-gray-600 dark:text-gray-400 text-center mt-4">
             By ordering, you accept our
-            <a href="{{ route('terms') }}" class="text-orange-600 dark:text-orange-400 hover:underline">terms</a>
+            <a href="{{ route('terms') }}" class="text-blue-600 dark:text-blue-400 hover:underline">terms</a>
             and
-            <a href="{{ route('privacy') }}" class="text-orange-600 dark:text-orange-400 hover:underline">privacy policy</a>
+            <a href="{{ route('privacy') }}" class="text-blue-600 dark:text-blue-400 hover:underline">privacy policy</a>
           </p>
         </div>
       </div>
@@ -561,10 +561,10 @@
 
     // Update card styling
     document.querySelectorAll('[onclick*="selectAddressCard"]').forEach(card => {
-      card.classList.remove('ring-2', 'ring-orange-600', 'dark:ring-orange-400', 'bg-orange-50', 'dark:bg-orange-900/10');
+      card.classList.remove('ring-2', 'ring-blue-600', 'dark:ring-blue-400', 'bg-blue-50', 'dark:bg-blue-900/10');
     });
 
-    event.currentTarget.classList.add('ring-2', 'ring-orange-600', 'dark:ring-orange-400', 'bg-orange-50', 'dark:bg-orange-900/10');
+    event.currentTarget.classList.add('ring-2', 'ring-blue-600', 'dark:ring-blue-400', 'bg-blue-50', 'dark:bg-blue-900/10');
 
     console.log('Selected address ID:', addressId);
   }

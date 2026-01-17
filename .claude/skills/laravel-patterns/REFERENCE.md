@@ -44,7 +44,7 @@ Detailed examples and advanced patterns for the Usceligin e-commerce project.
             pattern="[6-9][0-9]{9}">
     </div>
 
-    <button type="submit" class="w-full py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700">
+    <button type="submit" class="w-full py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700">
         Send OTP
     </button>
 </form>
@@ -694,7 +694,7 @@ Route::post('/logout', 'Auth\User\LoginController@logout')->name('logout')->midd
             id="name"
             name="name"
             required
-            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value="{{ old('name', $user->name) }}">
         @error('name')
             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -704,7 +704,7 @@ Route::post('/logout', 'Auth\User\LoginController@logout')->name('logout')->midd
     {{-- Submit Button --}}
     <button
         type="submit"
-        class="w-full px-6 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+        class="w-full px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
         Update Profile
     </button>
 </form>

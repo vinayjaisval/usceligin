@@ -73,7 +73,7 @@
               Care</a>
           </li>
           <li><a href="/join-celigin-club"
-              class="text-sm bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent font-medium hover:from-pink-600 hover:to-orange-600 transition-all duration-200">Join
+              class="text-sm bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent font-medium hover:from-pink-600 hover:to-blue-600 transition-all duration-200">Join
               CELIGIN CLUB</a></li>
           <li><a href="/sale"
               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Sale</a>
@@ -121,9 +121,9 @@
         </p>
         <form class="space-y-3" aria-label="Newsletter signup">
           <input type="email" placeholder="Enter your email address" required aria-label="Email address"
-            class="w-full max-w-full px-3 py-2 border border-gray-300 dark:border-gray-600  text-sm text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200 min-w-0" />
+            class="w-full max-w-full px-3 py-2 border border-gray-300 dark:border-gray-600  text-sm text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 min-w-0" />
           <button type="submit"
-            class="w-full bg-orange-600 hover:bg-orange-700 focus:ring-orange-500 dark:focus:ring-orange-400 text-white px-4 py-2  text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 transition-colors duration-200">Subscribe</button>
+            class="w-full bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 dark:focus:ring-blue-400 text-white px-4 py-2  text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 transition-colors duration-200">Subscribe</button>
         </form>
       </div>
     </div>
@@ -141,7 +141,7 @@
             <div class="text-sm text-gray-600 dark:text-gray-400 flex-shrink-0">
               <p>&copy; {{ date('Y') }} CELIGIN • Powered by <a href="https://www.hucpl.com/" target="_blank"
                   rel="noopener noreferrer"
-                  class="text-gray-900 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-200 font-medium">HUCPL</a>
+                  class="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 font-medium">HUCPL</a>
               </p>
             </div>
 
@@ -149,7 +149,7 @@
             <div class="flex items-center justify-start space-x-3 flex-shrink-0">
               @foreach(DB::table('social_links')->where('user_id', 0)->where('status', 1)->get() as $link)
                 <a href="{{ $link->link }}" target="_blank" rel="noopener noreferrer"
-                  class="text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-200"
+                  class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
                   aria-label="Follow us on {{ strtolower(str_replace(['https://www.', 'https://', '.com', '.in'], '', $link->link)) }}">
                   @if(str_contains($link->link, 'facebook'))
                     <!-- Facebook Icon -->
@@ -208,7 +208,7 @@
   </div>
 </footer>
 <button
-  class="fixed bottom-6 right-6 bg-orange-600 text-white p-3  shadow-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 z-50 opacity-0 pointer-events-none"
+  class="fixed bottom-6 right-6 bg-blue-600 text-white p-3  shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 z-50 opacity-0 pointer-events-none"
   id="scrollToTop" aria-label="Scroll to top">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
     <polyline points="18,15 12,9 6,15"></polyline>
@@ -403,7 +403,7 @@
         priceContainer.className = 'flex items-center space-x-2 mt-1';
 
         const currentPrice = document.createElement('span');
-        currentPrice.className = 'text-sm font-semibold text-orange-600 dark:text-orange-400';
+        currentPrice.className = 'text-sm font-semibold text-blue-600 dark:text-blue-400';
         currentPrice.textContent = product.price;
 
         priceContainer.appendChild(currentPrice);
@@ -434,7 +434,7 @@
 
       // Add "View all results" option
       const viewAllItem = document.createElement('div');
-      viewAllItem.className = 'flex items-center justify-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer text-sm font-medium border-t border-gray-200 dark:border-gray-600 text-orange-600 dark:text-orange-400 transition-colors duration-200';
+      viewAllItem.className = 'flex items-center justify-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer text-sm font-medium border-t border-gray-200 dark:border-gray-600 text-blue-600 dark:text-blue-400 transition-colors duration-200';
 
       const searchIcon = document.createElement('svg');
       searchIcon.className = 'w-4 h-4 mr-2';
@@ -596,11 +596,11 @@
     const searchInput = document.createElement('input');
     searchInput.type = 'search';
     searchInput.placeholder = 'Search products...';
-    searchInput.className = 'w-full px-4 py-3 border border-gray-300 dark:border-gray-600  text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400';
+    searchInput.className = 'w-full px-4 py-3 border border-gray-300 dark:border-gray-600  text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400';
 
     const searchBtn = document.createElement('button');
     searchBtn.type = 'submit';
-    searchBtn.className = 'w-full mt-3 px-4 py-3 bg-orange-600 text-white  hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 font-medium';
+    searchBtn.className = 'w-full mt-3 px-4 py-3 bg-blue-600 text-white  hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium';
     searchBtn.textContent = 'Search Products';
 
     searchForm.appendChild(searchInput);
@@ -705,7 +705,7 @@
         priceContainer.className = 'flex items-center space-x-2 mt-1';
 
         const currentPrice = document.createElement('span');
-        currentPrice.className = 'text-sm font-semibold text-orange-600 dark:text-orange-400';
+        currentPrice.className = 'text-sm font-semibold text-blue-600 dark:text-blue-400';
         currentPrice.textContent = product.price;
 
         priceContainer.appendChild(currentPrice);

@@ -124,7 +124,7 @@
               <div class="mb-lg">
                 <div class="flex items-start gap-5">
                   <input type="checkbox" id="keepSignedIn" name="keep_signed_in"
-                    class="mt-1 h-4 w-4 text-orange-600 dark:text-orange-400 border-border-medium rounded-none focus:ring-accent-primary focus:ring-2">
+                    class="mt-1 h-4 w-4 text-blue-600 dark:text-blue-400 border-border-medium rounded-none focus:ring-accent-primary focus:ring-2">
                   <div class="flex items-center gap-2">
                     <label for="keepSignedIn" class="text-sm text-gray-900 dark:text-gray-100 cursor-pointer">
                       Keep me signed in
@@ -157,11 +157,11 @@
                 <p>
                   By signing in, you agree to our
                   <a href="{{ route('terms') ?? '#' }}"
-                    class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline transition-colors duration-fast">Terms
+                    class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors duration-fast">Terms
                     and Conditions</a>
                   and that you've read our
                   <a href="{{ route('privacy') ?? '#' }}"
-                    class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline transition-colors duration-fast">Privacy
+                    class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors duration-fast">Privacy
                     Policy</a>.
                 </p>
               </div>
@@ -214,7 +214,7 @@
                 <p>
                   Didn't receive the code?
                   <button type="button"
-                    class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline font-medium disabled:text-gray-500 dark:text-gray-500 disabled:no-underline disabled:cursor-not-allowed"
+                    class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium disabled:text-gray-500 dark:text-gray-500 disabled:no-underline disabled:cursor-not-allowed"
                     id="resendOtp" disabled>
                     Resend OTP in <span id="countdown">60</span>s
                   </button>
@@ -232,7 +232,7 @@
 
             <div class="text-center mt-lg">
               <button type="button"
-                class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 underline font-medium flex items-center gap-xs mx-auto"
+                class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium flex items-center gap-xs mx-auto"
                 id="backToLogin" aria-label="Go back to sign in form">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path

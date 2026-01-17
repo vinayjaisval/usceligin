@@ -30,7 +30,7 @@
 
           {{-- User Avatar --}}
           <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex flex-col items-center">
-            <div class="w-20 h-20 rounded-full bg-orange-600 dark:bg-orange-500 text-white flex items-center justify-center text-3xl font-bold mb-3">
+            <div class="w-20 h-20 rounded-full bg-blue-600 dark:bg-blue-500 text-white flex items-center justify-center text-3xl font-bold mb-3">
               {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
             </div>
             <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 text-center">{{ Auth::user()->name ?? 'User' }}</h2>
@@ -139,25 +139,25 @@
           {{-- Quick Stats at Top --}}
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ $totalOrders }}</div>
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $totalOrders }}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Total Orders</div>
             </div>
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ $totalWishlistItems }}</div>
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $totalWishlistItems }}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Wishlist Items</div>
             </div>
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ $points }}</div>
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $points }}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Points Earned</div>
             </div>
           </div>
 
           {{-- Join CELIGIN CLUB Section --}}
           <div class="mb-6">
-            <a href="{{ route('front.celigin-join-club') }}" class="block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 hover:border-orange-500 dark:hover:border-orange-400 transition-colors group">
+            <a href="{{ route('front.celigin-join-club') }}" class="block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 hover:border-blue-500 dark:hover:border-blue-400 transition-colors group">
               <div class="flex items-center">
-                <div class="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center group-hover:bg-orange-200 dark:group-hover:bg-orange-900/50 transition-colors">
-                  <span class="material-icons-outlined text-3xl text-orange-600 dark:text-orange-400">card_membership</span>
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors">
+                  <span class="material-icons-outlined text-3xl text-blue-600 dark:text-blue-400">card_membership</span>
                 </div>
                 <div class="ml-6">
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Join CELIGIN CLUB</h3>
@@ -171,8 +171,8 @@
           <div class="mb-6">
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
               <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center">
-                  <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-2xl">receipt_long</span>
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                  <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-2xl">receipt_long</span>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Purchase History</h3>
               </div>
@@ -205,7 +205,7 @@
                 {{-- Empty State --}}
                 <div class="text-center py-8">
                   <p class="text-gray-600 dark:text-gray-400 mb-4">You haven't made any purchases yet</p>
-                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
                     Start Shopping
                   </a>
                 </div>
@@ -217,8 +217,8 @@
           <div class="mb-6">
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
               <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center">
-                  <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-2xl">favorite_border</span>
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                  <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-2xl">favorite_border</span>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Wishlist</h3>
               </div>
@@ -226,7 +226,7 @@
               @if($wishlist->count() > 0)
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                   @foreach($wishlist->take(4) as $item)
-                    <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
+                    <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
                       @if($item->product && $item->product->photo)
                         <img src="{{ asset('assets/images/products/' . $item->product->photo) }}"
                              alt="{{ $item->product->name ?? 'Product' }}"
@@ -240,7 +240,7 @@
                         {{ $item->product->name ?? 'Product' }}
                       </h5>
                       @if($item->product)
-                        <p class="text-sm text-orange-600 dark:text-orange-400 font-semibold">
+                        <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
                           ₹ {{ number_format($item->product->price, 2) }}
                         </p>
                       @endif
@@ -249,7 +249,7 @@
                 </div>
                 @if($wishlist->count() > 4)
                   <div class="mt-4 text-center">
-                    <a href="{{ route('front.wishlist') }}" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 text-sm font-semibold">
+                    <a href="{{ route('front.wishlist') }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
                       View All {{ $wishlist->count() }} Items →
                     </a>
                   </div>
@@ -258,7 +258,7 @@
                 {{-- Empty State --}}
                 <div class="text-center py-8">
                   <p class="text-gray-600 dark:text-gray-400 mb-4">Your wishlist is empty</p>
-                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
                     Browse Products
                   </a>
                 </div>
@@ -319,7 +319,7 @@
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
               <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 @foreach($wishlist as $item)
-                  <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-orange-500 dark:hover:border-orange-400 transition-colors">
+                  <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
                     @if($item->product && $item->product->photo)
                       <img src="{{ asset('assets/images/products/' . $item->product->photo) }}"
                            alt="{{ $item->product->name ?? 'Product' }}"
@@ -333,7 +333,7 @@
                       {{ $item->product->name ?? 'Product' }}
                     </h5>
                     @if($item->product)
-                      <p class="text-sm text-orange-600 dark:text-orange-400 font-semibold">
+                      <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
                         ₹ {{ number_format($item->product->price, 2) }}
                       </p>
                     @endif
@@ -381,7 +381,7 @@
                     name="name"
                     value="{{ old('name', $user->name) }}"
                     required
-                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm"
+                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm"
                     placeholder="Enter your full name" />
                   @error('name')
                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -406,7 +406,7 @@
                     id="email"
                     name="email"
                     value="{{ old('email', $user->email) }}"
-                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm"
+                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm"
                     placeholder="your@email.com" />
                   @error('email')
                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -427,7 +427,7 @@
                     </span>
                   @endif
                 </label>
-                <div class="relative flex items-center border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-orange-500 transition-all">
+                <div class="relative flex items-center border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
                   <span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2.5 text-sm font-medium border-r border-gray-300 dark:border-gray-600">+91</span>
                   <input
                     type="tel"
@@ -444,9 +444,9 @@
               </div>
 
               {{-- Account Info Box --}}
-              <div class="mb-6 p-5 bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-800">
+              <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
                 <div class="flex items-start gap-3 mb-4">
-                  <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-xl mt-0.5">info</span>
+                  <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-xl mt-0.5">info</span>
                   <div class="flex-1">
                     <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Account Details</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2.5 gap-x-6 text-sm">
@@ -483,7 +483,7 @@
               <div class="flex gap-3">
                 <button
                   type="submit"
-                  class="flex-1 sm:flex-none sm:px-8 py-3 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
+                  class="flex-1 sm:flex-none sm:px-8 py-3 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
                   Update Profile
                 </button>
               </div>
@@ -502,7 +502,7 @@
                 <button
                   type="button"
                   onclick="toggleAddAddressForm()"
-                  class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                  class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                   </svg>
@@ -519,7 +519,7 @@
                 <button
                   type="button"
                   onclick="toggleAddAddressForm()"
-                  class="sm:hidden w-full mb-4 flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-dashed border-orange-300 dark:border-orange-700 text-orange-600 dark:text-orange-400 text-sm font-semibold hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors">
+                  class="sm:hidden w-full mb-4 flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-dashed border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                   </svg>
@@ -530,11 +530,11 @@
                 {{-- Address Cards Grid --}}
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="address-cards-container">
                   @foreach($addresses as $address)
-                    <div class="relative group border-2 {{ $address->is_default ? 'border-orange-500 dark:border-orange-400 bg-orange-50/30 dark:bg-orange-900/10' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }} p-5 transition-all duration-200">
+                    <div class="relative group border-2 {{ $address->is_default ? 'border-blue-500 dark:border-blue-400 bg-blue-50/30 dark:bg-blue-900/10' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }} p-5 transition-all duration-200">
 
                       {{-- Default Badge (Top Right) --}}
                       @if($address->is_default)
-                      <div class="absolute -top-2 -right-2 bg-orange-600 dark:bg-orange-500 text-white px-3 py-1 text-xs font-semibold shadow-md">
+                      <div class="absolute -top-2 -right-2 bg-blue-600 dark:bg-blue-500 text-white px-3 py-1 text-xs font-semibold shadow-md">
                         DEFAULT
                       </div>
                       @endif
@@ -576,7 +576,7 @@
                         <button
                           type="button"
                           onclick="setDefaultAddress({{ $address->id }})"
-                          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 border border-orange-200 dark:border-orange-700 transition-colors">
+                          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 border border-blue-200 dark:border-blue-700 transition-colors">
                           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                           </svg>
@@ -622,17 +622,17 @@
                     <div class="flex gap-4">
                       <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="radio" name="type" value="home" checked
-                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
                         <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
                       </label>
                       <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="radio" name="type" value="work"
-                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
                         <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
                       </label>
                       <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="radio" name="type" value="other"
-                          class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
                         <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
                       </label>
                     </div>
@@ -644,7 +644,7 @@
                       Full Name <span class="text-red-600">*</span>
                     </label>
                     <input type="text" name="name" id="myAccountAddressForm_name" required
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                   </div>
 
                   {{-- Phone --}}
@@ -653,7 +653,7 @@
                       Phone Number <span class="text-red-600">*</span>
                     </label>
                     <input type="tel" name="phone" required maxlength="15"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                   </div>
 
                   {{-- Address Line 1 --}}
@@ -662,7 +662,7 @@
                       Address Line 1 <span class="text-red-600">*</span>
                     </label>
                     <input type="text" name="address_line_1" required
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                   </div>
 
                   {{-- Address Line 2 --}}
@@ -671,7 +671,7 @@
                       Address Line 2
                     </label>
                     <input type="text" name="address_line_2"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                   </div>
 
                   {{-- Pincode, City, State, Country --}}
@@ -682,7 +682,7 @@
                       </label>
                       <input type="text" name="pincode" id="myAccountAddressForm_pincode" required maxlength="6" pattern="[0-9]{6}"
                         onblur="fetchPincodeDetails('myAccountAddressForm')"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
                     <div>
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -710,7 +710,7 @@
                   {{-- Default Checkbox --}}
                   <div class="flex items-start space-x-2">
                     <input type="checkbox" name="is_default" value="1"
-                      class="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500" />
+                      class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
                     <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                       Make this my default address
                     </label>
@@ -719,7 +719,7 @@
                   {{-- Buttons --}}
                   <div class="flex gap-3">
                     <button type="submit"
-                      class="px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                      class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                       Save Address
                     </button>
                     <button type="button" onclick="cancelAddressForm()"
@@ -740,8 +740,8 @@
                 {{-- No Addresses Empty State --}}
                 <div class="text-center py-16 px-6 border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-900/20">
                   <div class="max-w-md mx-auto">
-                    <div class="w-20 h-20 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span class="material-icons-outlined text-5xl text-orange-600 dark:text-orange-400">add_location_alt</span>
+                    <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span class="material-icons-outlined text-5xl text-blue-600 dark:text-blue-400">add_location_alt</span>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">No Saved Addresses</h3>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
@@ -750,7 +750,7 @@
                     <button
                       type="button"
                       onclick="toggleAddAddressForm()"
-                      class="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors shadow-md">
+                      class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors shadow-md">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                       </svg>
@@ -773,17 +773,17 @@
                       <div class="flex gap-4">
                         <label class="flex items-center space-x-2 cursor-pointer">
                           <input type="radio" name="type" value="home" checked
-                            class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
                           <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
                         </label>
                         <label class="flex items-center space-x-2 cursor-pointer">
                           <input type="radio" name="type" value="work"
-                            class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
                           <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
                         </label>
                         <label class="flex items-center space-x-2 cursor-pointer">
                           <input type="radio" name="type" value="other"
-                            class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
                           <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
                         </label>
                       </div>
@@ -795,7 +795,7 @@
                         Full Name <span class="text-red-600">*</span>
                       </label>
                       <input type="text" name="name" id="myAccountAddressForm_name" required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
 
                     {{-- Phone --}}
@@ -804,7 +804,7 @@
                         Phone Number <span class="text-red-600">*</span>
                       </label>
                       <input type="tel" name="phone" required maxlength="15"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
 
                     {{-- Address Line 1 --}}
@@ -813,7 +813,7 @@
                         Address Line 1 <span class="text-red-600">*</span>
                       </label>
                       <input type="text" name="address_line_1" required
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
 
                     {{-- Address Line 2 --}}
@@ -822,7 +822,7 @@
                         Address Line 2
                       </label>
                       <input type="text" name="address_line_2"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
 
                     {{-- Pincode, City, State, Country --}}
@@ -833,7 +833,7 @@
                         </label>
                         <input type="text" name="pincode" id="myAccountAddressForm_pincode" required maxlength="6" pattern="[0-9]{6}"
                           onblur="fetchPincodeDetails('myAccountAddressForm')"
-                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                       </div>
                       <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -861,7 +861,7 @@
                     {{-- Default Checkbox --}}
                     <div class="flex items-start space-x-2">
                       <input type="checkbox" name="is_default" value="1"
-                        class="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500" />
+                        class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
                       <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                         Make this my default address
                       </label>
@@ -870,7 +870,7 @@
                     {{-- Buttons --}}
                     <div class="flex gap-3">
                       <button type="submit"
-                        class="px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                        class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                         Save Address
                       </button>
                       <button type="button" onclick="cancelAddressForm()"
@@ -909,11 +909,11 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
               <div class="flex items-start">
-                <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-3xl mr-4">email</span>
+                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-3xl mr-4">email</span>
                 <div>
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Email Support</h3>
                   <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Get help via email within 24 hours</p>
-                  <a href="mailto:support@celigin.com" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 text-sm font-semibold">
+                  <a href="mailto:support@celigin.com" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
                     support@celigin.com
                   </a>
                 </div>
@@ -922,11 +922,11 @@
 
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
               <div class="flex items-start">
-                <span class="material-icons-outlined text-orange-600 dark:text-orange-400 text-3xl mr-4">phone</span>
+                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-3xl mr-4">phone</span>
                 <div>
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Phone Support</h3>
                   <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Talk to our support team</p>
-                  <a href="tel:+911234567890" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 text-sm font-semibold">
+                  <a href="tel:+911234567890" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
                     +91 123 456 7890
                   </a>
                 </div>
@@ -940,12 +940,12 @@
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Affiliate Program</h1>
 
           <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8 text-center">
-            <span class="material-icons-outlined text-6xl text-orange-600 dark:text-orange-400 mb-4">groups</span>
+            <span class="material-icons-outlined text-6xl text-blue-600 dark:text-blue-400 mb-4">groups</span>
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Join Our Affiliate Program</h2>
             <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
               Earn rewards by referring friends and family. Share your unique referral link and get exclusive benefits.
             </p>
-            <button class="px-6 py-3 bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors">
+            <button class="px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors">
               Learn More
             </button>
           </div>
@@ -957,19 +957,19 @@
 
           <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
             <div class="text-center mb-8">
-              <div class="text-5xl font-bold text-orange-600 dark:text-orange-400 mb-2">₹{{Auth::user()->current_balance ? Auth::user()->current_balance : 0}}</div>
+              <div class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">₹{{Auth::user()->current_balance ? Auth::user()->current_balance : 0}}</div>
               <p class="text-gray-600 dark:text-gray-400">Available Points</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
-                <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">shopping_cart</span>
+                <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400 mb-2">shopping_cart</span>
                 <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Earn on Purchases</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">Get 1 point for every ₹100 spent</p>
               </div>
 
               <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
-                <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">card_giftcard</span>
+                <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400 mb-2">card_giftcard</span>
                 <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Redeem Rewards</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">Use points for discounts on orders</p>
               </div>
@@ -980,7 +980,7 @@
             @endphp
 
 <div class="border border-gray-200 dark:border-gray-700 p-4 text-center rounded cursor-pointer">
-    <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">
+    <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400 mb-2">
         share
     </span>
 
@@ -1004,7 +1004,7 @@
     <!-- Copy Button -->
     <button
         onclick="copyReferral()"
-        class="bg-orange-600 text-white px-4 py-1 rounded text-sm mb-3">
+        class="bg-blue-600 text-white px-4 py-1 rounded text-sm mb-3">
         Copy Link
     </button>
 
@@ -1037,7 +1037,7 @@
 
     <!-- Telegram -->
     <a id="telegramShare" target="_blank"
-       class="w-10 h-10 flex items-center justify-center rounded-full bg-sky-500 hover:bg-sky-600 transition">
+       class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 transition">
         <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
             <path d="M9.993 15.522l-.397 5.584c.568 0 .815-.245 1.111-.539l2.667-2.532 5.523 4.035c1.012.56 1.728.265 1.986-.935l3.6-16.88c.319-1.49-.538-2.07-1.515-1.7L1.353 9.6c-1.454.566-1.432 1.38-.248 1.745l5.524 1.72L19.41 5.44c.664-.44 1.27-.197.772.243"/>
         </svg>
@@ -1094,7 +1094,7 @@
 
     // Remove active class from all tab links
     document.querySelectorAll('.tab-link').forEach(link => {
-      link.classList.remove('active', 'bg-orange-50', 'dark:bg-orange-900/20', 'text-orange-600', 'dark:text-orange-400');
+      link.classList.remove('active', 'bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400');
     });
 
     // Show selected tab content
@@ -1106,7 +1106,7 @@
     // Add active class to selected tab link
     const selectedLink = document.querySelector(`[data-tab="${tabName}"]`);
     if (selectedLink) {
-      selectedLink.classList.add('active', 'bg-orange-50', 'dark:bg-orange-900/20', 'text-orange-600', 'dark:text-orange-400');
+      selectedLink.classList.add('active', 'bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400');
     }
 
     // Update URL hash without scrolling
@@ -1213,17 +1213,17 @@
           <div class="flex gap-4">
             <label class="flex items-center space-x-2 cursor-pointer">
               <input type="radio" name="type" value="home" ${address.type === 'home' ? 'checked' : ''}
-                class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
               <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
             </label>
             <label class="flex items-center space-x-2 cursor-pointer">
               <input type="radio" name="type" value="work" ${address.type === 'work' ? 'checked' : ''}
-                class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
               <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
             </label>
             <label class="flex items-center space-x-2 cursor-pointer">
               <input type="radio" name="type" value="other" ${address.type === 'other' ? 'checked' : ''}
-                class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500" />
+                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
               <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
             </label>
           </div>
@@ -1234,7 +1234,7 @@
             Full Name <span class="text-red-600">*</span>
           </label>
           <input type="text" name="name" value="${address.name}" required
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
         </div>
 
         <div>
@@ -1242,7 +1242,7 @@
             Phone Number <span class="text-red-600">*</span>
           </label>
           <input type="tel" name="phone" value="${address.phone}" required maxlength="15"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
         </div>
 
         <div>
@@ -1250,7 +1250,7 @@
             Address Line 1 <span class="text-red-600">*</span>
           </label>
           <input type="text" name="address_line_1" value="${address.address_line_1}" required
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
         </div>
 
         <div>
@@ -1258,7 +1258,7 @@
             Address Line 2
           </label>
           <input type="text" name="address_line_2" value="${address.address_line_2 || ''}"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -1267,7 +1267,7 @@
               Pincode <span class="text-red-600">*</span>
             </label>
             <input type="text" name="pincode" value="${address.pincode}" required maxlength="6" pattern="[0-9]{6}"
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" />
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -1294,7 +1294,7 @@
 
         <div class="flex items-start space-x-2">
           <input type="checkbox" name="is_default" value="1" ${address.is_default ? 'checked' : ''}
-            class="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500" />
+            class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
           <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
             Make this my default address
           </label>
@@ -1302,7 +1302,7 @@
 
         <div class="flex gap-3">
           <button type="submit"
-            class="px-6 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+            class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
             Update Address
           </button>
           <button type="button" onclick="cancelAddressForm()"

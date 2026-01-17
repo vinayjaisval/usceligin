@@ -7,7 +7,7 @@
 
 @php
 $variantClasses = [
-    'orange' => 'bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800',
+    'orange' => 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800',
     'white' => 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600',
     'default' => 'bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700',
 ];
@@ -35,7 +35,7 @@ $uniqueId = 'collapsible-' . uniqid();
     </div>
     <button
       type="button"
-      class="flex-shrink-0 ml-3 p-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
+      class="flex-shrink-0 ml-3 p-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
       aria-label="Toggle section"
       aria-expanded="{{ $open ? 'true' : 'false' }}"
       id="{{ $uniqueId }}-button">

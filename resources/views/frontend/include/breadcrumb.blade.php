@@ -28,7 +28,7 @@
 
       <li>
         @if(isset($item['url']) && !$loop->last)
-          <a href="{{ $item['url'] }}" class="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors duration-200">
+          <a href="{{ $item['url'] }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
             {{ $item['label'] }}
           </a>
         @else

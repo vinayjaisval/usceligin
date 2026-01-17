@@ -80,16 +80,16 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
           <!-- Primary Orange -->
           <div>
-            <div class="h-24 bg-orange-600 mb-2"></div>
+            <div class="h-24 bg-blue-600 mb-2"></div>
             <p class="text-sm font-medium text-gray-900 dark:text-gray-100">Primary Orange</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">bg-orange-600</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">bg-blue-600</p>
           </div>
 
           <!-- Orange Hover -->
           <div>
-            <div class="h-24 bg-orange-700 mb-2"></div>
+            <div class="h-24 bg-blue-700 mb-2"></div>
             <p class="text-sm font-medium text-gray-900 dark:text-gray-100">Orange Hover</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">bg-orange-700</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">bg-blue-700</p>
           </div>
 
           <!-- Gray Background -->
@@ -147,13 +147,13 @@
           <div>
             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Primary Buttons</h3>
             <div class="flex flex-wrap gap-4">
-              <button class="px-6 py-3 bg-orange-600 text-white text-base font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+              <button class="px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 Large Button
               </button>
-              <button class="px-5 py-2.5 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+              <button class="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 Medium Button
               </button>
-              <button class="px-4 py-2 bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+              <button class="px-4 py-2 bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 Small Button
               </button>
             </div>
@@ -163,10 +163,10 @@
           <div>
             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Secondary Buttons</h3>
             <div class="flex flex-wrap gap-4">
-              <button class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-base font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+              <button class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-base font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 Border Button
               </button>
-              <button class="px-6 py-3 text-orange-600 dark:text-orange-400 text-base font-semibold hover:text-orange-700 dark:hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+              <button class="px-6 py-3 text-blue-600 dark:text-blue-400 text-base font-semibold hover:text-blue-700 dark:hover:text-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 Text Button
               </button>
             </div>
@@ -200,7 +200,7 @@
               type="text"
               id="sample-input"
               placeholder="Enter text..."
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
             />
           </div>
 
@@ -213,7 +213,7 @@
               type="email"
               id="sample-email"
               placeholder="you@example.com"
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
             />
           </div>
 
@@ -226,7 +226,7 @@
               id="sample-textarea"
               rows="4"
               placeholder="Enter your message..."
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base resize-none"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base resize-none"
             ></textarea>
           </div>
 
@@ -237,7 +237,7 @@
             </label>
             <select
               id="sample-select"
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
             >
               <option>Option 1</option>
               <option>Option 2</option>
@@ -250,7 +250,7 @@
             <input
               type="checkbox"
               id="sample-checkbox"
-              class="mt-1 h-4 w-4 text-orange-600 border-gray-300 dark:border-gray-600 focus:ring-orange-500"
+              class="mt-1 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 focus:ring-blue-500"
             />
             <label for="sample-checkbox" class="ml-3 text-sm sm:text-base text-gray-600 dark:text-gray-400">
               I agree to the terms and conditions
@@ -268,7 +268,7 @@
                   type="radio"
                   id="radio1"
                   name="sample-radio"
-                  class="h-4 w-4 text-orange-600 border-gray-300 dark:border-gray-600 focus:ring-orange-500"
+                  class="h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 focus:ring-blue-500"
                   checked
                 />
                 <label for="radio1" class="ml-3 text-sm sm:text-base text-gray-600 dark:text-gray-400">
@@ -280,7 +280,7 @@
                   type="radio"
                   id="radio2"
                   name="sample-radio"
-                  class="h-4 w-4 text-orange-600 border-gray-300 dark:border-gray-600 focus:ring-orange-500"
+                  class="h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 focus:ring-blue-500"
                 />
                 <label for="radio2" class="ml-3 text-sm sm:text-base text-gray-600 dark:text-gray-400">
                   Option 2
@@ -307,7 +307,7 @@
           </div>
 
           <!-- Hover Card -->
-          <div class="border border-gray-200 dark:border-gray-700 p-6 hover:border-orange-500 dark:hover:border-orange-500 transition-colors cursor-pointer">
+          <div class="border border-gray-200 dark:border-gray-700 p-6 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-pointer">
             <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Hover Card</h3>
             <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">
               This card changes border color on hover.
@@ -315,9 +315,9 @@
           </div>
 
           <!-- Highlighted Card -->
-          <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 p-6">
-            <h3 class="text-lg sm:text-xl font-semibold text-orange-900 dark:text-orange-100 mb-3">Highlighted Card</h3>
-            <p class="text-sm sm:text-base text-orange-700 dark:text-orange-300">
+          <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-6">
+            <h3 class="text-lg sm:text-xl font-semibold text-blue-900 dark:text-blue-100 mb-3">Highlighted Card</h3>
+            <p class="text-sm sm:text-base text-blue-700 dark:text-blue-300">
               This card has orange background tint.
             </p>
           </div>
@@ -337,7 +337,7 @@
             <div class="flex flex-wrap gap-3">
               <span class="inline-block px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 text-xs font-semibold rounded">New</span>
               <span class="inline-block px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 text-xs font-semibold rounded">Hot</span>
-              <span class="inline-block px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-100 text-xs font-semibold rounded">Sale</span>
+              <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 text-xs font-semibold rounded">Sale</span>
               <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 text-xs font-semibold rounded">Featured</span>
               <span class="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-xs font-semibold rounded">Default</span>
             </div>
@@ -351,14 +351,14 @@
                 <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>
-                <span class="absolute -top-1 -right-1 bg-orange-600 dark:bg-orange-500 text-white text-xs h-5 w-5 flex items-center justify-center font-medium">3</span>
+                <span class="absolute -top-1 -right-1 bg-blue-600 dark:bg-blue-500 text-white text-xs h-5 w-5 flex items-center justify-center font-medium">3</span>
               </div>
 
               <div class="relative inline-block">
                 <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                 </svg>
-                <span class="absolute -top-1 -right-1 bg-orange-600 dark:bg-orange-500 text-white text-xs h-5 w-5 flex items-center justify-center font-medium">5</span>
+                <span class="absolute -top-1 -right-1 bg-blue-600 dark:bg-blue-500 text-white text-xs h-5 w-5 flex items-center justify-center font-medium">5</span>
               </div>
             </div>
           </div>
@@ -459,7 +459,7 @@
       <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Reusable Components</h2>
         <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-8">
-          These are pre-built, reusable components located in <code class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-orange-600 dark:text-orange-400 text-xs">resources/views/frontend/include/</code>
+          These are pre-built, reusable components located in <code class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 text-xs">resources/views/frontend/include/</code>
         </p>
 
         <div class="space-y-12">
@@ -496,7 +496,7 @@
             <div class="mb-4">
               <button
                 onclick="showLoadingSpinner()"
-                class="px-6 py-3 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                class="px-6 py-3 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                 Show Loading Spinner (3 seconds)
               </button>
             </div>
@@ -667,7 +667,7 @@ document.getElementById('my-spinner').classList.add('hidden');</code></pre>
         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Material Icons</h2>
         <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-8">
           Google Material Icons are integrated and ready to use. Browse all icons at
-          <a href="https://fonts.google.com/icons" target="_blank" class="text-orange-600 dark:text-orange-400 hover:underline">fonts.google.com/icons</a>
+          <a href="https://fonts.google.com/icons" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">fonts.google.com/icons</a>
         </p>
 
         <div class="space-y-8">
@@ -677,31 +677,31 @@ document.getElementById('my-spinner').classList.add('hidden');</code></pre>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
               <!-- Outlined -->
               <div class="text-center">
-                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'outlined', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'outlined', 'size' => '2xl', 'class' => 'text-blue-600 dark:text-blue-400'])
                 <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Outlined</p>
               </div>
 
               <!-- Filled -->
               <div class="text-center">
-                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'filled', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'filled', 'size' => '2xl', 'class' => 'text-blue-600 dark:text-blue-400'])
                 <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Filled</p>
               </div>
 
               <!-- Round -->
               <div class="text-center">
-                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'round', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'round', 'size' => '2xl', 'class' => 'text-blue-600 dark:text-blue-400'])
                 <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Round</p>
               </div>
 
               <!-- Sharp -->
               <div class="text-center">
-                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'sharp', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'sharp', 'size' => '2xl', 'class' => 'text-blue-600 dark:text-blue-400'])
                 <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Sharp</p>
               </div>
 
               <!-- Two Tone -->
               <div class="text-center">
-                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'two-tone', 'size' => '2xl', 'class' => 'text-orange-600 dark:text-orange-400'])
+                @include('frontend.include.icon', ['name' => 'favorite', 'variant' => 'two-tone', 'size' => '2xl', 'class' => 'text-blue-600 dark:text-blue-400'])
                 <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Two-Tone</p>
               </div>
             </div>
@@ -781,7 +781,7 @@ document.getElementById('my-spinner').classList.add('hidden');</code></pre>
   'name' => 'shopping_cart',
   'variant' => 'outlined', // or 'filled', 'round', 'sharp', 'two-tone'
   'size' => 'lg',          // 'xs', 'sm', 'base', 'lg', 'xl', '2xl'
-  'class' => 'text-orange-600 dark:text-orange-400'
+  'class' => 'text-blue-600 dark:text-blue-400'
 ])</code></pre>
             </div>
           </div>
@@ -791,10 +791,10 @@ document.getElementById('my-spinner').classList.add('hidden');</code></pre>
 
     <!-- Usage Notes -->
     <section class="mb-12 lg:mb-16">
-      <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 p-6 lg:p-8">
-        <h2 class="text-2xl sm:text-3xl font-bold text-orange-900 dark:text-orange-100 mb-6">Usage Guidelines</h2>
+      <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-6 lg:p-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-blue-900 dark:text-blue-100 mb-6">Usage Guidelines</h2>
 
-        <div class="space-y-4 text-sm sm:text-base text-orange-800 dark:text-orange-200">
+        <div class="space-y-4 text-sm sm:text-base text-blue-800 dark:text-blue-200">
           <div>
             <h3 class="font-semibold mb-2">Responsive Design</h3>
             <ul class="list-disc list-inside space-y-1 ml-4">
@@ -818,7 +818,7 @@ document.getElementById('my-spinner').classList.add('hidden');</code></pre>
             <ul class="list-disc list-inside space-y-1 ml-4">
               <li>Add aria-label to all icons and buttons</li>
               <li>Use semantic HTML: nav, main, section, article</li>
-              <li>Include focus states: focus:ring-2 focus:ring-orange-500</li>
+              <li>Include focus states: focus:ring-2 focus:ring-blue-500</li>
               <li>Ensure color contrast meets WCAG AA standards</li>
             </ul>
           </div>

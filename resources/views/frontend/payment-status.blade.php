@@ -27,11 +27,11 @@
       'message' => 'Your payment could not be processed. Please try again.',
     ],
     'pending' => [
-      'iconBg' => 'bg-orange-600 dark:bg-orange-500',
+      'iconBg' => 'bg-blue-600 dark:bg-blue-500',
       'iconColor' => 'text-white',
-      'color' => 'text-orange-600 dark:text-orange-400',
-      'bg' => 'bg-orange-50 dark:bg-orange-900/20',
-      'border' => 'border-orange-200 dark:border-orange-800',
+      'color' => 'text-blue-600 dark:text-blue-400',
+      'bg' => 'bg-blue-50 dark:bg-blue-900/20',
+      'border' => 'border-blue-200 dark:border-blue-800',
       'title' => 'Payment Pending',
       'message' => 'Your payment is being verified. You will receive confirmation soon.',
     ],
@@ -122,7 +122,7 @@
     'label' => 'text-xs uppercase tracking-wide font-medium text-gray-500 dark:text-gray-400 mb-1',
     'value' => 'text-base font-bold text-gray-900 dark:text-gray-100',
     'icon-wrapper' => 'w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0 mt-0.5',
-    'btn-primary' => 'flex-1 py-3 px-6 bg-orange-600 text-white text-center text-sm font-semibold hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors',
+    'btn-primary' => 'flex-1 py-3 px-6 bg-blue-600 text-white text-center text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors',
     'btn-secondary' => 'flex-1 py-3 px-6 bg-gray-800 dark:bg-gray-700 text-white text-center text-sm font-semibold hover:bg-gray-900 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors',
   ];
 
@@ -321,12 +321,12 @@
       @endif
 
       @if($demoStatus === 'pending')
-      <div class="px-6 py-4 sm:px-8 bg-orange-50 dark:bg-orange-900/20 border-t border-orange-200 dark:border-orange-800" role="status">
+      <div class="px-6 py-4 sm:px-8 bg-blue-50 dark:bg-blue-900/20 border-t border-blue-200 dark:border-blue-800" role="status">
         <div class="flex items-start gap-3">
-          <svg class="w-6 h-6 text-orange-600 dark:text-orange-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             {!! $icons['info'] !!}
           </svg>
-          <p class="text-sm text-orange-800 dark:text-orange-200">
+          <p class="text-sm text-blue-800 dark:text-blue-200">
             We are verifying your payment. You will receive an email confirmation once the verification is complete.
           </p>
         </div>
@@ -357,7 +357,7 @@
                      loading="lazy" />
 
                 @if($product['qty'] > 1)
-                <span class="absolute -top-2 -right-2 bg-orange-600 text-white text-xs font-bold px-2 py-1 shadow-md min-w-[28px] text-center border-2 border-white dark:border-gray-800"
+                <span class="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 shadow-md min-w-[28px] text-center border-2 border-white dark:border-gray-800"
                       aria-label="Quantity: {{ $product['qty'] }}">
                   ×{{ $product['qty'] }}
                 </span>
@@ -372,7 +372,7 @@
                 <dl class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   <div>
                     <dt class="text-xs uppercase tracking-wide font-medium text-gray-500 dark:text-gray-400 mb-1">Quantity</dt>
-                    <dd class="text-sm font-bold {{ $product['qty'] > 1 ? 'text-orange-600 dark:text-orange-400' : 'text-gray-900 dark:text-gray-100' }}">
+                    <dd class="text-sm font-bold {{ $product['qty'] > 1 ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100' }}">
                       {{ $product['qty'] }}
                     </dd>
                   </div>
@@ -386,7 +386,7 @@
 
                   <div>
                     <dt class="{{ $classes['label'] }}">Subtotal</dt>
-                    <dd class="text-sm font-bold text-orange-600 dark:text-orange-400">
+                    <dd class="text-sm font-bold text-blue-600 dark:text-blue-400">
                       {{ App\Models\Product::convertPrice($product['item_price']) }}
                     </dd>
                   </div>
@@ -421,7 +421,7 @@
                   <dt class="{{ $classes['label'] }}">{{ $contact['label'] }}</dt>
                   <dd>
                     <a href="{{ $contact['type'] }}:{{ $contact['value'] }}"
-                       class="text-sm font-medium text-orange-600 dark:text-orange-400 hover:underline break-all">
+                       class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline break-all">
                       {{ $contact['value'] }}
                     </a>
                   </dd>
@@ -479,7 +479,7 @@
               <div class="space-y-2">
                 <p>
                   <a href="mailto:{{ $settings['support_email'] }}"
-                     class="text-orange-600 dark:text-orange-400 hover:underline font-medium inline-flex items-center gap-2">
+                     class="text-blue-600 dark:text-blue-400 hover:underline font-medium inline-flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       {!! $icons['email'] !!}
                     </svg>
@@ -488,7 +488,7 @@
                 </p>
                 <p>
                   <a href="tel:{{ $settings['support_phone'] }}"
-                     class="text-orange-600 dark:text-orange-400 hover:underline font-medium inline-flex items-center gap-2">
+                     class="text-blue-600 dark:text-blue-400 hover:underline font-medium inline-flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       {!! $icons['phone'] !!}
                     </svg>
@@ -508,7 +508,7 @@
       <p class="text-sm text-gray-600 dark:text-gray-400">
         Have questions?
         <a href="mailto:{{ $settings['support_email'] }}"
-           class="text-orange-600 dark:text-orange-400 hover:underline font-medium">
+           class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
           Contact our support team
         </a>
       </p>

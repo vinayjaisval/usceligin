@@ -217,13 +217,13 @@
       padding-top: 60px;
    }
 
-   .sky-link {
+   .blue-link {
       background: #eff0f1;
       border-radius: 30px 30px 0px 0px;
       text-align: center;
    }
 
-   .sky-link img {
+   .blue-link img {
       width: 250px;
       height: 200px;
       background: #eff0f1;
@@ -242,7 +242,7 @@
       padding-bottom: 30px;
    }
 
-   .sky-link p {
+   .blue-link p {
       margin-top: 10px;
    }
 
@@ -254,7 +254,7 @@
       padding: 60px 0px;
    }
 
-   .sky-links {
+   .blue-links {
       box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
       border-radius: 30px;
    }
@@ -591,8 +591,8 @@
       <div class="container">
          <div class="row">
             <div class="col-lg-4 cs bg-white">
-               <div class="sky-links">
-                  <div class="sky-link">
+               <div class="blue-links">
+                  <div class="blue-link">
                      <img src="{{asset('assets/brand/fsc.png')}}" alt="" />
 
                   </div>
@@ -601,8 +601,8 @@
                </div>
             </div>
             <div class="col-lg-4 cs bg-white">
-               <div class="sky-links cd-mps">
-                  <div class="sky-link">
+               <div class="blue-links cd-mps">
+                  <div class="blue-link">
                      <img src="{{asset('assets/brand/fsc2.png')}}" alt="" />
 
                   </div>
@@ -611,8 +611,8 @@
                </div>
             </div>
             <div class="col-lg-4 cs bg-white">
-               <div class="sky-links cd-mps">
-                  <div class="sky-link">
+               <div class="blue-links cd-mps">
+                  <div class="blue-link">
                      <img src="{{asset('assets/brand/fsc3.png')}}" alt="" />
 
                   </div>

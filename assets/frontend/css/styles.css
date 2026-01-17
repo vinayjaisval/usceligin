@@ -574,7 +574,7 @@
 
   .search-suggestion-item:hover .suggestion-name strong,
   .search-suggestion-item.highlighted .suggestion-name strong {
-    @apply text-orange-400 dark:text-orange-600;
+    @apply text-blue-400 dark:text-blue-600;
   }
 
   .search-suggestion-item:last-child {
@@ -598,7 +598,7 @@
   }
 
   .suggestion-name strong {
-    @apply text-orange-600 dark:text-orange-400 font-semibold;
+    @apply text-blue-600 dark:text-blue-400 font-semibold;
   }
 
   .suggestion-category {
@@ -606,7 +606,7 @@
   }
 
   .suggestion-price {
-    @apply text-base font-semibold text-orange-600 dark:text-orange-400 ml-auto;
+    @apply text-base font-semibold text-blue-600 dark:text-blue-400 ml-auto;
   }
 
   .search-empty-state {
@@ -631,6 +631,6 @@
   }
 
   .search-view-all a {
-    @apply text-orange-600 dark:text-orange-400 text-base font-medium hover:text-orange-700 dark:hover:text-orange-300 transition-colors duration-200;
+    @apply text-blue-600 dark:text-blue-400 text-base font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200;
   }
 }

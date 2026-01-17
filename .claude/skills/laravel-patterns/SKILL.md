@@ -186,14 +186,14 @@ C:/wamp64/bin/php/php8.1.31/php.exe artisan route:clear
 
 ```css
 /* Primary Color */
---orange-600: #EA580C
+--blue-600: #EA580C
 
 /* Use in Tailwind */
-.bg-orange-600
-.text-orange-600
-.border-orange-600
-.dark:bg-orange-500
-.dark:text-orange-400
+.bg-blue-600
+.text-blue-600
+.border-blue-600
+.dark:bg-blue-500
+.dark:text-blue-400
 ```
 
 #### Sharp Design (No Rounded Corners)

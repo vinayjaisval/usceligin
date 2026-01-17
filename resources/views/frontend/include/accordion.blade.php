@@ -51,7 +51,7 @@
               name="{{ $item['radio_name'] }}"
               value="{{ $item['radio_value'] ?? $index }}"
               id="radio_{{ $itemId }}"
-              class="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500"
+              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
               {{ $isOpen ? 'checked' : '' }}
               onclick="event.stopPropagation();" />
           @endif

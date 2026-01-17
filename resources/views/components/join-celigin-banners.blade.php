@@ -21,14 +21,14 @@
           class="w-full h-64 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-300" />
         <div class="absolute inset-y-0 left-0 w-1/2 flex flex-col justify-center text-left p-6">
           <span
-            class="inline-block px-3 py-1 bg-orange-600 dark:bg-orange-500 text-white text-sm font-semibold mb-4 uppercase tracking-wide w-fit">
+            class="inline-block px-3 py-1 bg-blue-600 dark:bg-blue-500 text-white text-sm font-semibold mb-4 uppercase tracking-wide w-fit">
             JOIN CELIGIN CLUB
           </span>
           <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white mb-6">
             Become a Brand Ambassador
           </h3>
           <a href="{{ url('/join') }}"
-            class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 w-fit text-sm"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 w-fit text-sm"
             aria-label="Join CELIGIN Club to become a brand ambassador">
             Join Now
           </a>
@@ -45,7 +45,7 @@
             Cell For Education
           </h3>
           <a href="{{ url('/education') }}"
-            class="inline-flex items-center px-4 py-2 bg-orange-600 dark:bg-orange-500 text-white font-medium hover:bg-orange-700 dark:hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 text-sm"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white font-medium hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 text-sm"
             aria-label="Learn more about Cell For Education program">
             Read More
           </a>
