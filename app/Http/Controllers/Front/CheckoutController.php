@@ -159,6 +159,7 @@ class CheckoutController extends FrontBaseController
         // -----------------------------------------------------------
         $cart = Session::get('cart');
         
+        
         $products = $cart->items;
         $totalQuantity = collect($products)->sum('qty');
 
@@ -181,12 +182,17 @@ class CheckoutController extends FrontBaseController
             // -----------------------------------------------------------
             // 🔹 APPLY COUPON IF EXISTS
             // -----------------------------------------------------------
-            if (Session::has('coupon_total')) {
-                $total = (float) preg_replace('/[^0-9.]/', '', Session::get('coupon_total'));
-            } else {
-                $total -= Session::get('coupon', 0);
-            }
-
+            // if (Session::has('coupon_total')) {
+                
+            //     $total = (float) preg_replace('/[^0-9.]/', '', Session::get('coupon_total'));
+               
+            // } else {
+                
+            //     $total -= Session::get('coupon', 0);
+               
+                
+            // }
+          
             // -----------------------------------------------------------
             // 🔹 REFERRAL DISCOUNT (APPLIED ONLY ON FIRST ORDER)
             // -----------------------------------------------------------
@@ -196,6 +202,7 @@ class CheckoutController extends FrontBaseController
 
             if ($orderCount == 0 && $user->reffered_by) {
                 $referralDiscount = $total * ($this->gs->referral_bonus / 100);
+               
                 $total -= $referralDiscount;
             }
 
@@ -208,6 +215,8 @@ class CheckoutController extends FrontBaseController
             // -----------------------------------------------------------
             // 🔹 RETURN VIEW
             // -----------------------------------------------------------
+
+          
             return view('frontend.checkout', [
                 'products'           => $products,
                 'refferal_discount'  => $referralDiscount,
@@ -300,6 +309,8 @@ class CheckoutController extends FrontBaseController
 
     public function payreturn()
     {
+         $billingAddress=Address::where('user_id', Auth::user()->id)->where('is_default', 1)->get();
+        
        
         if (Session::has('tempcart')) {
             $oldCart = Session::get('tempcart');          
@@ -311,12 +322,17 @@ class CheckoutController extends FrontBaseController
             $tempcart = '';
             return redirect()->back();
         }
-        return view('frontend.payment-status', compact('tempcart', 'order'));
+        
+        $cart = json_decode($order->cart ,true);
+         $paymentInfo=$order;
+
+        return view('frontend.payment-status', compact('tempcart', 'order' ,'billingAddress', 'paymentInfo'));
     }
 
     // Payment Status Page (Success/Failed/Pending)
     public function paymentStatus(Request $request)
     {
+       
         // Get the payment status from query parameter (success, failed, pending)
         $status = $request->get('status', 'success');
 

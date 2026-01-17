@@ -957,7 +957,7 @@
 
           <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
             <div class="text-center mb-8">
-              <div class="text-5xl font-bold text-orange-600 dark:text-orange-400 mb-2">0</div>
+              <div class="text-5xl font-bold text-orange-600 dark:text-orange-400 mb-2">₹{{Auth::user()->current_balance ? Auth::user()->current_balance : 0}}</div>
               <p class="text-gray-600 dark:text-gray-400">Available Points</p>
             </div>
 
@@ -973,12 +973,80 @@
                 <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Redeem Rewards</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">Use points for discounts on orders</p>
               </div>
-              <a href="">
-              <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
-                <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">share</span>
-               <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Refer Friends</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Earn bonus points for referrals</p>
-              </div></a>
+             @php
+                $referralCode = Auth::user()->refferel_code ?? '';
+               
+                $referralLink = url('/?refferel_code=' . $referralCode);
+            @endphp
+
+<div class="border border-gray-200 dark:border-gray-700 p-4 text-center rounded cursor-pointer">
+    <span class="material-icons-outlined text-2xl text-orange-600 dark:text-orange-400 mb-2">
+        share
+    </span>
+
+    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">
+        Refer Friends
+    </h3>
+
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+        Earn bonus points for referrals
+    </p>
+
+    <!-- Referral Input -->
+    <input
+        type="text"
+        id="referralLink"
+        value="{{ $referralLink }}"
+        readonly
+        class="w-full text-sm border rounded px-2 py-1 mb-2 text-center"
+    >
+
+    <!-- Copy Button -->
+    <button
+        onclick="copyReferral()"
+        class="bg-orange-600 text-white px-4 py-1 rounded text-sm mb-3">
+        Copy Link
+    </button>
+
+    <!-- Social Share Buttons -->
+   <div class="flex justify-center gap-4 mt-4">
+
+    <!-- WhatsApp -->
+    <a id="whatsappShare" target="_blank"
+       class="w-10 h-10 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 transition">
+        <svg class="w-5 h-5 fill-white" viewBox="0 0 32 32">
+            <path d="M16.1 3C9.4 3 4 8.4 4 15.1c0 2.7.9 5.2 2.4 7.3L4 29l6.8-2.2c2 .9 4.2 1.4 6.5 1.4 6.7 0 12.1-5.4 12.1-12.1C28.2 8.4 22.8 3 16.1 3zm0 22.1c-2.1 0-4.1-.6-5.9-1.7l-.4-.2-4 1.3 1.3-3.9-.3-.4c-1.1-1.8-1.7-3.9-1.7-6.1 0-6 4.9-10.9 10.9-10.9S27 9.1 27 15.1 22.1 25.1 16.1 25.1zm6-8.2c-.3-.1-1.9-.9-2.2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1-1.2-.4-2.3-1.4c-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.1-.3.2-.5s0-.3 0-.5-.7-1.8-.9-2.4c-.2-.6-.4-.5-.7-.5h-.6c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.6 4.2 3.6 2.4 1 2.4.7 2.8.7.4 0 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1z"/>
+        </svg>
+    </a>
+
+    <!-- Facebook -->
+    <a id="facebookShare" target="_blank"
+       class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition">
+        <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+            <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.326v21.348C0 23.4.6 24 1.326 24h11.495v-9.294H9.691V11.01h3.13V8.309c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.31h3.587l-.467 3.696h-3.12V24h6.116C23.4 24 24 23.4 24 22.674V1.326C24 .6 23.4 0 22.675 0z"/>
+        </svg>
+    </a>
+
+    <!-- Twitter / X -->
+    <a id="twitterShare" target="_blank"
+       class="w-10 h-10 flex items-center justify-center rounded-full bg-black hover:bg-gray-800 transition">
+        <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+            <path d="M18.244 2H21.49l-7.09 8.1L22.75 22h-6.39l-5-6.56L5.78 22H2.53l7.58-8.67L1.5 2h6.55l4.52 5.98L18.24 2z"/>
+        </svg>
+    </a>
+
+    <!-- Telegram -->
+    <a id="telegramShare" target="_blank"
+       class="w-10 h-10 flex items-center justify-center rounded-full bg-sky-500 hover:bg-sky-600 transition">
+        <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+            <path d="M9.993 15.522l-.397 5.584c.568 0 .815-.245 1.111-.539l2.667-2.532 5.523 4.035c1.012.56 1.728.265 1.986-.935l3.6-16.88c.319-1.49-.538-2.07-1.515-1.7L1.353 9.6c-1.454.566-1.432 1.38-.248 1.745l5.524 1.72L19.41 5.44c.664-.44 1.27-.197.772.243"/>
+        </svg>
+    </a>
+
+</div>
+
+</div>
+
             </div>
           </div>
         </div>
@@ -989,6 +1057,32 @@
 </main>
 
 {{-- Tab Switching JavaScript --}}
+
+<script>
+    const referralLink = "{{ url('/?refferel_code=' . Auth::user()->refferel_code) }}";
+    const text = "Join using my referral link & earn rewards!";
+ 
+    const shareText = "Join using my referral link and earn rewards!";
+
+    function copyReferral() {
+        navigator.clipboard.writeText(referralLink).then(() => {
+            alert("Referral link copied!");
+        });
+    }
+    document.getElementById('whatsappShare').href =
+        `https://wa.me/?text=${encodeURIComponent(text + ' ' + referralLink)}`;
+
+    document.getElementById('facebookShare').href =
+        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
+
+    document.getElementById('twitterShare').href =
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(referralLink)}`;
+
+    document.getElementById('telegramShare').href =
+        `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`;
+</script>
+
+
 <script>
   function switchTab(event, tabName) {
     if (event) event.preventDefault();

@@ -1,6 +1,10 @@
 @extends('frontend.include.app')
 
 @section('content')
+
+ @php
+    $tags = \App\Models\Tag::all();
+@endphp
 <main id="main-content" role="main">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 

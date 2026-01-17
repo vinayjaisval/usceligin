@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Front;
 
 use App\{
     Models\Cart,
-    Models\Product
+    Models\Product,
+    Models\Tag,
+    
+
     // Models\Tag // Removed - tags table doesn't exist
 };
 use App\Models\Country;
@@ -22,64 +25,41 @@ class WishlistController extends FrontBaseController
 {
 
     public function wishlist(Request $request)
-    {
-        // $user = Auth::user();
-        $oldCart = '';
-        $tags = []; // Empty tags array - tags functionality disabled
-       $oldCart = Session::get('wishlist');
-
+    {   
+        
+        $tags = Tag::all();
+        
         $user = Auth::user();
 
-    if ($user) {
-        // Logged-in user: fetch wishlist from DB
-        $oldCart = Wishlist::where('user_id', $user->id)
-            ->with('product')
-            ->get();
-    } else {
-        // Guest: fetch wishlist from session
-        $oldCart = Session::get('wishlist', collect()); // Use empty collection if none
-    }
+        if ($user) {
+            // LOGIN USER → DB wishlist → normalize
+            $oldCart = Wishlist::where('user_id', $user->id)
+                ->with('product')
+                ->get()
+                ->map(function ($item) {
+                    if (!$item->product) {
+                        return null;
+                    }
 
+                    return [
+                        'id'    => $item->product->id,
+                        'name'  => $item->product->name,
+                        'slug'  => $item->product->slug,
+                        'price' => $item->product->price,
+                        'photo' => $item->product->photo,
+                    ];
+                })
+                ->filter()
+                ->values();
+        } else {
+            // GUEST USER → Session wishlist
+            $oldCart = collect(Session::get('wishlist', []));
+        }
 
-        if (!Session::has('wishlist')) {
-             
-            return view('frontend.my-wishlist', compact('tags'));
-        }
-        if (Session::has('already')) {
-            Session::forget('already');
-        }
-        if (Session::has('coupon')) {
-            Session::forget('coupon');
-        }
-        if (Session::has('coupon_total')) {
-            Session::forget('coupon_total');
-        }
-        if (Session::has('coupon_total1')) {
-            Session::forget('coupon_total1');
-        }
-        if (Session::has('coupon_percentage')) {
-            Session::forget('coupon_percentage');
-        }
-        // $tags = Tag::all(); // Removed - tags table doesn't exist
-
-       
-
-        // foreach ($oldCart as $item) {
-        //     dd($item['name']); // this will dump the name of the first item
-        // }
-
-        // $cart = new Cart($oldCart);
-        // $cart = Cart::restoreCart($oldCart);
-
-        // $products = $oldCart->items;
-        // $totalPrice = $oldCart->totalPrice;
-        // $mainTotal = $oldCart;
         if ($request->ajax()) {
-             dd($oldCart);
-            return view('frontend.ajax.cart-page', compact('oldCart', 'tags'));
+            return view('frontend.my-wishlist', compact('oldCart', 'tags'));
         }
 
-       
         return view('frontend.my-wishlist', compact('oldCart', 'tags'));
     }
 
@@ -117,61 +97,99 @@ class WishlistController extends FrontBaseController
         return view('frontend.ajax.cart-page', compact('products', 'totalPrice', 'mainTotal'));
     }
 
-    public function addwishlist($id)
-    {
+   public function addwishlist($id)
+{
+    // Product fetch
+    $product = Product::select(
+        'id',
+        'user_id',
+        'slug',
+        'name',
+        'photo',
+        'price',
+        'stock',
+        'type',
+        'tags'
+    )->find($id);
 
-
-        $product = Product::find($id, [
-            'id',
-            'user_id',
-            'slug',
-            'name',
-            'photo',
-            'price',
-            'stock',
-            'type',
-            'tags'
+    if (!$product) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Product not found.'
         ]);
+    }
 
-        if (!$product) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Product not found.'
-            ]);
-        }
+    /*
+    |--------------------------------------------------------------------------
+    | LOGIN USER → SAVE IN DATABASE
+    |--------------------------------------------------------------------------
+    */
+    if (Auth::check()) {
 
-        // Get existing wishlist from session
-        $wishlist = Session::get('wishlist', []);
+        $userId = Auth::id();
 
+        // Duplicate check
+        $alreadyExists = Wishlist::where('user_id', $userId)
+            ->where('product_id', $product->id)
+            ->exists();
 
-        // Avoid duplicates
-        if (array_key_exists($id, $wishlist)) {
+        if ($alreadyExists) {
             return response()->json([
                 'success' => false,
                 'message' => 'Product is already in your wishlist.'
             ]);
         }
 
-        // Add product to wishlist
-        $wishlist[$id] = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'slug' => $product->slug,
-            'photo' => $product->photo,
-            'price' => $product->price,
-            'tags' => $product->tags,
+        // Save in DB
+        Wishlist::create([
+            'user_id'    => $userId,
+            'product_id' => $product->id,
+        ]);
 
-        ];
-
-        // Store updated wishlist in session
-        Session::put('wishlist', $wishlist);
+        // Total wishlist count (DB)
+        $wishlistCount = Wishlist::where('user_id', $userId)->count();
 
         return response()->json([
             'success' => true,
             'message' => 'Successfully added to wishlist.',
-            'wishlist_count' => count($wishlist)
+            'wishlist_count' => $wishlistCount
         ]);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | GUEST USER → SAVE IN SESSION
+    |--------------------------------------------------------------------------
+    */
+
+    $wishlist = Session::get('wishlist', []);
+
+    // Duplicate check
+    if (isset($wishlist[$id])) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Product is already in your wishlist.'
+        ]);
+    }
+
+    // Add to session
+    $wishlist[$id] = [
+        'id'    => $product->id,
+        'name'  => $product->name,
+        'slug'  => $product->slug,
+        'photo' => $product->photo,
+        'price' => $product->price,
+        'tags'  => $product->tags,
+    ];
+
+    Session::put('wishlist', $wishlist);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Successfully added to wishlist.',
+        'wishlist_count' => count($wishlist)
+    ]);
+}
 
     public function addtowishlist($id)
     {

@@ -80,25 +80,31 @@ class OrderHelper
     }
 
     public static function product_affilate_check($cart)
-    {
-        $affilate_users = null;
-        $i = 0;
-        $gs = \App\Models\Generalsetting::find(1);
-        $percentage = $gs->affilate_charge / 100;
-        foreach ($cart->items as $prod) {
+{
+    $affilate_users = [];
+    $i = 0;
 
-            if ($prod['affilate_user'] != 0) {
-                if (Auth::user()->id != $prod['affilate_user']) {
-                    $affilate_users[$i]['user_id'] = $prod['affilate_user'];
-                    $affilate_users[$i]['product_id'] = $prod['item']['id'];
-                    $price = $prod['price'] * $percentage;
-                    $affilate_users[$i]['charge'] = $price;
-                    $i++;
-                }
-            }
-        }
+    if (!$cart || empty($cart->items)) {
         return $affilate_users;
     }
+
+    $gs = \App\Models\Generalsetting::find(1);
+    $percentage = $gs->affilate_charge / 100;
+
+    foreach ($cart->items as $prod) {
+        if (!empty($prod['affilate_user']) && $prod['affilate_user'] != 0) {
+            if (Auth::id() != $prod['affilate_user']) {
+                $affilate_users[$i]['user_id'] = $prod['affilate_user'];
+                $affilate_users[$i]['product_id'] = $prod['item']['id'];
+                $affilate_users[$i]['charge'] = $prod['price'] * $percentage;
+                $i++;
+            }
+        }
+    }
+
+    return $affilate_users;
+}
+
 
 
     public static function set_currency($new_value)

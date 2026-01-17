@@ -33,7 +33,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
            
             $auth = OrderHelper::auth_check($input); // For Authentication Checking
             if (!$auth['auth_success']) {
-                dd('ok');
+                
                 return redirect()->back()->with('unsuccess', $auth['error_message']);
             }
         }
@@ -70,8 +70,8 @@ class CashOnDeliveryController extends CheckoutBaseControlller
 
 
 
-        $orderTotal = $t_cart->totalPrice  + $input['shippingCost']  - $input['coupon_discount'] - $input['refferal_discount'];
-        
+        $orderTotal = $t_cart->totalPrice  - $input['coupon_discount'] - $input['refferal_discount'] + $input['shippingCost'] + $input['taxAmount'];
+       
         $order = new Order;
        
 
@@ -97,7 +97,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         foreach($cart->items as $data){
             $tax += isset($data['price']) && isset($data['item']['product_tax']) ? $data['price'] * $data['item']['product_tax'] / 100 : 0;
         }
-        $input['tax'] = $tax;
+        $input['tax'] = $request->taxAmount ?? $tax;
         
 
         if (Session::has('refferel_user_id')) {

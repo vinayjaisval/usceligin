@@ -1898,7 +1898,7 @@ Route::group(['middleware' => 'maintenance'], function () {
             ->middleware('auth')
             ->name('front.checkout');
         Route::get('/carts/coupon/check', 'Front\CouponController@couponcheck');
-        Route::get('/carts/coupon/remove', 'Front\CouponController@removeCouponCode')->name('cart.coupon.remove');
+        Route::post('/carts/coupon/remove', 'Front\CouponController@removeCouponCode');
         Route::get('/checkout/payment/{slug1}/{slug2}', 'Front\CheckoutController@loadpayment')->name('front.load.payment');
         Route::get('/checkout/payment/return', 'Front\CheckoutController@payreturn')->name('front.payment.return');
         Route::get('/checkout/payment/cancle', 'Front\CheckoutController@paycancle')->name('front.payment.cancle');

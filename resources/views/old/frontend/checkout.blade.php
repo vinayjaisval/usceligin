@@ -634,6 +634,9 @@ $shippingAddressCount = App\Models\Address::where('is_billing', '2')->where('use
       const $removeBtn = $("#removeCouponBtn");
       const $discountAmount = $(".coupon_discount");
       const $total = $("#total");
+
+
+      
      
      
       const $grandTotal = $("#grandtotal");

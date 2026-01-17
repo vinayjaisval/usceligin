@@ -26,13 +26,13 @@ class AccountController extends Controller
         $user = Auth::user();
        
         
-         $data =[];
+        //  $data =[];
 
-        $data = array_values(Session::get('wishlist') ?? []);
+        // $data = array_values(Session::get('wishlist') ?? []);
 
-        foreach ($data as $item) {
-            $this->addwish($item['id']);
-        }
+        // foreach ($data as $item) {
+        //     $this->addwish($item['id']);
+        // }
 
 
         // Get user's recent orders (limit to 5 most recent)

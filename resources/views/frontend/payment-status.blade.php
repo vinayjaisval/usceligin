@@ -45,18 +45,20 @@
     'order_date' => '04-Dec-2025',
     'transaction_id' => 'pay_RnWArmPcKs1FBy',
     'payment_method' => 'Razorpay',
-  ];
-
+   ];
   
   $paymentInfo = $paymentInfo ?? [
-    'subtotal' => 8092,
-    'shipping' => 150,
-    'discount' => 500,
+    'totalPrice' => 8092,
+    'shipping_cost' => 150,
+     'refferal_discount' => 150,
+    'coupon_discount' => 500,
     'tax' => 0,
-    'total' => 7742,
+    'pay_amount' => 7742,
   ];
+  
+  $cart = json_decode($paymentInfo->cart  ,true);
 
-  $billingAddress = $billingAddress ?? [
+  $billingAddress = $billingAddress[0] ?? [
     'name' => 'Vinay',
     'email' => 'vinay.jaisval2015@gmail.com',
     'phone' => '9889259224',
@@ -67,6 +69,8 @@
     'zip' => '201301',
     'country' => 'India',
   ];
+  
+
 
   // Sample products (in production, this will come from order items)
   $orderProducts = $orderProducts ?? [
@@ -126,19 +130,23 @@
   $orderDetails = [
     ['icon' => 'tag', 'label' => 'Order Number', 'value' => $order['order_number']],
     ['icon' => 'calendar', 'label' => 'Payment Date', 'value' => $order['created_at']],
-    ['icon' => 'credit-card', 'label' => 'Payment Method', 'value' => $order['payment_method']],
+    ['icon' => 'credit-card', 'label' => 'Payment Method', 'value' => $order['method'] == 1 ? 'COD' : ($order['method'] == 9 ? 'Razorpay' : 'Unknown')],
+   
     ['icon' => 'user', 'label' => 'Customer Name', 'value' => $billingAddress['name']],
   ];
 
   // Payment breakdown items
   $paymentBreakdown = [
-    ['label' => 'Subtotal', 'value' => $paymentInfo['subtotal'], 'color' => 'text-gray-600 dark:text-gray-400'],
-    ['label' => 'Shipping Cost', 'value' => $paymentInfo['shipping'], 'color' => 'text-gray-600 dark:text-gray-400', 'free' => true],
+    ['label' => 'Subtotal', 'value' => $cart['totalPrice'], 'color' => 'text-gray-600 dark:text-gray-400'],
+    ['label' => 'Shipping Cost', 'value' => $paymentInfo['shipping_cost'], 'color' => 'text-gray-600 dark:text-gray-400', 'free' => true],
   ];
-
-  if ($paymentInfo['discount'] > 0) {
-    $paymentBreakdown[] = ['label' => 'Discount Coupon', 'value' => $paymentInfo['discount'], 'color' => 'text-green-700 dark:text-green-400', 'negative' => true];
+  if ($paymentInfo['refferal_discount'] > 0) {
+      $paymentBreakdown[] = ['label' => 'Promo', 'value' => $paymentInfo['refferal_discount'], 'color' => 'text-green-700 dark:text-green-400', 'negative' => true];
+    }
+  if ($paymentInfo['coupon_discount'] > 0) {
+    $paymentBreakdown[] = ['label' => 'Discount Coupon', 'value' => $paymentInfo['coupon_discount'], 'color' => 'text-green-700 dark:text-green-400', 'negative' => true];
   }
+
 
   if ($paymentInfo['tax'] > 0) {
     $paymentBreakdown[] = ['label' => 'Tax', 'value' => $paymentInfo['tax'], 'color' => 'text-gray-600 dark:text-gray-400'];
@@ -162,7 +170,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
     <!-- Status Demo Switcher (Remove in production) -->
-    @if(config('app.debug'))
+    <!-- @if(config('app.debug'))
     <div class="mb-6 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800" role="region" aria-label="Demo Mode Switcher">
       <p class="text-sm text-yellow-800 dark:text-yellow-200 font-medium mb-2">Demo Mode: Switch payment status</p>
       <div class="flex flex-wrap gap-2">
@@ -174,7 +182,7 @@
         @endforeach
       </div>
     </div>
-    @endif
+    @endif -->
 
     <!-- Payment Status Header -->
     <div class="{{ $classes['card'] }} mb-6">
@@ -203,7 +211,7 @@
           <div class="text-center border-l-0 sm:border-l-2 {{ $currentStatus['border'] }} sm:pl-6">
             <p class="{{ $classes['label'] }}">Total Amount</p>
             <p class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100">
-              {{ App\Models\Product::convertPrice($paymentInfo['total']) }}
+              {{ App\Models\Product::convertPrice($paymentInfo['pay_amount']) }}
             </p>
           </div>
         </div>
@@ -273,6 +281,7 @@
 
             <dl class="space-y-3">
               @foreach($paymentBreakdown as $item)
+
               <div class="flex justify-between items-center">
                 <dt class="text-sm {{ $item['color'] }}">{{ $item['label'] }}</dt>
                 <dd class="text-base font-semibold {{ isset($item['negative']) ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-gray-100' }}">
@@ -289,7 +298,7 @@
 
               <div class="pt-4 mt-4 border-t-2 border-gray-300 dark:border-gray-600 flex justify-between items-center">
                 <dt class="text-base font-bold text-gray-900 dark:text-gray-100">Total</dt>
-                <dd class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ App\Models\Product::convertPrice($paymentInfo['total']) }}</dd>
+                <dd class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ App\Models\Product::convertPrice($paymentInfo['pay_amount']) }}</dd>
               </div>
             </dl>
           </section>
@@ -324,24 +333,21 @@
       </div>
       @endif
     </div>
-
     <!-- Order Items & Billing Address (Success/Pending Only) -->
     @if($demoStatus === 'success' || $demoStatus === 'pending')
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
       <!-- Ordered Items (2/3 width) -->
       <section class="lg:col-span-2 {{ $classes['card'] }}" aria-labelledby="ordered-items-heading">
         <div class="{{ $classes['card-header'] }}">
           <h2 id="ordered-items-heading" class="text-lg font-bold text-gray-900 dark:text-gray-100">
-            Ordered Items ({{ count($tempcart->items) }})
+            Ordered Items {{ optional($tempcart->items)->count() ?? 0 }}
+
           </h2>
         </div>
-
         <div class="{{ $classes['card-body'] }}">
           <ul class="space-y-6" role="list">
-
-            @foreach($tempcart->items as $product)
-                    
+           @foreach($tempcart->items ?? [] as $product)
+                   
             <li class="flex gap-4 pb-6 @if(!$loop->last) border-b border-gray-200 dark:border-gray-700 @endif">
               <!-- Product Image -->
               <div class="flex-shrink-0 relative">
@@ -357,7 +363,6 @@
                 </span>
                 @endif
               </div>
-
               <!-- Product Details -->
               <div class="flex-1 min-w-0">
                 <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-3">
@@ -392,7 +397,6 @@
           </ul>
         </div>
       </section>
-
       <!-- Billing Address (1/3 width) -->
       <section class="{{ $classes['card'] }}" aria-labelledby="billing-address-heading">
         <div class="{{ $classes['card-header'] }}">
@@ -435,7 +439,7 @@
                   <dd class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
                     <p class="font-medium">{{ $billingAddress['address'] }}@if(!empty($billingAddress['flat'])), {{ $billingAddress['flat'] }}@endif</p>
                     <p>{{ $billingAddress['city'] }}, {{ $billingAddress['state'] }}</p>
-                    <p>{{ $billingAddress['zip'] }}</p>
+                    <p>{{ $billingAddress['pincode'] }}</p>
                     <p class="font-semibold text-gray-900 dark:text-gray-100">{{ $billingAddress['country'] }}</p>
                   </dd>
                 </div>
@@ -444,7 +448,6 @@
           </div>
         </div>
       </section>
-
     </div>
     @endif
 
@@ -500,7 +503,6 @@
       </div>
     </div>
     @endif
-
     <!-- Footer -->
     <footer class="mt-8 text-center">
       <p class="text-sm text-gray-600 dark:text-gray-400">

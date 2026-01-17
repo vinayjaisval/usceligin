@@ -290,7 +290,8 @@ function setDefaultAddress(addressId) {
     return;
   }
 
-  fetch(`/user/addresses/${addressId}/set-default`, {
+ fetch(`{{ url('/user/addresses') }}/${addressId}/set-default`, {
+
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
