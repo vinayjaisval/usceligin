@@ -37,214 +37,246 @@
   <link rel="icon" type="image/x-icon" href="{{asset('assets/frontend/images/favicon.ico')}}" />
 </head>
 
-<body>
-  <main class="min-h-screen flex items-center justify-center px-0 py-xl bg-gray-50 dark:bg-gray-900">
-    <div class="form-container">
-      <section class="form-card" aria-labelledby="signin-heading">
-          <header class="mb-xl">
-            <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}"
-              alt="{{ config('app.name', 'CELIGIN') }} - Premium Beauty & Skincare"
-              class="mx-auto h-10 max-w-[7.5rem] object-contain" width="120" height="40" />
-          </header>
+<body class="bg-gray-50 dark:bg-gray-900">
+  <main class="min-h-screen flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-md">
+      <section class="bg-white border border-gray-200 dark:border-gray-700 p-8 relative" aria-labelledby="signin-heading">
+        <!-- Logo -->
+        <header class="mb-8">
+          <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}"
+            alt="{{ config('app.name', 'CELIGIN') }} - Premium Beauty & Skincare"
+            class="mx-auto h-10 max-w-[7.5rem] object-contain" width="120" height="40" />
+        </header>
 
-          <div class="sign-in-section" id="signInSection">
-            <div class="mb-lg" id="methodSelection">
-              <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-lg" id="signin-heading">Sign In with OTP</h1>
-              <fieldset class="flex gap-0 mb-lg">
-                <legend class="sr-only">Select your preferred verification method</legend>
-                <button type="button"
-                  class="method-btn method-btn--active"
-                  id="phoneMethodBtn" data-method="phone" aria-pressed="true" aria-describedby="phone-help">
-                  <span>Phone Number</span>
-                </button>
-                <button type="button"
-                  class="method-btn method-btn--inactive"
-                  id="emailMethodBtn" data-method="email" aria-pressed="false" aria-describedby="email-help">
-                  <span>Email Address</span>
-                </button>
-              </fieldset>
-            </div>
+        <!-- Close Button -->
+        <button type="button"
+          onclick="window.history.back()"
+          class="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+          aria-label="Close sign-in form">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
 
-            <!-- Authentication Form -->
-            <form class="text-left" id="signInForm" novalidate aria-labelledby="signin-heading" role="form">
-              @csrf
-              <!-- Phone Input (default) -->
-              <div class="form-input-group block" id="phoneGroup">
-                <label for="phoneNumber" class="form-label">
-                  Mobile Number<abbr class="required-asterisk" title="required">*</abbr>
-                </label>
-                <div class="form-input-with-prefix">
-                  <span class="form-input-prefix" aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
-                  <input type="tel" id="phoneNumber" name="contact"
-                    placeholder="{{ config('app.phone_placeholder', '00000 00000') }}"
-                    maxlength="{{ config('app.phone_max_length', '11') }}"
-                    required autocomplete="tel"
-                    aria-describedby="phoneHelp phoneError" aria-invalid="false" aria-label="Enter your mobile number" />
-                </div>
-                <p class="form-help-text" id="phoneHelp">
-                  Enter your 10-digit Indian mobile number. We'll send a secure OTP for verification.
-                </p>
-                <div class="alert alert-error hidden mt-xs" id="phoneError" role="alert" aria-live="assertive">
-                  <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clip-rule="evenodd"></path>
-                  </svg>
-                  <div class="alert-content">
-                    <div class="alert-message"></div>
-                  </div>
-                </div>
-              </div>
+        <!-- Sign In Section -->
+        <div class="sign-in-section" id="signInSection">
+          <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-900 mb-6" id="signin-heading">Sign In with OTP</h1>
 
-              <!-- Email Input (hidden by default) -->
-              <div class="form-input-group hidden" id="emailGroup">
-                <label for="emailAddress" class="form-label">
-                  Email Address<abbr class="required-asterisk" title="required">*</abbr>
-                </label>
-                <input type="email" id="emailAddress" name="contact" class="form-input"
-                  placeholder="{{ config('app.email_placeholder', 'your@email.com') }}"
-                  autocomplete="email" aria-describedby="emailHelp emailError"
-                  aria-invalid="false" aria-label="Enter your email address" />
-                <p class="form-help-text" id="emailHelp">
-                  We'll send a secure OTP to your email address for verification.
-                </p>
-                <div class="alert alert-error hidden mt-xs" id="emailError" role="alert" aria-live="assertive">
-                  <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clip-rule="evenodd"></path>
-                  </svg>
-                  <div class="alert-content">
-                    <div class="alert-message"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Keep me signed in -->
-              <div class="mb-lg">
-                <div class="flex items-start gap-5">
-                  <input type="checkbox" id="keepSignedIn" name="keep_signed_in"
-                    class="mt-1 h-4 w-4 text-blue-600 dark:text-blue-400 border-border-medium rounded-none focus:ring-accent-primary focus:ring-2">
-                  <div class="flex items-center gap-2">
-                    <label for="keepSignedIn" class="text-sm text-gray-900 dark:text-gray-100 cursor-pointer">
-                      Keep me signed in
-                    </label>
-                    <div class="tooltip-wrapper">
-                      <button type="button" class="tooltip-trigger info-btn"
-                        aria-label="Information about staying signed in">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                          <path
-                            d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                        </svg>
-                        <div class="tooltip-content">
-                          Stay signed in to save time on future visits. We'll remember your preferences and keep you
-                          logged in for up to 30 days. You can always sign out manually for security.
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Submit Button -->
-              <button type="submit" class="btn btn--primary btn--full" id="sendOtpBtn" disabled>
-                Send OTP
-              </button>
-
-              <!-- Terms and Privacy -->
-              <div class="text-center text-sm text-gray-500 dark:text-gray-500">
-                <p>
-                  By signing in, you agree to our
-                  <a href="{{ route('terms') ?? '#' }}"
-                    class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors duration-fast">Terms
-                    and Conditions</a>
-                  and that you've read our
-                  <a href="{{ route('privacy') ?? '#' }}"
-                    class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors duration-fast">Privacy
-                    Policy</a>.
-                </p>
-              </div>
-            </form>
-          </div>
-
-          <div class="text-left" id="otpVerification" style="display: none" aria-labelledby="otp-heading" aria-live="polite">
-            <div class="mb-lg">
-              <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 text-center" id="otp-heading">Enter Verification Code</h2>
-            </div>
-
-            <p class="text-sm text-gray-600 dark:text-gray-400 text-center mb-lg" id="otpSubtitle">
-              We've sent a 6-digit code to your contact
-            </p>
-
-            <form class="text-left" id="otpForm" novalidate aria-labelledby="otp-heading" role="form">
-              @csrf
-              <div class="form-input-group">
-                <label for="otpInput" class="form-label">
-                  6-Digit Verification Code<abbr class="required-asterisk" title="required">*</abbr>
-                </label>
-                <input type="text" id="otpInput" name="otp_code" class="form-input-otp"
-                  placeholder="{{ config('app.otp_placeholder', '000000') }}"
-                  maxlength="{{ config('app.otp_length', '6') }}"
-                  required autocomplete="one-time-code" inputmode="numeric"
-                  pattern="[0-9]{6}" aria-describedby="otpSubtitle otpError" aria-invalid="false" aria-label="Enter the 6-digit verification code" />
-                <div class="alert alert-error hidden mt-xs" id="otpError" role="alert" aria-live="assertive">
-                  <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clip-rule="evenodd"></path>
-                  </svg>
-                  <div class="alert-content">
-                    <div class="alert-message"></div>
-                  </div>
-                </div>
-                <div class="alert alert-success hidden mt-xs" id="otpSuccess" role="alert" aria-live="polite">
-                  <svg class="alert-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clip-rule="evenodd"></path>
-                  </svg>
-                  <div class="alert-content">
-                    <div class="alert-message"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="text-center text-sm text-gray-600 dark:text-gray-400 mb-lg" id="otpTimer">
-                <p>
-                  Didn't receive the code?
-                  <button type="button"
-                    class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium disabled:text-gray-500 dark:text-gray-500 disabled:no-underline disabled:cursor-not-allowed"
-                    id="resendOtp" disabled>
-                    Resend OTP in <span id="countdown">60</span>s
-                  </button>
-                </p>
-              </div>
-
-              <button type="submit" class="btn btn--primary btn--full" id="verifyOtpBtn" disabled>
-                Verify OTP
-              </button>
-
-              <button type="button" class="btn btn--primary btn--full" id="loginBtn" style="display: none">
-                Continue to Account
-              </button>
-            </form>
-
-            <div class="text-center mt-lg">
+            <!-- Method Selection -->
+            <fieldset class="flex gap-0 mb-6">
+              <legend class="sr-only">Select your preferred verification method</legend>
               <button type="button"
-                class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium flex items-center gap-xs mx-auto"
-                id="backToLogin" aria-label="Go back to sign in form">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path
-                    d="M8.707 3.293a1 1 0 0 0-1.414 1.414L12.586 10l-5.293 5.293a1 1 0 1 0 1.414 1.414l6-6a1 1 0 0 0 0-1.414l-6-6z"
-                    transform="rotate(180 10 10)" />
-                </svg>
-                <span>Back</span>
+                class="flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-blue-600 text-white border-blue-600"
+                id="phoneMethodBtn" data-method="phone" aria-pressed="true" aria-describedby="phone-help">
+                <span>Phone Number</span>
               </button>
-            </div>
+              <button type="button"
+                class="flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600"
+                id="emailMethodBtn" data-method="email" aria-pressed="false" aria-describedby="email-help">
+                <span>Email Address</span>
+              </button>
+            </fieldset>
           </div>
-        </section>
-      </div>
+
+          <!-- Authentication Form -->
+          <form id="signInForm" novalidate aria-labelledby="signin-heading" role="form">
+            @csrf
+
+            <!-- Phone Input (default) -->
+            <div class="mb-6" id="phoneGroup">
+              <label for="phoneNumber" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Mobile Number<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
+              </label>
+              <div class="flex border border-gray-300 dark:border-gray-600 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/20">
+                <span class="flex items-center px-3 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-400 font-semibold text-sm border-r border-gray-300 dark:border-gray-600" aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
+                <input type="tel" id="phoneNumber" name="contact"
+                  class="flex-1 px-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm border-0 focus:outline-none"
+                  placeholder="{{ config('app.phone_placeholder', '00000 00000') }}"
+                  maxlength="{{ config('app.phone_max_length', '11') }}"
+                  required autocomplete="tel"
+                  aria-describedby="phoneHelp phoneError" aria-invalid="false" aria-label="Enter your mobile number" />
+              </div>
+              <p class="mt-2 text-xs text-gray-600 dark:text-gray-400" id="phoneHelp">
+                Enter your 10-digit Indian mobile number. We'll send a secure OTP for verification.
+              </p>
+              <div class="hidden mt-2 flex items-start space-x-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3" id="phoneError" role="alert" aria-live="assertive">
+                <svg class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-sm font-medium text-red-800 dark:text-red-200"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Email Input (hidden by default) -->
+            <div class="mb-6 hidden" id="emailGroup">
+              <label for="emailAddress" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Email Address<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
+              </label>
+              <input type="email" id="emailAddress" name="contact"
+                class="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
+                placeholder="{{ config('app.email_placeholder', 'your@email.com') }}"
+                autocomplete="email" aria-describedby="emailHelp emailError"
+                aria-invalid="false" aria-label="Enter your email address" />
+              <p class="mt-2 text-xs text-gray-600 dark:text-gray-400" id="emailHelp">
+                We'll send a secure OTP to your email address for verification.
+              </p>
+              <div class="hidden mt-2 flex items-start space-x-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3" id="emailError" role="alert" aria-live="assertive">
+                <svg class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-sm font-medium text-red-800 dark:text-red-200"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Keep me signed in -->
+            <div class="mb-6">
+              <div class="flex items-start gap-2">
+                <input type="checkbox" id="keepSignedIn" name="keep_signed_in"
+                  class="mt-1 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 focus:ring-blue-600">
+                <div class="flex items-center gap-2">
+                  <label for="keepSignedIn" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer font-medium">
+                    Keep me signed in
+                  </label>
+                  <div class="relative inline-block">
+                    <button type="button" class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 group"
+                      aria-label="Information about staying signed in">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path
+                          d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                      </svg>
+                      <div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 px-3 py-2 bg-gray-900 text-white text-xs z-10">
+                        Stay signed in to save time on future visits. We'll remember your preferences and keep you
+                        logged in for up to 30 days. You can always sign out manually for security.
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" id="sendOtpBtn" disabled>
+              Send OTP
+            </button>
+
+            <!-- Terms and Privacy -->
+            <div class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+              <p>
+                By signing in, you agree to our
+                <a href="{{ route('terms') ?? '#' }}"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">Terms
+                  and Conditions</a>
+                and that you've read our
+                <a href="{{ route('privacy') ?? '#' }}"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">Privacy
+                  Policy</a>.
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <!-- OTP Verification Section -->
+        <div class="hidden" id="otpVerification" aria-labelledby="otp-heading" aria-live="polite">
+          <!-- Close Button (OTP Section) -->
+          <button type="button"
+            id="backToLoginTop"
+            class="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+            aria-label="Go back to sign in form">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center" id="otp-heading">Enter Verification Code</h2>
+          </div>
+
+          <p class="text-sm text-gray-600 dark:text-gray-400 text-center mb-6" id="otpSubtitle">
+            We've sent a 6-digit code to your contact
+          </p>
+
+          <form id="otpForm" novalidate aria-labelledby="otp-heading" role="form">
+            @csrf
+            <div class="mb-6">
+              <label for="otpInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                6-Digit Verification Code<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
+              </label>
+              <input type="text" id="otpInput" name="otp_code"
+                class="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
+                placeholder="{{ config('app.otp_placeholder', '000000') }}"
+                maxlength="{{ config('app.otp_length', '6') }}"
+                required autocomplete="one-time-code" inputmode="numeric"
+                pattern="[0-9]{6}" aria-describedby="otpSubtitle otpError" aria-invalid="false" aria-label="Enter the 6-digit verification code" />
+
+              <div class="hidden mt-2 flex items-start space-x-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3" id="otpError" role="alert" aria-live="assertive">
+                <svg class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-sm font-medium text-red-800 dark:text-red-200"></div>
+                </div>
+              </div>
+
+              <div class="hidden mt-2 flex items-start space-x-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-3" id="otpSuccess" role="alert" aria-live="polite">
+                <svg class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-sm font-medium text-green-800 dark:text-green-200"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center text-sm text-gray-700 dark:text-gray-300 mb-6" id="otpTimer">
+              <p>
+                Didn't receive the code?
+                <button type="button"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-semibold disabled:text-gray-400 dark:disabled:text-gray-600 disabled:no-underline disabled:cursor-not-allowed transition-colors duration-200"
+                  id="resendOtp" disabled>
+                  Resend OTP in <span id="countdown">60</span>s
+                </button>
+              </p>
+            </div>
+
+            <button type="submit" class="w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" id="verifyOtpBtn" disabled>
+              Verify OTP
+            </button>
+
+            <button type="button" class="hidden w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200" id="loginBtn">
+              Continue to Account
+            </button>
+          </form>
+
+          <div class="text-center mt-6">
+            <button type="button"
+              class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-semibold flex items-center gap-2 mx-auto transition-colors duration-200"
+              id="backToLogin" aria-label="Go back to sign in form">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M8.707 3.293a1 1 0 0 0-1.414 1.414L12.586 10l-5.293 5.293a1 1 0 1 0 1.414 1.414l6-6a1 1 0 0 0 0-1.414l-6-6z"
+                  transform="rotate(180 10 10)" />
+              </svg>
+              <span>Back to Sign In</span>
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -409,15 +441,15 @@
       ) {
         this.currentMethod = method;
 
-        // Update button styles using DRY CSS classes
-        activeBtn.className = "method-btn method-btn--active";
+        // Update button styles
+        activeBtn.className = "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-blue-600 text-white border-blue-600";
         activeBtn.setAttribute("aria-pressed", "true");
-        inactiveBtn.className = "method-btn method-btn--inactive";
+        inactiveBtn.className = "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600";
         inactiveBtn.setAttribute("aria-pressed", "false");
 
-        // Update form group visibility for Tailwind
-        activeGroup.className = "mb-lg block";
-        inactiveGroup.className = "mb-lg hidden";
+        // Update form group visibility
+        activeGroup.classList.remove("hidden");
+        inactiveGroup.classList.add("hidden");
 
         activeInput.required = true;
         activeInput.setAttribute("aria-invalid", "false");
@@ -492,9 +524,17 @@
         const resendBtn = document.getElementById("resendOtp");
         const loginBtn = document.getElementById("loginBtn");
 
+        const backBtnTop = document.getElementById("backToLoginTop");
+
         backBtn.addEventListener("click", () => {
           this.showSignInSection();
         });
+
+        if (backBtnTop) {
+          backBtnTop.addEventListener("click", () => {
+            this.showSignInSection();
+          });
+        }
 
         otpInput.addEventListener("input", (e) => {
           let value = e.target.value.replace(/\D/g, "");
@@ -603,17 +643,15 @@
       }
 
       showError(errorElement, message) {
-        const messageDiv = errorElement.querySelector('.alert-message');
+        const messageDiv = errorElement.querySelector('div > div');
         if (messageDiv) {
           messageDiv.textContent = message;
         }
 
         if (message) {
           errorElement.classList.remove('hidden');
-          errorElement.classList.add('visible');
         } else {
           errorElement.classList.add('hidden');
-          errorElement.classList.remove('visible');
         }
 
         // Update aria-invalid attribute for associated input
@@ -625,20 +663,18 @@
       }
 
       clearError(errorElement) {
-        const messageDiv = errorElement.querySelector('.alert-message');
+        const messageDiv = errorElement.querySelector('div > div');
         if (messageDiv) {
           messageDiv.textContent = "";
         }
         errorElement.classList.add('hidden');
-        errorElement.classList.remove('visible');
 
         // Also hide success message if clearing OTP error
         if (errorElement.id === "otpError") {
           const otpSuccess = document.getElementById("otpSuccess");
           if (otpSuccess) {
             otpSuccess.classList.add('hidden');
-            otpSuccess.classList.remove('visible');
-            const successMessage = otpSuccess.querySelector('.alert-message');
+            const successMessage = otpSuccess.querySelector('div > div');
             if (successMessage) {
               successMessage.textContent = "";
             }
@@ -657,7 +693,7 @@
         const phoneInput = document.getElementById("phoneNumber");
         const emailInput = document.getElementById("emailAddress");
 
-        if (phoneGroup.className.includes("block")) {
+        if (!phoneGroup.classList.contains("hidden")) {
           return {
             method: 'phone',
             input: phoneInput,
@@ -739,8 +775,8 @@
 
         otpSubtitle.textContent = `We've sent a 6-digit code to your ${this.currentMethod === "phone" ? "phone number" : "email"} ${contactDisplay}`;
 
-        signInSection.style.display = "none";
-        otpSection.style.display = "block";
+        signInSection.classList.add("hidden");
+        otpSection.classList.remove("hidden");
 
         this.startResendTimer();
       }
@@ -750,8 +786,8 @@
         const otpSection = document.getElementById("otpVerification");
         const otpInput = document.getElementById("otpInput");
 
-        signInSection.style.display = "block";
-        otpSection.style.display = "none";
+        signInSection.classList.remove("hidden");
+        otpSection.classList.add("hidden");
         otpInput.value = "";
         this.clearErrors();
 
@@ -844,17 +880,15 @@
             const otpSuccess = document.getElementById("otpSuccess");
 
             otpError.classList.add('hidden');
-            otpError.classList.remove('visible');
 
-            const successMessage = otpSuccess.querySelector('.alert-message');
+            const successMessage = otpSuccess.querySelector('div > div');
             if (successMessage) {
               successMessage.textContent = "✓ OTP verified successfully! Redirecting...";
             }
             otpSuccess.classList.remove('hidden');
-            otpSuccess.classList.add('visible');
 
-            verifyBtn.style.display = "none";
-            loginBtn.style.display = "block";
+            verifyBtn.classList.add("hidden");
+            loginBtn.classList.remove("hidden");
 
             if (this.resendTimer) {
               clearInterval(this.resendTimer);
