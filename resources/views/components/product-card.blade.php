@@ -38,7 +38,7 @@
   // Determine badge to show - LUXURY COLOR SCHEME
   $badgeConfig = null;
   if ($badgeType === 'new') {
-    $badgeConfig = ['label' => 'New', 'class' => 'bg-gradient-to-r from-teal-600 to-blue-600'];
+    $badgeConfig = ['label' => 'New', 'class' => 'bg-green-600 dark:bg-green-600 text-white'];
   } elseif ($badgeType === 'bestseller') {
     $badgeConfig = ['label' => 'Best Seller', 'class' => 'bg-gradient-to-r from-fuchsia-600 to-rose-600'];
   } elseif ($badgeType === 'sale') {

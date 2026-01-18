@@ -130,9 +130,9 @@
                   alt="Join CELIGIN Club - Become a Brand Ambassador"
                   class="w-full aspect-[4/3] object-cover" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-                  <span class="inline-block px-3 py-1 bg-pink-600 text-white text-xs font-bold uppercase mb-2 w-fit">JOIN CELIGIN CLUB</span>
+                  <span class="inline-block px-3 py-1 bg-amber-600 dark:bg-amber-500 text-white text-xs font-bold uppercase mb-2 w-fit">JOIN CELIGIN CLUB</span>
                   <h3 class="text-lg font-bold text-white mb-4">Become a Brand Ambassador</h3>
-                  <a href="/join" class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors w-fit">Join Now</a>
+                  <a href="/join" class="inline-block px-4 py-2 bg-amber-600 dark:bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 dark:bg-amber-700 transition-colors w-fit">Join Now</a>
                 </div>
               </div>
 

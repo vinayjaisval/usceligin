@@ -205,14 +205,14 @@
             <h2 class="text-2xl font-bold text-gray-900 text-center" id="otp-heading">Enter Verification Code</h2>
           </div>
 
-          <p class="text-sm text-gray-600 dark:text-gray-400 text-center mb-6" id="otpSubtitle">
+          <p class="text-sm text-gray-900 dark:text-gray-900 text-center mb-6" id="otpSubtitle">
             We've sent a 6-digit code to your contact
           </p>
 
           <form id="otpForm" novalidate aria-labelledby="otp-heading" role="form">
             @csrf
             <div class="mb-6">
-              <label for="otpInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label for="otpInput" class="block text-sm font-semibold text-gray-900 dark:text-gray-900 mb-2">
                 6-Digit Verification Code<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
               </label>
               <input type="text" id="otpInput" name="otp_code"
@@ -222,36 +222,38 @@
                 required autocomplete="one-time-code" inputmode="numeric"
                 pattern="[0-9]{6}" aria-describedby="otpSubtitle otpError" aria-invalid="false" aria-label="Enter the 6-digit verification code" />
 
-              <div class="hidden mt-2 flex items-start space-x-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3" id="otpError" role="alert" aria-live="assertive">
+              <div class="hidden mt-2 flex items-start space-x-3 bg-red-50 dark:bg-red-50 border border-red-200 p-3" id="otpError" role="alert" aria-live="assertive">
                 <svg class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                     clip-rule="evenodd"></path>
                 </svg>
-                <div class="flex-1">
-                  <div class="text-sm font-medium text-red-800 dark:text-red-200"></div>
+                <div class="flex-1 text-sm font-medium text-red-500 dark:text-red-500">
+                  <!-- don't remove this div -->
+                  <div></div>
                 </div>
               </div>
 
-              <div class="hidden mt-2 flex items-start space-x-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-3" id="otpSuccess" role="alert" aria-live="polite">
+              <div class="hidden mt-2 flex items-start space-x-3 bg-green-50 dark:bg-green-50 border border-green-200 p-3" id="otpSuccess" role="alert" aria-live="polite">
                 <svg class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                     clip-rule="evenodd"></path>
                 </svg>
-                <div class="flex-1">
-                  <div class="text-sm font-medium text-green-800 dark:text-green-200"></div>
+                <div class="flex-1 text-sm font-medium text-green-500 dark:text-green-500">
+                  <!-- don't remove this div -->
+                  <div></div>
                 </div>
               </div>
             </div>
 
-            <div class="text-center text-sm text-gray-700 dark:text-gray-300 mb-6" id="otpTimer">
+            <div class="text-center text-sm text-gray-900 dark:text-gray-900 mb-6" id="otpTimer">
               <p>
                 Didn't receive the code?
                 <button type="button"
                   class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-semibold disabled:text-gray-400 dark:disabled:text-gray-600 disabled:no-underline disabled:cursor-not-allowed transition-colors duration-200"
                   id="resendOtp" disabled>
-                  Resend OTP in <span id="countdown">60</span>s
+                  Resend OTP in <span id="countdown" class="text-blue-600">60</span>s
                 </button>
               </p>
             </div>
@@ -299,6 +301,28 @@
             verify: '{{ url("/otp/verify") }}',
             resend: '{{ url("/otp/resend") }}'
           }
+        };
+
+        // CSS Classes (DRY principle)
+        this.classes = {
+          methodActive: "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-blue-600 text-white border-blue-600",
+          methodInactive: "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+        };
+
+        // Error messages (DRY principle)
+        this.messages = {
+          phoneRequired: `Mobile number must be ${this.config.phoneMaxLength} digits`,
+          phoneExceeded: `Mobile number cannot exceed ${this.config.phoneMaxLength} digits`,
+          phoneInvalid: "Please enter a valid Indian mobile number",
+          emailTooLong: "Email address is too long (max 254 characters)",
+          emailInvalid: "Please enter a valid email address",
+          otpRequired: `OTP must be ${this.config.otpLength} digits`,
+          otpInvalidFormat: "OTP must contain only numbers",
+          otpSendFailed: "Failed to send OTP. Please try again.",
+          otpResendFailed: "Failed to resend OTP. Please try again.",
+          otpVerifyFailed: "Verification failed. Please try again.",
+          otpResendSuccess: "New OTP sent successfully!",
+          otpVerifySuccess: "✓ OTP verified successfully! Redirecting..."
         };
 
         // State variables
@@ -443,10 +467,10 @@
       ) {
         this.currentMethod = method;
 
-        // Update button styles
-        activeBtn.className = "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-blue-600 text-white border-blue-600";
+        // Update button styles using DRY constants
+        activeBtn.className = this.classes.methodActive;
         activeBtn.setAttribute("aria-pressed", "true");
-        inactiveBtn.className = "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white text-gray-600 border-gray-300 hover:bg-gray-50";
+        inactiveBtn.className = this.classes.methodInactive;
         inactiveBtn.setAttribute("aria-pressed", "false");
 
         // Update form group visibility
@@ -577,18 +601,18 @@
         }
 
         if (cleanPhone.length < this.config.phoneMaxLength) {
-          this.showError(this.elements.phoneError, `Mobile number must be ${this.config.phoneMaxLength} digits`);
+          this.showError(this.elements.phoneError, this.messages.phoneRequired);
           return false;
         }
 
         if (cleanPhone.length > this.config.phoneMaxLength) {
-          this.showError(this.elements.phoneError, `Mobile number cannot exceed ${this.config.phoneMaxLength} digits`);
+          this.showError(this.elements.phoneError, this.messages.phoneExceeded);
           return false;
         }
 
         // Validate Indian mobile number format (must start with 6-9)
         if (!/^[6-9][0-9]{9}$/.test(cleanPhone)) {
-          this.showError(this.elements.phoneError, "Please enter a valid Indian mobile number");
+          this.showError(this.elements.phoneError, this.messages.phoneInvalid);
           return false;
         }
 
@@ -606,12 +630,12 @@
         }
 
         if (email.length > 254) {
-          this.showError(this.elements.emailError, "Email address is too long (max 254 characters)");
+          this.showError(this.elements.emailError, this.messages.emailTooLong);
           return false;
         }
 
         if (!emailRegex.test(email)) {
-          this.showError(this.elements.emailError, "Please enter a valid email address");
+          this.showError(this.elements.emailError, this.messages.emailInvalid);
           return false;
         }
 
@@ -627,14 +651,14 @@
         }
 
         if (otp.length < this.config.otpLength) {
-          this.showError(this.elements.otpError, `OTP must be ${this.config.otpLength} digits`);
+          this.showError(this.elements.otpError, this.messages.otpRequired);
           this.elements.verifyOtpBtn.disabled = true;
           return false;
         }
 
         const otpPattern = new RegExp(`^\\d{${this.config.otpLength}}$`);
         if (!otpPattern.test(otp)) {
-          this.showError(this.elements.otpError, "OTP must contain only numbers");
+          this.showError(this.elements.otpError, this.messages.otpInvalidFormat);
           this.elements.verifyOtpBtn.disabled = true;
           return false;
         }
@@ -758,7 +782,7 @@
           }
 
         } catch (error) {
-          const errorMessage = error.data?.message || 'Failed to send OTP. Please try again.';
+          const errorMessage = error.data?.message || this.messages.otpSendFailed;
           this.showError(methodData.errorElement, errorMessage);
         } finally {
           submitBtn.textContent = "Send OTP";
@@ -775,7 +799,8 @@
           ? this.formatPhoneForDisplay(this.currentContact)
           : this.currentContact;
 
-        otpSubtitle.textContent = `We've sent a 6-digit code to your ${this.currentMethod === "phone" ? "phone number" : "email"} ${contactDisplay}`;
+        const contactType = this.currentMethod === "phone" ? "phone number" : "email";
+        otpSubtitle.innerHTML = `We've sent a 6-digit code to your<br>${contactType} ${contactDisplay}`;
 
         signInSection.classList.add("hidden");
         otpSection.classList.remove("hidden");
@@ -838,7 +863,7 @@
 
           if (result.success) {
             this.startResendTimer();
-            this.showError(otpError, "New OTP sent successfully!");
+            this.showError(otpError, this.messages.otpResendSuccess);
             setTimeout(() => {
               this.clearError(otpError);
             }, 3000);
@@ -849,7 +874,7 @@
           }
 
         } catch (error) {
-          const errorMessage = error.data?.message || 'Failed to resend OTP. Please try again.';
+          const errorMessage = error.data?.message || this.messages.otpResendFailed;
           this.showError(otpError, errorMessage);
         }
       }
@@ -885,7 +910,7 @@
 
             const successMessage = otpSuccess.querySelector('div > div');
             if (successMessage) {
-              successMessage.textContent = "✓ OTP verified successfully! Redirecting...";
+              successMessage.textContent = this.messages.otpVerifySuccess;
             }
             otpSuccess.classList.remove('hidden');
 
@@ -910,7 +935,7 @@
           }
 
         } catch (error) {
-          const errorMessage = error.data?.message || 'Verification failed. Please try again.';
+          const errorMessage = error.data?.message || this.messages.otpVerifyFailed;
           this.showError(otpError, errorMessage);
           verifyBtn.textContent = "Verify OTP";
           verifyBtn.disabled = false;
