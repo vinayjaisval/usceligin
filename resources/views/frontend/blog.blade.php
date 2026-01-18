@@ -28,131 +28,124 @@
   <!-- Blog Content -->
   <section class="py-12 lg:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-        <!-- Left Column - Blog Listings (75% - 3 columns) -->
-        <div class="lg:col-span-3">
-          <div class="space-y-8">
-            @foreach ($blogs as $blog)
-            <article class="bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group">
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="md:col-span-1">
-                  <a href="{{ route('front.blogshow',$blog->slug) }}" class="block aspect-[4/3] overflow-hidden">
-                    <img
-                      src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}"
-                      alt="{{ $blog->title }}"
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                  </a>
+      <div class="space-y-8">
+        @foreach ($blogs as $blog)
+        <article class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 overflow-hidden group">
+          <div class="flex flex-col md:flex-row md:h-52">
+            <!-- Blog Image -->
+            <div class="md:w-1/3 flex-shrink-0">
+              <a href="{{ route('front.blogshow',$blog->slug) }}" class="block">
+                <div class="aspect-[16/10] md:aspect-auto md:h-52 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                  <img
+                    src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}"
+                    alt="{{ $blog->title }}"
+                    class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy" />
                 </div>
-                <div class="md:col-span-2 p-6">
-                  <div class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold mb-3">{{ $blog->tags }}</div>
-                  <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 leading-tight hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                    <a href="{{ route('front.blogshow',$blog->slug) }}">{{ $blog->title }}</a>
-                  </h2>
-                  <div class="flex items-center space-x-3 text-xs text-gray-600 dark:text-gray-400 mb-4">
-                    <time datetime="{{ $blog->created_at }}">{{ date('M d, Y',(strtotime($blog->created_at))) }}</time>
-                    <span>•</span>
-                    <span class="uppercase">BY TERESA GREENFELD</span>
-                  </div>
-                  <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors group">
-                    Read More
-                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <line x1="7" y1="17" x2="17" y2="7"></line>
-                      <polyline points="7,7 17,7 17,17"></polyline>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </article>
-            @endforeach
-          </div>
-
-          <!-- Pagination -->
-          <nav class="flex items-center justify-between mt-12 pt-8 border-t border-gray-200 dark:border-gray-700" aria-label="Blog pagination">
-            <a href="#" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200" aria-label="Previous page">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
-                <polyline points="15,18 9,12 15,6"></polyline>
-              </svg>
-              Previous
-            </a>
-
-            <div class="hidden sm:flex items-center space-x-2">
-              {{ $blogs->links() }}
+              </a>
             </div>
 
-            <a href="#" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200" aria-label="Next page">
-              Next
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-2">
+            <!-- Blog Content -->
+            <div class="md:w-2/3 p-4 flex flex-col justify-between">
+              <div>
+                <!-- Tag -->
+                <div class="mb-1.5">
+                  <span class="inline-block px-2.5 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-semibold uppercase tracking-wide">{{ $blog->tags }}</span>
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1.5 leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <a href="{{ route('front.blogshow',$blog->slug) }}">{{ $blog->title }}</a>
+                </h2>
+
+                <!-- Meta Info -->
+                <div class="flex items-center space-x-2 text-[10px] text-gray-600 dark:text-gray-400 mb-2">
+                  <time datetime="{{ $blog->created_at }}">{{ date('M d, Y',(strtotime($blog->created_at))) }}</time>
+                  <span>•</span>
+                  <span class="uppercase">BY TERESA GREENFELD</span>
+                </div>
+
+                <!-- Description/Excerpt -->
+                @if($blog->details)
+                <p class="text-sm text-gray-700 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                  {!! Str::limit(strip_tags($blog->details), 100) !!}
+                </p>
+                @endif
+              </div>
+
+              <!-- Read More Link -->
+              <div class="mt-2">
+                <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors group/link">
+                  Read More
+                  <svg class="w-3.5 h-3.5 ml-1 group-hover/link:translate-x-1 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12,5 19,12 12,19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+        @endforeach
+      </div>
+
+      <!-- Pagination -->
+      @if($blogs->hasPages())
+      <nav class="mt-10" aria-label="Blog pagination">
+        <div class="flex items-center justify-center gap-2">
+          {{-- Previous Button --}}
+          @if ($blogs->onFirstPage())
+            <span class="px-3 py-3 text-gray-400 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 cursor-not-allowed">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </span>
+          @else
+            <a href="{{ $blogs->previousPageUrl() }}" class="px-3 py-3 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </a>
+          @endif
+
+          {{-- Page Numbers --}}
+          @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
+            @if ($page == $blogs->currentPage())
+              <span class="px-4 py-2 text-white bg-blue-600 border border-blue-600 font-semibold">{{ $page }}</span>
+            @else
+              <a href="{{ $url }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{{ $page }}</a>
+            @endif
+          @endforeach
+
+          {{-- Next Button --}}
+          @if ($blogs->hasMorePages())
+            <a href="{{ $blogs->nextPageUrl() }}" class="px-3 py-3 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <polyline points="9,18 15,12 9,6"></polyline>
               </svg>
             </a>
-          </nav>
+          @else
+            <span class="px-3 py-3 text-gray-400 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 cursor-not-allowed">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <polyline points="9,18 15,12 9,6"></polyline>
+              </svg>
+            </a>
+          @endif
         </div>
-
-        <!-- Right Column - Sidebar (25% - 1 column) -->
-        <aside class="lg:col-span-1">
-          <div class="space-y-8 lg:sticky lg:top-24">
-
-            <!-- Category Banners -->
-            <section aria-label="Shop by category">
-              <div class="space-y-6">
-                @foreach($arrivals as $arrival)
-                <article class="group overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-                  <a href="{{$arrival['url']}}" class="block relative">
-                    <div class="aspect-square overflow-hidden bg-gray-100 dark:bg-gray-700">
-                      <img
-                        src="{{asset('assets/images/arrival/'.$arrival['photo'])}}"
-                        alt="{{$arrival['title']}}"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col justify-end p-6">
-                      <h3 class="text-lg font-bold text-white mb-1">{{$arrival['title']}}</h3>
-                      <p class="text-sm text-white/90 mb-3">{{$arrival['up_sale']}}</p>
-                      <span class="inline-flex items-center text-sm font-medium text-white group-hover:translate-x-1 transition-transform duration-200">
-                        Shop Now
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-1">
-                          <line x1="7" y1="17" x2="17" y2="7"></line>
-                          <polyline points="7,7 17,7 17,17"></polyline>
-                        </svg>
-                      </span>
-                    </div>
-                  </a>
-                </article>
-                @endforeach
-              </div>
-            </section>
-
-            <!-- Join CELIGIN Banner -->
-            <section class="space-y-6">
-              <div class="relative overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 group">
-                <img
-                  src="{{asset('/assets/frontend/images/join-club-banner.png')}}"
-                  alt="Join CELIGIN Club - Become a Brand Ambassador"
-                  class="w-full aspect-[4/3] object-cover" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-                  <span class="inline-block px-3 py-1 bg-amber-600 dark:bg-amber-500 text-white text-xs font-bold uppercase mb-2 w-fit">JOIN CELIGIN CLUB</span>
-                  <h3 class="text-lg font-bold text-white mb-4">Become a Brand Ambassador</h3>
-                  <a href="/join" class="inline-block px-4 py-2 bg-amber-600 dark:bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 dark:bg-amber-700 transition-colors w-fit">Join Now</a>
-                </div>
-              </div>
-
-              <div class="relative overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 group">
-                <img
-                  src="{{asset('assets/frontend/images/cell-education-banner.png')}}"
-                  alt="Cell For Education - CELIGIN Skincare Products"
-                  class="w-full aspect-[4/3] object-cover" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-                  <h3 class="text-lg font-bold text-white mb-4">Cell For Education</h3>
-                  <a href="/education" class="inline-block px-4 py-2 bg-white text-gray-900 text-sm font-semibold hover:bg-gray-100 transition-colors w-fit">Read More</a>
-                </div>
-              </div>
-            </section>
-
-          </div>
-        </aside>
-      </div>
+      </nav>
+      @endif
     </div>
   </section>
 </main>
+
+<style>
+/* Line clamp utility for description */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>
 
 @endsection
