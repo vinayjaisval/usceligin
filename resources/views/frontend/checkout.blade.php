@@ -128,186 +128,77 @@
               Choose Payment Mode
             </h2>
 
-          <div class="space-y-2">
-
-            @forelse($gateways as $index => $gateway)
-              @if ($gateway->checkout != 1)
-                @continue
-              @endif
-
+            <div class="space-y-3">
               @php
-             
-                $keyword = strtolower($gateway->keyword);
-
-                
-                $isOpen = $index === 0; // First payment method opened
+                // Filter only COD and Razorpay
+                $codGateway = $gateways->firstWhere(function($gateway) {
+                  return $gateway->checkout == 1 && strtolower($gateway->keyword) == 'cod';
+                });
+                $razorpayGateway = $gateways->firstWhere(function($gateway) {
+                  return $gateway->checkout == 1 && str_contains(strtolower($gateway->keyword), 'razorpay');
+                });
               @endphp
 
-              <!-- Payment Box -->
-              <div class="border border-gray-200 dark:border-gray-700 overflow-hidden">
+              @if($codGateway)
+                <!-- Cash on Delivery -->
+                <label for="payment_cod"
+                  class="flex items-start gap-4 p-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 cursor-pointer hover:border-blue-600 dark:hover:border-blue-400 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/10">
 
-                <!-- Payment Header -->
-                <button type="button"
-                  onclick="togglePaymentMethod('payment_{{ $gateway->id }}')"
-                  class="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800
-                        hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                  <input type="radio"
+                    name="payment_method"
+                    data-form="{{ $codGateway->showCheckoutLink() }}"
+                    value="{{ $codGateway->id }}"
+                    id="payment_cod"
+                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    checked />
 
-                  <div class="flex items-center space-x-3">
-                    <input type="radio"
-                      name="payment_method"
-                       data-form="{{ $gateway->showCheckoutLink() }}"
-                      value="{{ $gateway->id }}"
-                      id="payment_radio_{{ $gateway->id }}"
-                      class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                      {{ $isOpen ? 'checked' : '' }} />
-
-                    <label for="payment_radio_{{ $gateway->id }}"
-                      class="font-medium text-gray-900 dark:text-gray-100 cursor-pointer">
-                      {{ $gateway->title ?? ucfirst($keyword) }}
-                    </label>
+                  <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                      </svg>
+                      <span class="font-semibold text-gray-900 dark:text-gray-100">Cash on Delivery</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      Pay with Cash or UPI when your order is delivered
+                    </p>
                   </div>
+                </label>
+              @endif
 
-                  <svg id="chevron_{{ $gateway->id }}"
-                    class="w-5 h-5 text-gray-600 dark:text-gray-400 transform transition-transform
-                          {{ $isOpen ? 'rotate-180' : '' }}"
-                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M19 9l-7 7-7-7" />
-                  </svg>
+              @if($razorpayGateway)
+                <!-- Razorpay -->
+                <label for="payment_razorpay"
+                  class="flex items-start gap-4 p-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 cursor-pointer hover:border-blue-600 dark:hover:border-blue-400 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/10">
 
-                </button>
+                  <input type="radio"
+                    name="payment_method"
+                    data-form="{{ $razorpayGateway->showCheckoutLink() }}"
+                    value="{{ $razorpayGateway->id }}"
+                    id="payment_razorpay"
+                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
 
-                <!-- Payment Content -->
-                <div id="payment_{{ $gateway->id }}"
-                  class="{{ $isOpen ? '' : 'hidden' }}
-                        p-4 border-t border-gray-200 dark:border-gray-700
-                        bg-gray-50 dark:bg-gray-900">
-
-                  {{-- ##############################
-                      PAYMENT TYPE CONDITIONS
-                      ############################## --}}
-
-                  @if($keyword == 'cod')
-                    {{-- CASH ON DELIVERY --}}
-                    <div class="flex items-center space-x-3">
-                      <input type="radio" name="cod_method" value="cash" id="cod_cash"
-                        checked
-                        class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                      <label for="cod_cash"
-                        class="text-sm text-gray-700 dark:text-gray-300">
-                        Cash on Delivery (Cash / UPI)
-                      </label>
+                  <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                      </svg>
+                      <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $razorpayGateway->title ?? 'Razorpay' }}</span>
                     </div>
-                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 ml-7">
-                      You can pay via Cash or UPI on delivery.
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      Pay securely using Card, UPI, Net Banking or Wallet
                     </p>
+                  </div>
+                </label>
+              @endif
 
-                  @elseif(str_contains($keyword, 'upi'))
-                    {{-- UPI PAYMENT --}}
-                    <div class="space-y-3">
-                      <div class="flex items-center space-x-3">
-                        <input type="radio" name="upi_method" value="scan" id="upi_scan"
-                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                        <label for="upi_scan" class="text-sm text-gray-700 dark:text-gray-300">
-                          Scan & Pay
-                        </label>
-                      </div>
-
-                      <div class="flex items-center space-x-3">
-                        <input type="radio" name="upi_method" value="id" id="upi_id"
-                          checked
-                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                        <label for="upi_id" class="text-sm text-gray-700 dark:text-gray-300">
-                          Enter UPI ID
-                        </label>
-                      </div>
-
-                      <input type="text" placeholder="Enter your UPI ID"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600
-                              rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                              focus:ring-2 focus:ring-blue-500 text-sm" />
-                    </div>
-
-                  @elseif(str_contains($keyword, 'card'))
-                    {{-- CARD PAYMENT --}}
-                    <div class="space-y-3">
-                      <input type="text" placeholder="Card Number" maxlength="16"
-                        class="input-field" />
-
-                      <input type="text" placeholder="Name on card"
-                        class="input-field" />
-
-                      <div class="grid grid-cols-2 gap-3">
-                        <input type="text" placeholder="MM/YY" maxlength="5"
-                          class="input-field" />
-                        <input type="text" placeholder="CVV" maxlength="3"
-                          class="input-field" />
-                      </div>
-                    </div>
-
-                  @elseif(str_contains($keyword, 'wallet'))
-                    {{-- WALLET --}}
-                    <div class="space-y-3">
-                      <div class="flex items-center space-x-3 p-3 border rounded">
-                        <input type="radio" name="wallet_provider" value="mobikwik"
-                          id="wallet_mobikwik" checked
-                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-
-                        <label for="wallet_mobikwik"
-                          class="flex-1 text-sm text-gray-700 dark:text-gray-300">
-                          Mobikwik
-                        </label>
-                      </div>
-
-                      <input type="text" placeholder="+91 XXXXXXX702"
-                        class="input-field" />
-
-                      <p class="text-xs text-gray-600 dark:text-gray-400">
-                        This number will be linked with wallet
-                      </p>
-                    </div>
-
-                  @elseif(str_contains($keyword, 'bank'))
-                    {{-- NET BANKING --}}
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                      Select your bank:
-                    </p>
-
-                    @php
-                      $banks = ['Axis Bank', 'HDFC Bank', 'ICICI Bank', 'Kotak', 'SBI', 'Other Bank'];
-                    @endphp
-
-                    @foreach($banks as $bank)
-                      <div class="flex items-center space-x-3 p-2 hover:bg-white dark:hover:bg-gray-800 rounded">
-                        <input type="radio" name="bank_name"
-                          value="{{ strtolower(str_replace(' ', '_', $bank)) }}"
-                          id="bank_{{ strtolower(str_replace(' ', '_', $bank)) }}"
-                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                        <label for="bank_{{ strtolower(str_replace(' ', '_', $bank)) }}"
-                          class="text-sm text-gray-700 dark:text-gray-300">
-                          {{ $bank }}
-                        </label>
-                      </div>
-                    @endforeach
-
-                  @elseif(str_contains($keyword, 'razorpay'))
-                    {{-- OTHER PAYMENT TYPES --}}
-                    <p class="text-sm text-gray-700 dark:text-gray-300">
-                      Click "Pay Now" to proceed with {{ $gateway->title ?? ucfirst($keyword) }}.
-                    </p>
-                  @endif
-
-                </div>
-              </div>
-
-            @empty
-              <p class="text-sm text-gray-600 dark:text-gray-400 p-4 text-center">
-                No payment methods available
-              </p>
-            @endforelse
-
+              @if(!$codGateway && !$razorpayGateway)
+                <p class="text-sm text-gray-600 dark:text-gray-400 p-4 text-center">
+                  No payment methods available
+                </p>
+              @endif
+            </div>
           </div>
-         </div>
         </section>
       </div>
 
@@ -741,37 +632,6 @@
     chevron.classList.toggle('rotate-180');
   }
 
-  // Toggle payment method accordion
-  function togglePaymentMethod(id) {
-    const content = document.getElementById(id);
-    const chevronId = 'chevron_' + id.replace('payment_', '');
-    const chevron = document.getElementById(chevronId);
-    const radioId = 'payment_radio_' + id.replace('payment_', '');
-    const radio = document.getElementById(radioId);
-
-    // Close all other payment methods
-    document.querySelectorAll('[id^="payment_"]').forEach(el => {
-      if (el.id !== id && !el.id.includes('radio')) {
-        el.classList.add('hidden');
-      }
-    });
-
-    // Reset all chevrons
-    document.querySelectorAll('[id^="chevron_"]').forEach(el => {
-      if (el.id !== chevronId) {
-        el.classList.remove('rotate-180');
-      }
-    });
-
-    // Toggle current
-    content.classList.toggle('hidden');
-    chevron.classList.toggle('rotate-180');
-
-    // Select this payment method
-    if (radio) {
-      radio.checked = true;
-    }
-  }
 
   // Apply coupon
   function applyCoupon() {
