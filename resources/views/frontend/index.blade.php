@@ -660,30 +660,31 @@
             </a>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" role="region"
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6" role="region"
             aria-label="Latest blog posts">
 
             @foreach($blogs as $blog)
               <article
-                class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group ">
-                <div class="aspect-w-16 aspect-h-12 overflow-hidden ">
-                  <img src="{{ $blog->photo ? asset('assets/images/blogs/' . $blog->photo) : asset('assets/images/noimage.png')}}"
-                    alt="{{ $blog->title }}" width="400" height="300"
-                    class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
-                </div>
-                <div class="p-6">
-                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2">
-                    {{ Str::limit($blog->title, 25) }}</h3>
-                  <a href="{{ route('front.blogshow', $blog->slug) }}"
-                    class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
-                    Read More
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                      class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
-                      <line x1="7" y1="17" x2="17" y2="7"></line>
-                      <polyline points="7,7 17,7 17,17"></polyline>
-                    </svg>
-                  </a>
-                </div>
+                class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group border border-gray-200 dark:border-gray-700">
+                <a href="{{ route('front.blogshow', $blog->slug) }}" class="block">
+                  <div class="aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-700">
+                    <img src="{{ $blog->photo ? asset('assets/images/blogs/' . $blog->photo) : asset('assets/images/noimage.png')}}"
+                      alt="{{ $blog->title }}" width="300" height="225"
+                      class="w-full h-full object-fill group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <div class="p-4 flex flex-col">
+                    <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-4 h-12 flex items-center leading-tight">
+                      {{ Str::limit($blog->title, 60) }}</h3>
+                    <div class="inline-flex items-center text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 group-hover:translate-x-1 mt-auto">
+                      Read More
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        class="ml-1 w-3 h-3">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7,7 17,7 17,17"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                </a>
               </article>
             @endforeach
 

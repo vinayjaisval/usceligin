@@ -42,7 +42,7 @@
             src="{{ asset('assets/images/blogs/'.$blog->photo) }}"
             alt="{{ $blog->title }}"
             itemprop="image"
-            class="w-full h-full object-cover" />
+            class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
         </div>
       </header>
 

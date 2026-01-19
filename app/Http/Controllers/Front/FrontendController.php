@@ -306,7 +306,7 @@ class FrontendController extends FrontBaseController
             ->get();
 
 
-        $data['blogs'] =  Blog::latest()->take(3)->get();
+        $data['blogs'] =  Blog::latest()->take(4)->get();
         $data['testimonials'] = Testimonial::latest()->take(15)->get();
         $data['allProducts'] = Product::select('*')->where('status', 1)->get();
         $data['products'] = Product::select('thumbnail', 'slug')->get();
