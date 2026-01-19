@@ -340,7 +340,8 @@
       <section class="lg:col-span-2 {{ $classes['card'] }}" aria-labelledby="ordered-items-heading">
         <div class="{{ $classes['card-header'] }}">
           <h2 id="ordered-items-heading" class="text-lg font-bold text-gray-900 dark:text-gray-100">
-            Ordered Items {{ optional($tempcart->items)->count() ?? 0 }}
+            Ordered Items {{ $tempcart->items ? count((array) $tempcart->items) : 0 }}
+
 
           </h2>
         </div>

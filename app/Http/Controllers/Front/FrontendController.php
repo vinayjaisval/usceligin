@@ -1031,8 +1031,10 @@ class FrontendController extends FrontBaseController
 
     public function getPinCodeDetails(Request $request)
     {
+       
         $client = new Client();
         $url = "https://track.delhivery.com/c/api/pin-codes/json/?filter_codes=" . $request->zipcode;
+     
         try {
             $response = $client->request('GET', $url, [
                 'headers' => [
@@ -1052,6 +1054,7 @@ class FrontendController extends FrontBaseController
                 $result['country'] = $countr_name;
                 $result['state'] = $state_name;
                 $result['city'] = $city_name;
+               
                 if ($result == 0) {
                     return response()->json(['status' => false, 'message' => "Pincode Not Found"]);
                 } else {
@@ -1074,7 +1077,8 @@ class FrontendController extends FrontBaseController
     }
     public function delivery_cost($delivery_pincode)
     {
-        $cartData = Session::get('cart');
+        $cartData = Session::get('admin_cart');
+      
         foreach ($cartData->items as $item) {
 
             $product = Product::find($item['item']->id);

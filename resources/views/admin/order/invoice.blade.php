@@ -65,7 +65,7 @@
         <p><strong>{{ __('Shipping Address') }}</strong></p>
         <span><strong>{{ __('Customer Name') }}</strong>: {{ $order->shipping_name ?? null }}</span><br>
         <span><strong>{{ __('Mobile No') }}</strong>: {{ $order->shipping_phone ?? null }}</span><br>
-        <span><strong>{{ __('Email') }}</strong>: {{ $order->shipping_email ?? nulll }}</span><br>
+        <span><strong>{{ __('Email') }}</strong>: {{ $order->shipping_email ?? null }}</span><br>
         <span><strong>{{ __('Address') }}</strong>: {{ $order->shipping_address ?? null }}</span><br>
         <span><strong>{{ __('City') }}</strong>: {{ $order->shipping_city ?? null }} ,{{ $order->shipping_zip ?? null }}</span><br>
         <span><strong>{{ __('State') }}</strong>: {{ $order->shipping_state_id ?? null }}</span><br>

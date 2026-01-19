@@ -123,7 +123,6 @@ class OrderCreateController extends AdminBaseController
 
     public function addcart(Request $request)
     {
-    // dd($request->all());
         $id = $_GET['id'];
         $qty = $_GET['qty'];
         $size = str_replace(' ', '-', $_GET['size']);
@@ -304,6 +303,8 @@ class OrderCreateController extends AdminBaseController
 
     public function CreateOrderSubmit(Request $request)
     {   
+
+        
         $address = Session::get('order_address');
        
         $input = $address;

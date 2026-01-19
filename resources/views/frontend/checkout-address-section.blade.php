@@ -334,7 +334,7 @@ function deleteAddress(addressId) {
     return;
   }
 
-  fetch(`/usceligin/user/addresses/${addressId}`, {
+  fetch(`/celigin/user/addresses/${addressId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

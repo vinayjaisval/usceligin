@@ -92,7 +92,7 @@ function submitAddressForm(form, action, addressId = null) {
     url = "{{ route('user.addresses.store') }}";
   } 
   else if (action === 'update' && addressId) {
-    url = `/usceligin/user/addresses/${addressId}`;
+    url = `/celigin/user/addresses/${addressId}`;
     formData.append('_method', 'PUT');
   } 
   else {

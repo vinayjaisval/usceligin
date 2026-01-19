@@ -444,7 +444,9 @@ class CouponController extends FrontBaseController
 
     public function applyCoupon(Request $request)
     {
+
         $couponCode = $request->input('coupon_code');
+       
         // dd($request->total);
         // Validate the coupon code
         $coupon = Coupon::where('code', $couponCode)->first();
