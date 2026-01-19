@@ -1558,7 +1558,7 @@
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch(`/user/wishlist/${wishlistId}`, {
+    fetch(`{{ url('/') }}/user/wishlist/${wishlistId}`, {
       method: 'DELETE',
       headers: {
         'X-CSRF-TOKEN': csrfToken,
@@ -1588,7 +1588,7 @@
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch('/user/wishlist/clear', {
+    fetch('{{ url('/') }}/user/wishlist/clear', {
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': csrfToken,
