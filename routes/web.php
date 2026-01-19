@@ -29,6 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/myaccount', 'User\AccountController@index')->name('user.account');
     Route::post('/myaccount/update', 'User\AccountController@update')->name('user.account.update');
 
+    // Wishlist management
+    Route::delete('/user/wishlist/{id}', 'User\WishlistController@destroy')->name('user.wishlist.destroy');
+    Route::post('/user/wishlist/clear', 'User\WishlistController@clear')->name('user.wishlist.clear');
+
     // Address management
     Route::post('/user/addresses', 'User\AddressController@store')->name('user.addresses.store');
     Route::get('/user/addresses/{id}/edit', 'User\AddressController@edit')->name('user.addresses.edit');

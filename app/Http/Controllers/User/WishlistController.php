@@ -89,4 +89,50 @@ class WishlistController extends UserBaseController
 
     }
 
+    /**
+     * Remove a single item from wishlist
+     */
+    public function destroy($id)
+    {
+        try {
+            $user = $this->user;
+            $wishlist = Wishlist::where('id', $id)
+                ->where('user_id', $user->id)
+                ->firstOrFail();
+
+            $wishlist->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Item removed from wishlist successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to remove item from wishlist'
+            ], 400);
+        }
+    }
+
+    /**
+     * Clear all items from wishlist
+     */
+    public function clear()
+    {
+        try {
+            $user = $this->user;
+            $deleted = Wishlist::where('user_id', $user->id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => "All {$deleted} items removed from wishlist successfully"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to clear wishlist'
+            ], 400);
+        }
+    }
+
 }
