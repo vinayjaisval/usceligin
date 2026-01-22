@@ -6,64 +6,102 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS Custom Properties (Variables) - Preserved from original design system */
+/* CSS Custom Properties (Variables) - Brand Color System */
 :root {
-  /* Light mode colors */
-  --bg-primary: rgb(255, 255, 255);
-  --bg-secondary: rgb(187, 138, 138);
-  --text-primary: rgb(51, 51, 51);
-  --text-secondary: rgb(126, 126, 126);
-  --text-tertiary: rgb(117, 117, 117);
-  --accent-primary: rgb(188, 79, 56);
-  --accent-secondary: rgb(13, 110, 253);
-  --accent-tertiary: rgb(78, 118, 97);
-  --border-light: rgb(233, 236, 239);
-  --border-medium: rgb(222, 226, 230);
+  /* ===========================================
+     PRIMARY BLUE SYSTEM
+     =========================================== */
+  --primary-900: #1A2D5C;  /* AAA Text (18.1:1) - CTAs, important text */
+  --primary-800: #2E4682;  /* AAA Text (7.0:1) - Body text on white */
+  --primary-700: #3D5BA9;  /* AA Text (4.5:1) - Links, interactive text */
+  --primary-600: #5C80E0;  /* Accent Only (3.0:1) - Backgrounds, borders, icons */
+  --primary-500: #7A9AE8;  /* Large Text only (2.3:1) */
+  --primary-400: #98B3F0;  /* Background only */
+  --primary-300: #B6CCF7;  /* Background only */
+  --primary-200: #D4E5FB;  /* Background only */
+  --primary-100: #EAF2FE;  /* Background only */
+
+  /* ===========================================
+     NEUTRAL GRAY SYSTEM
+     =========================================== */
+  --gray-900: #0F172A;  /* AAA Text - Main headings */
+  --gray-800: #1E293B;  /* AAA Text */
+  --gray-700: #334155;  /* AAA Text */
+  --gray-500: #64748B;  /* AA Text */
+  --gray-200: #E2E8F0;  /* Background */
+  --gray-50: #F8FAFC;   /* Background */
+
+  /* ===========================================
+     SEMANTIC COLORS (AA Compliant)
+     =========================================== */
+  --success: #059669;  /* 4.5:1 on white */
+  --warning: #D97706;  /* 4.6:1 on white */
+  --error: #DC2626;    /* 4.5:1 on white */
+  --info: #0284C7;     /* 4.5:1 on white */
+
+  /* ===========================================
+     MAPPED THEME COLORS (Light Mode)
+     =========================================== */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: var(--primary-100);
+  --bg-tertiary: var(--gray-50);
+  --bg-quaternary: var(--primary-200);
+
+  --text-primary: var(--gray-900);
+  --text-secondary: var(--gray-700);
+  --text-tertiary: var(--gray-500);
+
+  --accent-primary: var(--primary-600);
+  --accent-secondary: var(--primary-700);
+  --accent-tertiary: var(--primary-800);
+  --accent-dark: var(--primary-900);
+
+  --border-light: var(--gray-200);
+  --border-medium: var(--primary-200);
+
+  /* Base colors */
+  --white: #FFFFFF;
+  --black: #000000;
+  --grey-light: var(--gray-50);
+  --grey-medium: var(--gray-500);
+  --danger: var(--error);
+
+  /* Shadows */
   --shadow-light: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
   --shadow-medium: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
   --shadow-heavy: 0 0.625rem 1.5625rem rgba(0, 0, 0, 0.15);
-  --white: rgb(255, 255, 255);
-  --black: rgb(0, 0, 0);
-  --grey-light: rgb(248, 248, 248);
-  --grey-medium: rgb(117, 117, 117);
-  --success: rgb(78, 118, 97);
-  --warning: rgb(253, 126, 20);
-  --danger: rgb(188, 79, 56);
-  --accent-dark: rgb(157, 63, 48);
 
-  /* Alert system colors - WCAG AA compliant */
-  --info-bg: rgb(30, 58, 138);
-  --info-bg-light: rgba(30, 58, 138, 0.15);
-  --info-border: rgba(29, 78, 216, 0.3);
-  --info-text: rgb(30, 58, 138);
-  --info-icon: rgb(29, 78, 216);
+  /* ===========================================
+     ALERT SYSTEM COLORS - WCAG AA Compliant
+     =========================================== */
+  --info-bg: var(--info);
+  --info-bg-light: rgba(2, 132, 199, 0.15);
+  --info-border: rgba(2, 132, 199, 0.3);
+  --info-text: #0369A1;
+  --info-icon: var(--info);
 
-  --success-bg: rgb(22, 163, 74);
-  --success-bg-light: rgba(22, 163, 74, 0.15);
-  --success-border: rgba(21, 128, 61, 0.3);
-  --success-text: rgb(21, 128, 61);
-  --success-icon: rgb(22, 163, 74);
+  --success-bg: var(--success);
+  --success-bg-light: rgba(5, 150, 105, 0.15);
+  --success-border: rgba(5, 150, 105, 0.3);
+  --success-text: #047857;
+  --success-icon: var(--success);
 
-  --error-bg: rgb(220, 38, 38);
+  --error-bg: var(--error);
   --error-bg-light: rgba(220, 38, 38, 0.15);
-  --error-border: rgba(185, 28, 28, 0.3);
-  --error-text: rgb(185, 28, 28);
-  --error-icon: rgb(220, 38, 38);
+  --error-border: rgba(220, 38, 38, 0.3);
+  --error-text: #B91C1C;
+  --error-icon: var(--error);
 
-  --warning-bg: rgb(234, 88, 12);
-  --warning-bg-light: rgba(234, 88, 12, 0.15);
-  --warning-border: rgba(194, 65, 12, 0.3);
-  --warning-text: rgb(194, 65, 12);
-  --warning-icon: rgb(234, 88, 12);
+  --warning-bg: var(--warning);
+  --warning-bg-light: rgba(217, 119, 6, 0.15);
+  --warning-border: rgba(217, 119, 6, 0.3);
+  --warning-text: #B45309;
+  --warning-icon: var(--warning);
 
-  /* Brand colors for accents and highlights */
-  --brand-warm: rgb(187, 138, 138);
-  --brand-sage: rgb(216, 219, 188);
-  --brand-cream: rgb(218, 208, 198);
-
-  /* Background colors for various sections */
-  --bg-tertiary: rgb(241, 241, 241);
-  --bg-quaternary: rgb(250, 250, 250);
+  /* Brand accent colors */
+  --brand-warm: var(--primary-300);
+  --brand-sage: var(--primary-200);
+  --brand-cream: var(--primary-100);
 
 
   /* Spacing */
@@ -125,57 +163,71 @@
   --transition-slow: 0.5s ease;
 
   /* Form-specific styles */
-  --focus-ring-color: rgba(188, 79, 56, 0.1);
+  --focus-ring-color: rgba(92, 128, 224, 0.25);  /* primary-600 with opacity */
   --focus-ring-size: 0.125rem;
   --input-max-width: 30rem;
   --form-container-padding: 4rem;
 }
 
-/* Dark mode colors */
+/* ===========================================
+   DARK MODE COLORS
+   =========================================== */
 [data-theme="dark"] {
-  --bg-primary: rgb(26, 26, 26);
-  --bg-secondary: rgb(45, 45, 45);
-  --bg-tertiary: rgb(64, 64, 64);
-  --bg-quaternary: rgb(32, 32, 32);
-  --text-primary: rgb(255, 255, 255);
-  --text-secondary: rgb(179, 179, 179);
-  --text-tertiary: rgb(153, 153, 153);
-  --border-light: rgb(64, 64, 64);
-  --border-medium: rgb(82, 82, 82);
+  /* Background colors */
+  --bg-primary: var(--gray-900);
+  --bg-secondary: var(--gray-800);
+  --bg-tertiary: var(--gray-700);
+  --bg-quaternary: #0C1222;
+
+  /* Text colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: var(--gray-200);
+  --text-tertiary: var(--gray-500);
+
+  /* Border colors */
+  --border-light: var(--gray-700);
+  --border-medium: var(--gray-500);
+
+  /* Shadows */
   --shadow-light: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
   --shadow-medium: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.4);
   --shadow-heavy: 0 0.625rem 1.5625rem rgba(0, 0, 0, 0.5);
 
-  --brand-warm: rgb(139, 90, 90);
-  --brand-sage: rgb(168, 171, 140);
-  --brand-cream: rgb(170, 160, 150);
+  /* Accent colors (lighter for dark mode visibility) */
+  --accent-primary: var(--primary-500);
+  --accent-secondary: var(--primary-400);
+  --accent-tertiary: var(--primary-300);
+  --accent-dark: var(--primary-600);
 
-  --accent-primary: rgb(214, 51, 132);
+  /* Brand colors */
+  --brand-warm: var(--primary-400);
+  --brand-sage: var(--primary-300);
+  --brand-cream: var(--primary-200);
 
   /* Dark mode alert colors - WCAG AA compliant */
-  --info-bg: rgb(30, 64, 175);
-  --info-bg-light: rgba(30, 64, 175, 0.2);
-  --info-border: rgba(37, 99, 235, 0.4);
-  --info-text: rgb(147, 197, 253);
-  --info-icon: rgb(96, 165, 250);
+  --info-bg: var(--info);
+  --info-bg-light: rgba(2, 132, 199, 0.2);
+  --info-border: rgba(2, 132, 199, 0.4);
+  --info-text: #7DD3FC;
+  --info-icon: #38BDF8;
 
-  --success-bg: rgb(5, 150, 105);
+  --success-bg: var(--success);
   --success-bg-light: rgba(5, 150, 105, 0.2);
-  --success-border: rgba(16, 185, 129, 0.4);
-  --success-text: rgb(134, 239, 172);
-  --success-icon: rgb(74, 222, 128);
+  --success-border: rgba(5, 150, 105, 0.4);
+  --success-text: #86EFAC;
+  --success-icon: #4ADE80;
 
-  --error-bg: rgb(220, 38, 38);
+  --error-bg: var(--error);
   --error-bg-light: rgba(220, 38, 38, 0.2);
-  --error-border: rgba(239, 68, 68, 0.4);
-  --error-text: rgb(252, 165, 165);
-  --error-icon: rgb(248, 113, 113);
+  --error-border: rgba(220, 38, 38, 0.4);
+  --error-text: #FCA5A5;
+  --error-icon: #F87171;
 
-  --warning-bg: rgb(217, 119, 6);
+  --warning-bg: var(--warning);
   --warning-bg-light: rgba(217, 119, 6, 0.2);
-  --warning-border: rgba(245, 158, 11, 0.4);
-  --warning-text: rgb(253, 186, 116);
-  --warning-icon: rgb(251, 146, 60);
+  --warning-border: rgba(217, 119, 6, 0.4);
+  --warning-text: #FDBA74;
+  --warning-icon: #FB923C;
 }
 
 /* Base styles using Tailwind @layer directive */

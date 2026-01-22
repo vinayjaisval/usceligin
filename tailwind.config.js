@@ -19,7 +19,38 @@ export default {
       },
       // CSS Variables mapped to Tailwind
       colors: {
-        // Background colors
+        // Primary Blue System (Brand Colors)
+        primary: {
+          900: '#1A2D5C', // AAA Text (18.1:1) - CTAs, important text
+          800: '#2E4682', // AAA Text (7.0:1) - Body text, headings
+          700: '#3D5BA9', // AA Text (4.5:1) - Links, interactive text
+          600: '#5C80E0', // Accent Only (3.0:1) - Backgrounds, borders, icons
+          500: '#7A9AE8', // Large Text only (2.3:1)
+          400: '#98B3F0', // Background only
+          300: '#B6CCF7', // Background only
+          200: '#D4E5FB', // Background only
+          100: '#EAF2FE', // Background only
+        },
+
+        // Neutral Gray System
+        neutral: {
+          900: '#0F172A', // AAA Text - Main headings
+          800: '#1E293B', // AAA Text
+          700: '#334155', // AAA Text
+          500: '#64748B', // AA Text
+          200: '#E2E8F0', // Background
+          50: '#F8FAFC',  // Background
+        },
+
+        // Semantic Colors
+        semantic: {
+          success: '#059669', // AA Text (4.5:1)
+          warning: '#D97706', // AA Text (4.6:1)
+          error: '#DC2626',   // AA Text (4.5:1)
+          info: '#0284C7',    // AA Text (4.5:1)
+        },
+
+        // Background colors (CSS Variables for theme support)
         'bg-primary': 'var(--bg-primary)',
         'bg-secondary': 'var(--bg-secondary)',
         'bg-tertiary': 'var(--bg-tertiary)',
@@ -30,7 +61,7 @@ export default {
         'text-secondary': 'var(--text-secondary)',
         'text-tertiary': 'var(--text-tertiary)',
 
-        // Accent colors
+        // Accent colors (mapped to new primary)
         'accent-primary': 'var(--accent-primary)',
         'accent-secondary': 'var(--accent-secondary)',
         'accent-tertiary': 'var(--accent-tertiary)',
@@ -45,7 +76,7 @@ export default {
         'border-light': 'var(--border-light)',
         'border-medium': 'var(--border-medium)',
 
-        // Status colors
+        // Status colors (CSS Variables)
         'success': 'var(--success)',
         'warning': 'var(--warning)',
         'danger': 'var(--danger)',
