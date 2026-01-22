@@ -50,11 +50,11 @@
               <div>
                 <!-- Tag -->
                 <div class="mb-1.5">
-                  <span class="inline-block px-2.5 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-semibold uppercase tracking-wide">{{ $blog->tags }}</span>
+                  <span class="inline-block px-2.5 py-0.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 text-[10px] font-semibold uppercase tracking-wide">{{ $blog->tags }}</span>
                 </div>
 
                 <!-- Title -->
-                <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1.5 leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1.5 leading-tight group-hover:text-primary-700 dark:group-hover:text-primary-400 transition-colors">
                   <a href="{{ route('front.blogshow',$blog->slug) }}">{{ $blog->title }}</a>
                 </h2>
 
@@ -75,7 +75,7 @@
 
               <!-- Read More Link -->
               <div class="mt-2">
-                <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors group/link">
+                <a href="{{ route('front.blogshow',$blog->slug) }}" class="inline-flex items-center text-xs font-semibold text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors group/link">
                   Read More
                   <svg class="w-3.5 h-3.5 ml-1 group-hover/link:translate-x-1 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -111,9 +111,9 @@
           {{-- Page Numbers --}}
           @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
             @if ($page == $blogs->currentPage())
-              <span class="px-4 py-2 text-white bg-blue-600 border border-blue-600 font-semibold">{{ $page }}</span>
+              <span class="px-4 py-2 text-white bg-primary-600 border border-primary-600 font-semibold">{{ $page }}</span>
             @else
-              <a href="{{ $url }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{{ $page }}</a>
+              <a href="{{ $url }}" class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary-700 dark:hover:text-primary-400 transition-colors">{{ $page }}</a>
             @endif
           @endforeach
 

@@ -68,7 +68,7 @@
             <fieldset class="flex gap-0 mb-6">
               <legend class="sr-only">Select your preferred verification method</legend>
               <button type="button"
-                class="flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-blue-600 text-white border-blue-600"
+                class="flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-primary-600 text-white border-primary-600"
                 id="phoneMethodBtn" data-method="phone" aria-pressed="true" aria-describedby="phone-help">
                 <span>Phone Number</span>
               </button>
@@ -89,7 +89,7 @@
               <label for="phoneNumber" class="block text-sm font-semibold text-gray-900 dark:text-gray-900 mb-2">
                 Mobile Number<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
               </label>
-              <div class="flex border border-gray-300 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/20">
+              <div class="flex border border-gray-300 focus-within:border-primary-600 focus-within:ring-2 focus-within:ring-primary-600/20">
                 <span class="flex items-center px-3 bg-gray-50 text-gray-600 font-semibold text-sm border-r border-gray-300" aria-label="Country code India">{{ config('app.country_code', '+91') }}</span>
                 <input type="tel" id="phoneNumber" name="contact"
                   class="flex-1 px-4 py-3 bg-white text-gray-900 text-sm border-0 focus:outline-none"
@@ -120,7 +120,7 @@
                 Email Address<abbr class="text-red-500 ml-0.5" title="required">*</abbr>
               </label>
               <input type="email" id="emailAddress" name="contact"
-                class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
+                class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 text-sm focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 focus:outline-none transition-all"
                 placeholder="{{ config('app.email_placeholder', 'your@email.com') }}"
                 autocomplete="email" aria-describedby="emailHelp emailError"
                 aria-invalid="false" aria-label="Enter your email address" />
@@ -144,7 +144,7 @@
             <div class="mb-6">
               <div class="flex items-start gap-2">
                 <input type="checkbox" id="keepSignedIn" name="keep_signed_in"
-                  class="mt-1 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 focus:ring-blue-600">
+                  class="mt-1 h-4 w-4 text-primary-700 border-gray-300 dark:border-gray-600 focus:ring-primary-600">
                 <div class="flex items-center gap-2">
                   <label for="keepSignedIn" class="text-sm text-gray-700 dark:text-gray-900 cursor-pointer font-medium">
                     Keep me signed in
@@ -168,7 +168,7 @@
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" id="sendOtpBtn" disabled>
+            <button type="submit" class="w-full px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" id="sendOtpBtn" disabled>
               Send OTP
             </button>
 
@@ -177,11 +177,11 @@
               <p>
                 By signing in, you agree to our
                 <a href="{{ route('terms') ?? '#' }}"
-                  class="text-blue-600 dark:text-blue-900 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">Terms
+                  class="text-primary-700 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-300 underline font-medium transition-colors duration-200">Terms
                   and Conditions</a>
                 and that you've read our
                 <a href="{{ route('privacy') ?? '#' }}"
-                  class="text-blue-600 dark:text-blue-900 hover:text-blue-700 dark:hover:text-blue-300 underline font-medium transition-colors duration-200">Privacy
+                  class="text-primary-700 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-300 underline font-medium transition-colors duration-200">Privacy
                   Policy</a>.
               </p>
             </div>
@@ -216,7 +216,7 @@
                 6-Digit Verification Code<abbr class="text-red-600 ml-0.5" title="required">*</abbr>
               </label>
               <input type="text" id="otpInput" name="otp_code"
-                class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none transition-all"
+                class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 text-sm focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 focus:outline-none transition-all"
                 placeholder="{{ config('app.otp_placeholder', '000000') }}"
                 maxlength="{{ config('app.otp_length', '6') }}"
                 required autocomplete="one-time-code" inputmode="numeric"
@@ -251,25 +251,25 @@
               <p>
                 Didn't receive the code?
                 <button type="button"
-                  class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-semibold disabled:text-gray-400 dark:disabled:text-gray-600 disabled:no-underline disabled:cursor-not-allowed transition-colors duration-200"
+                  class="text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 underline font-semibold disabled:text-gray-400 dark:disabled:text-gray-600 disabled:no-underline disabled:cursor-not-allowed transition-colors duration-200"
                   id="resendOtp" disabled>
-                  Resend OTP in <span id="countdown" class="text-blue-600">60</span>s
+                  Resend OTP in <span id="countdown" class="text-primary-700">60</span>s
                 </button>
               </p>
             </div>
 
-            <button type="submit" class="w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" id="verifyOtpBtn" disabled>
+            <button type="submit" class="w-full px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" id="verifyOtpBtn" disabled>
               Verify OTP
             </button>
 
-            <button type="button" class="hidden w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200" id="loginBtn">
+            <button type="button" class="hidden w-full px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors duration-200" id="loginBtn">
               Continue to Account
             </button>
           </form>
 
           <div class="text-center mt-6">
             <button type="button"
-              class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline font-semibold flex items-center gap-2 mx-auto transition-colors duration-200"
+              class="text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 underline font-semibold flex items-center gap-2 mx-auto transition-colors duration-200"
               id="backToLogin" aria-label="Go back to sign in form">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path
@@ -305,7 +305,7 @@
 
         // CSS Classes (DRY principle)
         this.classes = {
-          methodActive: "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-blue-600 text-white border-blue-600",
+          methodActive: "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-primary-600 text-white border-primary-600",
           methodInactive: "flex-1 px-4 py-3 text-sm font-semibold border-2 transition-all duration-200 bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
         };
 

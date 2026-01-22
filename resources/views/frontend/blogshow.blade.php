@@ -17,7 +17,7 @@
       <header class="mb-8 lg:mb-12">
         <!-- Category Tag -->
         <div class="mb-4">
-          <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-semibold">Skin Care</span>
+          <span class="inline-block px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 text-sm font-semibold">Skin Care</span>
         </div>
 
         <!-- Article Title -->
@@ -78,12 +78,12 @@
         <div>
           <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Share this article:</h3>
           <div class="flex gap-3">
-            <a href="#" class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200" aria-label="Share on Facebook">
+            <a href="#" class="flex items-center justify-center w-10 h-10 bg-primary-600 text-white hover:bg-primary-700 transition-colors duration-200" aria-label="Share on Facebook">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
               </svg>
             </a>
-            <a href="#" class="flex items-center justify-center w-10 h-10 bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200" aria-label="Share on Twitter">
+            <a href="#" class="flex items-center justify-center w-10 h-10 bg-primary-600 text-white hover:bg-primary-600 transition-colors duration-200" aria-label="Share on Twitter">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
               </svg>

@@ -31,7 +31,7 @@
               type="submit"
               name="tags"
               value=""
-              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
               aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}"
               role="listitem">
               All
@@ -42,7 +42,7 @@
               type="submit"
               name="tags"
               value="{{ $tag->slug }}"
-              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ isset($currentCategory) && $currentCategory === $tag->slug ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ isset($currentCategory) && $currentCategory === $tag->slug ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
               aria-pressed="{{ isset($currentCategory) && $currentCategory === $tag->slug ? 'true' : 'false' }}"
               role="listitem">
               {{ $tag->name }}
@@ -71,7 +71,7 @@
             <select
               id="sort-select"
               name="sort"
-              class="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-offset-gray-900 transition-colors duration-200"
+              class="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-offset-gray-900 transition-colors duration-200"
               aria-label="Sort products by"
               onchange="this.form.submit()">
               @php
@@ -105,7 +105,7 @@
     <div class="py-8 sm:py-12 text-center border-t border-gray-200 dark:border-gray-700">
       <button
         type="button"
-        class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 text-white text-sm sm:text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-primary-600 text-white text-sm sm:text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         aria-label="Load more products">
         Load More Products
       </button>

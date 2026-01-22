@@ -67,7 +67,7 @@
               name="name"
               required
               value="{{ old('name') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors text-sm sm:text-base"
               placeholder="Enter your full name"
               aria-required="true" />
             @error('name')
@@ -86,7 +86,7 @@
               name="email"
               required
               value="{{ old('email') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors text-sm sm:text-base"
               placeholder="Enter your email address"
               aria-required="true" />
             @error('email')
@@ -105,7 +105,7 @@
               name="phone"
               required
               value="{{ old('phone') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors text-sm sm:text-base"
               placeholder="Enter your phone number"
               pattern="[0-9]{10,15}"
               aria-required="true" />
@@ -125,7 +125,7 @@
               id="instagram"
               name="instagram_profile_link"
               value="{{ old('instagram_profile_link') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors text-sm sm:text-base"
               placeholder="https://instagram.com/yourusername" />
             @error('instagram_profile_link')
               <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -143,7 +143,7 @@
               id="youtube"
               name="youtube_profile_link"
               value="{{ old('youtube_profile_link') }}"
-              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              class="w-full px-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors text-sm sm:text-base"
               placeholder="https://youtube.com/yourchannel" />
             @error('youtube_profile_link')
               <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -154,7 +154,7 @@
           <div class="pt-4">
             <button
               type="submit"
-              class="w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
+              class="w-full px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
               Register for Celigin Club
             </button>
           </div>
@@ -163,7 +163,7 @@
           <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
             <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
               Already have an account?
-              <a href="{{ route('otp.login.form') }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors">
+              <a href="{{ route('otp.login.form') }}" class="text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-semibold transition-colors">
                 Sign In
               </a>
             </p>
@@ -174,19 +174,19 @@
       {{-- Benefits Section --}}
       <div class="mt-8 lg:mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <span class="material-icons-outlined text-4xl text-blue-600 dark:text-blue-400 mb-3">card_giftcard</span>
+          <span class="material-icons-outlined text-4xl text-primary-700 dark:text-primary-400 mb-3">card_giftcard</span>
           <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Exclusive Rewards</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400">Earn points on every purchase and redeem for discounts</p>
         </div>
 
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <span class="material-icons-outlined text-4xl text-blue-600 dark:text-blue-400 mb-3">notifications_active</span>
+          <span class="material-icons-outlined text-4xl text-primary-700 dark:text-primary-400 mb-3">notifications_active</span>
           <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Early Access</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400">Get first access to new products and special sales</p>
         </div>
 
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <span class="material-icons-outlined text-4xl text-blue-600 dark:text-blue-400 mb-3">local_offer</span>
+          <span class="material-icons-outlined text-4xl text-primary-700 dark:text-primary-400 mb-3">local_offer</span>
           <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Special Offers</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400">Receive member-only discounts and birthday gifts</p>
         </div>

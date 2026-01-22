@@ -36,7 +36,7 @@
   .input-field {
     @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600
            rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-           focus:ring-2 focus:ring-blue-500 text-sm;
+           focus:ring-2 focus:ring-primary-600 text-sm;
   }
 </style>
 <!-- Main Content -->
@@ -108,7 +108,7 @@
               @endif
             </div>
 
-            <a href="{{ route('front.cart') }}" class="inline-flex items-center space-x-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium mt-4 transition-colors">
+            <a href="{{ route('front.cart') }}" class="inline-flex items-center space-x-1 text-sm text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium mt-4 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
               </svg>
@@ -142,14 +142,14 @@
               @if($codGateway)
                 <!-- Cash on Delivery -->
                 <label for="payment_cod"
-                  class="flex items-start gap-4 p-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 cursor-pointer hover:border-blue-600 dark:hover:border-blue-400 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/10">
+                  class="flex items-start gap-4 p-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 cursor-pointer hover:border-primary-600 dark:hover:border-primary-400 transition-all has-[:checked]:border-primary-600 has-[:checked]:bg-primary-100 dark:has-[:checked]:bg-primary-900/10">
 
                   <input type="radio"
                     name="payment_method"
                     data-form="{{ $codGateway->showCheckoutLink() }}"
                     value="{{ $codGateway->id }}"
                     id="payment_cod"
-                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    class="mt-1 w-4 h-4 text-primary-700 border-gray-300 focus:ring-primary-600"
                     checked />
 
                   <div class="flex-1">
@@ -169,14 +169,14 @@
               @if($razorpayGateway)
                 <!-- Razorpay -->
                 <label for="payment_razorpay"
-                  class="flex items-start gap-4 p-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 cursor-pointer hover:border-blue-600 dark:hover:border-blue-400 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/10">
+                  class="flex items-start gap-4 p-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 cursor-pointer hover:border-primary-600 dark:hover:border-primary-400 transition-all has-[:checked]:border-primary-600 has-[:checked]:bg-primary-100 dark:has-[:checked]:bg-primary-900/10">
 
                   <input type="radio"
                     name="payment_method"
                     data-form="{{ $razorpayGateway->showCheckoutLink() }}"
                     value="{{ $razorpayGateway->id }}"
                     id="payment_razorpay"
-                    class="mt-1 w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                    class="mt-1 w-4 h-4 text-primary-700 border-gray-300 focus:ring-primary-600" />
 
                   <div class="flex-1">
                     <div class="flex items-center gap-2">
@@ -213,7 +213,7 @@
               onclick="togglePromoCode()"
               class="w-full flex items-center justify-between p-3 text-left">
               <div class="flex items-center space-x-2">
-                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-primary-700 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                 </svg>
                 <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Apply Promo Code</span>
@@ -234,11 +234,11 @@
                   type="text"
                   id="coupon_code"
                   placeholder="Enter code"
-                  class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+                  class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600"
                   aria-label="Promo code" />
                 <button
                   type="submit"
-                  class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                  class="px-4 py-2 bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 transition-colors">
                   Apply
                 </button>
               </form>
@@ -323,16 +323,16 @@
           <button
             type="button"
             onclick="placeOrder()"
-            class="w-full px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
+            class="w-full px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors duration-200">
             Place your order
           </button>
 
           <!-- Terms -->
           <p class="text-xs text-gray-600 dark:text-gray-400 text-center mt-4">
             By ordering, you accept our
-            <a href="{{ route('terms') }}" class="text-blue-600 dark:text-blue-400 hover:underline">terms</a>
+            <a href="{{ route('terms') }}" class="text-primary-700 dark:text-primary-400 hover:underline">terms</a>
             and
-            <a href="{{ route('privacy') }}" class="text-blue-600 dark:text-blue-400 hover:underline">privacy policy</a>
+            <a href="{{ route('privacy') }}" class="text-primary-700 dark:text-primary-400 hover:underline">privacy policy</a>
           </p>
         </div>
       </div>
@@ -452,10 +452,10 @@
 
     // Update card styling
     document.querySelectorAll('[onclick*="selectAddressCard"]').forEach(card => {
-      card.classList.remove('ring-2', 'ring-blue-600', 'dark:ring-blue-400', 'bg-blue-50', 'dark:bg-blue-900/10');
+      card.classList.remove('ring-2', 'ring-primary-600', 'dark:ring-primary-400', 'bg-primary-100', 'dark:bg-primary-900/10');
     });
 
-    event.currentTarget.classList.add('ring-2', 'ring-blue-600', 'dark:ring-blue-400', 'bg-blue-50', 'dark:bg-blue-900/10');
+    event.currentTarget.classList.add('ring-2', 'ring-primary-600', 'dark:ring-primary-400', 'bg-primary-100', 'dark:bg-primary-900/10');
 
     console.log('Selected address ID:', addressId);
   }

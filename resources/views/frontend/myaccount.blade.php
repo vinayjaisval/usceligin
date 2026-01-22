@@ -22,7 +22,7 @@
           <div class="p-6 border-b border-gray-200 dark:border-gray-700">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
-                <div class="w-12 h-12 bg-blue-600 text-white flex items-center justify-center text-xl font-bold uppercase">
+                <div class="w-12 h-12 bg-primary-600 text-white flex items-center justify-center text-xl font-bold uppercase">
                   {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
                 </div>
               </div>
@@ -182,7 +182,7 @@
                 Save products you love to your wishlist.
               </p>
               <a href="{{ route('front.index') }}"
-                 class="inline-block px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 transition-colors">
+                 class="inline-block px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 transition-colors">
                 Browse Products
               </a>
             </div>
@@ -205,7 +205,7 @@
                     Full Name <span class="text-red-600">*</span>
                   </label>
                   <input type="text" id="name" name="name" value="{{ Auth::user()->name ?? '' }}" required
-                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base" />
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors text-base" />
                 </div>
 
                 <div>
@@ -213,7 +213,7 @@
                     Email Address <span class="text-red-600">*</span>
                   </label>
                   <input type="email" id="email" name="email" value="{{ Auth::user()->email ?? '' }}" required
-                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base" />
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors text-base" />
                 </div>
 
                 <div>
@@ -221,12 +221,12 @@
                     Phone Number <span class="text-red-600">*</span>
                   </label>
                   <input type="tel" id="phone" name="phone" value="{{ Auth::user()->phone ?? '' }}" required
-                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base" />
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors text-base" />
                 </div>
 
                 <div>
                   <button type="submit"
-                    class="px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    class="px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 transition-colors">
                     Save Changes
                   </button>
                 </div>
@@ -241,7 +241,7 @@
                 <button
                   type="button"
                   onclick="toggleAddAddressForm()"
-                  class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                  class="px-4 py-2 bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 transition-colors">
                   + Add New Address
                 </button>
                 @endif
@@ -281,7 +281,7 @@
                   <button
                     type="button"
                     onclick="toggleAddAddressForm()"
-                    class="inline-block px-6 py-3 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 transition-colors">
+                    class="inline-block px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 transition-colors">
                     Add Your First Address
                   </button>
                 </div>
@@ -313,23 +313,23 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="border border-gray-200 dark:border-gray-700 p-6">
-                <span class="material-icons-outlined text-4xl text-blue-600 dark:text-blue-400 mb-4">email</span>
+                <span class="material-icons-outlined text-4xl text-primary-700 dark:text-primary-400 mb-4">email</span>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Email Support</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   Send us an email and we'll respond within 24 hours.
                 </p>
-                <a href="mailto:{{ $ps->email }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                <a href="mailto:{{ $ps->email }}" class="text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium">
                   {{ $ps->email }}
                 </a>
               </div>
 
               <div class="border border-gray-200 dark:border-gray-700 p-6">
-                <span class="material-icons-outlined text-4xl text-blue-600 dark:text-blue-400 mb-4">phone</span>
+                <span class="material-icons-outlined text-4xl text-primary-700 dark:text-primary-400 mb-4">phone</span>
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Phone Support</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   Call us for immediate assistance.
                 </p>
-                <a href="tel:{{ $ps->phone }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                <a href="tel:{{ $ps->phone }}" class="text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium">
                   {{ $ps->phone }}
                 </a>
               </div>
@@ -354,9 +354,9 @@
 
             <div class="border border-gray-200 dark:border-gray-700 p-8 text-center">
               <div class="mb-4">
-                <span class="material-icons-outlined text-6xl text-blue-600 dark:text-blue-400">stars</span>
+                <span class="material-icons-outlined text-6xl text-primary-700 dark:text-primary-400">stars</span>
               </div>
-              <p class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-3">0</p>
+              <p class="text-5xl font-bold text-primary-700 dark:text-primary-400 mb-3">0</p>
               <p class="text-base text-gray-600 dark:text-gray-400">Available Points</p>
             </div>
           </div>
@@ -476,17 +476,17 @@
           <div class="flex gap-4">
             <label class="flex items-center space-x-2 cursor-pointer">
               <input type="radio" name="type" value="home" ${address.type === 'home' ? 'checked' : ''}
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                class="w-4 h-4 text-primary-700 border-gray-300 focus:ring-primary-600" />
               <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
             </label>
             <label class="flex items-center space-x-2 cursor-pointer">
               <input type="radio" name="type" value="work" ${address.type === 'work' ? 'checked' : ''}
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                class="w-4 h-4 text-primary-700 border-gray-300 focus:ring-primary-600" />
               <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
             </label>
             <label class="flex items-center space-x-2 cursor-pointer">
               <input type="radio" name="type" value="other" ${address.type === 'other' ? 'checked' : ''}
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                class="w-4 h-4 text-primary-700 border-gray-300 focus:ring-primary-600" />
               <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
             </label>
           </div>
@@ -497,7 +497,7 @@
             Full Name <span class="text-red-600">*</span>
           </label>
           <input type="text" name="name" value="${address.name}" required
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors" />
         </div>
 
         <div>
@@ -505,7 +505,7 @@
             Phone Number <span class="text-red-600">*</span>
           </label>
           <input type="tel" name="phone" value="${address.phone}" required maxlength="15"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors" />
         </div>
 
         <div>
@@ -513,7 +513,7 @@
             Address Line 1 <span class="text-red-600">*</span>
           </label>
           <input type="text" name="address_line_1" value="${address.address_line_1}" required
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors" />
         </div>
 
         <div>
@@ -521,7 +521,7 @@
             Address Line 2
           </label>
           <input type="text" name="address_line_2" value="${address.address_line_2 || ''}"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors" />
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -530,7 +530,7 @@
               Pincode <span class="text-red-600">*</span>
             </label>
             <input type="text" name="pincode" value="${address.pincode}" required maxlength="6" pattern="[0-9]{6}"
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors" />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -557,7 +557,7 @@
 
         <div class="flex items-start space-x-2">
           <input type="checkbox" name="is_default" value="1" ${address.is_default ? 'checked' : ''}
-            class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+            class="mt-1 w-4 h-4 text-primary-700 border-gray-300 rounded focus:ring-primary-600" />
           <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
             Make this my default address
           </label>
@@ -565,7 +565,7 @@
 
         <div class="flex gap-3">
           <button type="submit"
-            class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            class="px-6 py-2 bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 transition-colors">
             Update Address
           </button>
           <button type="button" onclick="cancelAddressForm()"

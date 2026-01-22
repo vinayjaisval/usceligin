@@ -21,7 +21,7 @@
 
         <!-- Free Shipping Banner -->
         <div
-          class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-4 mb-6 text-center">
+          class="bg-primary-100 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 p-4 mb-6 text-center">
           <span class="text-gray-900 dark:text-gray-100"><strong>FREE SHIPPING on all Beauty Steals!</strong></span>
           <span class="text-sm text-gray-600 dark:text-gray-400 ml-2">Diamond & Platinum members only.</span>
         </div>
@@ -41,7 +41,7 @@
             <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
               @foreach($productt->galleries as $gal)
                 <a href="#"
-                  class="aspect-square border-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400 transition-colors duration-200 bg-gray-100 dark:bg-gray-800 overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-500 gallery-thumbnail"
+                  class="aspect-square border-2 border-transparent hover:border-primary-600 dark:hover:border-primary-400 transition-colors duration-200 bg-gray-100 dark:bg-gray-800 overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary-600 gallery-thumbnail"
                   data-image="{{asset('assets/images/galleries/' . $gal->photo)}}" aria-label="View product image">
                   <img src="{{asset('assets/images/galleries/' . $gal->photo)}}" alt="{{ $productt->name }} - Product view"
                     width="80" height="80" class="w-full h-full object-cover" />
@@ -89,7 +89,7 @@
               </div>
               <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ number_format($rating, 1) }}</span>
               <a href="#reviews"
-                class="text-sm text-blue-600 dark:text-blue-400 hover:underline">({{ App\Models\Rating::ratingCount($productt->id) }})
+                class="text-sm text-primary-700 dark:text-primary-400 hover:underline">({{ App\Models\Rating::ratingCount($productt->id) }})
                 Reviews</a>
             </div>
 
@@ -136,7 +136,7 @@
 
                 @foreach($deliveryOptions as $option)
                   <a href="#"
-                    class="flex items-start space-x-3 p-4 border-2 {{ $option['isActive'] ? 'border-blue-600 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30' : 'border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800' }} transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 delivery-option"
+                    class="flex items-start space-x-3 p-4 border-2 {{ $option['isActive'] ? 'border-primary-600 dark:border-primary-400 bg-primary-100 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/30' : 'border-gray-200 dark:border-gray-700 hover:border-primary-600 dark:hover:border-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800' }} transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 delivery-option"
                     data-option="{{ $option['id'] }}">
                     <svg class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -156,7 +156,7 @@
               <div class="flex items-stretch gap-3">
                 <!-- Decrease Button -->
                 <a href="#" id="decrease-qty"
-                  class="flex items-center justify-center w-12 h-12 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="flex items-center justify-center w-12 h-12 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600"
                   aria-label="Decrease quantity">
                   <svg class="w-4 h-4 text-gray-900 dark:text-gray-100" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -172,7 +172,7 @@
 
                 <!-- Increase Button -->
                 <a href="#" id="increase-qty"
-                  class="flex items-center justify-center w-12 h-12 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="flex items-center justify-center w-12 h-12 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600"
                   aria-label="Increase quantity">
                   <svg class="w-4 h-4 text-gray-900 dark:text-gray-100" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -196,7 +196,7 @@
 
               <!-- Add to Cart Button -->
               <a href="#" id="add-to-cart-btn" data-product-id="{{ $productt->id }}"
-                class="block w-full flex items-center justify-center px-4 py-4 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                class="block w-full flex items-center justify-center px-4 py-4 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors duration-200"
                 role="button" tabindex="0" aria-label="Add {{ $productt->name }} to cart">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   class="mr-2" aria-hidden="true" focusable="false">
@@ -279,7 +279,7 @@
                 @foreach($accordionSections as $section)
                   <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
                     <a href="#"
-                      class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600"
                       aria-expanded="false" data-accordion="{{ $section['id'] }}">
                       <span class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ $section['title'] }}</span>
                       <svg class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
@@ -318,7 +318,7 @@
           <h2 id="recommendations-title"
             class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Recommendations</h2>
           <a href="{{ route('front.best-sellers') }}"
-            class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
+            class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
             aria-label="View all recommended products">
             Shop all recommendations
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -339,7 +339,7 @@
                     class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300 "
                     itemscope itemtype="https://schema.org/Product">
                     <a href="{{ url('/item/' . $prod->slug) }}"
-                      class="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
+                      class="block focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
                       aria-describedby="product-{{ $prod->id }}-desc">
                       <div class="relative aspect-square overflow-hidden">
                         <img
@@ -354,7 +354,7 @@
                               $productTags[] = ['label' => 'Sale', 'class' => 'bg-red-600'];
                             }
                             if ($prod->is_featured) {
-                              $productTags[] = ['label' => 'Hot', 'class' => 'bg-blue-600'];
+                              $productTags[] = ['label' => 'Hot', 'class' => 'bg-primary-600'];
                             }
                             if (empty($productTags)) {
                               $productTags[] = ['label' => 'New', 'class' => 'bg-green-600'];
@@ -388,7 +388,7 @@
                     <div class="px-3 sm:px-4 pb-3 sm:pb-4">
                       <div class="flex items-center space-x-2">
                         <a href="#"
-                          class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
+                          class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
                           data-id="{{ $prod->id }}" role="button" tabindex="0"
                           aria-label="Add {{ $prod->name }} to shopping cart">
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 sm:mr-2" aria-hidden="true" focusable="false">
@@ -652,8 +652,8 @@
         const newImageSrc = thumbnail.dataset.image;
         if (newImageSrc) {
           DOM.mainImage.src = newImageSrc;
-          DOM.thumbnails.forEach(t => t.classList.remove('border-blue-600', 'dark:border-blue-400'));
-          thumbnail.classList.add('border-blue-600', 'dark:border-blue-400');
+          DOM.thumbnails.forEach(t => t.classList.remove('border-primary-600', 'dark:border-primary-400'));
+          thumbnail.classList.add('border-primary-600', 'dark:border-primary-400');
         }
       }
     };
@@ -662,7 +662,7 @@
     // Delivery Options Handler
     // ========================================
     const DeliveryManager = {
-      activeClasses: ['border-blue-600', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/20'],
+      activeClasses: ['border-primary-600', 'dark:border-primary-400', 'bg-primary-100', 'dark:bg-primary-900/20'],
       inactiveClasses: ['border-gray-200', 'dark:border-gray-700'],
 
       init() {

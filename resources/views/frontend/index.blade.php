@@ -40,7 +40,7 @@
                     <!-- CTA Button -->
                     <div class="mb-0 lg:mb-4 xl:mb-6">
                       <a href="{{$data->link}}"
-                        class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-blue-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+                        class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-primary-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-all duration-200"
                         aria-describedby="slide-1-desc">
                         Shop Now
                       </a>
@@ -86,7 +86,7 @@
           <article
             class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800 ">
             <a href="{{$arrivals[0]['url']}}"
-              class="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
+              class="block focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
               aria-describedby="category-1-desc" role="button" tabindex="0">
               <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
                 <img src="{{asset('assets/images/arrival/'.$arrivals[0]['photo'])}}"
@@ -103,7 +103,7 @@
                   </div>
                   <div class="mt-auto">
                     <span
-                      class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-blue-600 group-hover:translate-x-1 transition-transform duration-200">
+                      class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-primary-700 group-hover:translate-x-1 transition-transform duration-200">
                       <span class="sr-only">Shop</span>
                       Shop Now
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -119,7 +119,7 @@
           </article>
 
           <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-            <a href="{{$arrivals[1]['url']}}" class="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            <a href="{{$arrivals[1]['url']}}" class="block focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
               aria-describedby="category-2-desc" role="button" tabindex="0">
               <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
                 <img src="{{asset('assets/images/arrival/'.$arrivals[1]['photo'])}}"
@@ -136,7 +136,7 @@
                   </div>
                   <div class="mt-auto">
                     <span
-                      class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-blue-600 group-hover:translate-x-1 transition-transform duration-200">
+                      class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-primary-700 group-hover:translate-x-1 transition-transform duration-200">
                       <span class="sr-only">Shop</span>
                       Shop Now
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -152,7 +152,7 @@
           </article>
 
           <article class="group relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-            <a href="{{$arrivals[2]['url']}}" class="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            <a href="{{$arrivals[2]['url']}}" class="block focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
               aria-describedby="category-3-desc" role="button" tabindex="0">
               <div class="relative min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] overflow-hidden">
                 <img src="{{asset('assets/images/arrival/'.$arrivals[2]['photo'])}}" alt="Celigin Hot Sale Collection"
@@ -169,7 +169,7 @@
                   </div>
                   <div class="mt-auto">
                     <span
-                      class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-blue-600 group-hover:translate-x-1 transition-transform duration-200">
+                      class="inline-flex items-center text-sm sm:text-base lg:text-lg font-medium text-primary-700 group-hover:translate-x-1 transition-transform duration-200">
                       <span class="sr-only">Discover</span>
                       Discover Now
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -195,7 +195,7 @@
             <h2 id="bestsellers-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">
               Our Bestsellers</h2>
             <a href="{{ route('front.best-sellers') }}"
-              class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
+              class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
               aria-label="View all bestselling products">
               Shop all best sellers
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -271,7 +271,7 @@
               <!-- CTA Button -->
               <div>
                 <a href="{{ route('front.category') }}"
-                  class="inline-flex items-center justify-center w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                  class="inline-flex items-center justify-center w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-primary-600 text-white font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
                   aria-label="Get special offer price of ₹39.00">
                   Get Only ₹39.00
                 </a>
@@ -285,7 +285,7 @@
     @endif
 
     <!-- Hot Deals -->
-    <section class="py-12 lg:py-16 bg-blue-50 dark:bg-gray-900" aria-labelledby="hotdeals-title" role="region">
+    <section class="py-12 lg:py-16 bg-primary-100 dark:bg-gray-900" aria-labelledby="hotdeals-title" role="region">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
           <h2 id="hotdeals-title"
@@ -333,7 +333,7 @@
         <div class="flex items-center justify-between mb-8 lg:mb-12">
           <div class="flex items-center space-x-3">
             <div
-              class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-600 to-blue-600 ">
+              class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-600 to-primary-600 ">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" class="w-6 h-6">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -344,7 +344,7 @@
               Instagram Feed</h2>
           </div>
           <a href="#"
-            class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+            class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
             View all feeds
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
@@ -650,7 +650,7 @@
             <h2 id="blog-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Blog
             </h2>
             <a href="/blog"
-              class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+              class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
               View all posts
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
@@ -675,7 +675,7 @@
                   <div class="p-4 flex flex-col">
                     <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-4 h-12 flex items-center leading-tight">
                       {{ Str::limit($blog->title, 60) }}</h3>
-                    <div class="inline-flex items-center text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 group-hover:translate-x-1 mt-auto">
+                    <div class="inline-flex items-center text-xs font-medium text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-200 group-hover:translate-x-1 mt-auto">
                       Read More
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         class="ml-1 w-3 h-3">

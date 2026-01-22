@@ -72,7 +72,7 @@
 
           <footer class="mt-xl pt-lg border-t border-gray-200 dark:border-gray-700 text-center">
             <a href="{{ route('front.index') }}"
-               class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline transition-colors duration-fast">
+               class="text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 underline transition-colors duration-fast">
               Return to Homepage
             </a>
           </footer>
