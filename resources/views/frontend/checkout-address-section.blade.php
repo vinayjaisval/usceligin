@@ -1,222 +1,53 @@
-<!-- Address Section -->
+{{--
+  Checkout Address Section Component
+  Handles delivery and billing address selection with full CRUD operations
+--}}
+
+@php
+  $maxAddresses = 3;
+  $deliveryCount = isset($addresses) ? $addresses->count() : 0;
+  $billingCount = isset($billingAddresses) ? $billingAddresses->count() : 0;
+  $hasAddresses = $deliveryCount > 0;
+@endphp
+
 <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700" id="address-section">
   <div class="p-4 sm:p-6">
 
-    @if(isset($addresses) && $addresses->count() > 0)
-      <!-- RETURNING USER: Show Saved Addresses -->
+    @if($hasAddresses)
+      {{-- RETURNING USER: Show Saved Addresses --}}
+      @include('frontend.partials.checkout-delivery-section', [
+        'addresses' => $addresses,
+        'maxAddresses' => $maxAddresses
+      ])
 
-      <div class="mb-4 flex items-center justify-between">
-        <div>
-          <h2 class="text-lg sm:text-xl font-bold text-neutral-900 dark:text-gray-100">
-            Select delivery address
-          </h2>
-          <p class="text-sm text-neutral-700 dark:text-gray-400 mt-1">
-            {{ $addresses->count() }} saved {{ $addresses->count() === 1 ? 'address' : 'addresses' }}
-          </p>
-        </div>
-
-        @if($addresses->count() < 3)
-        <button
-          type="button"
-          onclick="toggleNewAddressForm()"
-          id="add-address-toggle-btn"
-          class="text-sm text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium transition-colors flex items-center gap-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
-          Add new address
-        </button>
-        @else
-        <p class="text-xs text-gray-500 dark:text-gray-400">Maximum 3 addresses allowed</p>
-        @endif
-      </div>
-
-      <!-- Saved Addresses List -->
-      <div class="space-y-3 mb-4" id="addresses-list">
-        @foreach($addresses as $index => $address)
-        <div id="address-container-{{ $address->id }}" class="address-item">
-          <!-- View Mode -->
-          <div
-            class="block relative cursor-pointer group address-view"
-            id="address-view-{{ $address->id }}"
-            onclick="selectDeliveryAddress({{ $address->id }})">
-
-            <!-- Address Card -->
-            <div class="relative border-2 border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-gray-600 transition-all p-4 {{ $address->is_default ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/20' : '' }}"
-                 id="address-card-{{ $address->id }}"
-                 data-address-id="{{ $address->id }}">
-
-            <!-- Radio Button & Default Badge -->
-            <div class="absolute top-3 right-3 flex items-center gap-2">
-              @if($address->is_default)
-              <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-primary-800 dark:text-primary-300 bg-primary-100 dark:bg-primary-900/30">
-                Default
-              </span>
-              @endif
-              <input
-                type="radio"
-                name="selected_address_id"
-                id="address-{{ $address->id }}"
-                value="{{ $address->id }}"
-                {{ $address->is_default ? 'checked' : '' }}
-                class="w-5 h-5 text-primary-600 border-2 border-gray-300 dark:border-gray-500 focus:ring-primary-600 focus:ring-2 cursor-pointer"
-                onchange="handleAddressSelection({{ $address->id }})"
-                required>
-            </div>
-
-            <!-- Name & Phone -->
-            <h3 class="text-sm font-semibold text-neutral-900 dark:text-gray-100 mb-1">
-              {{ $address->name }}
-            </h3>
-            <p class="text-sm text-neutral-700 dark:text-gray-400 mb-1">
-              {{ $address->phone }}
-            </p>
-
-            <!-- Address -->
-            <p class="text-sm text-neutral-700 dark:text-gray-300">
-              {{ $address->address_line_1 }}@if($address->address_line_2), {{ $address->address_line_2 }}@endif
-            </p>
-            <p class="text-sm text-neutral-700 dark:text-gray-300">
-              {{ $address->city }}, {{ $address->state }} - {{ $address->pincode }}
-            </p>
-
-            <!-- Actions (visible on hover or when selected) -->
-            <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700 flex flex-wrap gap-4 text-xs">
-
-              @if(!$address->is_default)
-              <button
-                type="button"
-                onclick="event.stopPropagation(); setDefaultAddress({{ $address->id }})"
-                class="text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium transition-colors">
-                Set as default
-              </button>
-              @endif
-
-              <button
-                type="button"
-                onclick="event.stopPropagation(); editAddress({{ $address->id }})"
-                class="text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium transition-colors">
-                Edit
-              </button>
-
-              <button
-                type="button"
-                onclick="event.stopPropagation(); deleteAddress({{ $address->id }})"
-                class="text-semantic-error dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium transition-colors">
-                Delete
-              </button>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Edit Mode (Hidden by default) -->
-        <div id="address-edit-{{ $address->id }}" class="hidden address-edit border-2 border-primary-300 dark:border-primary-600 bg-primary-50 dark:bg-primary-900/10 p-4">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-md font-semibold text-neutral-900 dark:text-gray-100">Edit Address</h3>
-            <button
-              type="button"
-              onclick="cancelEditAddress({{ $address->id }})"
-              class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
-            </button>
-          </div>
-          <x-address-form formId="editAddressForm{{ $address->id }}" :address="$address" :showCancel="false" />
-        </div>
-      </div>
-        @endforeach
-      </div>
-
-      <!-- Add New Address Form (Hidden initially) -->
-      @if($addresses->count() < 3)
-      <div id="new-address-form-container" class="hidden mt-4 border-2 border-primary-200 dark:border-primary-800 bg-primary-50 dark:bg-primary-900/10 p-4">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-md font-semibold text-neutral-900 dark:text-gray-100">Add a new address</h3>
-          <button
-            type="button"
-            onclick="toggleNewAddressForm()"
-            class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
-        <x-address-form formId="newAddressForm" :showCancel="false" />
-      </div>
-      @endif
-
-      <!-- Billing Address Section -->
+      {{-- Billing Address Section --}}
       <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-        <div class="flex items-start">
+        <label class="flex items-start cursor-pointer">
           <input
             type="checkbox"
-            id="same-as-shipping-saved"
+            id="same-as-shipping"
             name="same_as_shipping"
             checked
-            onchange="toggleBillingAddressSection()"
+            onchange="AddressManager.toggleBillingSection()"
             class="w-4 h-4 text-primary-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-600 mt-0.5">
-          <label for="same-as-shipping-saved" class="ml-2 text-sm text-neutral-700 dark:text-gray-300">
+          <span class="ml-2 text-sm text-neutral-700 dark:text-gray-300">
             Use same address for billing
-          </label>
-        </div>
+          </span>
+        </label>
 
-        <!-- Billing Address Selection (Hidden by default) -->
-        <div id="billing-address-section" class="hidden mt-4 p-4 bg-neutral-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
-          <h3 class="text-md font-semibold text-neutral-900 dark:text-gray-100 mb-3">
-            Select billing address
-          </h3>
-
-          <div class="space-y-3">
-            @foreach($addresses as $address)
-            <div
-              class="block relative cursor-pointer group"
-              onclick="selectBillingAddress({{ $address->id }})">
-
-              <!-- Billing Address Card (Simplified) -->
-              <div class="relative border-2 border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-gray-600 transition-all p-3 {{ $address->is_default ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/20' : '' }}"
-                   id="billing-card-{{ $address->id }}">
-
-                <!-- Radio Button & Default Badge -->
-                <div class="absolute top-2 right-2 flex items-center gap-2">
-                  @if($address->is_default)
-                  <span class="text-xs font-medium text-primary-800 dark:text-primary-300 bg-primary-100 dark:bg-primary-900/30 px-2 py-0.5">
-                    Default
-                  </span>
-                  @endif
-                  <input
-                    type="radio"
-                    name="billing_address_id"
-                    id="billing-address-{{ $address->id }}"
-                    value="{{ $address->id }}"
-                    {{ $address->is_default ? 'checked' : '' }}
-                    class="w-4 h-4 text-primary-600 border-2 border-gray-300 dark:border-gray-500 focus:ring-primary-600 focus:ring-2 cursor-pointer">
-                </div>
-
-                <!-- Address Info -->
-                <div class="pr-8">
-
-                  <p class="text-sm font-semibold text-neutral-900 dark:text-gray-100">{{ $address->name }}</p>
-                  <p class="text-xs text-neutral-700 dark:text-gray-300 mt-1">
-                    {{ $address->address_line_1 }}@if($address->address_line_2), {{ $address->address_line_2 }}@endif
-                  </p>
-                  <p class="text-xs text-neutral-700 dark:text-gray-300">
-                    {{ $address->city }}, {{ $address->state }} - {{ $address->pincode }}
-                  </p>
-                </div>
-
-              </div>
-            </div>
-            @endforeach
-          </div>
+        {{-- Billing Address Selection (Hidden by default) --}}
+        <div id="billing-section" class="hidden mt-4">
+          @include('frontend.partials.checkout-billing-section', [
+            'deliveryAddresses' => $addresses,
+            'billingAddresses' => $billingAddresses ?? collect(),
+            'maxAddresses' => $maxAddresses
+          ])
         </div>
       </div>
 
     @else
-      <!-- FIRST TIME USER: Show Form Directly -->
-
-      <div id="first-time-address-container">
+      {{-- FIRST TIME USER: Show Form Directly --}}
+      <div id="first-time-container">
         <div class="mb-4">
           <h2 class="text-lg sm:text-xl font-bold text-neutral-900 dark:text-gray-100">
             Add delivery address
@@ -228,278 +59,490 @@
 
         <x-address-form formId="firstAddressForm" :showCancel="false" />
 
-        <!-- Same as Shipping Checkbox -->
-        <div class="mt-4 flex items-start">
+        <label class="mt-4 flex items-start cursor-pointer">
           <input
             type="checkbox"
             id="same-as-shipping-first"
             name="same_as_shipping"
             checked
             class="w-4 h-4 text-primary-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-600 mt-0.5">
-          <label for="same-as-shipping-first" class="ml-2 text-sm text-neutral-700 dark:text-gray-300">
+          <span class="ml-2 text-sm text-neutral-700 dark:text-gray-300">
             Use same address for billing
-          </label>
-        </div>
+          </span>
+        </label>
       </div>
-
     @endif
 
   </div>
 </section>
 
 <script>
-// CSRF Token for all fetch requests
-const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-
-// Select delivery address - Update visual state
-function selectDeliveryAddress(addressId) {
-  // Uncheck all radio buttons and remove styling
-  document.querySelectorAll('[name="selected_address_id"]').forEach(radio => {
-    radio.checked = false;
-    const card = document.getElementById(`address-card-${radio.value}`);
-    if (card) {
-      card.classList.remove('border-primary-600', 'bg-primary-50', 'dark:bg-primary-900/20');
-      card.classList.add('border-gray-200', 'dark:border-gray-700');
+/**
+ * Address Manager - Handles all address CRUD operations
+ * Follows DRY principles with unified functions for delivery and billing addresses
+ */
+const AddressManager = {
+  // Configuration
+  config: {
+    apiUrl: '{{ url("/user/addresses") }}',
+    csrfToken: document.querySelector('meta[name="csrf-token"]')?.content,
+    maxAddresses: {{ $maxAddresses }},
+    reloadDelay: 1000,
+    classes: {
+      selected: ['border-primary-600', 'bg-primary-50', 'dark:bg-primary-900/20'],
+      unselected: ['border-gray-200', 'dark:border-gray-700'],
+      disabled: ['opacity-50', 'pointer-events-none']
     }
-  });
+  },
 
-  // Check selected radio and add styling
-  const selectedRadio = document.getElementById(`address-${addressId}`);
-  const selectedCard = document.getElementById(`address-card-${addressId}`);
-  if (selectedRadio) {
-    selectedRadio.checked = true;
-  }
-  if (selectedCard) {
-    selectedCard.classList.remove('border-gray-200', 'dark:border-gray-700');
-    selectedCard.classList.add('border-primary-600', 'bg-primary-50', 'dark:bg-primary-900/20');
-  }
+  // Icons
+  icons: {
+    plus: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>',
+    close: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>'
+  },
 
-  handleAddressSelection(addressId);
-}
+  /**
+   * Initialize the address manager
+   */
+  init() {
+    this.attachFormHandlers();
+    this.restoreStateFromUrl();
+  },
 
-// Handle address selection
-function handleAddressSelection(addressId) {
-  console.log('Selected address:', addressId);
-  // You can add additional logic here, like updating a hidden form field
-}
+  /**
+   * Attach submit handlers to all address forms
+   */
+  attachFormHandlers() {
+    // Delivery address forms
+    this.attachEditFormHandlers('editAddressForm', 'delivery');
+    this.attachNewFormHandler('newAddressForm', 'delivery');
+    this.attachNewFormHandler('firstAddressForm', 'delivery');
 
-// Toggle new address form
-function toggleNewAddressForm() {
-  const container = document.getElementById('new-address-form-container');
-  const btn = document.getElementById('add-address-toggle-btn');
+    // Billing address forms
+    this.attachEditFormHandlers('editBillingForm', 'billing');
+    this.attachNewFormHandler('newBillingAddressForm', 'billing');
+  },
 
-  if (container.classList.contains('hidden')) {
-    container.classList.remove('hidden');
-    btn.textContent = 'Cancel';
-  } else {
-    container.classList.add('hidden');
-    btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Add new address';
-  }
-}
-
-// Set address as default
-function setDefaultAddress(addressId) {
-  if (!confirm('Set this address as your default delivery address?')) {
-    return;
-  }
-
-  fetch(`{{ url('/user/addresses') }}/${addressId}/set-default`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': csrfToken,
-      'Accept': 'application/json'
-    }
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.success || data.message) {
-      showToast(data.message || 'Default address updated!', 'success');
-      setTimeout(() => location.reload(), 1000);
-    } else {
-      showToast(data.error || 'Failed to update default address', 'error');
-    }
-  })
-  .catch(error => {
-    console.error('Set default error:', error);
-    showToast('An error occurred. Please try again.', 'error');
-  });
-}
-
-// Edit address - Show inline edit form
-function editAddress(addressId) {
-  // Hide view mode
-  document.getElementById(`address-view-${addressId}`).classList.add('hidden');
-  // Show edit mode
-  document.getElementById(`address-edit-${addressId}`).classList.remove('hidden');
-}
-
-// Cancel edit address - Hide edit form
-function cancelEditAddress(addressId) {
-  // Show view mode
-  document.getElementById(`address-view-${addressId}`).classList.remove('hidden');
-  // Hide edit mode
-  document.getElementById(`address-edit-${addressId}`).classList.add('hidden');
-}
-
-// Update address - Submit edit form
-function updateAddress(addressId) {
-  const form = document.getElementById(`editAddressForm${addressId}`);
-  if (!form) {
-    showToast('Form not found', 'error');
-    return;
-  }
-
-  const formData = new FormData(form);
-  const data = {};
-  formData.forEach((value, key) => {
-    if (key !== '_token') {
-      data[key] = value;
-    }
-  });
-
-  // Handle checkbox (is_default)
-  data.is_default = form.querySelector('[name="is_default"]')?.checked ? 1 : 0;
-
-  fetch(`{{ url('/user/addresses') }}/${addressId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': csrfToken,
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    if (!response.ok) {
-      return response.json().then(err => { throw err; });
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.success || data.message) {
-      showToast(data.message || 'Address updated successfully!', 'success');
-      setTimeout(() => location.reload(), 1000);
-    } else {
-      showToast(data.error || 'Failed to update address', 'error');
-    }
-  })
-  .catch(error => {
-    console.error('Update error:', error);
-    if (error.errors) {
-      // Show validation errors
-      const errorMessages = Object.values(error.errors).flat().join('\n');
-      showToast(errorMessages || 'Validation error occurred', 'error');
-    } else {
-      showToast(error.message || 'An error occurred. Please try again.', 'error');
-    }
-  });
-}
-
-// Initialize edit form submit handlers
-document.addEventListener('DOMContentLoaded', function() {
-  // Attach submit handlers to all edit address forms
-  document.querySelectorAll('[id^="editAddressForm"]').forEach(form => {
-    const addressId = form.id.replace('editAddressForm', '');
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      updateAddress(addressId);
+  /**
+   * Attach handlers to edit forms
+   */
+  attachEditFormHandlers(prefix, type) {
+    document.querySelectorAll(`[id^="${prefix}"]`).forEach(form => {
+      const addressId = form.id.replace(prefix, '');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.updateAddress(addressId, type);
+      });
     });
-  });
-});
+  },
 
-// Delete address
-function deleteAddress(addressId) {
-  if (!confirm('Are you sure you want to delete this address?')) {
-    return;
-  }
-
-  fetch(`{{ url('/user/addresses') }}/${addressId}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': csrfToken,
-      'Accept': 'application/json'
+  /**
+   * Attach handler to new address form
+   */
+  attachNewFormHandler(formId, type) {
+    const form = document.getElementById(formId);
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.storeAddress(formId, type);
+      });
     }
-  })
-  .then(response => {
+  },
+
+  /**
+   * Restore UI state from URL parameters
+   */
+  restoreStateFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const billingOpen = params.get('billing') === 'open';
+    const sourceBilling = params.get('source') === 'billing';
+
+    if (billingOpen) {
+      const checkbox = document.getElementById('same-as-shipping');
+      if (checkbox) {
+        checkbox.checked = false;
+        this.toggleBillingSection();
+      }
+
+      if (sourceBilling) {
+        const radio = document.getElementById('billing-separate');
+        if (radio) {
+          radio.checked = true;
+          this.toggleBillingSource('billing');
+        }
+      }
+
+      // Clean URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+
+      // Scroll to billing section
+      setTimeout(() => {
+        document.getElementById('billing-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  },
+
+  // ==================== API Operations ====================
+
+  /**
+   * Generic API request handler
+   */
+  async apiRequest(url, method, data = null) {
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': this.config.csrfToken,
+        'Accept': 'application/json'
+      }
+    };
+
+    if (data) {
+      options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(url, options);
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const error = await response.json();
+      throw error;
     }
+
     return response.json();
-  })
-  .then(data => {
-    if (data.success || data.message) {
-      showToast(data.message || 'Address deleted successfully!', 'success');
-      setTimeout(() => location.reload(), 1000);
+  },
+
+  /**
+   * Extract form data as object
+   */
+  getFormData(form) {
+    const formData = new FormData(form);
+    const data = {};
+
+    formData.forEach((value, key) => {
+      if (key !== '_token') {
+        data[key] = value;
+      }
+    });
+
+    data.is_default = form.querySelector('[name="is_default"]')?.checked ? 1 : 0;
+    return data;
+  },
+
+  /**
+   * Store new address
+   */
+  async storeAddress(formId, type) {
+    const form = document.getElementById(formId);
+    if (!form) {
+      this.showToast('Form not found', 'error');
+      return;
+    }
+
+    const data = this.getFormData(form);
+    data.address_category = type;
+
+    try {
+      const result = await this.apiRequest(this.config.apiUrl, 'POST', data);
+      this.showToast(result.message || 'Address added successfully!', 'success');
+      this.reloadPage(type);
+    } catch (error) {
+      this.handleError(error, 'Failed to add address');
+    }
+  },
+
+  /**
+   * Update existing address
+   */
+  async updateAddress(addressId, type) {
+    const formId = type === 'billing' ? `editBillingForm${addressId}` : `editAddressForm${addressId}`;
+    const form = document.getElementById(formId);
+
+    if (!form) {
+      this.showToast('Form not found', 'error');
+      return;
+    }
+
+    const data = this.getFormData(form);
+
+    try {
+      const result = await this.apiRequest(`${this.config.apiUrl}/${addressId}`, 'PUT', data);
+      this.showToast(result.message || 'Address updated successfully!', 'success');
+      this.reloadPage(type);
+    } catch (error) {
+      this.handleError(error, 'Failed to update address');
+    }
+  },
+
+  /**
+   * Delete address
+   */
+  async deleteAddress(addressId, type) {
+    const confirmMsg = type === 'billing'
+      ? 'Are you sure you want to delete this billing address?'
+      : 'Are you sure you want to delete this address?';
+
+    if (!confirm(confirmMsg)) return;
+
+    try {
+      const result = await this.apiRequest(`${this.config.apiUrl}/${addressId}`, 'DELETE');
+      this.showToast(result.message || 'Address deleted successfully!', 'success');
+      this.reloadPage(type);
+    } catch (error) {
+      this.handleError(error, 'Failed to delete address');
+    }
+  },
+
+  /**
+   * Set address as default
+   */
+  async setDefault(addressId, type) {
+    const confirmMsg = type === 'billing'
+      ? 'Set this as your default billing address?'
+      : 'Set this address as your default delivery address?';
+
+    if (!confirm(confirmMsg)) return;
+
+    try {
+      const result = await this.apiRequest(`${this.config.apiUrl}/${addressId}/set-default`, 'POST');
+      this.showToast(result.message || 'Default address updated!', 'success');
+      this.reloadPage(type);
+    } catch (error) {
+      this.handleError(error, 'Failed to update default address');
+    }
+  },
+
+  // ==================== UI Operations ====================
+
+  /**
+   * Select delivery address
+   */
+  selectDeliveryAddress(addressId) {
+    this.updateCardSelection('selected_address_id', 'address-card-', addressId);
+  },
+
+  /**
+   * Select billing address from delivery list
+   */
+  selectBillingFromDelivery(addressId) {
+    document.getElementById('billing-from-delivery').checked = true;
+    this.toggleBillingSource('delivery');
+    this.updateBillingCardSelection(addressId, 'billing-delivery-card-');
+  },
+
+  /**
+   * Select billing address from billing list
+   */
+  selectBillingAddress(addressId) {
+    document.getElementById('billing-separate').checked = true;
+    this.toggleBillingSource('billing');
+    this.updateBillingCardSelection(addressId, 'billing-card-');
+  },
+
+  /**
+   * Update card selection styling
+   */
+  updateCardSelection(radioName, cardPrefix, selectedId) {
+    const { selected, unselected } = this.config.classes;
+
+    document.querySelectorAll(`[name="${radioName}"]`).forEach(radio => {
+      radio.checked = false;
+      const card = document.getElementById(`${cardPrefix}${radio.value}`);
+      if (card) {
+        card.classList.remove(...selected);
+        card.classList.add(...unselected);
+      }
+    });
+
+    const selectedRadio = document.getElementById(`address-${selectedId}`);
+    const selectedCard = document.getElementById(`${cardPrefix}${selectedId}`);
+
+    if (selectedRadio) selectedRadio.checked = true;
+    if (selectedCard) {
+      selectedCard.classList.remove(...unselected);
+      selectedCard.classList.add(...selected);
+    }
+  },
+
+  /**
+   * Update billing card selection
+   */
+  updateBillingCardSelection(selectedId, selectedPrefix) {
+    const { selected, unselected } = this.config.classes;
+
+    document.querySelectorAll('[name="billing_address_id"]').forEach(radio => {
+      radio.checked = false;
+
+      ['billing-delivery-card-', 'billing-card-'].forEach(prefix => {
+        const card = document.getElementById(`${prefix}${radio.value}`);
+        if (card) {
+          card.classList.remove(...selected);
+          card.classList.add(...unselected);
+        }
+      });
+    });
+
+    const radioId = selectedPrefix === 'billing-delivery-card-'
+      ? `billing-delivery-${selectedId}`
+      : `billing-address-${selectedId}`;
+
+    const selectedRadio = document.getElementById(radioId);
+    const selectedCard = document.getElementById(`${selectedPrefix}${selectedId}`);
+
+    if (selectedRadio) selectedRadio.checked = true;
+    if (selectedCard) {
+      selectedCard.classList.remove(...unselected);
+      selectedCard.classList.add(...selected);
+    }
+  },
+
+  /**
+   * Toggle edit mode for address
+   */
+  editAddress(addressId, type = 'delivery') {
+    const viewId = type === 'billing' ? `billing-view-${addressId}` : `address-view-${addressId}`;
+    const editId = type === 'billing' ? `billing-edit-${addressId}` : `address-edit-${addressId}`;
+
+    document.getElementById(viewId)?.classList.add('hidden');
+    document.getElementById(editId)?.classList.remove('hidden');
+  },
+
+  /**
+   * Cancel edit mode for address
+   */
+  cancelEdit(addressId, type = 'delivery') {
+    const viewId = type === 'billing' ? `billing-view-${addressId}` : `address-view-${addressId}`;
+    const editId = type === 'billing' ? `billing-edit-${addressId}` : `address-edit-${addressId}`;
+
+    document.getElementById(viewId)?.classList.remove('hidden');
+    document.getElementById(editId)?.classList.add('hidden');
+  },
+
+  /**
+   * Toggle new address form visibility
+   */
+  toggleNewAddressForm(type = 'delivery') {
+    const containerId = type === 'billing' ? 'new-billing-form-container' : 'new-address-form-container';
+    const btnId = type === 'billing' ? 'add-billing-address-btn' : 'add-address-toggle-btn';
+    const label = type === 'billing' ? 'Add billing address' : 'Add new address';
+
+    const container = document.getElementById(containerId);
+    const btn = document.getElementById(btnId);
+
+    if (!container) return;
+
+    const isHidden = container.classList.contains('hidden');
+    container.classList.toggle('hidden');
+
+    if (btn) {
+      btn.innerHTML = isHidden ? 'Cancel' : `${this.icons.plus} ${label}`;
+    }
+  },
+
+  /**
+   * Toggle billing section visibility
+   */
+  toggleBillingSection() {
+    const checkbox = document.getElementById('same-as-shipping');
+    const section = document.getElementById('billing-section');
+
+    if (checkbox && section) {
+      section.classList.toggle('hidden', checkbox.checked);
+    }
+  },
+
+  /**
+   * Toggle billing source (delivery vs separate)
+   */
+  toggleBillingSource(source) {
+    const deliveryList = document.getElementById('billing-delivery-list');
+    const separateSection = document.getElementById('billing-separate-section');
+    const addBtn = document.getElementById('add-billing-address-btn');
+    const { disabled } = this.config.classes;
+
+    if (source === 'delivery') {
+      deliveryList?.classList.remove(...disabled);
+      separateSection?.classList.add('hidden');
+      addBtn?.classList.add('hidden');
     } else {
-      showToast(data.error || 'Failed to delete address', 'error');
+      deliveryList?.classList.add(...disabled);
+      separateSection?.classList.remove('hidden');
+      addBtn?.classList.remove('hidden');
     }
-  })
-  .catch(error => {
-    console.error('Delete error:', error);
-    showToast('An error occurred. Please try again.', 'error');
-  });
-}
+  },
 
-// Toggle billing address section
-function toggleBillingAddressSection() {
-  const checkbox = document.getElementById('same-as-shipping-saved');
-  const billingSection = document.getElementById('billing-address-section');
+  // ==================== Utilities ====================
 
-  if (checkbox && billingSection) {
-    if (checkbox.checked) {
-      billingSection.classList.add('hidden');
+  /**
+   * Handle API errors
+   */
+  handleError(error, defaultMessage) {
+    console.error('Address error:', error);
+
+    if (error.errors) {
+      const messages = Object.values(error.errors).flat().join('\n');
+      this.showToast(messages || 'Validation error', 'error');
     } else {
-      billingSection.classList.remove('hidden');
+      this.showToast(error.message || defaultMessage, 'error');
+    }
+  },
+
+  /**
+   * Reload page with optional billing state
+   */
+  reloadPage(type) {
+    setTimeout(() => {
+      if (type === 'billing') {
+        const url = new URL(window.location.href);
+        url.searchParams.set('billing', 'open');
+        url.searchParams.set('source', 'billing');
+        window.location.href = url.toString();
+      } else {
+        window.location.reload();
+      }
+    }, this.config.reloadDelay);
+  },
+
+  /**
+   * Show toast notification
+   */
+  showToast(message, type = 'success') {
+    const colors = {
+      success: '#059669',
+      error: '#DC2626',
+      warning: '#D97706'
+    };
+
+    if (typeof Toastify !== 'undefined') {
+      Toastify({
+        text: message,
+        duration: 3000,
+        close: true,
+        gravity: 'top',
+        position: 'right',
+        backgroundColor: colors[type] || colors.success
+      }).showToast();
+    } else {
+      alert(message);
     }
   }
-}
+};
 
-// Select billing address - Update visual state
-function selectBillingAddress(addressId) {
-  // Uncheck all billing radio buttons and remove styling
-  document.querySelectorAll('[name="billing_address_id"]').forEach(radio => {
-    radio.checked = false;
-    const card = document.getElementById(`billing-card-${radio.value}`);
-    if (card) {
-      card.classList.remove('border-primary-600', 'bg-primary-50', 'dark:bg-primary-900/20');
-      card.classList.add('border-gray-200', 'dark:border-gray-700');
-    }
-  });
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => AddressManager.init());
 
-  // Check selected radio and add styling
-  const selectedRadio = document.getElementById(`billing-address-${addressId}`);
-  const selectedCard = document.getElementById(`billing-card-${addressId}`);
-  if (selectedRadio) {
-    selectedRadio.checked = true;
-  }
-  if (selectedCard) {
-    selectedCard.classList.remove('border-gray-200', 'dark:border-gray-700');
-    selectedCard.classList.add('border-primary-600', 'bg-primary-50', 'dark:bg-primary-900/20');
-  }
-}
-
-// Show toast notification (uses Toastify if available, else alert)
-function showToast(message, type = 'success') {
-  const backgroundColor = type === 'success' ? '#059669' : type === 'error' ? '#DC2626' : '#D97706';
-
-  if (typeof Toastify !== 'undefined') {
-    Toastify({
-      text: message,
-      duration: 3000,
-      close: true,
-      gravity: "top",
-      position: "right",
-      backgroundColor: backgroundColor
-    }).showToast();
-  } else {
-    alert(message);
-  }
-}
+// Global function aliases for onclick handlers in HTML
+const selectDeliveryAddress = (id) => AddressManager.selectDeliveryAddress(id);
+const selectBillingFromDelivery = (id) => AddressManager.selectBillingFromDelivery(id);
+const selectBillingAddress = (id) => AddressManager.selectBillingAddress(id);
+const setDefaultAddress = (id) => AddressManager.setDefault(id, 'delivery');
+const setDefaultBillingAddress = (id) => AddressManager.setDefault(id, 'billing');
+const deleteAddress = (id) => AddressManager.deleteAddress(id, 'delivery');
+const deleteBillingAddress = (id) => AddressManager.deleteAddress(id, 'billing');
+const editAddress = (id) => AddressManager.editAddress(id, 'delivery');
+const editBillingAddress = (id) => AddressManager.editAddress(id, 'billing');
+const cancelEditAddress = (id) => AddressManager.cancelEdit(id, 'delivery');
+const cancelEditBillingAddress = (id) => AddressManager.cancelEdit(id, 'billing');
+const toggleNewAddressForm = () => AddressManager.toggleNewAddressForm('delivery');
+const toggleNewBillingAddressForm = () => AddressManager.toggleNewAddressForm('billing');
+const handleAddressSelection = (id) => console.log('Selected address:', id);
 </script>
