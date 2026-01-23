@@ -1,6 +1,5 @@
 # Laravel specific
-vendor/
-.env
+vendor/markury/src/.env
 
 # Node and dependencies
 /node_modules/
@@ -46,3 +45,4 @@ check_*.php
 test_*.php
 verify_*.php
 read_*.php
+.env

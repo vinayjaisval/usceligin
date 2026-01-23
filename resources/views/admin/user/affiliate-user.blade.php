@@ -194,7 +194,7 @@
                ajax: '{{ route('affiliate-admin-user-datatables') }}',
                columns: [
                         { data: 'name', name: 'name' },
-                        { data: 'email', name: 'email' },
+                        { data: 'phone', name: 'phone' },
             			{ data: 'action', searchable: false, orderable: false }
                      ],
                language : {

@@ -152,7 +152,6 @@ class LoginController extends Controller
   {
     $otpData = Session::get('otp_data');
 
-
     if (!$otpData || now()->gt($otpData['expires_at'])) {
       return response()->json(['message' => 'OTP expired.'], 400);
     }
@@ -178,6 +177,8 @@ class LoginController extends Controller
         'affilate_code' => md5(($request->name ?? 'User') . $identifier),
         'refferel_code' => md5(($request->name ?? 'User') . $identifier . rand(1111, 9999)),
       ];
+
+     
       if (Session::has('refferel_user_id')) {
         $input['reffered_by'] = Session::get('refferel_user_id');
        

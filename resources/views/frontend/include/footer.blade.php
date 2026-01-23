@@ -54,28 +54,25 @@
             </li>
           @endif
           <li>
-            <a href="/shop" aria-expanded="false"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Shop</a>
-          </li>
-          <li>
-            <a href="/new-arrivals" aria-expanded="false"
+            <a href="{{ url('new-arrivals') }}" aria-expanded="false"
               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">New
               Arrivals</a>
           </li>
+         
           <li>
-            <a href="/best-sellers" aria-expanded="false"
+            <a href="{{ url('best-sellers') }}" aria-expanded="false"
               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Best
               Sellers</a>
           </li>
           <li>
-            <a href="/skin-care" aria-expanded="false"
+            <a href="{{url('skin-care')}}" aria-expanded="false"
               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Skin
               Care</a>
           </li>
-          <li><a href="/join-celigin-club"
-              class="text-sm bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent font-medium hover:from-pink-600 hover:to-primary-600 transition-all duration-200">Join
+          <li><a href="{{url('celigin-join-club')}}"
+              class="text-sm bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent font-medium hover:from-pink-600 hover:to-blue-600 transition-all duration-200">Join
               CELIGIN CLUB</a></li>
-          <li><a href="/sale"
+          <li><a href="{{url('sales')}}"
               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Sale</a>
           </li>
         </ul>

@@ -11,7 +11,7 @@
     $subtotalMRP = $cart->totalPrice;
     $shippingCost = $subtotalMRP >= ($gs->free_shipping_amount ?? 500) ? 0 : ($gs->shipping_cost ?? 50);
     $referralDiscount = $refferal_discount ?? 0;
-   
+  
   // Calculate tax based on shipping address
   $userZip = Auth::check() ? Auth::user()->zip : '';
   $taxRate = 0.18; // Default 18% GST
@@ -820,21 +820,11 @@ $(document).ready(function () {
 
     // MAIN URL FOR AJAX
     var mainurl = "{{ url('/') }}";
-
+  fetchShippingCharge(null);
     // ----------------------------------------------------------
     // 🔹 ON PAGE LOAD → CHECK IF ZIP STORED IN LOCAL STORAGE
     // ----------------------------------------------------------
-    if (localStorage.getItem("zip_code")) {
-        let savedPin = localStorage.getItem("zip_code");
-        $("#zip_code").val(savedPin);
-
-        // Auto-trigger fetch if pin valid
-        if (savedPin.length === 6 && /^\d{6}$/.test(savedPin)) {
-            fetchedPin = savedPin;
-            autoFillAddress(savedPin);
-        }
-    }
-
+   
     // ----------------------------------------------------------
     // 🔹 WHEN USER TYPES PIN → SAVE TO LOCAL STORAGE
     // ----------------------------------------------------------
@@ -890,7 +880,32 @@ $(document).ready(function () {
     // ----------------------------------------------------------
     // 🔹 FETCH SHIPPING COST
     // ----------------------------------------------------------
-    function fetchShippingCharge(zip) {
+  
+
+    function fetchShippingCharge(zip = null) {
+     $.ajax({
+        headers: { 
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+        },
+        url: mainurl + "/getPinCodeDetails",
+        type: "POST",
+        data: { zipcode: zip }, // null bhi ja sakta hai
+
+        success: function (response) {
+            if (response.status) {
+                const shippingCost = parseFloat(response.result.shipping_cost || 0);
+                updateShipping(shippingCost);
+            } else {
+                updateShipping(0);
+            }
+        },
+        error: function (err) {
+            console.error("Shipping cost fetch error:", err);
+        }
+        });
+    }
+
+     function fetchShippingChargeold(zip) {
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: mainurl + "/getPinCodeDetails",
@@ -907,7 +922,7 @@ $(document).ready(function () {
                 console.error("Shipping cost fetch error:", err);
             }
         });
-    }
+      }
 
     // ----------------------------------------------------------
     // 🔹 UPDATE SHIPPING + TOTAL

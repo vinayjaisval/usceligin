@@ -198,6 +198,7 @@ class CheckoutController extends FrontBaseController
             // -----------------------------------------------------------
             $referralDiscount = 0;
             $user = Auth::user();
+           
             $orderCount = Order::where('user_id', $user->id)->count();
 
             if ($orderCount == 0 && $user->reffered_by) {

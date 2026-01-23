@@ -49,6 +49,14 @@
               </div>
               <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
             </a>
+          <a href="{{ route('vendor.dashboard', ['tab' => 'purchases']) }}"
+            class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 hover:bg-gray-100">
+            <div class="flex items-center">
+              <span class="material-icons-outlined mr-3">shopping_bag</span>
+              <span>POS</span>
+            </div>
+          </a>
+
 
             <a href="#purchases"
                onclick="switchTab(event, 'purchases')"
@@ -995,7 +1003,7 @@
 
           <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
             <div class="text-center mb-8">
-              <div class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">₹{{Auth::user()->current_balance ? Auth::user()->current_balance : 0}}</div>
+              <div class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">Ȼ{{Auth::user()->current_balance ? Auth::user()->current_balance : 0}}</div>
               <p class="text-gray-600 dark:text-gray-400">Available Points</p>
             </div>
 

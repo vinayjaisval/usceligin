@@ -261,7 +261,7 @@
 									class="fa fa-user mr-2"></i>{{ __('Customer') }}</a>
 						</li>
 						<li>
-							<a href="{{ route('user-dashboard') }}"><i
+							<a href="{{ url('myaccount') }}"><i
 									class="fas fa-sign-in-alt"></i> {{ __('User Panel') }}</a>
 						</li>
 

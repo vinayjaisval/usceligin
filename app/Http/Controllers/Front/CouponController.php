@@ -139,8 +139,8 @@ class CouponController extends FrontBaseController
 
     public function couponcheck()
     {
-        $code = $_GET['code'];
-
+        // $code = $_GET['code'];
+$code = strtoupper(str_replace(' ', '', $_GET['code']));
 
         // $coupon = Coupon::where('code', '=', $code)->first();
         $user = auth()->user();
@@ -187,7 +187,6 @@ class CouponController extends FrontBaseController
                 if ($product->category_id == $coupon->category) {
                     
                     $discount_items[] = $key;
-
                    
                 }
             } elseif ($coupon->coupon_type == 'sub_category') {

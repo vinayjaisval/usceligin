@@ -126,7 +126,7 @@ class UserController extends AdminBaseController
     //*** GET Request
     public function show($id)
     {
-        dd($id);
+        
         $data = User::findOrFail($id);
         return view('admin.user.show', compact('data'));
     }

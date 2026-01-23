@@ -8,6 +8,8 @@ use App\Models\Blog;
 use App\Models\Collaboration;
 use App\Models\Testimonial;
 use App\Models\TestimonialCategory;
+use App\Models\Address;
+
 
 use GuzzleHttp\Client;
 use App\Models\BlogCategory;
@@ -75,7 +77,7 @@ class FrontendController extends FrontBaseController
     public function index(Request $request)
     {
 
-       
+
         $gs = $this->gs;
         $data['ps'] = $this->ps;
         if (!empty($request->reff)) {
@@ -83,7 +85,7 @@ class FrontendController extends FrontBaseController
                 ->where('affilate_code', '=', $request->reff)
                 ->first();
 
-              
+
             if (!empty($affilate_user)) {
                 if ($gs->is_affilate == 1) {
                     Session::put('affilate', $affilate_user->id);
@@ -91,13 +93,13 @@ class FrontendController extends FrontBaseController
                 }
             }
         }
-       
+
         if (!empty($request->refferel_code)) {
-            
+
             $refferel_user = DB::table('users')
                 ->where('refferel_code', '=', $request->refferel_code)
                 ->first();
-               
+
             if (!empty($refferel_user)) {
                 // if ($gs->is_affilate == 1) {
                 Session::put('refferel_user_id', $refferel_user->id);
@@ -1029,12 +1031,12 @@ class FrontendController extends FrontBaseController
     }
 
 
-    public function getPinCodeDetails(Request $request)
+    public function getPinCodeDetailsold(Request $request)
     {
-       
+
         $client = new Client();
         $url = "https://track.delhivery.com/c/api/pin-codes/json/?filter_codes=" . $request->zipcode;
-     
+
         try {
             $response = $client->request('GET', $url, [
                 'headers' => [
@@ -1054,7 +1056,7 @@ class FrontendController extends FrontBaseController
                 $result['country'] = $countr_name;
                 $result['state'] = $state_name;
                 $result['city'] = $city_name;
-               
+
                 if ($result == 0) {
                     return response()->json(['status' => false, 'message' => "Pincode Not Found"]);
                 } else {
@@ -1069,6 +1071,83 @@ class FrontendController extends FrontBaseController
         }
     }
 
+    public function getPinCodeDetails(Request $request)
+    {
+        try {
+
+            /* ---------------------------------
+         | 1️⃣ ZIPCODE HANDLE
+         |----------------------------------*/
+            $zipcode = $request->zipcode;
+
+            // 🔥 Agar zip frontend se nahi aaya
+            if (empty($zipcode)) {
+                $defaultAddress = Address::where('user_id', auth()->id())
+                    ->where('is_default', 1)
+                    ->first();
+                    
+
+                if (!$defaultAddress || empty($defaultAddress->pincode)) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Default address not found'
+                    ]);
+                }
+
+                $zipcode = $defaultAddress->pincode;
+            }
+
+            /* ---------------------------------
+         | 2️⃣ DELHIVERY API CALL
+         |----------------------------------*/
+            $client = new Client();
+            $url = "https://track.delhivery.com/c/api/pin-codes/json/?filter_codes=" . $zipcode;
+
+            $response = $client->request('GET', $url, [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => '298946431eb6b00835b0cf6aaaad8c9a4242c111',
+                ],
+                'verify' => false,
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+
+            if (empty($data['delivery_codes'])) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Pincode Not Found'
+                ]);
+            }
+
+            /* ---------------------------------
+         | 3️⃣ RESPONSE BUILD
+         |----------------------------------*/
+            $postal = $data['delivery_codes'][0]['postal_code'];
+
+            $result = [];
+            $result['shipping_cost'] = number_format(
+                (float) $this->delivery_cost($zipcode),
+                2
+            );
+            $result['country'] = $this->CountryName($postal['country_code'] ?? '');
+            $result['state']   = $postal['state_code'] ?? '';
+            $result['city']    = $postal['city'] ?? '';
+            $result['zipcode'] = $zipcode;
+
+            return response()->json([
+                'status' => true,
+                'result' => $result
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 
     public function CountryName($countryCode)
     {
@@ -1077,8 +1156,9 @@ class FrontendController extends FrontBaseController
     }
     public function delivery_cost($delivery_pincode)
     {
-        $cartData = Session::get('admin_cart');
-      
+        
+        $cartData = Session::get('cart') ?? Session::get('admin_cart');
+
         foreach ($cartData->items as $item) {
 
             $product = Product::find($item['item']->id);
@@ -1244,6 +1324,6 @@ class FrontendController extends FrontBaseController
     {
         return view('frontend.privacy');
     }
-   
+
     // LEGAL PAGES SECTION ENDS
 }
