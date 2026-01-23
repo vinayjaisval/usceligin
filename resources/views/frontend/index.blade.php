@@ -27,22 +27,25 @@
                   <div class="w-full md:w-[35%] lg:w-[40%] md:bg-transparent">
                     <!-- Heading -->
                     <h1
-                      class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
+                      class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-neutral-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
                        {{$data->subtitle_text}},<br class="hidden md:inline" />{{$data->title_text}}
                     </h1>
 
                     <!-- Description -->
                     <p id="slide-1-desc"
-                      class="text-xs md:text-sm xl:text-base text-gray-700 dark:text-gray-300 mb-2 md:mb-3 lg:mb-4 xl:mb-6 leading-snug md:leading-relaxed min-h-[2rem] md:min-h-[2.5rem] lg:min-h-[3rem] xl:min-h-[3.5rem]">
+                      class="text-xs md:text-sm xl:text-base text-neutral-700 dark:text-gray-300 mb-2 md:mb-3 lg:mb-4 xl:mb-6 leading-snug md:leading-relaxed min-h-[2rem] md:min-h-[2.5rem] lg:min-h-[3rem] xl:min-h-[3.5rem]">
                       {{$data->details_text}}<span class="hidden lg:inline"></span>.
                     </p>
 
                     <!-- CTA Button -->
                     <div class="mb-0 lg:mb-4 xl:mb-6">
                       <a href="{{$data->link}}"
-                        class="inline-flex items-center px-3 md:px-4 xl:px-6 py-1.5 md:py-2 xl:py-3 bg-primary-600 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-all duration-200"
+                        class="inline-flex items-center px-4 md:px-5 xl:px-8 py-2 md:py-2.5 xl:py-3.5 bg-primary-800 text-white text-xs md:text-sm xl:text-base font-semibold hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-all duration-200 shadow-sm hover:shadow-md"
                         aria-describedby="slide-1-desc">
                         Shop Now
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
                       </a>
                     </div>
 
@@ -63,10 +66,10 @@
 
           <!-- Navigation arrows -->
           <button
-            class="swiper-button-next hero-nav-next !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !right-2 sm:!right-4 lg:!right-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-none hover:!bg-opacity-100 !transition-all !duration-200"
+            class="swiper-button-next hero-nav-next !text-primary-800 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !right-2 sm:!right-4 lg:!right-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-none hover:!bg-opacity-100 hover:!bg-primary-50 !transition-all !duration-200"
             aria-label="Next slide" type="button"></button>
           <button
-            class="swiper-button-prev hero-nav-prev !text-gray-600 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !left-2 sm:!left-4 lg:!left-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-none hover:!bg-opacity-100 !transition-all !duration-200"
+            class="swiper-button-prev hero-nav-prev !text-primary-800 !w-10 !h-10 sm:!w-12 sm:!h-12 !mt-0 !top-1/2 !-translate-y-1/2 !left-2 sm:!left-4 lg:!left-8 after:!text-lg sm:after:!text-2xl !bg-white !bg-opacity-80 !rounded-none hover:!bg-opacity-100 hover:!bg-primary-50 !transition-all !duration-200"
             aria-label="Previous slide" type="button"></button>
 
           <!-- Pagination dots -->
@@ -80,7 +83,7 @@
     <section class="py-12 lg:py-16 bg-white dark:bg-gray-900" aria-labelledby="category-banners-title" role="region">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 id="category-banners-title"
-          class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 lg:mb-12 text-center">
+          class="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-gray-100 mb-8 lg:mb-12 text-center">
           Shop by Category</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           <article
@@ -94,10 +97,10 @@
                   class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                   <div>
-                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-neutral-900">
                       {{$arrivals[0]['title']}}
                     </h3>
-                    <p id="category-1-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
+                    <p id="category-1-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-neutral-700">
                      {{$arrivals[0]['up_sale']}}
                     </p>
                   </div>
@@ -127,10 +130,10 @@
                   class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                   <div>
-                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-neutral-900">
                     {{$arrivals[1]['title']}}
                     </h3>
-                    <p id="category-2-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
+                    <p id="category-2-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-neutral-700">
                        {{$arrivals[1]['up_sale']}}
                     </p>
                   </div>
@@ -160,10 +163,10 @@
                   class="w-full min-h-[300px] sm:min-h-[350px] lg:min-h-[450px] h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 <div class="absolute inset-0 flex flex-col justify-between p-3 sm:p-4 lg:p-6">
                   <div>
-                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-gray-900">
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 leading-tight text-neutral-900">
                      {{$arrivals[2]['title']}}
                     </h3>
-                    <p id="category-3-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-700">
+                    <p id="category-3-desc" class="text-sm sm:text-base lg:text-lg leading-relaxed text-neutral-700">
                        {{$arrivals[2]['up_sale']}}
                     </p>
                   </div>
@@ -189,13 +192,13 @@
     </section>
 
     @if($ps->best_sellers == 1)
-      <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="bestsellers-title" role="region">
+      <section class="py-12 lg:py-16 bg-neutral-50 dark:bg-gray-800" aria-labelledby="bestsellers-title" role="region">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
-            <h2 id="bestsellers-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">
+            <h2 id="bestsellers-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-gray-100">
               Our Bestsellers</h2>
             <a href="{{ route('front.best-sellers') }}"
-              class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800 "
+              class="inline-flex items-center text-sm font-medium text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
               aria-label="View all bestselling products">
               Shop all best sellers
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -220,10 +223,10 @@
 
             <!-- Navigation arrows -->
             <div
-              class="swiper-button-next bestseller-nav-next !text-gray-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-gray-50 !transition-all !duration-200"
+              class="swiper-button-next bestseller-nav-next !text-primary-800 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-primary-50 !transition-all !duration-200"
               aria-label="Next products"></div>
             <div
-              class="swiper-button-prev bestseller-nav-prev !text-gray-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-gray-50 !transition-all !duration-200"
+              class="swiper-button-prev bestseller-nav-prev !text-primary-800 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-primary-50 !transition-all !duration-200"
               aria-label="Previous products"></div>
           </div>
         </div>
@@ -232,7 +235,7 @@
 
     @if($ps->deal_of_the_day == 1)
       <!-- Special Offer Banner -->
-      <section class="py-12 lg:py-16 bg-gray-50" aria-labelledby="special-offer-title" role="region">
+      <section class="py-12 lg:py-16 bg-neutral-50 dark:bg-gray-900" aria-labelledby="special-offer-title" role="region">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-1 lg:grid-cols-10 gap-6 lg:gap-8 items-stretch">
 
@@ -249,20 +252,20 @@
             <div class="lg:col-span-3 flex flex-col justify-center p-6 lg:p-8">
               <div class="mb-6">
                 <div class="flex items-center justify-start mb-4">
-                  <span class="inline-block px-3 py-1 text-green-900 text-xs font-bold uppercase tracking-wide"
+                  <span class="inline-block px-3 py-1 text-semantic-success text-xs font-bold uppercase tracking-wide"
                     role="status" aria-label="Special offer badge">Special Offer</span>
-                  <span class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-bold ml-2" role="status"
+                  <span class="inline-block px-3 py-1 bg-semantic-success text-white text-sm font-bold ml-2" role="status"
                     aria-label="25 percent discount">-25%</span>
                 </div>
 
                 <h2 id="special-offer-title"
-                  class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                  class="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-gray-100 mb-4 leading-tight">
                   Celigin daily sun finish<br />
                   (50ml) with coscor<br />
                   1,000ppm
                 </h2>
 
-                <p class="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
+                <p class="text-sm sm:text-base text-neutral-700 dark:text-gray-300 mb-6 leading-relaxed">
                   Experience superior sun protection with SPF 50+ and PA+++ in our SUNFINISH sunscreen.
                 </p>
               </div>
@@ -271,15 +274,17 @@
               <!-- CTA Button -->
               <div>
                 <a href="{{ route('front.category') }}"
-                  class="inline-flex items-center justify-center w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-primary-600 text-white font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base"
+                  class="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-8 py-2.5 sm:py-3.5 bg-primary-800 text-white font-semibold hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base shadow-sm hover:shadow-md"
                   aria-label="Get special offer price of ₹39.00">
                   Get Only ₹39.00
+                  <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                  </svg>
                 </a>
               </div>
             </div>
           </div>
 
-        </div>
         </div>
       </section>
     @endif
@@ -289,11 +294,12 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 lg:mb-12 gap-4">
           <h2 id="hotdeals-title"
-            class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
+            class="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-gray-100 flex items-center">
             Hot Deals
+            <span class="ml-3 px-2.5 py-1 bg-semantic-error text-white text-xs font-bold uppercase tracking-wide">Sale</span>
           </h2>
           <a href="{{ route('front.sales') }}"
-            class="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 "
+            class="inline-flex items-center text-sm font-medium text-semantic-error hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-semantic-error focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             aria-label="View all hot deals and sales">
             Shop all hot deals
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -318,33 +324,33 @@
 
           <!-- Navigation arrows -->
           <div
-            class="swiper-button-next hotdeals-nav-next !text-red-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-red-50 !transition-all !duration-200"
+            class="swiper-button-next hotdeals-nav-next !text-semantic-error !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-right-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-red-50 !transition-all !duration-200"
             aria-label="Next hot deals"></div>
           <div
-            class="swiper-button-prev hotdeals-nav-prev !text-red-600 !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-red-50 !transition-all !duration-200"
+            class="swiper-button-prev hotdeals-nav-prev !text-semantic-error !w-10 !h-10 !mt-0 !top-1/2 !-translate-y-1/2 !-left-5 after:!text-lg !bg-white !rounded-none !shadow-md hover:!bg-red-50 !transition-all !duration-200"
             aria-label="Previous hot deals"></div>
         </div>
       </div>
     </section>
 
     <!-- Instagram Feed -->
-    <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="instagram-title">
+    <section class="py-12 lg:py-16 bg-neutral-50 dark:bg-gray-800" aria-labelledby="instagram-title">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between mb-8 lg:mb-12">
           <div class="flex items-center space-x-3">
             <div
-              class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-600 to-primary-600 ">
+              class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-600 to-primary-600">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" class="w-6 h-6">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
             </div>
-            <h2 id="instagram-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">
+            <h2 id="instagram-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-gray-100">
               Instagram Feed</h2>
           </div>
           <a href="#"
-            class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+            class="inline-flex items-center text-sm font-medium text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
             View all feeds
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
@@ -644,13 +650,13 @@
 
     @if($ps->blog == 1)
       <!-- Blog Section -->
-      <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="blog-title">
+      <section class="py-12 lg:py-16 bg-neutral-50 dark:bg-gray-800" aria-labelledby="blog-title">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between mb-8 lg:mb-12">
-            <h2 id="blog-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">Blog
+            <h2 id="blog-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-gray-100">Blog
             </h2>
             <a href="/blog"
-              class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200 group  focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+              class="inline-flex items-center text-sm font-medium text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
               View all posts
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200">
@@ -673,7 +679,7 @@
                       class="w-full h-full object-fill group-hover:scale-105 transition-transform duration-500" />
                   </div>
                   <div class="p-4 flex flex-col">
-                    <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-4 h-12 flex items-center leading-tight">
+                    <h3 class="text-base font-bold text-neutral-900 dark:text-gray-100 mb-4 h-12 flex items-center leading-tight">
                       {{ Str::limit($blog->title, 60) }}</h3>
                     <div class="inline-flex items-center text-xs font-medium text-primary-700 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-200 group-hover:translate-x-1 mt-auto">
                       Read More
