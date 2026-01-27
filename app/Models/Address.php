@@ -8,6 +8,7 @@ class Address extends Model
 {
     protected $fillable = [
         'user_id',
+        'address_category', // 'delivery' or 'billing'
         'type',
         'name',
         'phone',
@@ -33,7 +34,7 @@ class Address extends Model
     }
 
     /**
-     * Boot method to ensure only one default address per user
+     * Boot method to ensure only one default address per user per category
      */
     protected static function boot()
     {
@@ -41,11 +42,28 @@ class Address extends Model
 
         static::saving(function ($address) {
             if ($address->is_default) {
-                // Remove default from other addresses for this user
+                // Remove default from other addresses for this user in the same category
                 static::where('user_id', $address->user_id)
+                    ->where('address_category', $address->address_category ?? 'delivery')
                     ->where('id', '!=', $address->id)
                     ->update(['is_default' => false]);
             }
         });
+    }
+
+    /**
+     * Scope for delivery addresses
+     */
+    public function scopeDelivery($query)
+    {
+        return $query->where('address_category', 'delivery');
+    }
+
+    /**
+     * Scope for billing addresses
+     */
+    public function scopeBilling($query)
+    {
+        return $query->where('address_category', 'billing');
     }
 }

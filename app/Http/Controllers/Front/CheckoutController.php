@@ -208,10 +208,23 @@ class CheckoutController extends FrontBaseController
             }
 
             // -----------------------------------------------------------
-            // 🔹 LOAD USER ADDRESSES
+            // 🔹 LOAD USER ADDRESSES (Delivery & Billing separately)
             // -----------------------------------------------------------
-            $addresses = Address::where('user_id', $user->id)->get();
-            $defaultAddress = $addresses->firstWhere('is_default', true);
+            $deliveryAddresses = Address::where('user_id', $user->id)
+                ->where(function($query) {
+                    $query->where('address_category', 'delivery')
+                          ->orWhereNull('address_category');
+                })
+                ->get();
+
+            $billingAddresses = Address::where('user_id', $user->id)
+                ->where('address_category', 'billing')
+                ->get();
+
+            // For backward compatibility, also pass combined addresses
+            $addresses = $deliveryAddresses;
+            $defaultAddress = $deliveryAddresses->firstWhere('is_default', true);
+            $defaultBillingAddress = $billingAddresses->firstWhere('is_default', true);
 
             // -----------------------------------------------------------
             // 🔹 RETURN VIEW
@@ -219,21 +232,24 @@ class CheckoutController extends FrontBaseController
 
           
             return view('frontend.checkout', [
-                'products'           => $products,
-                'refferal_discount'  => $referralDiscount,
-                'totalPrice'         => $total,
-                'pickups'            => $pickups,
-                'totalQty'           => $totalQuantity,
-                'gateways'           => $gateways,
-                'shipping_cost'      => 0,
-                'digital'            => 1,
-                'curr'               => $currency,
-                'vendor_shipping_id' => 0,
-                'vendor_packing_id'  => 0,
-                'paystack'           => $paystackData,
-                'addresses'          => $addresses,
-                'defaultAddress'     => $defaultAddress,
-                'user'               => $user
+                'products'              => $products,
+                'refferal_discount'     => $referralDiscount,
+                'totalPrice'            => $total,
+                'pickups'               => $pickups,
+                'totalQty'              => $totalQuantity,
+                'gateways'              => $gateways,
+                'shipping_cost'         => 0,
+                'digital'               => 1,
+                'curr'                  => $currency,
+                'vendor_shipping_id'    => 0,
+                'vendor_packing_id'     => 0,
+                'paystack'              => $paystackData,
+                'addresses'             => $addresses,
+                'deliveryAddresses'     => $deliveryAddresses,
+                'billingAddresses'      => $billingAddresses,
+                'defaultAddress'        => $defaultAddress,
+                'defaultBillingAddress' => $defaultBillingAddress,
+                'user'                  => $user
             ]);
         }
 

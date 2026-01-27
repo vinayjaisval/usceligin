@@ -14,8 +14,9 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $validated = $request->validate([
+            'address_category' => 'nullable|in:delivery,billing',
             'type' => 'nullable|in:home,work,other',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
@@ -27,31 +28,39 @@ class AddressController extends Controller
             'is_default' => 'nullable|boolean',
         ]);
 
-        // Check address limit (max 3 per user)
-        if (Address::where('user_id', Auth::id())->count() >= 3) {
+        // Determine address category (default to 'delivery')
+        $category = $validated['address_category'] ?? 'delivery';
+        $validated['address_category'] = $category;
+
+        // Check address limit (max 3 per user per category)
+        $existingCount = Address::where('user_id', Auth::id())
+            ->where('address_category', $category)
+            ->count();
+
+        if ($existingCount >= 3) {
+            $categoryLabel = $category === 'billing' ? 'billing' : 'delivery';
             if ($request->expectsJson()) {
-                return response()->json(['success' => false, 'error' => 'You can only save up to 3 addresses.'], 422);
+                return response()->json(['success' => false, 'error' => "You can only save up to 3 {$categoryLabel} addresses."], 422);
             }
-            return back()->with('error', 'You can only save up to 3 addresses.');
+            return back()->with('error', "You can only save up to 3 {$categoryLabel} addresses.");
         }
 
         $validated['user_id'] = Auth::id();
         $validated['country'] = 'India';
         $validated['is_default'] = $request->has('is_default') ? true : false;
 
-        // If this is set as default, unset all other defaults
+        // If this is set as default, unset all other defaults in the same category
         if ($validated['is_default']) {
-             
-            Address::where('user_id', Auth::id())->update(['is_default' => false]);
+            Address::where('user_id', Auth::id())
+                ->where('address_category', $category)
+                ->update(['is_default' => false]);
         }
 
-        // If this is the user's first address, make it default automatically
-        if (Address::where('user_id', Auth::id())->count() === 0) {
-           
+        // If this is the user's first address in this category, make it default automatically
+        if ($existingCount === 0) {
             $validated['is_default'] = true;
-
         }
-        
+
         $address = Address::create($validated);
 
         if ($request->expectsJson()) {
@@ -99,9 +108,13 @@ class AddressController extends Controller
 
         $validated['is_default'] = $request->has('is_default') ? true : false;
 
-        // If this is set as default, unset all other defaults
+        // If this is set as default, unset all other defaults in the same category
         if ($validated['is_default']) {
-            Address::where('user_id', Auth::id())->where('id', '!=', $id)->update(['is_default' => false]);
+            $category = $address->address_category ?? 'delivery';
+            Address::where('user_id', Auth::id())
+                ->where('address_category', $category)
+                ->where('id', '!=', $id)
+                ->update(['is_default' => false]);
         }
 
         $address->update($validated);
@@ -142,11 +155,16 @@ class AddressController extends Controller
      */
     public function setDefault(Request $request, $id)
     {
-        // First, unset all defaults for this user
-        Address::where('user_id', Auth::id())->update(['is_default' => false]);
+        // Get the address to determine its category
+        $address = Address::where('user_id', Auth::id())->findOrFail($id);
+        $category = $address->address_category ?? 'delivery';
+
+        // First, unset all defaults for this user in the same category
+        Address::where('user_id', Auth::id())
+            ->where('address_category', $category)
+            ->update(['is_default' => false]);
 
         // Then set this address as default
-        $address = Address::where('user_id', Auth::id())->findOrFail($id);
         $address->update(['is_default' => true]);
 
         if ($request->expectsJson()) {
