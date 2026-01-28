@@ -155,7 +155,7 @@
               <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Wishlist Items</div>
             </div>
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $points }}</div>
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">Ȼ{{ round(Auth::user()->current_balance ?? 0) }}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Points Earned</div>
             </div>
           </div>
@@ -1003,7 +1003,8 @@
 
           <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
             <div class="text-center mb-8">
-              <div class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">Ȼ{{Auth::user()->current_balance ? Auth::user()->current_balance : 0}}</div>
+              <div class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">Ȼ{{ round(Auth::user()->current_balance ?? 0) }}
+             </div>
               <p class="text-gray-600 dark:text-gray-400">Available Points</p>
             </div>
 

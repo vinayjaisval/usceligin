@@ -1,184 +1,195 @@
-@if (Session::has('order_address'))
-    @php
-        $user = Session::get('order_address');
-        
-    @endphp
-<div class="row mt-2">
-  <div class="col col-md-4 col-sm-6">
-    <label for="name">Namess *</label>
-    <input type="text" class="form-control" required name="customer_name" id="name" value="{{$user['customer_name']}}" placeholder="Name">
-  </div>
-  <div class="col col-md-4 col-sm-6">
-    <label for="email">Email *</label>
-    <input type="text" class="form-control" required name="customer_email" id="email" placeholder="Email" value="{{$user['customer_email']}}">
-  </div>
-  <div class="col col-md-4 col-sm-6">
-    <label for="phone">Phone *</label>
-    <input type="text" class="form-control" required name="customer_phone" id="phone" placeholder="Phone" value="{{$user['customer_phone']}}">
-  </div>
- 
-</div>
-<div class="row">
-
-
-  <div class="col col-md-6 col-sm-6">
-      <label for="customer_zip">Postal Code *</label>
-       <input type="text" class="form-control zipcode" required name="customer_zip" id="customer_zip" value="{{$user['customer_zip']}}"  placeholder="Postal Code" required>
-       <span class="loader" id="loader" style="display: none" ><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
-    </div>
-  <div class="col col-md-6 col-sm-6">
-    <label for="post_code">Country</label>
-    <input type="text" class="form-control" name="customer_country" id="customer_country" placeholder="Country" value="{{$user['customer_country']}}" required readonly>
-  </div>
-  <div class="col col-md-6 col-sm-6">
-    <label for="customer_city">City</label>
-    <input type="text" class="form-control" name="customer_city" id="customer_city" placeholder="City" value="{{$user['customer_city']}}" required readonly>
-  </div>
-  <div class="col col-md-6 col-sm-6">
-    <label for="customer_state">State</label>
-    <input type="text" class="form-control" name="customer_state" id="customer_state" placeholder="State" value="{{$user['customer_state']}}" required readonly>
-  </div>
- 
-
-  <div class="col col-md-12 col-sm-12">
-    <label for="customer_address">Address *</label>
-   <textarea type="text" class="form-control" name="customer_address" placeholder="Address" id="customer_address" required>{{$user['customer_address']}}</textarea>
-  </div>
-  <input type="hidden" value="0" name="shipping_cost" id="shipping_cost">
-<!-- </div> -->
-
-@else  
-
 @php
-    $isUser = isset($isUser) ? $isUser : false;
-   
+
+ $cartEmpty = !Session::has('cart') && !Session::has('admin_cart');
+
 @endphp
-@if ($isUser == 1)
-  <div class="row mt-2">
-    <div class="col col-md-4 col-sm-6">
-      <label for="name">Namess *</label>
-      <input type="text" class="form-control" required name="customer_name" id="name" value="{{$user['name']}}" placeholder="Name" required >
-    </div>
-    <div class="col col-md-4 col-sm-6">
-      <label for="email">Email *</label>
-      <input type="text" class="form-control" required name="customer_email" id="email" placeholder="Email" value="{{$user['email']}}" required >
-    </div>
-    <div class="col col-md-4 col-sm-6">
-      <label for="phone">Phone *</label>
-      <input type="text" class="form-control" required name="customer_phone" id="phone" placeholder="Phone" value="{{$user['phone']}}" required >
-    </div>
-    
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+{{-- CART EMPTY ALERT --}}
+@if($cartEmpty)
+  <div class="alert alert-warning">
+    Please add items to cart to calculate shipping cost.
   </div>
-  <div class="row">
+@endif
 
-    <div class="col col-md-6 col-sm-6">
-      <label for="customer_zip">Postal Code *</label>
-       <input type="text" class="form-control zipcode"  name="customer_zip" id="customer_zip" value="{{$user['zip']}}" placeholder="Postal Code" required>
-       <span class="loader" id="loader" style="display: none" ><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
-    </div>
+{{-- PASS CART FLAG TO JS --}}
+<script>
+  let CART_EMPTY = {{ $cartEmpty ? 'true' : 'false' }};
+</script>
 
-    <div class="col col-md-6 col-sm-6">
-      <label for="post_code">Country</label>
-      <input type="text" class="form-control" name="customer_country" id="customer_country" value="{{$user['country_id']}}" placeholder="Country" required readonly>
-    </div>
-    <div class="col col-md-6 col-sm-6">
-      <label for="customer_city">City</label>
-      <input type="text" class="form-control" name="customer_city" id="customer_city" value="{{$user['city_id']}}" placeholder="City" required readonly>
-    </div>
-    <div class="col col-md-6 col-sm-6">
-      <label for="customer_state">State</label>
-      <input type="text" class="form-control" name="customer_state" id="customer_state" value="{{$user['state_id']}}" placeholder="State" required readonly>
-    </div>
-    <div class="col col-md-12 col-sm-12">
-      <label for="customer_address">Address *</label>  
-    <textarea  type="text" class="form-control"  name="customer_address" id="customer_address" placeholder="Address" required>{{$user['address']}}</textarea>
-    </div>
-    <input type="hidden" value="0" name="shipping_cost" id="shipping_cost">
+{{-- ================= SESSION ADDRESS ================= --}}
+@if (Session::has('order_address'))
+@php
+$user = Session::get('order_address');
+@endphp
 
-   
+<div class="row mt-2">
+  <div class="col-md-4">
+    <label>Name *</label>
+    <input type="text" class="form-control" name="customer_name" value="{{ $user['customer_name'] }}" required>
   </div>
+  <div class="col-md-4">
+    <label>Email *</label>
+    <input type="email" class="form-control" name="customer_email" value="{{ $user['customer_email'] }}" required>
+  </div>
+  <div class="col-md-4">
+    <label>Phone *</label>
+    <input type="text" class="form-control" name="customer_phone" value="{{ $user['customer_phone'] }}" required>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <label>Postal Code *</label>
+    <input type="text" class="form-control zipcode" id="customer_zip" name="customer_zip"
+           value="{{ $user['customer_zip'] }}" required>
+    <span id="loader" style="display:none"><i class="fa fa-spinner fa-spin"></i></span>
+  </div>
+
+  <div class="col-md-6">
+    <label>Country</label>
+    <input type="text" class="form-control" id="customer_country" name="customer_country"
+           value="{{ $user['customer_country'] }}" readonly required>
+  </div>
+
+  <div class="col-md-6">
+    <label>City</label>
+    <input type="text" class="form-control" id="customer_city" name="customer_city"
+           value="{{ $user['customer_city'] }}" readonly required>
+  </div>
+
+  <div class="col-md-6">
+    <label>State</label>
+    <input type="text" class="form-control" id="customer_state" name="customer_state"
+           value="{{ $user['customer_state'] }}" readonly required>
+  </div>
+
+  <div class="col-md-12">
+    <label>Address *</label>
+    <textarea class="form-control" name="customer_address" required>{{ $user['customer_address'] }}</textarea>
+  </div>
+
+  <input type="hidden" name="shipping_cost" id="shipping_cost" value="0">
+</div>
+
 @else
 
-  <div class="row mt-2">
-    <div class="col col-md-4 col-sm-6">
-      <label for="name">Name *</label>
-      <input type="text" class="form-control" required name="customer_name" id="name" placeholder="Name" required>
-    </div>
-    <div class="col col-md-4 col-sm-6">
-      <label for="email">Email *</label>
-      <input type="text" class="form-control" required name="customer_email" id="email" placeholder="Email" required>
-    </div>
-    <div class="col col-md-4 col-sm-6">
-      <label for="phone">Phone *</label>
-      <input type="text" class="form-control" required name="customer_phone" id="phone" placeholder="Phone" required>
-    </div>
+{{-- ================= GUEST USER ================= --}}
+<div class="row mt-2">
+  <div class="col-md-4">
+    <label>Name *</label>
+    <input type="text" class="form-control" name="customer_name" required>
   </div>
-  <div class="row">
-    
-
-    <div class="col col-md-6 col-sm-6">
-      <label for="customer_zip">Postal Code *</label>
-       <input type="text" class="form-control zipcode" required name="customer_zip" id="customer_zip" placeholder="Postal Code" required>
-       <span class="loader" id="loader" style="display: none" ><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></span>
-    </div>
-
-    <div class="col col-md-6 col-sm-6">
-      <label for="post_code">Country</label>
-      <input type="text" class="form-control" name="customer_country" id="customer_country" placeholder="Country" readonly required>
-    </div>
-    <div class="col col-md-6 col-sm-6">
-      <label for="customer_city">City</label>
-      <input type="text" class="form-control" name="customer_city" id="customer_city" placeholder="City" readonly required>
-    </div>
-    <div class="col col-md-6 col-sm-6">
-      <label for="customer_state">State</label>
-      <input type="text" class="form-control" name="customer_state" id="customer_state" placeholder="State" readonly required>
-    </div>
-    <div class="col col-md-12 col-sm-12">
-      <label for="customer_address">Address *</label>
-      <textarea  type="text"  class="form-control" required name="customer_address" placeholder="Address" id="customer_address" required></textarea>
-    </div>
-    <input type="hidden" value="0" name="shipping_cost" id="shipping_cost">
+  <div class="col-md-4">
+    <label>Email *</label>
+    <input type="email" class="form-control" name="customer_email" required>
   </div>
-@endif
-    
+  <div class="col-md-4">
+    <label>Phone *</label>
+    <input type="text" class="form-control" name="customer_phone" required>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <label>Postal Code *</label>
+    <input type="text" class="form-control zipcode" id="customer_zip" name="customer_zip" required>
+    <span id="loader" style="display:none"><i class="fa fa-spinner fa-spin"></i></span>
+  </div>
+
+  <div class="col-md-6">
+    <label>Country</label>
+    <input type="text" class="form-control" id="customer_country" name="customer_country" readonly required>
+  </div>
+
+  <div class="col-md-6">
+    <label>City</label>
+    <input type="text" class="form-control" id="customer_city" name="customer_city" readonly required>
+  </div>
+
+  <div class="col-md-6">
+    <label>State</label>
+    <input type="text" class="form-control" id="customer_state" name="customer_state" readonly required>
+  </div>
+
+  <div class="col-md-12">
+    <label>Address *</label>
+    <textarea class="form-control" name="customer_address" required></textarea>
+  </div>
+
+  <input type="hidden" name="shipping_cost" id="shipping_cost" value="0">
+</div>
 @endif
 
-
+{{-- ================= SHIPPING JS ================= --}}
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const zipcodeInput = document.querySelector('.zipcode');
-    zipcodeInput.addEventListener('keyup', (e) => {
-      const zipcode = zipcodeInput.value;
-      if (!/^\d+$/.test(zipcode)) {
-        zipcodeInput.value = '';
+document.addEventListener('DOMContentLoaded', () => {
+
+  const zipInput = document.getElementById('customer_zip');
+  const loader = document.getElementById('loader');
+
+  if (!zipInput) return;
+
+  zipInput.addEventListener('input', async () => {
+
+    /* CART EMPTY BLOCK */
+    if (CART_EMPTY) {
+      alert('❌ Pehle item cart me add karo, phir pincode bharo');
+      zipInput.value = '';
+      return;
+    }
+
+    let zip = zipInput.value.trim();
+
+    if (!/^\d{0,6}$/.test(zip)) {
+      zipInput.value = '';
+      return;
+    }
+
+    if (zip.length !== 6) {
+      resetShipping();
+      return;
+    }
+
+    loader.style.display = 'inline-block';
+
+    try {
+      const res = await fetch(`${mainurl}/getPinCodeDetails`, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ zipcode: zip })
+      });
+
+      const data = await res.json();
+      loader.style.display = 'none';
+
+      if (!data.status) {
+        alert(data.message || 'Shipping not available');
+        resetShipping();
         return;
       }
-      if (zipcode.length === 6) {
-        document.querySelector('#loader').style.display = 'inline-block';
-        fetch(`${mainurl}/getPinCodeDetails`, {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ zipcode }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.status) {
-              $("#customer_city").val(data.result.city);
-              $("#customer_state").val(data.result.state);
-              $("#customer_country").val(data.result.country);
-              $("#shipping_cost").val(data.result.shipping_cost);
-              document.querySelector('#loader').style.display = 'none';
-              return false;
-            } else {
-              getShipping(data.result.shipping_cost);
-            }
-          })
-          .catch((error) => console.error('Error: ', error));
-      }
-    });
+
+      customer_city.value = data.result.city;
+      customer_state.value = data.result.state;
+      customer_country.value = data.result.country;
+      shipping_cost.value = data.result.shipping_cost;
+
+    } catch (e) {
+      loader.style.display = 'none';
+      alert('Error while calculating shipping');
+      resetShipping();
+    }
   });
+
+  function resetShipping() {
+    customer_city.value = '';
+    customer_state.value = '';
+    customer_country.value = '';
+    shipping_cost.value = 0;
+  }
+});
 </script>

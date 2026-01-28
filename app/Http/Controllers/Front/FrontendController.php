@@ -1073,6 +1073,7 @@ class FrontendController extends FrontBaseController
 
     public function getPinCodeDetails(Request $request)
     {
+        
         try {
 
             /* ---------------------------------
@@ -1159,6 +1160,7 @@ class FrontendController extends FrontBaseController
         
         $cartData = Session::get('cart') ?? Session::get('admin_cart');
 
+      
         foreach ($cartData->items as $item) {
 
             $product = Product::find($item['item']->id);

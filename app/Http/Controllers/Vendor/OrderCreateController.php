@@ -23,9 +23,9 @@ class OrderCreateController extends VendorBaseController
     public function create(Request $request)
     {
 
-      
 
-      
+
+
         if ($request->products) {
             $selectd_products = $request->products;
             foreach ($selectd_products as $product) {
@@ -47,14 +47,14 @@ class OrderCreateController extends VendorBaseController
 
         //--- Integrating This Collection Into Datatables
         $datas = Product::whereStatus(1);
-      
+
         return Datatables::of($datas)
             ->editColumn('name', function (Product $data) {
                 $price = $data->price * $this->curr->value;
                 $img = '<img src="' . asset('assets/images/thumbnails/' . $data->thumbnail) . '" alt="' . $data->name . '" class="img-thumbnail" width="100"> <br>';
                 $name =  mb_strlen($data->name, 'UTF-8') > 50 ? mb_substr($data->name, 0, 50, 'UTF-8') . '...' : $data->name;
-                
-              
+
+
                 return  $img . $name . $data->checkVendor() . '<br><small>' . __("Price") . ': ' . $price . ' ' . $this->curr->sign . '</small>';
             })
 
@@ -117,9 +117,9 @@ class OrderCreateController extends VendorBaseController
         return view('vendor.orderpos.create.add-product', $data);
     }
 
-    public function addcart(Request $request)
+    public function addcartold(Request $request)
     {
-    // dd($request->all());
+
         $id = $_GET['id'];
         $qty = $_GET['qty'];
         $size = str_replace(' ', '-', $_GET['size']);
@@ -128,17 +128,18 @@ class OrderCreateController extends VendorBaseController
         $size_price = (float)$_GET['size_price'];
         $size_key = $_GET['size_key'];
         $keys =  $_GET['keys'];
-      
+
         $values = $_GET['values'] ? $_GET['values'] : null;
         $prices = $_GET['prices'] ? $_GET['prices'] : null;
         $affilate_user = isset($_GET['affilate_user']) ? $_GET['affilate_user'] : '0';
         $keys = $keys == "" ? '' : $keys;
         $values = $values == "" ? '' : $values;
         $curr = $this->curr;
-       
+
         $size_price = ($size_price / $curr->value);
         $prod = Product::where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'whole_sell_qty', 'whole_sell_discount', 'attributes', 'minimum_qty', 'stock_check', 'size_all', 'color_all']);
         if ($prod->type != 'Physical') {
+
             $qty = 1;
         }
 
@@ -149,7 +150,7 @@ class OrderCreateController extends VendorBaseController
             $prod->price = round($prc, 2);
         }
         if (!empty($prices)) {
-            foreach (explode(',',$prices) as $data) {
+            foreach (explode(',', $prices) as $data) {
                 $prod->price += ($data / $curr->value);
             }
         }
@@ -238,19 +239,146 @@ class OrderCreateController extends VendorBaseController
         $data[0] = count($cart->items);
         $data[1] = $cart->totalPrice;
         $data[1] = \PriceHelper::showCurrencyPrice($data[1] * $curr->value);
-        
+
         return view('vendor.orderpos.create.product_add_table');
     }
 
+    public function addcart(Request $request)
+    {
+        $id = $_GET['id'];
+        $qty = (int) $_GET['qty'];
+        $size = str_replace(' ', '-', $_GET['size'] ?? '');
+        $color = $_GET['color'] ?? '';
+        $size_qty = $_GET['size_qty'] ?? null;
+        $size_price = (float) ($_GET['size_price'] ?? 0);
+        $size_key = $_GET['size_key'] ?? null;
+        $keys = $_GET['keys'] ?? '';
+        $values = $_GET['values'] ?? '';
+        $prices = $_GET['prices'] ?? null;
+        $affilate_user = $_GET['affilate_user'] ?? '0';
+
+        $curr = $this->curr;
+        $size_price = $size_price / $curr->value;
+
+        $prod = Product::where('id', $id)->firstOrFail([
+            'id',
+            'user_id',
+            'slug',
+            'name',
+            'photo',
+            'size',
+            'size_qty',
+            'size_price',
+            'color',
+            'price',
+            'stock',
+            'type',
+            'file',
+            'link',
+            'license',
+            'license_qty',
+            'measure',
+            'whole_sell_qty',
+            'whole_sell_discount',
+            'attributes',
+            'minimum_qty',
+            'stock_check',
+            'size_all',
+            'color_all'
+        ]);
+
+        if ($prod->type != 'Physical') {
+            $qty = 1;
+        }
+
+        if ($prod->user_id != 0) {
+            $prod->price = round(
+                $prod->price
+                    + $this->gs->fixed_commission
+                    + ($prod->price / 100) * $this->gs->percentage_commission,
+                2
+            );
+        }
+
+        if (!empty($prices)) {
+            foreach (explode(',', $prices) as $p) {
+                $prod->price += ($p / $curr->value);
+            }
+        }
+
+        if (empty($size) && !empty($prod->size)) {
+            $size = str_replace(' ', '-', trim($prod->size[0]));
+        }
+
+        if (empty($color) && !empty($prod->color)) {
+            $color = $prod->color[0];
+        }
+
+        $color = str_replace('#', '', $color);
+
+        if ($prod->stock_check == 1 && $size_qty == 0) {
+            return view('admin.order.create.product_add_table');
+        }
+
+        $oldCart = Session::get('admin_cart');
+        $cart = Cart::restoreCart($oldCart);
+
+        // 🔥 CART KEY
+        $cartKey = $id . $size . $color . str_replace(str_split(' ,'), '', $values);
+
+        // 🔥 FIX: QTY OVERWRITE (NOT ADD)
+        if (isset($cart->items[$cartKey])) {
+
+            $oldQty = $cart->items[$cartKey]['qty'];
+            $unitPrice = $cart->items[$cartKey]['price'] / max(1, $oldQty);
+
+            $cart->items[$cartKey]['qty'] = $qty;
+            $cart->items[$cartKey]['price'] = $unitPrice * $qty;
+        } else {
+
+            $cart->addnum(
+                $prod,
+                $prod->id,
+                $qty,
+                $size,
+                $color,
+                $size_qty,
+                $size_price,
+                $size_key,
+                $keys,
+                $values,
+                $affilate_user
+            );
+        }
+
+        // --------- STOCK VALIDATION ----------
+        if ($prod->stock_check == 1 && $size_qty) {
+            if ($cart->items[$cartKey]['qty'] > $size_qty) {
+                return view('admin.order.create.product_add_table');
+            }
+        }
+
+        // --------- TOTAL ----------
+        $cart->totalPrice = 0;
+        foreach ($cart->items as $item) {
+            $cart->totalPrice += $item['price'];
+        }
+
+        Session::put('admin_cart', $cart);
+
+        return view('vendor.orderpos.create.product_add_table');
+    }
 
 
     public function removecart($id)
     {
 
         $oldCart = Session::has('admin_cart') ? Session::get('admin_cart') : null;
-        // $cart = new Cart($oldCart);
-        $cart = Cart::restoreCart($oldCart);
 
+
+        //$cart = new Cart($oldCart);
+
+        $cart = Cart::restoreCart($oldCart);
         $cart->removeItem($id);
         Session::forget('admin_cart');
         if (count($cart->items) > 0) {
@@ -286,12 +414,13 @@ class OrderCreateController extends VendorBaseController
 
     public function viewCreateOrder(Request $request)
     {
-        
+       
+
         Session::put('order_address', $request->all());
-      
+
         $cart = Session::get('admin_cart');
         $address = Session::get('order_address');
-   
+
         return view('vendor.orderpos.create.view', compact('cart', 'address'));
     }
 
@@ -299,8 +428,8 @@ class OrderCreateController extends VendorBaseController
     public function CreateOrderSubmit(Request $request)
     {
         // dd($request->all());
-       
-       
+
+
         $user = $this->user;
         $address = Session::get('order_address');
         $input = $address;
@@ -323,61 +452,61 @@ class OrderCreateController extends VendorBaseController
             // 'password' => 'required'
 
         ];
-        
+
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }
-        
+
         // Check if the user already exists by email
         // $exits_user = User::where('email', $input['customer_email'])->first();
         $exits_user = User::where('email', $input['customer_email'])
-                  ->where('phone', $input['customer_phone'])
-                  ->first();
+            ->where('phone', $input['customer_phone'])
+            ->first();
 
         // dd($user);
         if ($exits_user) {
             // User exists, update information
 
-            $inputo['name'] =$input['customer_name'];
-            $inputo['email'] =$input['customer_email'];
-            $inputo['phone'] =$input['customer_phone'];
-            $inputo['address'] =$input['customer_address'];
-            $inputo['country'] =$input['customer_country'];
-            $inputo['city_id'] =$input['customer_city'];
-            $inputo['state_id'] =$input['customer_state'];
-            $inputo['zip'] =$input['customer_zip'];
+            $inputo['name'] = $input['customer_name'];
+            $inputo['email'] = $input['customer_email'];
+            $inputo['phone'] = $input['customer_phone'];
+            $inputo['address'] = $input['customer_address'];
+            $inputo['country'] = $input['customer_country'];
+            $inputo['city_id'] = $input['customer_city'];
+            $inputo['state_id'] = $input['customer_state'];
+            $inputo['zip'] = $input['customer_zip'];
             $inputo['seller_id'] = $user->id ?? null;
 
             // $inputo['password'] = $input['password'];  // Ensure password is updated correctly
             $inputo['email_verified'] = 'Yes';
-        
+
             // Optionally update photo if provided
-           
+
             // Update the existing user
             $exits_user->update($inputo);
             // return response()->json(['message' => 'User updated successfully']);
         } else {
             // User does not exist, create a new user
-            $inputo['name'] =$input['customer_name'];
-            $inputo['email'] =$input['customer_email'];
-            $inputo['phone'] =$input['customer_phone'];
-            $inputo['address'] =$input['customer_address'];
-            $inputo['country'] =$input['customer_country'];
-            $inputo['city_id'] =$input['customer_city'];
-            $inputo['state_id'] =$input['customer_state'];
-            $inputo['zip'] =$input['customer_zip'];
+            $inputo['name'] = $input['customer_name'];
+            $inputo['email'] = $input['customer_email'];
+            $inputo['phone'] = $input['customer_phone'];
+            $inputo['address'] = $input['customer_address'];
+            $inputo['country'] = $input['customer_country'];
+            $inputo['city_id'] = $input['customer_city'];
+            $inputo['state_id'] = $input['customer_state'];
+            $inputo['zip'] = $input['customer_zip'];
             $inputo['seller_id'] = $user->id ?? null;
             // $inputo['password'] = $input['password'];  // Ensure password is updated correctly
             $inputo['email_verified'] = 'Yes';
-        
+
             // Create new user
             $exits_user = new User();
             $exits_user->fill($inputo)->save();
-        
+
             // return response()->json(['message' => 'User created successfully']);
         }
-        
+
 
         $new_cart = [];
         $new_cart['totalQty'] = $t_cart->totalQty;
@@ -396,7 +525,7 @@ class OrderCreateController extends VendorBaseController
         $input['affilate_users'] = $affilate_users;
         $input['pay_amount'] = $request->total / $this->curr->value - $request->coupon_discount;
 
-        $input['seller_commission']= $input['pay_amount'] * 0.05;
+        $input['seller_commission'] = $input['pay_amount'] * 0.05;
         $input['order_number'] = Str::random(8) . time();
         $input['payment_status'] = 'Pending';
 
@@ -414,7 +543,7 @@ class OrderCreateController extends VendorBaseController
         $input['packing_cost'] = 0;
         $input['seller_id'] =  $user->id ?? null;
 
-// dd($input);
+        // dd($input);
 
         $order->fill($input)->save();
         $order->tracks()->create(['title' => 'Pending', 'text' => 'You have successfully placed your order.']);
@@ -450,8 +579,8 @@ class OrderCreateController extends VendorBaseController
         $ps = Pagesetting::first();
         $discouts = $request->coupon_discount ?? 0;
         $totalprice = (int)($request->total - $discouts);
-        if($request->payment_method=="online"){
-           $this->createPaymentLink($totalprice,$order->customer_email,$order->customer_phone,$order->order_number);
+        if ($request->payment_method == "online") {
+            $this->createPaymentLink($totalprice, $order->customer_email, $order->customer_phone, $order->order_number);
         }
         //Sending Email To Admin
         $data = [
@@ -462,7 +591,7 @@ class OrderCreateController extends VendorBaseController
         $mailer = new GeniusMailer();
         $mailer->sendCustomMail($data);
 
-        return redirect(route('vendor-order-show',$order->id))->with('added', 'Order has been placed successfully!');
+        return redirect(route('vendor-order-show', $order->id))->with('added', 'Order has been placed successfully!');
     }
 
 
@@ -473,7 +602,7 @@ class OrderCreateController extends VendorBaseController
 
 
     public function CreateOrderSubmit2(Request $request)
-    {   
+    {
         $address = Session::get('order_address');
         $input = $address;
         $curr = Currency::where('is_default', '=', 1)->first();
@@ -486,11 +615,11 @@ class OrderCreateController extends VendorBaseController
         $t_oldCart = Session::get('admin_cart');
         // $t_cart = new Cart($t_oldCart);
         $t_cart = Cart::restoreCart($t_oldCart);
-    
+
         $new_cart = [];
         // $new_cart['totalQty'] = $t_cart->totalQty; // commet by ankit
         $new_cart['totalQty']   = $address['totalqty'];
-        $new_cart['totalPrice'] = $t_cart->totalPrice+$address['shipping_cost'];
+        $new_cart['totalPrice'] = $t_cart->totalPrice + $address['shipping_cost'];
         $new_cart['items']      = $t_cart->items;
         $new_cart               = json_encode($new_cart);
         $temp_affilate_users = OrderHelper::product_affilate_check($cart); // For Product Based Affilate Checking
@@ -502,7 +631,7 @@ class OrderCreateController extends VendorBaseController
         $input['totalQty']       = $address['totalqty'];
         $input['user_id']        = $address['user_id'] != 'guest' ? $address['user_id'] : NULL;
         $input['affilate_users'] = $affilate_users;
-        $input['pay_amount']     = $cart->totalPrice+$address['shipping_cost'] / $this->curr->value;
+        $input['pay_amount']     = $cart->totalPrice + $address['shipping_cost'] / $this->curr->value;
         $input['order_number']   = Str::random(8) . time();
         $input['payment_status'] = 'Pending';
 
@@ -551,9 +680,9 @@ class OrderCreateController extends VendorBaseController
         $mailer->sendAutoOrderMail($data, $order->id);
         $ps = Pagesetting::first();
         $discouts = $request->code ?? 0;
-        $totalprice = (int)($t_cart->totalPrice + $address['shipping_cost']-$discouts);
-        if($request->method=="online"){
-           $this->createPaymentLink($totalprice,$order->customer_email,$order->customer_phone,$order->order_number);
+        $totalprice = (int)($t_cart->totalPrice + $address['shipping_cost'] - $discouts);
+        if ($request->method == "online") {
+            $this->createPaymentLink($totalprice, $order->customer_email, $order->customer_phone, $order->order_number);
         }
         //Sending Email To Admin
         $data = [
@@ -563,7 +692,7 @@ class OrderCreateController extends VendorBaseController
         ];
         $mailer = new GeniusMailer();
         $mailer->sendCustomMail($data);
-        return redirect(route('admin-order-show',$order->id))->with('added', 'Order has been placed successfully!');
+        return redirect(route('admin-order-show', $order->id))->with('added', 'Order has been placed successfully!');
     }
 
 
@@ -580,13 +709,13 @@ class OrderCreateController extends VendorBaseController
                 'description'    => 'Payment for Order ID ' . time(),
                 'customer' => [
                     'email' => $customer_email,
-                    'contact' => $customer_phone 
+                    'contact' => $customer_phone
                 ],
                 'notify' => [
                     'sms' => true,
                     'email' => true
                 ],
-                'callback_url' => url("/order/update/").'/'.$order_id, 
+                'callback_url' => url("/order/update/") . '/' . $order_id,
             ]);
 
             return $paymentLink;
@@ -596,7 +725,8 @@ class OrderCreateController extends VendorBaseController
         }
     }
 
-    public function orderUpdate(Request $request,$id){
+    public function orderUpdate(Request $request, $id)
+    {
         $order = Order::where('order_number', $id)->first();
         if ($order) {
             $order->payment_status = "Completed";
@@ -612,7 +742,8 @@ class OrderCreateController extends VendorBaseController
     }
 
 
-    public function thankyou(){
+    public function thankyou()
+    {
         return view('admin.thankyou');
     }
 }
