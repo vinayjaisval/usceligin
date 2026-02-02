@@ -4,157 +4,210 @@
 <main id="main-content" role="main" class="bg-gray-50 dark:bg-gray-900 min-h-screen">
 
   {{-- ============================================
-       SECTION 1: HERO
+       SECTION 1: HERO (Luxury Style)
        ============================================ --}}
-  <section class="relative bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-gray-800 dark:via-gray-850 dark:to-gray-900 overflow-hidden">
-    {{-- Background Pattern --}}
-    <div class="absolute inset-0 opacity-5 dark:opacity-10">
-      <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0); background-size: 40px 40px;"></div>
-    </div>
+  <section class="bg-gradient-to-b from-amber-50 via-orange-50/50 to-white dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 flex flex-col justify-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-        {{-- Left: Content --}}
-        <div class="text-center lg:text-left relative z-10">
-          <span class="inline-block px-4 py-1.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-semibold mb-4 uppercase tracking-wide">
-            Affiliate & Influencer Program
-          </span>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-tight">
-            Your Skin, Your Radiance,
-            <span class="text-primary-600 dark:text-primary-400">Your Celigin</span>
-          </h1>
-          <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0">
-            Join our growing family as a Brand Ambassador and share the transformative power of premium Korean skincare with your community. Earn commissions, unlock rewards, and grow with us.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <a href="#join-form"
-               class="inline-flex items-center justify-center px-8 py-3.5 bg-primary-600 text-white font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all">
-              <span class="material-icons-outlined mr-2 text-xl">rocket_launch</span>
-              Join Now
-            </a>
-            <a href="#how-it-works"
-               class="inline-flex items-center justify-center px-8 py-3.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 font-semibold border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-750 transition-all">
-              <span class="material-icons-outlined mr-2 text-xl">play_circle</span>
-              How It Works
-            </a>
-          </div>
-        </div>
-
-        {{-- Right: Image --}}
-        <div class="relative flex justify-center lg:justify-end">
-          <div class="relative w-full max-w-md lg:max-w-lg">
-            <img src="{{ asset('assets/frontend/images/join-club-banner.png') }}"
-                 alt="Join Celigin Club"
-                 class="w-full h-auto relative z-10"
-                 loading="eager" />
-            {{-- Decorative Elements --}}
-            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-primary-200 dark:bg-primary-900/30 -z-10"></div>
-            <div class="absolute -top-4 -left-4 w-16 h-16 bg-amber-200 dark:bg-amber-900/30 -z-10"></div>
-          </div>
+      {{-- Premium Badge --}}
+      <div class="flex justify-center mb-2 sm:mb-3">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-200/60 dark:border-amber-700/40">
+          <span class="text-amber-600 dark:text-amber-400 text-xs">✦</span>
+          <span class="text-[10px] sm:text-xs font-medium text-amber-700 dark:text-amber-300 uppercase tracking-wider">Exclusive Program</span>
+          <span class="text-amber-600 dark:text-amber-400 text-xs">✦</span>
         </div>
       </div>
-    </div>
-  </section>
 
-  {{-- ============================================
-       SECTION 2: STATS
-       ============================================ --}}
-  <section id="stats-section" class="bg-primary-600 dark:bg-primary-700">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-12 text-center">
-        {{-- Stat 1 --}}
-        <div>
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-2">
-            500+
-          </div>
-          <div class="text-base text-white/80 font-medium">
-            Active Creators
-          </div>
-        </div>
-        {{-- Stat 2 --}}
-        <div>
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-2">
-            50+
-          </div>
-          <div class="text-base text-white/80 font-medium">
-            Premium Products
-          </div>
-        </div>
-        {{-- Stat 3 --}}
-        <div>
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-2">
-            8%
-          </div>
-          <div class="text-base text-white/80 font-medium">
-            Commission Rate
-          </div>
-        </div>
+      {{-- Headline --}}
+      <div class="text-center mb-2 sm:mb-3">
+        <h1 class="text-xl sm:text-2xl lg:text-4xl font-bold leading-snug">
+          <span class="text-gray-900 dark:text-white">Affiliate & Influencer </span>
+          <span class="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 dark:from-amber-400 dark:via-orange-400 dark:to-amber-400 bg-clip-text text-transparent">Program</span>
+        </h1>
       </div>
-    </div>
-  </section>
 
-  {{-- ============================================
-       SECTION 3: HOW IT WORKS (3 Steps)
-       ============================================ --}}
-  <section id="how-it-works" class="bg-white dark:bg-gray-800 py-16 lg:py-24">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      {{-- Section Header --}}
-      <div class="text-center mb-12 lg:mb-16">
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          How It Works
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400">
-          Start earning in 3 simple steps
+      {{-- Subtitle --}}
+      <div class="text-center max-w-lg mx-auto mb-3 sm:mb-4">
+        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+          Join our exclusive community — earn commissions by sharing premium Korean skincare.
         </p>
       </div>
 
-      {{-- Steps --}}
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-        {{-- Step 1 --}}
+      {{-- CTA Button --}}
+      <div class="flex justify-center mb-4 sm:mb-5">
+        <a href="#join-form"
+           class="inline-flex items-center gap-1.5 px-5 py-2 sm:px-7 sm:py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs sm:text-sm font-semibold rounded-full shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all">
+          Join Celigin Club
+          <span class="material-icons-outlined text-base sm:text-lg">arrow_forward</span>
+        </a>
+      </div>
+
+      {{-- Video Section (Autoplay Loop) --}}
+      <div class="relative max-w-5xl mx-auto mb-4 sm:mb-6">
+        {{-- Glow Effect --}}
+        <div class="absolute -inset-1 bg-gradient-to-r from-amber-400/20 via-orange-400/20 to-amber-400/20 dark:from-amber-600/10 dark:via-orange-600/10 dark:to-amber-600/10 rounded-xl sm:rounded-2xl blur-xl"></div>
+
+        <div class="relative overflow-hidden rounded-lg sm:rounded-xl ring-1 ring-black/5 dark:ring-white/10 shadow-2xl aspect-video">
+          {{-- Looping Video --}}
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            muted
+            loop
+            playsinline
+            poster="{{ asset('assets/frontend/images/join-club-banner.png') }}">
+            <source src="{{ asset('assets/frontend/videos/brand-1.mp4') }}" type="video/mp4">
+            {{-- Fallback image if video doesn't load --}}
+            <img
+              src="{{ asset('assets/frontend/images/join-club-banner.png') }}"
+              alt="Celigin Skincare Products"
+              class="w-full h-full object-cover" />
+          </video>
+
+          {{-- Subtle Gradient Overlay --}}
+          <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+        </div>
+      </div>
+
+      {{-- Stats Row --}}
+      <div class="flex justify-center items-center gap-4 sm:gap-8 lg:gap-12 max-w-2xl mx-auto">
+        {{-- Stat 1 --}}
         <div class="text-center">
-          <div class="w-20 h-20 mx-auto mb-6 bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-            <span class="material-icons-outlined text-4xl text-primary-600 dark:text-primary-400">person_add</span>
+          <div class="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">500+</div>
+          <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Creators</div>
+        </div>
+        <div class="w-px h-8 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+        {{-- Stat 2 --}}
+        <div class="text-center">
+          <div class="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">50+</div>
+          <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Products</div>
+        </div>
+        <div class="w-px h-8 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+        {{-- Stat 3 --}}
+        <div class="text-center">
+          <div class="text-base sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-500 dark:from-amber-400 dark:to-orange-400 bg-clip-text text-transparent">8%</div>
+          <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Commission</div>
+        </div>
+        <div class="w-px h-8 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+        {{-- Stat 4 --}}
+        <div class="text-center">
+          <div class="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">03+</div>
+          <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Years</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  {{-- ============================================
+       SECTION 2: HOW IT WORKS (4 Steps)
+       ============================================ --}}
+  <section id="how-it-works" class="bg-gradient-to-b from-white to-amber-50/30 dark:from-gray-800 dark:to-gray-900 py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      {{-- Section Header --}}
+      <div class="text-center mb-12 lg:mb-16">
+        <span class="inline-block text-amber-600 dark:text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">Simple Process</span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
+          How It Works
+        </h2>
+      </div>
+
+      {{-- Steps Grid --}}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+
+        {{-- Step 1 --}}
+        <div class="relative group">
+          <div class="bg-white dark:bg-gray-800 p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-800 transition-colors h-full">
+            {{-- Step Number --}}
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500 text-white text-sm font-bold">01</span>
+              <div class="flex-1 h-px bg-gradient-to-r from-amber-300 to-transparent dark:from-amber-700"></div>
+            </div>
+            {{-- Icon --}}
+            <div class="mb-4">
+              <span class="material-icons-outlined text-3xl text-amber-600 dark:text-amber-400">login</span>
+            </div>
+            {{-- Content --}}
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Join Us</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Sign in through email or phone — quick and secure.
+            </p>
           </div>
-          <div class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-2 uppercase tracking-wide">Step 1</div>
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Sign Up</h3>
-          <p class="text-gray-600 dark:text-gray-400">
-            Register with your social handles and basic details. It's free and takes 2 minutes.
-          </p>
         </div>
 
         {{-- Step 2 --}}
-        <div class="text-center">
-          <div class="w-20 h-20 mx-auto mb-6 bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-            <span class="material-icons-outlined text-4xl text-primary-600 dark:text-primary-400">share</span>
+        <div class="relative group">
+          <div class="bg-white dark:bg-gray-800 p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-800 transition-colors h-full">
+            {{-- Step Number --}}
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500 text-white text-sm font-bold">02</span>
+              <div class="flex-1 h-px bg-gradient-to-r from-amber-300 to-transparent dark:from-amber-700"></div>
+            </div>
+            {{-- Icon --}}
+            <div class="mb-4">
+              <span class="material-icons-outlined text-3xl text-amber-600 dark:text-amber-400">link</span>
+            </div>
+            {{-- Content --}}
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Create Profile</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Set up your profile and generate your unique affiliate link.
+            </p>
           </div>
-          <div class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-2 uppercase tracking-wide">Step 2</div>
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Recommend Products</h3>
-          <p class="text-gray-600 dark:text-gray-400">
-            Share your unique link on social media, blogs, or with friends and family.
-          </p>
         </div>
 
         {{-- Step 3 --}}
-        <div class="text-center">
-          <div class="w-20 h-20 mx-auto mb-6 bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-            <span class="material-icons-outlined text-4xl text-primary-600 dark:text-primary-400">payments</span>
+        <div class="relative group">
+          <div class="bg-white dark:bg-gray-800 p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-800 transition-colors h-full">
+            {{-- Step Number --}}
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500 text-white text-sm font-bold">03</span>
+              <div class="flex-1 h-px bg-gradient-to-r from-amber-300 to-transparent dark:from-amber-700"></div>
+            </div>
+            {{-- Icon --}}
+            <div class="mb-4">
+              <span class="material-icons-outlined text-3xl text-amber-600 dark:text-amber-400">share</span>
+            </div>
+            {{-- Content --}}
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Share & Track</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Recommend products you love and track your performance.
+            </p>
           </div>
-          <div class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-2 uppercase tracking-wide">Step 3</div>
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Earn Commission</h3>
-          <p class="text-gray-600 dark:text-gray-400">
-            Earn <strong>8% commission</strong> on every purchase made through your link.
-          </p>
         </div>
+
+        {{-- Step 4 --}}
+        <div class="relative group">
+          <div class="bg-white dark:bg-gray-800 p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-800 transition-colors h-full">
+            {{-- Step Number --}}
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500 text-white text-sm font-bold">04</span>
+              <div class="flex-1 h-px bg-gradient-to-r from-amber-300 to-transparent dark:from-amber-700"></div>
+            </div>
+            {{-- Icon --}}
+            <div class="mb-4">
+              <span class="material-icons-outlined text-3xl text-amber-600 dark:text-amber-400">payments</span>
+            </div>
+            {{-- Content --}}
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Earn Commission</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Get <span class="text-amber-600 dark:text-amber-400 font-semibold">8% commission</span> on every successful sale.
+            </p>
+          </div>
+        </div>
+
       </div>
 
       {{-- CTA --}}
-      <div class="text-center mt-12">
+      <div class="text-center mt-10 lg:mt-12">
         <a href="#join-form"
-           class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white text-lg font-semibold transition-colors">
-          Get Started Now
-          <span class="material-icons-outlined">arrow_forward</span>
+           class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-full shadow-lg shadow-orange-500/25 transition-all">
+          Start Earning Today
+          <span class="material-icons-outlined text-lg">arrow_forward</span>
         </a>
       </div>
+
     </div>
   </section>
 
