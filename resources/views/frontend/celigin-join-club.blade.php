@@ -11,7 +11,7 @@
 
       {{-- Premium Badge --}}
       <div class="flex justify-center mb-2 sm:mb-3">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-200/60 dark:border-amber-700/40">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-200/60 dark:border-amber-700/40 rounded-full mb-4">
           <span class="text-amber-600 dark:text-amber-400 text-xs">✦</span>
           <span class="text-[10px] sm:text-xs font-medium text-amber-700 dark:text-amber-300 uppercase tracking-wider">Exclusive Program</span>
           <span class="text-amber-600 dark:text-amber-400 text-xs">✦</span>
@@ -29,7 +29,7 @@
       {{-- Subtitle --}}
       <div class="text-center max-w-lg mx-auto mb-3 sm:mb-4">
         <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-          Join our exclusive community — earn commissions by sharing premium Korean skincare.
+          Join our exclusive community - earn commissions by sharing premium Korean skincare.
         </p>
       </div>
 
@@ -42,32 +42,125 @@
         </a>
       </div>
 
-      {{-- Video Section (Autoplay Loop) --}}
-      <div class="relative max-w-5xl mx-auto mb-4 sm:mb-6">
-        {{-- Glow Effect --}}
-        <div class="absolute -inset-1 bg-gradient-to-r from-amber-400/20 via-orange-400/20 to-amber-400/20 dark:from-amber-600/10 dark:via-orange-600/10 dark:to-amber-600/10 rounded-xl sm:rounded-2xl blur-xl"></div>
+      {{-- Video Gallery Section (3D Perspective Cards) --}}
+      <div class="relative w-full mb-4 sm:mb-6 py-4">
+        {{-- Video Cards Container --}}
+        <div class="flex items-end justify-center gap-2 sm:gap-3 lg:gap-4 px-4" style="perspective: 1500px;">
 
-        <div class="relative overflow-hidden rounded-lg sm:rounded-xl ring-1 ring-black/5 dark:ring-white/10 shadow-2xl aspect-video">
-          {{-- Looping Video --}}
-          <video
-            class="w-full h-full object-cover"
-            autoplay
-            muted
-            loop
-            playsinline
-            poster="{{ asset('assets/frontend/images/join-club-banner.png') }}">
-            <source src="{{ asset('assets/frontend/videos/brand-1.mp4') }}" type="video/mp4">
-            {{-- Fallback image if video doesn't load --}}
-            <img
-              src="{{ asset('assets/frontend/images/join-club-banner.png') }}"
-              alt="Celigin Skincare Products"
-              class="w-full h-full object-cover" />
-          </video>
+          {{-- Video Card 1 (Left outer) --}}
+          <div class="video-card relative flex-shrink-0 w-36 sm:w-44 lg:w-52 h-52 sm:h-64 lg:h-80 rounded-2xl overflow-hidden shadow-lg transition-all duration-500 bg-amber-50 dark:bg-gray-700"
+               style="transform: rotateY(18deg) rotateZ(-2deg); transform-origin: center bottom;">
+            <video class="w-full h-full object-cover" muted loop playsinline data-video-card>
+              <source src="{{ asset('assets/frontend/videos/brand-1.mp4') }}" type="video/mp4">
+            </video>
+            <div class="absolute bottom-0 left-0 right-0 h-20 pointer-events-none" style="background: linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 100%);"></div>
+          </div>
 
-          {{-- Subtle Gradient Overlay --}}
-          <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+          {{-- Video Card 2 (Left inner) --}}
+          <div class="video-card relative flex-shrink-0 w-36 sm:w-44 lg:w-52 h-56 sm:h-72 lg:h-[22rem] rounded-2xl overflow-hidden shadow-lg transition-all duration-500 bg-amber-50 dark:bg-gray-700"
+               style="transform: rotateY(10deg) rotateZ(-1deg); transform-origin: center bottom;">
+            <video class="w-full h-full object-cover" muted loop playsinline data-video-card>
+              <source src="{{ asset('assets/frontend/videos/brand-2.mp4') }}" type="video/mp4">
+            </video>
+            <div class="absolute bottom-0 left-0 right-0 h-20 pointer-events-none" style="background: linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 100%);"></div>
+          </div>
+
+          {{-- Video Card 3 (Center - Largest) --}}
+          <div class="video-card video-card-center relative flex-shrink-0 w-40 sm:w-48 lg:w-56 h-64 sm:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl transition-all duration-500 z-10 bg-amber-50 dark:bg-gray-700"
+               style="transform: rotateY(0deg) rotateZ(0deg); transform-origin: center bottom;">
+            <video class="w-full h-full object-cover" muted loop playsinline data-video-card>
+              <source src="{{ asset('assets/frontend/videos/brand-3.mp4') }}" type="video/mp4">
+            </video>
+            <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none" style="background: linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 100%);"></div>
+          </div>
+
+          {{-- Video Card 4 (Right inner) --}}
+          <div class="video-card relative flex-shrink-0 w-36 sm:w-44 lg:w-52 h-56 sm:h-72 lg:h-[22rem] rounded-2xl overflow-hidden shadow-lg transition-all duration-500 bg-amber-50 dark:bg-gray-700"
+               style="transform: rotateY(-10deg) rotateZ(1deg); transform-origin: center bottom;">
+            <video class="w-full h-full object-cover" muted loop playsinline data-video-card>
+              <source src="{{ asset('assets/frontend/videos/brand-4.mp4') }}" type="video/mp4">
+            </video>
+            <div class="absolute bottom-0 left-0 right-0 h-20 pointer-events-none" style="background: linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 100%);"></div>
+          </div>
+
+          {{-- Video Card 5 (Right outer) --}}
+          <div class="video-card relative flex-shrink-0 w-36 sm:w-44 lg:w-52 h-52 sm:h-64 lg:h-80 rounded-2xl overflow-hidden shadow-lg transition-all duration-500 bg-amber-50 dark:bg-gray-700"
+               style="transform: rotateY(-18deg) rotateZ(2deg); transform-origin: center bottom;">
+            <video class="w-full h-full object-cover" muted loop playsinline data-video-card>
+              <source src="{{ asset('assets/frontend/videos/brand-5.mp4') }}" type="video/mp4">
+            </video>
+            <div class="absolute bottom-0 left-0 right-0 h-20 pointer-events-none" style="background: linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 100%);"></div>
+          </div>
+
         </div>
       </div>
+
+      {{-- Random Video Play/Pause Script --}}
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const videos = document.querySelectorAll('[data-video-card]');
+          const playingVideos = new Set();
+          const maxSimultaneous = 2; // Max videos playing at once
+
+          function getRandomVideos(count) {
+            const shuffled = Array.from(videos).sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, count);
+          }
+
+          function playRandomVideos() {
+            // Pause all videos first
+            videos.forEach(video => {
+              video.pause();
+              video.parentElement.classList.remove('is-playing');
+            });
+            playingVideos.clear();
+
+            // Select random videos to play
+            const selectedVideos = getRandomVideos(maxSimultaneous);
+            selectedVideos.forEach(video => {
+              video.play().catch(() => {}); // Catch autoplay restrictions
+              video.parentElement.classList.add('is-playing');
+              playingVideos.add(video);
+            });
+          }
+
+          // Initial play
+          playRandomVideos();
+
+          // Rotate playing videos every 4-6 seconds
+          setInterval(() => {
+            playRandomVideos();
+          }, 4000 + Math.random() * 2000);
+
+          // Hover interaction - play on hover
+          videos.forEach(video => {
+            video.parentElement.addEventListener('mouseenter', () => {
+              video.play().catch(() => {});
+              video.parentElement.classList.add('is-playing');
+            });
+            video.parentElement.addEventListener('mouseleave', () => {
+              if (!playingVideos.has(video)) {
+                video.pause();
+                video.parentElement.classList.remove('is-playing');
+              }
+            });
+          });
+        });
+      </script>
+
+      <style>
+        .video-card {
+          transform-style: preserve-3d;
+          backface-visibility: hidden;
+        }
+        .video-card.is-playing {
+          box-shadow: 0 20px 40px -10px rgba(251, 146, 60, 0.3);
+        }
+        .video-card:hover {
+          transform: rotateY(0deg) rotateZ(0deg) scale(1.02) !important;
+          z-index: 20;
+        }
+      </style>
 
       {{-- Stats Row --}}
       <div class="flex justify-center items-center gap-4 sm:gap-8 lg:gap-12 max-w-2xl mx-auto">
@@ -79,20 +172,20 @@
         <div class="w-px h-8 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
         {{-- Stat 2 --}}
         <div class="text-center">
-          <div class="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">50+</div>
+          <div class="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">20+</div>
           <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Products</div>
         </div>
         <div class="w-px h-8 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
         {{-- Stat 3 --}}
         <div class="text-center">
-          <div class="text-base sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-500 dark:from-amber-400 dark:to-orange-400 bg-clip-text text-transparent">8%</div>
-          <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Commission</div>
+          <div class="text-base sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-500 dark:from-amber-400 dark:to-orange-400 bg-clip-text text-transparent">40%</div>
+          <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Upto Commission</div>
         </div>
         <div class="w-px h-8 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
         {{-- Stat 4 --}}
         <div class="text-center">
-          <div class="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">03+</div>
-          <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Years</div>
+          <div class="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">Korean</div>
+          <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Brand</div>
         </div>
       </div>
 
@@ -101,111 +194,188 @@
 
 
   {{-- ============================================
-       SECTION 2: HOW IT WORKS (4 Steps)
+       SECTION 2: HOW IT WORKS (4 Steps) - Luxury Design
        ============================================ --}}
-  <section id="how-it-works" class="bg-gradient-to-b from-white to-amber-50/30 dark:from-gray-800 dark:to-gray-900 py-16 lg:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="how-it-works" class="relative bg-gradient-to-b from-white via-amber-50/20 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-20 lg:py-28 overflow-hidden">
+
+    {{-- Background Decorative Elements --}}
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-amber-200/20 dark:bg-amber-900/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-orange-200/20 dark:bg-orange-900/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
       {{-- Section Header --}}
-      <div class="text-center mb-12 lg:mb-16">
-        <span class="inline-block text-amber-600 dark:text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">Simple Process</span>
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
-          How It Works
+      <div class="text-center mb-16 lg:mb-20">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200/50 dark:border-amber-700/30 rounded-full mb-4">
+          <span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span>
+          <span class="text-xs font-semibold text-amber-700 dark:text-amber-300 uppercase tracking-wider">Simple 4-Step Process</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          How It <span class="bg-gradient-to-r from-amber-600 to-orange-500 dark:from-amber-400 dark:to-orange-400 bg-clip-text text-transparent">Works</span>
         </h2>
+        <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+          Start your journey to earning in just four simple steps
+        </p>
       </div>
 
-      {{-- Steps Grid --}}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+      {{-- Steps Timeline --}}
+      <div class="relative">
 
-        {{-- Step 1 --}}
-        <div class="relative group">
-          <div class="bg-white dark:bg-gray-800 p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-800 transition-colors h-full">
-            {{-- Step Number --}}
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500 text-white text-sm font-bold">01</span>
-              <div class="flex-1 h-px bg-gradient-to-r from-amber-300 to-transparent dark:from-amber-700"></div>
+        {{-- Connecting Line (Desktop) --}}
+        <div class="hidden lg:block absolute top-24 left-[12%] right-[12%] h-0.5 bg-gradient-to-r from-amber-200 via-orange-300 to-amber-200 dark:from-amber-800 dark:via-orange-700 dark:to-amber-800"></div>
+
+        {{-- Steps Grid --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+
+          {{-- Step 1 --}}
+          <div class="group relative">
+            {{-- Card --}}
+            <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 lg:p-8 border border-gray-100 dark:border-gray-700 shadow-lg shadow-gray-200/50 dark:shadow-none hover:shadow-xl hover:shadow-amber-200/30 dark:hover:shadow-amber-900/20 transition-all duration-500 hover:-translate-y-1">
+
+              {{-- Step Number Badge --}}
+              <div class="absolute -top-4 left-6 flex items-center justify-center w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-500 text-white text-xs font-bold shadow-lg shadow-orange-500/30">
+                01
+              </div>
+
+              {{-- Icon Container --}}
+              <div class="relative w-16 h-16 mx-auto mb-6 mt-2">
+                <div class="absolute inset-0 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 rounded-2xl rotate-6 group-hover:rotate-12 transition-transform duration-500"></div>
+                <div class="relative w-full h-full bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center border border-amber-200/50 dark:border-amber-700/50">
+                  <span class="material-icons-outlined text-3xl bg-gradient-to-br from-amber-600 to-orange-500 bg-clip-text text-transparent">person_add</span>
+                </div>
+              </div>
+
+              {{-- Content --}}
+              <div class="text-center">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Join Us</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Quick sign up via email or phone - completely free
+                </p>
+              </div>
+
             </div>
-            {{-- Icon --}}
-            <div class="mb-4">
-              <span class="material-icons-outlined text-3xl text-amber-600 dark:text-amber-400">login</span>
+
+            {{-- Arrow (Mobile/Tablet) --}}
+            <div class="flex justify-center my-4 lg:hidden">
+              <span class="material-icons-outlined text-amber-400 dark:text-amber-600 text-2xl animate-bounce">keyboard_arrow_down</span>
             </div>
-            {{-- Content --}}
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Join Us</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-              Sign in through email or phone — quick and secure.
-            </p>
           </div>
-        </div>
 
-        {{-- Step 2 --}}
-        <div class="relative group">
-          <div class="bg-white dark:bg-gray-800 p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-800 transition-colors h-full">
-            {{-- Step Number --}}
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500 text-white text-sm font-bold">02</span>
-              <div class="flex-1 h-px bg-gradient-to-r from-amber-300 to-transparent dark:from-amber-700"></div>
+          {{-- Step 2 --}}
+          <div class="group relative">
+            {{-- Card --}}
+            <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 lg:p-8 border border-gray-100 dark:border-gray-700 shadow-lg shadow-gray-200/50 dark:shadow-none hover:shadow-xl hover:shadow-amber-200/30 dark:hover:shadow-amber-900/20 transition-all duration-500 hover:-translate-y-1">
+
+              {{-- Step Number Badge --}}
+              <div class="absolute -top-4 left-6 flex items-center justify-center w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-500 text-white text-xs font-bold shadow-lg shadow-orange-500/30">
+                02
+              </div>
+
+              {{-- Icon Container --}}
+              <div class="relative w-16 h-16 mx-auto mb-6 mt-2">
+                <div class="absolute inset-0 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 rounded-2xl rotate-6 group-hover:rotate-12 transition-transform duration-500"></div>
+                <div class="relative w-full h-full bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center border border-amber-200/50 dark:border-amber-700/50">
+                  <span class="material-icons-outlined text-3xl bg-gradient-to-br from-amber-600 to-orange-500 bg-clip-text text-transparent">link</span>
+                </div>
+              </div>
+
+              {{-- Content --}}
+              <div class="text-center">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Get Your Link</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Create profile & receive your unique affiliate link
+                </p>
+              </div>
+
             </div>
-            {{-- Icon --}}
-            <div class="mb-4">
-              <span class="material-icons-outlined text-3xl text-amber-600 dark:text-amber-400">link</span>
+
+            {{-- Arrow (Mobile/Tablet) --}}
+            <div class="flex justify-center my-4 lg:hidden">
+              <span class="material-icons-outlined text-amber-400 dark:text-amber-600 text-2xl animate-bounce">keyboard_arrow_down</span>
             </div>
-            {{-- Content --}}
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Create Profile</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-              Set up your profile and generate your unique affiliate link.
-            </p>
           </div>
-        </div>
 
-        {{-- Step 3 --}}
-        <div class="relative group">
-          <div class="bg-white dark:bg-gray-800 p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-800 transition-colors h-full">
-            {{-- Step Number --}}
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500 text-white text-sm font-bold">03</span>
-              <div class="flex-1 h-px bg-gradient-to-r from-amber-300 to-transparent dark:from-amber-700"></div>
+          {{-- Step 3 --}}
+          <div class="group relative">
+            {{-- Card --}}
+            <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 lg:p-8 border border-gray-100 dark:border-gray-700 shadow-lg shadow-gray-200/50 dark:shadow-none hover:shadow-xl hover:shadow-amber-200/30 dark:hover:shadow-amber-900/20 transition-all duration-500 hover:-translate-y-1">
+
+              {{-- Step Number Badge --}}
+              <div class="absolute -top-4 left-6 flex items-center justify-center w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-500 text-white text-xs font-bold shadow-lg shadow-orange-500/30">
+                03
+              </div>
+
+              {{-- Icon Container --}}
+              <div class="relative w-16 h-16 mx-auto mb-6 mt-2">
+                <div class="absolute inset-0 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 rounded-2xl rotate-6 group-hover:rotate-12 transition-transform duration-500"></div>
+                <div class="relative w-full h-full bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center border border-amber-200/50 dark:border-amber-700/50">
+                  <span class="material-icons-outlined text-3xl bg-gradient-to-br from-amber-600 to-orange-500 bg-clip-text text-transparent">share</span>
+                </div>
+              </div>
+
+              {{-- Content --}}
+              <div class="text-center">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Share & Promote</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Share products you love on social media & beyond
+                </p>
+              </div>
+
             </div>
-            {{-- Icon --}}
-            <div class="mb-4">
-              <span class="material-icons-outlined text-3xl text-amber-600 dark:text-amber-400">share</span>
+
+            {{-- Arrow (Mobile/Tablet) --}}
+            <div class="flex justify-center my-4 lg:hidden">
+              <span class="material-icons-outlined text-amber-400 dark:text-amber-600 text-2xl animate-bounce">keyboard_arrow_down</span>
             </div>
-            {{-- Content --}}
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Share & Track</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-              Recommend products you love and track your performance.
-            </p>
           </div>
-        </div>
 
-        {{-- Step 4 --}}
-        <div class="relative group">
-          <div class="bg-white dark:bg-gray-800 p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-800 transition-colors h-full">
-            {{-- Step Number --}}
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500 text-white text-sm font-bold">04</span>
-              <div class="flex-1 h-px bg-gradient-to-r from-amber-300 to-transparent dark:from-amber-700"></div>
+          {{-- Step 4 --}}
+          <div class="group relative">
+            {{-- Card with Highlight --}}
+            <div class="relative bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 p-6 lg:p-8 border border-amber-200 dark:border-amber-700/50 shadow-lg shadow-amber-200/30 dark:shadow-none hover:shadow-xl hover:shadow-amber-300/40 dark:hover:shadow-amber-900/30 transition-all duration-500 hover:-translate-y-1">
+
+              {{-- Step Number Badge --}}
+              <div class="absolute -top-4 left-6 flex items-center justify-center w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-500 text-white text-xs font-bold shadow-lg shadow-orange-500/30 ring-2 ring-white dark:ring-gray-900">
+                04
+              </div>
+
+              {{-- Icon Container --}}
+              <div class="relative w-16 h-16 mx-auto mb-6 mt-2">
+                <div class="absolute inset-0 bg-gradient-to-br from-amber-200 to-orange-200 dark:from-amber-800/60 dark:to-orange-800/60 rounded-2xl rotate-6 group-hover:rotate-12 transition-transform duration-500"></div>
+                <div class="relative w-full h-full bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center border border-amber-300/50 dark:border-amber-600/50">
+                  <span class="material-icons-outlined text-3xl bg-gradient-to-br from-amber-600 to-orange-500 bg-clip-text text-transparent">payments</span>
+                </div>
+              </div>
+
+              {{-- Content --}}
+              <div class="text-center">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Earn Rewards</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                  Get up to <span class="font-bold text-amber-600 dark:text-amber-400">40% commission</span> on every sale
+                </p>
+              </div>
+
+              {{-- Highlight Badge --}}
+              <div class="absolute -top-3 -right-2 px-2 py-0.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold uppercase tracking-wide shadow-lg">
+                Best Part
+              </div>
+
             </div>
-            {{-- Icon --}}
-            <div class="mb-4">
-              <span class="material-icons-outlined text-3xl text-amber-600 dark:text-amber-400">payments</span>
-            </div>
-            {{-- Content --}}
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Earn Commission</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-              Get <span class="text-amber-600 dark:text-amber-400 font-semibold">8% commission</span> on every successful sale.
-            </p>
           </div>
-        </div>
 
+        </div>
       </div>
 
       {{-- CTA --}}
-      <div class="text-center mt-10 lg:mt-12">
+      <div class="text-center mt-14 lg:mt-16">
         <a href="#join-form"
-           class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-full shadow-lg shadow-orange-500/25 transition-all">
+           class="group inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-full shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-300 hover:scale-105">
           Start Earning Today
-          <span class="material-icons-outlined text-lg">arrow_forward</span>
+          <span class="material-icons-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </a>
+        <p class="mt-4 text-sm text-gray-400 dark:text-gray-500">No fees • No commitments • Cancel anytime</p>
       </div>
 
     </div>
