@@ -269,7 +269,7 @@
                 <span class="material-icons-outlined text-amber-500 text-xl" aria-hidden="true">local_fire_department</span>
                 <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Hot Items to Promote</h3>
               </div>
-              <a href="{{ route('front.category', 'best-sellers') }}" class="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-500">
+              <a href="{{ route('front.sales') }}" class="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-500">
                 View All
               </a>
             </div>
@@ -284,7 +284,7 @@
                 <p class="text-xs text-gray-400">No products available</p>
               @endforelse
               @if($hotProducts->count() >= 5)
-                <a href="{{ route('front.category', 'best-sellers') }}" class="flex-1 aspect-square bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 flex items-center justify-center hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors" title="View all products">
+                <a href="{{ route('front.sales') }}" class="flex-1 aspect-square bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 flex items-center justify-center hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors" title="View all products">
                   <span class="material-icons-outlined text-amber-600 dark:text-amber-400 text-xl" aria-hidden="true">arrow_forward</span>
                 </a>
               @endif
