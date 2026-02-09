@@ -8,6 +8,8 @@
 <meta property="og:title" content="Join Celigin Club - Earn Up to 40% Commission">
 <meta property="og:description" content="Join our exclusive affiliate program and earn up to 40% commission by sharing premium Korean skincare products.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:image" content="{{ asset('assets/frontend/images/celigin-affiliate-og.jpg') }}">
 <link rel="canonical" href="{{ url()->current() }}">
 @endsection
 
@@ -15,7 +17,7 @@
 <main id="main-content" role="main" class="bg-gray-50 dark:bg-gray-900 min-h-screen">
 
   {{-- Skip Link for Accessibility --}}
-  <a href="#join-form" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white">
+  <a href="#affiliate-form" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white">
     Skip to registration form
   </a>
 
@@ -103,8 +105,8 @@
       <div class="relative w-full mb-4 sm:mb-6 py-4" role="region" aria-label="Brand showcase videos">
         <div class="flex items-end justify-center gap-2 sm:gap-3 lg:gap-4 px-4 video-gallery">
           @foreach($videoCards as $index => $card)
-            <div class="video-card relative flex-shrink-0 {{ $card['width'] }} {{ $card['height'] }} rounded-2xl overflow-hidden shadow-{{ isset($card['center']) ? 'xl' : 'lg' }} transition-all duration-500 {{ isset($card['center']) ? 'z-10' : '' }} bg-amber-50 dark:bg-gray-700"
-                 style="transform: rotateY({{ $card['rotate'] }}) rotateZ({{ $card['rotateZ'] }}); transform-origin: center bottom;">
+            <div class="video-card relative flex-shrink-0 {{ $card['width'] }} {{ $card['height'] }} rounded-2xl overflow-hidden shadow-{{ isset($card['center']) ? 'xl' : 'lg' }} {{ isset($card['center']) ? 'z-10' : '' }} bg-amber-50 dark:bg-gray-700"
+                 data-rotate-y="{{ $card['rotate'] }}" data-rotate-z="{{ $card['rotateZ'] }}">
               <video class="w-full h-full object-cover" muted loop playsinline data-video-card aria-label="Brand showcase video {{ $index + 1 }}">
                 <source src="{{ asset('assets/frontend/videos/' . $card['src']) }}" type="video/mp4">
               </video>
@@ -241,42 +243,62 @@
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl shadow-gray-200/50 dark:shadow-none flex flex-col h-full">
 
           {{-- Header --}}
-          <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-6 lg:p-8">
-            <div class="flex items-center gap-4">
-              <div class="w-14 h-14 bg-white/20 backdrop-blur flex items-center justify-center flex-shrink-0" aria-hidden="true">
-                <span class="material-icons-outlined text-white text-2xl">trending_up</span>
+          <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-5">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-white/20 backdrop-blur flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                <span class="material-icons-outlined text-white text-xl">trending_up</span>
               </div>
               <div>
-                <div class="text-sm text-white/80">Earn up to</div>
-                <div class="text-3xl font-bold text-white">40% Commission</div>
+                <div class="text-xs text-white/80">Earn up to</div>
+                <div class="text-2xl font-bold text-white">40% Commission</div>
               </div>
             </div>
           </div>
 
-          {{-- Hot Items Link --}}
-          <a href="{{ route('front.category', 'best-sellers') }}" class="block p-6 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center" aria-hidden="true">
-                  <span class="material-icons-outlined text-amber-600 dark:text-amber-400 text-2xl">local_fire_department</span>
-                </div>
-                <div>
-                  <h3 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Hot Items to Promote</h3>
-                  <p class="text-sm text-gray-500 dark:text-gray-400">Browse our best-selling products</p>
-                </div>
+          {{-- Hot Items to Promote --}}
+          @php
+            $hotProducts = \App\Models\Product::where('status', 1)
+              ->where('best', 1)
+              ->select('id', 'name', 'slug', 'photo')
+              ->take(5)
+              ->get();
+          @endphp
+          <div class="p-5 border-b border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="material-icons-outlined text-amber-500 text-xl" aria-hidden="true">local_fire_department</span>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Hot Items to Promote</h3>
               </div>
-              <span class="material-icons-outlined text-gray-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 text-xl transition-transform group-hover:translate-x-1" aria-hidden="true">chevron_right</span>
+              <a href="{{ route('front.category', 'best-sellers') }}" class="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-500">
+                View All
+              </a>
             </div>
-          </a>
+            <div class="flex items-center gap-1.5">
+              @forelse($hotProducts as $product)
+                <a href="{{ route('front.product', $product->slug) }}" class="group flex-1" title="{{ $product->name }}">
+                  <div class="aspect-square bg-gray-100 dark:bg-gray-700 overflow-hidden border border-gray-200 dark:border-gray-600 group-hover:border-amber-400 transition-colors">
+                    <img src="{{ asset('assets/images/products/' . $product->photo) }}" alt="{{ $product->name }}" class="w-full h-full object-cover" loading="lazy">
+                  </div>
+                </a>
+              @empty
+                <p class="text-xs text-gray-400">No products available</p>
+              @endforelse
+              @if($hotProducts->count() >= 5)
+                <a href="{{ route('front.category', 'best-sellers') }}" class="flex-1 aspect-square bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 flex items-center justify-center hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors" title="View all products">
+                  <span class="material-icons-outlined text-amber-600 dark:text-amber-400 text-xl" aria-hidden="true">arrow_forward</span>
+                </a>
+              @endif
+            </div>
+          </div>
 
           {{-- Level Guide --}}
-          <div class="p-6 lg:p-8 flex-1">
-            <div class="flex items-center justify-between mb-5">
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white">Level Guide</h3>
-              <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1">Grow & Earn More</span>
+          <div class="p-5 flex-1">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Level Guide</h3>
+              <span class="text-[10px] text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5">Grow & Earn More</span>
             </div>
 
-            <ul class="space-y-4" role="list">
+            <ul class="space-y-2" role="list">
               @foreach($levels as $level)
                 @php
                   $bgClass = match($level['style']) {
@@ -299,21 +321,21 @@
                     default => 'text-gray-700 dark:text-gray-300',
                   };
                 @endphp
-                <li class="flex items-center gap-4 p-3 {{ $bgClass }} border {{ isset($level['top']) ? 'relative' : '' }}">
+                <li class="flex items-center gap-3 p-2.5 {{ $bgClass }} border {{ isset($level['top']) ? 'relative' : '' }}">
                   @if(isset($level['top']))
-                    <div class="absolute -top-2 -right-2 px-2 py-0.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold uppercase">Top</div>
+                    <div class="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] font-bold uppercase">Top</div>
                   @endif
-                  <div class="w-10 h-10 {{ $badgeClass }} flex items-center justify-center text-sm font-bold" aria-hidden="true">{{ $level['level'] }}</div>
-                  <div class="flex-1">
-                    <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ $level['title'] }}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ $level['requirement'] }}</div>
+                  <div class="w-8 h-8 {{ $badgeClass }} flex items-center justify-center text-xs font-bold" aria-hidden="true">{{ $level['level'] }}</div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-xs font-semibold text-gray-900 dark:text-white truncate">{{ $level['title'] }}</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400 truncate">{{ $level['requirement'] }}</div>
                   </div>
-                  <div class="text-xl font-bold {{ $textClass }}">{{ $level['commission'] }}</div>
+                  <div class="text-base font-bold {{ $textClass }}">{{ $level['commission'] }}</div>
                 </li>
               @endforeach
             </ul>
 
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-5 text-center">*Terms & conditions apply</p>
+            <p class="text-[10px] text-gray-400 dark:text-gray-500 mt-3 text-center">*Terms & conditions apply</p>
           </div>
         </div>
 
@@ -322,54 +344,54 @@
           @auth
             {{-- LOGGED IN: Dashboard --}}
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl shadow-gray-200/50 dark:shadow-none flex flex-col h-full">
-              <div class="bg-gray-900 dark:bg-gray-700 p-6 lg:p-8">
-                <h3 class="text-xl font-bold text-white">Your Earnings</h3>
-                <p class="text-sm text-gray-300 mt-1">Track your affiliate performance</p>
+              <div class="bg-gray-900 dark:bg-gray-700 p-5">
+                <h3 class="text-lg font-bold text-white">Your Earnings</h3>
+                <p class="text-xs text-gray-300 mt-0.5">Track your affiliate performance</p>
               </div>
 
-              <div class="p-6 lg:p-8 flex-1 flex flex-col">
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                  <div class="bg-gray-50 dark:bg-gray-700 p-4 border border-gray-200 dark:border-gray-600">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">Total Earnings</div>
-                    <div class="text-2xl font-bold text-gray-900 dark:text-white">₹0.00</div>
+              <div class="p-5 flex-1 flex flex-col">
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                  <div class="bg-gray-50 dark:bg-gray-700 p-3 border border-gray-200 dark:border-gray-600">
+                    <div class="text-xs text-gray-500 dark:text-gray-400">Total Earnings</div>
+                    <div class="text-xl font-bold text-gray-900 dark:text-white">₹0.00</div>
                   </div>
-                  <div class="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 p-4 border border-amber-200 dark:border-amber-700/30">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">Pending</div>
-                    <div class="text-2xl font-bold text-amber-600 dark:text-amber-400">₹0.00</div>
+                  <div class="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 p-3 border border-amber-200 dark:border-amber-700/30">
+                    <div class="text-xs text-gray-500 dark:text-gray-400">Pending</div>
+                    <div class="text-xl font-bold text-amber-600 dark:text-amber-400">₹0.00</div>
                   </div>
                 </div>
 
-                <div class="mb-6">
-                  <label for="referral-link" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Referral Link</label>
+                <div class="mb-4">
+                  <label for="referral-link" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">Your Referral Link</label>
                   <div class="flex">
                     <input type="text" id="referral-link" readonly value="{{ url('/') }}?ref={{ auth()->user()->id ?? 'CODE' }}"
-                           class="flex-1 px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm" />
+                           class="flex-1 px-3 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-xs" />
                     <button type="button" id="copy-link-btn" aria-label="Copy referral link to clipboard"
-                            class="px-4 bg-gray-900 dark:bg-gray-600 text-white hover:bg-gray-800 dark:hover:bg-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                      <span class="material-icons-outlined text-lg" aria-hidden="true">content_copy</span>
+                            class="px-3 bg-gray-900 dark:bg-gray-600 text-white hover:bg-gray-800 dark:hover:bg-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                      <span class="material-icons-outlined text-base" aria-hidden="true">content_copy</span>
                     </button>
                   </div>
                 </div>
 
-                <div class="grid grid-cols-3 gap-3 text-center mb-6">
-                  <div class="py-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
-                    <div class="text-xl font-bold text-gray-900 dark:text-white">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">Clicks</div>
+                <div class="grid grid-cols-3 gap-2 text-center mb-4">
+                  <div class="py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
+                    <div class="text-lg font-bold text-gray-900 dark:text-white">0</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400">Clicks</div>
                   </div>
-                  <div class="py-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
-                    <div class="text-xl font-bold text-gray-900 dark:text-white">0</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">Orders</div>
+                  <div class="py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
+                    <div class="text-lg font-bold text-gray-900 dark:text-white">0</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400">Orders</div>
                   </div>
-                  <div class="py-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
-                    <div class="text-xl font-bold text-amber-600 dark:text-amber-400">10%</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">Commission</div>
+                  <div class="py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
+                    <div class="text-lg font-bold text-amber-600 dark:text-amber-400">10%</div>
+                    <div class="text-[10px] text-gray-500 dark:text-gray-400">Commission</div>
                   </div>
                 </div>
 
                 <div class="mt-auto">
-                  <a href="#" class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                  <a href="#" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                     Go to Dashboard
-                    <span class="material-icons-outlined text-lg" aria-hidden="true">arrow_forward</span>
+                    <span class="material-icons-outlined text-base" aria-hidden="true">arrow_forward</span>
                   </a>
                 </div>
               </div>
@@ -378,15 +400,15 @@
           @else
             {{-- GUEST: Join Form --}}
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl shadow-gray-200/50 dark:shadow-none flex flex-col h-full">
-              <div class="bg-gray-900 dark:bg-gray-700 p-6 lg:p-8 text-center">
-                <h3 class="text-xl font-bold text-white">Join Now</h3>
-                <p class="text-sm text-gray-300 mt-1">Start earning in less than 2 minutes</p>
+              <div class="bg-gray-900 dark:bg-gray-700 p-5 text-center">
+                <h3 class="text-lg font-bold text-white">Join Now</h3>
+                <p class="text-xs text-gray-300 mt-0.5">Start earning in less than 2 minutes</p>
               </div>
 
-              <div class="p-6 lg:p-8 flex-1 flex flex-col">
+              <div class="p-5 flex-1 flex flex-col">
                 @if ($errors->any())
-                  <div class="mb-5 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200" role="alert">
-                    <ul class="list-disc list-inside space-y-1 text-sm">
+                  <div class="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200" role="alert">
+                    <ul class="list-disc list-inside space-y-1 text-xs">
                       @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                       @endforeach
@@ -395,81 +417,80 @@
                 @endif
 
                 @if (session('success'))
-                  <div class="mb-5 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200" role="status">
-                    <p class="font-medium">{{ session('success') }}</p>
+                  <div class="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200" role="status">
+                    <p class="font-medium text-sm">{{ session('success') }}</p>
                   </div>
                 @endif
 
-                <form action="{{ route('front.join-now-club-store') }}" method="POST" class="flex-1 flex flex-col" novalidate>
+                <form action="{{ route('front.join-now-club-store') }}#affiliate-form" method="POST" class="flex-1 flex flex-col" id="join-form">
                   @csrf
-                  <div class="space-y-4 flex-1">
+                  <div class="space-y-3 flex-1">
                     <div>
-                      <label for="name" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
+                      <label for="name" class="block text-xs font-medium text-gray-900 dark:text-gray-100 mb-1">
                         Full Name <span class="text-red-500" aria-hidden="true">*</span>
                         <span class="sr-only">(required)</span>
                       </label>
                       <input type="text" id="name" name="name" required value="{{ old('name') }}" autocomplete="name"
-                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
-                             placeholder="Your name"
-                             aria-describedby="{{ $errors->has('name') ? 'name-error' : '' }}" />
+                             class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                             placeholder="Your name" />
                     </div>
 
                     <div>
-                      <label for="email" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
+                      <label for="email" class="block text-xs font-medium text-gray-900 dark:text-gray-100 mb-1">
                         Email <span class="text-red-500" aria-hidden="true">*</span>
                         <span class="sr-only">(required)</span>
                       </label>
                       <input type="email" id="email" name="email" required value="{{ old('email') }}" autocomplete="email"
-                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                             class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
                              placeholder="you@example.com" />
                     </div>
 
                     <div>
-                      <label for="phone" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
+                      <label for="phone" class="block text-xs font-medium text-gray-900 dark:text-gray-100 mb-1">
                         Phone <span class="text-red-500" aria-hidden="true">*</span>
                         <span class="sr-only">(required)</span>
                       </label>
                       <input type="tel" id="phone" name="phone" required value="{{ old('phone') }}" autocomplete="tel"
-                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                             class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
                              placeholder="Your phone number" pattern="[0-9]{10,15}" />
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-3">
                       <div>
-                        <label for="instagram" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
-                          Instagram <span class="text-gray-400 text-xs">(Optional)</span>
+                        <label for="instagram" class="block text-xs font-medium text-gray-900 dark:text-gray-100 mb-1">
+                          Instagram <span class="text-gray-400 text-[10px]">(Optional)</span>
                         </label>
                         <input type="text" id="instagram" name="instagram_profile_link" value="{{ old('instagram_profile_link') }}"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                               class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
                                placeholder="@username" />
                       </div>
                       <div>
-                        <label for="youtube" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
-                          YouTube <span class="text-gray-400 text-xs">(Optional)</span>
+                        <label for="youtube" class="block text-xs font-medium text-gray-900 dark:text-gray-100 mb-1">
+                          YouTube <span class="text-gray-400 text-[10px]">(Optional)</span>
                         </label>
                         <input type="text" id="youtube" name="youtube_profile_link" value="{{ old('youtube_profile_link') }}"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                               class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
                                placeholder="Channel link" />
                       </div>
                     </div>
 
                     <div class="flex items-start">
                       <input type="checkbox" id="terms" name="terms" required
-                             class="w-4 h-4 mt-1 text-primary-600 border-gray-300 dark:border-gray-600 focus:ring-primary-600 dark:bg-gray-700" />
-                      <label for="terms" class="ml-3 text-sm text-gray-600 dark:text-gray-400">
-                        I agree to the <a href="{{ route('front.page', 'terms-conditions') }}" class="text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500">Terms & Conditions</a> and <a href="{{ route('front.page', 'privacy-policy') }}" class="text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500">Privacy Policy</a>
+                             class="w-4 h-4 mt-0.5 text-primary-600 border-gray-300 dark:border-gray-600 focus:ring-primary-600 dark:bg-gray-700" />
+                      <label for="terms" class="ml-2 text-xs text-gray-600 dark:text-gray-400">
+                        I agree to the <a href="{{ route('terms') }}" class="text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500">Terms</a> and <a href="{{ route('privacy') }}" class="text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500">Privacy Policy</a>
                       </label>
                     </div>
                   </div>
 
-                  <div class="mt-auto pt-6">
+                  <div class="mt-auto pt-4">
                     <button type="submit"
-                            class="w-full px-6 py-4 bg-primary-600 text-white text-lg font-semibold hover:bg-primary-700 transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            class="w-full px-5 py-3 bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                       JOIN NOW
                       <span class="material-icons-outlined" aria-hidden="true">chevron_right</span>
                     </button>
 
-                    <p class="text-sm text-gray-500 dark:text-gray-500 text-center mt-4">
+                    <p class="text-xs text-gray-500 dark:text-gray-500 text-center mt-3">
                       Already a member?
                       <a href="{{ route('otp.login.form') }}" class="text-primary-600 dark:text-primary-400 font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500">Login</a>
                     </p>
@@ -511,6 +532,30 @@
 
 </main>
 
+{{-- Video Card Styles --}}
+<style>
+  .video-card {
+    --rotate-y: 0deg;
+    --rotate-z: 0deg;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transform-origin: center bottom;
+    transform: rotateY(var(--rotate-y)) rotateZ(var(--rotate-z)) scale(1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  }
+  .video-card.is-playing {
+    box-shadow: 0 20px 40px -10px rgba(251, 146, 60, 0.4);
+  }
+  .video-card:hover {
+    transform: rotateY(0deg) rotateZ(0deg) scale(1.08) !important;
+    z-index: 30;
+    box-shadow: 0 30px 60px -15px rgba(251, 146, 60, 0.5);
+  }
+  .video-gradient {
+    background: linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 100%);
+  }
+</style>
+
 {{-- FAQ Schema Markup for SEO --}}
 <script type="application/ld+json">
 {
@@ -532,70 +577,107 @@
 </script>
 @endsection
 
-@push('styles')
-<style>
-  .video-card {
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-  }
-  .video-card.is-playing {
-    box-shadow: 0 20px 40px -10px rgba(251, 146, 60, 0.3);
-  }
-  .video-card:hover {
-    transform: rotateY(0deg) rotateZ(0deg) scale(1.02) !important;
-    z-index: 20;
-  }
-  .video-gradient {
-    background: linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 100%);
-  }
-</style>
-@endpush
-
-@push('scripts')
+@section('scripts')
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Video Card Random Play
+    // Video Cards Setup
+    const cards = document.querySelectorAll('.video-card');
     const videos = document.querySelectorAll('[data-video-card]');
     const playingVideos = new Set();
     const maxSimultaneous = 2;
 
+    // Set initial transforms via CSS custom properties
+    cards.forEach(card => {
+      const rotateY = card.dataset.rotateY || '0deg';
+      const rotateZ = card.dataset.rotateZ || '0deg';
+      card.style.setProperty('--rotate-y', rotateY);
+      card.style.setProperty('--rotate-z', rotateZ);
+    });
+
+    // Ensure videos are muted (required for autoplay)
+    videos.forEach(video => {
+      video.muted = true;
+      video.playsInline = true;
+    });
+
+    function playVideo(video) {
+      video.muted = true;
+      video.play().then(() => {
+        video.parentElement.classList.add('is-playing');
+        playingVideos.add(video);
+      }).catch(() => {});
+    }
+
+    function pauseVideo(video) {
+      video.pause();
+      video.parentElement.classList.remove('is-playing');
+      playingVideos.delete(video);
+    }
+
     function getRandomVideos(count) {
-      const shuffled = Array.from(videos).sort(() => Math.random() - 0.5);
-      return shuffled.slice(0, count);
+      const arr = Array.from(videos);
+      const shuffled = [];
+      while (shuffled.length < count && arr.length > 0) {
+        const idx = Math.floor(Math.random() * arr.length);
+        shuffled.push(arr.splice(idx, 1)[0]);
+      }
+      return shuffled;
     }
 
     function playRandomVideos() {
-      videos.forEach(video => {
-        video.pause();
-        video.parentElement.classList.remove('is-playing');
-      });
-      playingVideos.clear();
+      // Pause all videos first
+      videos.forEach(video => pauseVideo(video));
 
+      // Play 2 random videos
       const selectedVideos = getRandomVideos(maxSimultaneous);
-      selectedVideos.forEach(video => {
-        video.play().catch(() => {});
-        video.parentElement.classList.add('is-playing');
-        playingVideos.add(video);
-      });
+      selectedVideos.forEach(video => playVideo(video));
     }
 
-    if (videos.length > 0) {
-      playRandomVideos();
-      setInterval(playRandomVideos, 4000 + Math.random() * 2000);
+    // Random interval rotation (4-6 seconds)
+    function scheduleNextRotation() {
+      const delay = 4000 + Math.random() * 2000;
+      setTimeout(() => {
+        playRandomVideos();
+        scheduleNextRotation();
+      }, delay);
+    }
 
-      videos.forEach(video => {
-        video.parentElement.addEventListener('mouseenter', () => {
-          video.play().catch(() => {});
-          video.parentElement.classList.add('is-playing');
+    function initVideos() {
+      if (videos.length === 0) return;
+
+      // Small delay to ensure videos are loaded
+      setTimeout(() => {
+        playRandomVideos();
+        scheduleNextRotation();
+      }, 500);
+
+      // Hover: play video on hover
+      cards.forEach(card => {
+        const video = card.querySelector('[data-video-card]');
+
+        card.addEventListener('mouseenter', () => {
+          if (video) playVideo(video);
         });
-        video.parentElement.addEventListener('mouseleave', () => {
-          if (!playingVideos.has(video)) {
-            video.pause();
-            video.parentElement.classList.remove('is-playing');
+
+        card.addEventListener('mouseleave', () => {
+          if (video && !playingVideos.has(video)) {
+            pauseVideo(video);
           }
         });
       });
     }
+
+    // Start
+    initVideos();
+
+    // Handle page visibility change
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        videos.forEach(video => video.pause());
+      } else {
+        playRandomVideos();
+      }
+    });
 
     // Copy Link Button
     const copyBtn = document.getElementById('copy-link-btn');
@@ -609,6 +691,26 @@
         });
       });
     }
+
+    // Scroll to form if there are validation errors or hash is present
+    @if($errors->any())
+      const formSection = document.getElementById('affiliate-form');
+      if (formSection) {
+        setTimeout(() => {
+          formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
+    @endif
+
+    // Handle hash in URL (for form redirect)
+    if (window.location.hash === '#affiliate-form') {
+      const formSection = document.getElementById('affiliate-form');
+      if (formSection) {
+        setTimeout(() => {
+          formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
   });
 </script>
-@endpush
+@endsection
