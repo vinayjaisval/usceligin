@@ -4,22 +4,22 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Wishlist;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AccountController extends Controller
 {
     /**
      * Show user account dashboard
      */
-    public function index()
+    public function index(Request $request)
     {
-
-        // Check if user is authenticated
         if (!Auth::check()) {
             return redirect()->route('otp.login.form')
                 ->with('error', 'Please login to access your account.');
@@ -27,23 +27,63 @@ class AccountController extends Controller
 
         $user = Auth::user();
 
-        // Get user's recent orders (limit to 5 most recent)
-        $orders = Order::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
+        // Build orders query with search and time filter
+        $ordersQuery = Order::where('user_id', $user->id);
+
+        // Time period filter
+        $period = $request->get('period', 'all');
+        if ($period === '3months') {
+            $ordersQuery->where('created_at', '>=', Carbon::now()->subMonths(3));
+        } elseif ($period === '6months') {
+            $ordersQuery->where('created_at', '>=', Carbon::now()->subMonths(6));
+        } elseif ($period === 'year') {
+            $ordersQuery->where('created_at', '>=', Carbon::now()->subYear());
+        }
+
+        // Search filter
+        $search = $request->get('search', '');
+        if (!empty($search)) {
+            $ordersQuery->where(function ($q) use ($search) {
+                $q->where('order_number', 'like', "%{$search}%")
+                  ->orWhere('cart', 'like', "%{$search}%")
+                  ->orWhere('customer_name', 'like', "%{$search}%");
+            });
+        }
+
+        $orders = $ordersQuery->orderBy('created_at', 'desc')->get();
+
+        // Build "Buy Again" products from past orders
+        $allOrders = Order::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        $buyAgainProducts = collect();
+        foreach ($allOrders as $order) {
+            $cart = json_decode($order->cart, true);
+            if (!empty($cart['items'])) {
+                foreach ($cart['items'] as $item) {
+                    $productId = $item['item']['id'] ?? null;
+                    if ($productId && !$buyAgainProducts->has($productId)) {
+                        $product = Product::find($productId);
+                        if ($product && $product->status == 1) {
+                            $buyAgainProducts->put($productId, [
+                                'product' => $product,
+                                'last_purchased' => $order->created_at,
+                                'currency_sign' => $order->currency_sign,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+        $buyAgainProducts = $buyAgainProducts->take(20);
 
         // Get user's wishlist items with product details
         $wishlist = Wishlist::where('user_id', $user->id)
             ->with('product')
             ->get();
 
-
-
         // Get user's addresses
         $addresses = Address::where('user_id', $user->id)->get();
 
-        // Get user's points/rewards (if column exists, otherwise default to 0)
+        // Get user's points/rewards
         $points = $user->reward_points ?? 0;
 
         // Calculate total counts for dashboard stats
@@ -93,7 +133,10 @@ class AccountController extends Controller
             'totalOrders',
             'totalWishlistItems',
             'final_affilate_users',
-            'final_refferal_users'
+            'final_refferal_users',
+            'buyAgainProducts',
+            'search',
+            'period'
         ));
     }
     public function addwish($id)

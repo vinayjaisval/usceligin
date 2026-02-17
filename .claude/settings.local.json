@@ -76,7 +76,12 @@
       "Bash(find:*)",
       "Bash(grep:*)",
       "Bash(git rm:*)",
-      "Bash(if not exist \"C:\\\\wamp64\\\\www\\\\usceligin\\\\resources\\\\views\\\\frontend\\\\partials\" mkdir \"C:\\\\wamp64\\\\www\\\\usceligin\\\\resources\\\\views\\\\frontend\\\\partials\")"
+      "Bash(if not exist \"C:\\\\wamp64\\\\www\\\\usceligin\\\\resources\\\\views\\\\frontend\\\\partials\" mkdir \"C:\\\\wamp64\\\\www\\\\usceligin\\\\resources\\\\views\\\\frontend\\\\partials\")",
+      "WebFetch(domain:www.celiginglobal.com)",
+      "WebFetch(domain:affiliate.nykaa.com)",
+      "WebFetch(domain:www.instagram.com)",
+      "Bash(/c/wamp64/bin/php/php8.1.31/php.exe:*)",
+      "Bash(/c/wamp64/bin/php/php8.2.26/php.exe artisan view:clear)"
     ],
     "deny": [],
     "ask": []
