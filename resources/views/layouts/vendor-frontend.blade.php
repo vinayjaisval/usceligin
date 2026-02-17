@@ -60,11 +60,11 @@
               <a href="{{ route('user.account') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
                 My Account
               </a>
-              <a href="{{ route('vendor.profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <a href="{{ route('vendor-profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
                 Vendor Profile
               </a>
               <hr class="my-1 border-gray-200 dark:border-gray-700">
-              <a href="{{ route('user.logout') }}" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
                 Sign Out
               </a>
             </div>
@@ -148,7 +148,7 @@
 
               <hr class="my-2 border-gray-200 dark:border-gray-700">
 
-              <a href="{{ route('user.logout') }}"
+              <a href="{{ route('logout') }}"
                  class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 transition-colors">
                 <span class="material-icons-outlined text-lg">logout</span>
                 <span>Sign Out</span>
