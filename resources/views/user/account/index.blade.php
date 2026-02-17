@@ -144,221 +144,180 @@
         <div id="content-dashboard" class="tab-content">
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Dashboard</h1>
 
-          {{-- Quick Stats at Top --}}
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $totalOrders }}</div>
-              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Total Orders</div>
-            </div>
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $totalWishlistItems }}</div>
-              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Wishlist Items</div>
-            </div>
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">Ȼ{{ round(Auth::user()->current_balance ?? 0) }}</div>
-              <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Points Earned</div>
+          {{-- Quick Stats --}}
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 mb-5">
+            <div class="grid grid-cols-3 divide-x divide-gray-200 dark:divide-gray-700">
+              <a href="#purchases" onclick="switchTab(null, 'purchases')" class="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl">shopping_bag</span>
+                <div>
+                  <p class="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{{ $totalOrders }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Orders</p>
+                </div>
+              </a>
+              <a href="#wishlists" onclick="switchTab(null, 'wishlists')" class="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl">favorite_border</span>
+                <div>
+                  <p class="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{{ $totalWishlistItems }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Wishlist</p>
+                </div>
+              </a>
+              <a href="#points" onclick="switchTab(null, 'points')" class="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl">stars</span>
+                <div>
+                  <p class="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{{ round(Auth::user()->current_balance ?? 0) }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Points</p>
+                </div>
+              </a>
             </div>
           </div>
 
-          {{-- Join CELIGIN CLUB Section --}}
-          <div class="mb-6">
-            <a href="{{ route('front.celigin-join-club') }}" class="block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 hover:border-blue-500 dark:hover:border-blue-400 transition-colors group">
-              <div class="flex items-center">
-                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors">
-                  <span class="material-icons-outlined text-3xl text-blue-600 dark:text-blue-400">card_membership</span>
-                </div>
-                <div class="ml-6">
-                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Join CELIGIN CLUB</h3>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">Exclusive benefits and rewards for our members</p>
-                </div>
-              </div>
-            </a>
-          </div>
+          {{-- Join CELIGIN CLUB --}}
+          <a href="{{ route('front.celigin-join-club') }}"
+            class="flex items-center gap-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-4 py-3.5 mb-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group">
+            <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl group-hover:text-orange-500 transition-colors">card_membership</span>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Join CELIGIN CLUB</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Exclusive benefits and rewards for members</p>
+            </div>
+            <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg">chevron_right</span>
+          </a>
 
-          {{-- Recent Orders Section --}}
-          <div class="mb-6">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Your Orders</h3>
+          {{-- Your Orders --}}
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 mb-5">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Your Orders</h3>
               @if($orders->count() > 0)
-                <a href="#purchases" onclick="switchTab(null, 'purchases')" class="text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-semibold">
-                  View All Orders →
-                </a>
+                <a href="#purchases" onclick="switchTab(null, 'purchases')" class="text-xs text-orange-600 dark:text-orange-400 hover:text-orange-700 font-medium">View all →</a>
               @endif
             </div>
 
             @if($orders->count() > 0)
-              <div class="space-y-3">
-                @foreach($orders->take(3) as $order)
-                  @php
-                    $dashCart = json_decode($order->cart, true);
-                    $dashCartItems = $dashCart['items'] ?? [];
-                    $itemsList = array_values($dashCartItems);
-                    $firstItem = !empty($itemsList) ? $itemsList[0] : null;
-                    $totalItemCount = count($itemsList);
-                    $shipTo = $order->shipping_name ?: ($order->customer_name ?: Auth::user()->name);
-                    $currSign = $order->currency_sign ?: '₹';
-                    $firstPhoto = $firstItem['item']['photo'] ?? null;
-                    $firstThumb = $firstItem['item']['thumbnail'] ?? null;
-                  @endphp
-                  <a href="#purchases" onclick="switchTab(null, 'purchases')"
-                    class="flex items-center gap-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md hover:border-orange-300 dark:hover:border-orange-600 transition-all group cursor-pointer">
+              @foreach($orders->take(3) as $order)
+                @php
+                  $dashCart = json_decode($order->cart, true);
+                  $dashCartItems = $dashCart['items'] ?? [];
+                  $itemsList = array_values($dashCartItems);
+                  $totalItemCount = count($itemsList);
+                  $currSign = $order->currency_sign ?: '₹';
+                @endphp
+                <a href="#purchases" onclick="switchTab(null, 'purchases')"
+                  class="block px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors border-b border-gray-100 dark:border-gray-700/50 last:border-b-0">
 
-                    {{-- Product Image --}}
-                    <div class="flex-shrink-0 w-16 h-16 sm:w-[72px] sm:h-[72px] bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 overflow-hidden">
-                      @if($firstPhoto)
-                        <img src="{{ asset('assets/images/products/' . $firstPhoto) }}"
-                             alt="{{ $firstItem['item']['name'] ?? '' }}"
-                             class="w-full h-full object-cover" loading="lazy" />
-                      @elseif($firstThumb)
-                        <img src="{{ asset('assets/images/thumbnails/' . $firstThumb) }}"
-                             alt="{{ $firstItem['item']['name'] ?? '' }}"
-                             class="w-full h-full object-cover" loading="lazy" />
-                      @else
-                        <div class="w-full h-full flex items-center justify-center">
-                          <span class="material-icons-outlined text-gray-300 dark:text-gray-500 text-2xl">inventory_2</span>
+                  {{-- Order header: date, status, price --}}
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                      <span class="text-xs text-gray-400 dark:text-gray-500">{{ $order->created_at->format('M d, Y') }}</span>
+                      <span class="text-gray-300 dark:text-gray-600">&middot;</span>
+                      <span class="inline-flex items-center gap-1 text-xs font-medium
+                        @if($order->status == 'completed') text-green-600 dark:text-green-400
+                        @elseif($order->status == 'pending') text-yellow-600 dark:text-yellow-400
+                        @elseif($order->status == 'processing' || $order->status == 'on delivery') text-blue-600 dark:text-blue-400
+                        @elseif($order->status == 'declined') text-red-600 dark:text-red-400
+                        @else text-gray-500 dark:text-gray-400
+                        @endif">
+                        <span class="w-1.5 h-1.5 rounded-full
+                          @if($order->status == 'completed') bg-green-500
+                          @elseif($order->status == 'pending') bg-yellow-500
+                          @elseif($order->status == 'processing' || $order->status == 'on delivery') bg-blue-500
+                          @elseif($order->status == 'declined') bg-red-500
+                          @else bg-gray-400
+                          @endif"></span>
+                        {{ ucfirst($order->status) }}
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $currSign }}{{ number_format($order->pay_amount, 2) }}</span>
+                      <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg">chevron_right</span>
+                    </div>
+                  </div>
+
+                  {{-- Product items list --}}
+                  <div class="flex flex-col gap-2.5">
+                    @foreach(array_slice($itemsList, 0, 3) as $cartItem)
+                      <div class="flex items-center gap-3">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gray-100 dark:bg-gray-700 overflow-hidden">
+                          @if(!empty($cartItem['item']['photo']))
+                            <img src="{{ asset('assets/images/products/' . $cartItem['item']['photo']) }}"
+                                 alt="{{ $cartItem['item']['name'] ?? '' }}"
+                                 class="w-full h-full object-cover" loading="lazy" />
+                          @elseif(!empty($cartItem['item']['thumbnail']))
+                            <img src="{{ asset('assets/images/thumbnails/' . $cartItem['item']['thumbnail']) }}"
+                                 alt="{{ $cartItem['item']['name'] ?? '' }}"
+                                 class="w-full h-full object-cover" loading="lazy" />
+                          @else
+                            <div class="w-full h-full flex items-center justify-center">
+                              <span class="material-icons-outlined text-gray-300 dark:text-gray-500">inventory_2</span>
+                            </div>
+                          @endif
                         </div>
-                      @endif
-                    </div>
-
-                    {{-- Order Info --}}
-                    <div class="flex-1 min-w-0">
-                      {{-- Product name --}}
-                      <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
-                        {{ $firstItem['item']['name'] ?? 'Order #' . $order->order_number }}
-                      </p>
-
-                      {{-- Item count + price --}}
-                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        @if($totalItemCount > 1)
-                          {{ $totalItemCount }} items
-                        @elseif(!empty($firstItem['qty']) && $firstItem['qty'] > 1)
-                          Qty: {{ $firstItem['qty'] }}
-                        @else
-                          1 item
-                        @endif
-                        <span class="mx-1 text-gray-300 dark:text-gray-600">&middot;</span>
-                        {{ $currSign }}{{ number_format($order->pay_amount, 2) }}
-                      </p>
-
-                      {{-- Date + Status --}}
-                      <div class="flex items-center gap-2 mt-1.5">
-                        <span class="text-xs text-gray-400 dark:text-gray-500">{{ $order->created_at->format('M d, Y') }}</span>
-                        <span class="inline-flex items-center gap-1 text-xs font-semibold
-                          @if($order->status == 'completed') text-green-600 dark:text-green-400
-                          @elseif($order->status == 'pending') text-yellow-600 dark:text-yellow-400
-                          @elseif($order->status == 'processing' || $order->status == 'on delivery') text-blue-600 dark:text-blue-400
-                          @elseif($order->status == 'declined') text-red-600 dark:text-red-400
-                          @else text-gray-600 dark:text-gray-400
-                          @endif">
-                          <span class="w-1.5 h-1.5 rounded-full
-                            @if($order->status == 'completed') bg-green-500
-                            @elseif($order->status == 'pending') bg-yellow-500
-                            @elseif($order->status == 'processing' || $order->status == 'on delivery') bg-blue-500
-                            @elseif($order->status == 'declined') bg-red-500
-                            @else bg-gray-400
-                            @endif"></span>
-                          {{ ucfirst($order->status) }}
-                        </span>
+                        <div class="flex-1 min-w-0">
+                          <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{{ $cartItem['item']['name'] ?? 'Product' }}</p>
+                          <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Qty: {{ $cartItem['qty'] ?? 1 }}</p>
+                        </div>
                       </div>
-                    </div>
-
-                    {{-- Price + Arrow --}}
-                    <div class="flex-shrink-0 flex items-center gap-3">
-                      <div class="hidden sm:block text-right">
-                        <p class="text-sm font-bold text-gray-900 dark:text-gray-100">{{ $currSign }}{{ number_format($order->pay_amount, 2) }}</p>
-                        <p class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-medium tracking-wide" title="{{ $order->order_number }}">#{{ Str::limit($order->order_number, 14) }}</p>
-                      </div>
-                      <div class="text-gray-300 dark:text-gray-600 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                      </div>
-                    </div>
-                  </a>
-                @endforeach
-              </div>
-            @else
-              <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-10 text-center">
-                <div class="w-16 h-16 bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center mx-auto mb-4">
-                  <span class="material-icons-outlined text-4xl text-orange-400 dark:text-orange-500">shopping_bag</span>
-                </div>
-                <h4 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">No orders yet</h4>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-5">Your purchase history will appear here.</p>
-                <a href="{{ route('front.index') }}" class="inline-block px-6 py-2.5 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
-                  Start Shopping
+                    @endforeach
+                    @if($totalItemCount > 3)
+                      <p class="text-xs text-gray-400 dark:text-gray-500">+ {{ $totalItemCount - 3 }} more {{ Str::plural('item', $totalItemCount - 3) }}</p>
+                    @endif
+                  </div>
                 </a>
+              @endforeach
+            @else
+              <div class="px-4 py-8 text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">No orders yet</p>
+                <a href="{{ route('front.index') }}" class="text-sm text-orange-600 dark:text-orange-400 font-medium hover:text-orange-700">Start Shopping →</a>
               </div>
             @endif
           </div>
 
-          {{-- Wishlist Section --}}
-          <div class="mb-6">
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center">
-                  <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                    <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-2xl">favorite_border</span>
-                  </div>
-                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Wishlist</h3>
-                </div>
-                @if($wishlist->count() > 0)
-                  <button
-                    onclick="removeAllWishlistItems()"
-                    class="px-3 py-1.5 bg-red-600 text-white text-xs font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors">
-                    Remove All
-                  </button>
-                @endif
-              </div>
-
+          {{-- Wishlist --}}
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Wishlist</h3>
               @if($wishlist->count() > 0)
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  @foreach($wishlist->take(4) as $item)
-                    <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-blue-500 dark:hover:border-blue-400 transition-colors relative">
-                      {{-- Remove Button --}}
-                      <button
-                        onclick="removeWishlistItem({{ $item->id }})"
-                        class="absolute top-2 right-2 w-6 h-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-red-600 hover:text-white hover:border-red-600 dark:hover:bg-red-600 dark:hover:border-red-600 transition-colors flex items-center justify-center z-10"
-                        title="Remove from wishlist">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                      </button>
-
-                      @if($item->product && $item->product->thumbnail)
-                        <img src="{{ asset('assets/images/thumbnails/' . $item->product->thumbnail) }}"
-                             alt="{{ $item->product->name ?? 'Product' }}"
-                             class="w-full h-32 object-cover mb-2">
-                      @else
-                        <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-2">
-                          <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
-                        </div>
-                      @endif
-                      <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
-                        {{ $item->product->name ?? 'Product' }}
-                      </h5>
-                      @if($item->product)
-                        <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
-                          ₹ {{ number_format($item->product->price, 2) }}
-                        </p>
-                      @endif
-                    </div>
-                  @endforeach
-                </div>
-                @if($wishlist->count() > 4)
-                  <div class="mt-4 text-center">
-                    <a href="#wishlists" onclick="switchTab(event, 'wishlists')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
-                      View All {{ $wishlist->count() }} Items →
-                    </a>
-                  </div>
-                @endif
-              @else
-                {{-- Empty State --}}
-                <div class="text-center py-8">
-                  <p class="text-gray-600 dark:text-gray-400 mb-4">Your wishlist is empty</p>
-                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
-                    Browse Products
-                  </a>
-                </div>
+                <a href="#wishlists" onclick="switchTab(null, 'wishlists')" class="text-xs text-orange-600 dark:text-orange-400 hover:text-orange-700 font-medium">View all →</a>
               @endif
             </div>
+
+            @if($wishlist->count() > 0)
+              @foreach($wishlist->take(3) as $item)
+                @php $wProduct = $item->product; @endphp
+                <a href="{{ $wProduct ? route('front.product', $wProduct->slug) : '#wishlists' }}"
+                  class="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors border-b border-gray-100 dark:border-gray-700/50 last:border-b-0">
+
+                  <div class="flex-shrink-0 w-16 h-16 bg-gray-100 dark:bg-gray-700 overflow-hidden">
+                    @if($wProduct && $wProduct->thumbnail)
+                      <img src="{{ asset('assets/images/thumbnails/' . $wProduct->thumbnail) }}"
+                           alt="{{ $wProduct->name ?? 'Product' }}"
+                           class="w-full h-full object-cover" loading="lazy" />
+                    @else
+                      <div class="w-full h-full flex items-center justify-center">
+                        <span class="material-icons-outlined text-gray-300 dark:text-gray-500">image</span>
+                      </div>
+                    @endif
+                  </div>
+
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{{ $wProduct->name ?? 'Product' }}</p>
+                    @if($wProduct)
+                      <div class="flex items-baseline gap-1.5 mt-0.5">
+                        <span class="text-xs font-semibold text-gray-900 dark:text-gray-100">₹{{ number_format($wProduct->price, 2) }}</span>
+                        @if($wProduct->previous_price && $wProduct->previous_price > $wProduct->price)
+                          <span class="text-xs text-green-600 dark:text-green-400 font-medium">{{ round((($wProduct->previous_price - $wProduct->price) / $wProduct->previous_price) * 100) }}% off</span>
+                        @endif
+                      </div>
+                    @endif
+                  </div>
+
+                  <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg flex-shrink-0">chevron_right</span>
+                </a>
+              @endforeach
+            @else
+              <div class="px-4 py-8 text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Your wishlist is empty</p>
+                <a href="{{ route('front.index') }}" class="text-sm text-orange-600 dark:text-orange-400 font-medium hover:text-orange-700">Browse Products →</a>
+              </div>
+            @endif
           </div>
         </div>
 
@@ -660,54 +619,97 @@
         {{-- Wishlists Tab --}}
         <div id="content-wishlists" class="tab-content hidden">
           <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Wishlists</h1>
+            <div>
+              <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">My Wishlist</h1>
+              @if($wishlist->count() > 0)
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ $wishlist->count() }} {{ Str::plural('item', $wishlist->count()) }} saved</p>
+              @endif
+            </div>
             @if($wishlist->count() > 0)
-              <button
-                onclick="removeAllWishlistItems()"
-                class="px-4 py-2 bg-red-600 text-white text-sm font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors">
+              <button onclick="removeAllWishlistItems()"
+                class="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium transition-colors">
                 Remove All
               </button>
             @endif
           </div>
 
           @if($wishlist->count() > 0)
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
-              <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                @foreach($wishlist as $item)
-                  <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-blue-500 dark:hover:border-blue-400 transition-colors relative">
-                    {{-- Remove Button --}}
-                    <button
-                      onclick="removeWishlistItem({{ $item->id }})"
-                      class="absolute top-2 right-2 w-7 h-7 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-red-600 hover:text-white hover:border-red-600 dark:hover:bg-red-600 dark:hover:border-red-600 transition-colors flex items-center justify-center z-10"
-                      title="Remove from wishlist">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                      </svg>
-                    </button>
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700">
+              @foreach($wishlist as $item)
+                @php $product = $item->product; @endphp
+                <div class="flex items-start gap-4 p-4 sm:p-5 group" id="wishlist-row-{{ $item->id }}">
 
-                    @if($item->product && $item->product->thumbnail)
-                      <img src="{{ asset('assets/images/thumbnails/' . $item->product->thumbnail) }}"
-                           alt="{{ $item->product->name ?? 'Product' }}"
-                           class="w-full h-32 object-cover mb-2">
+                  {{-- Product Image --}}
+                  <a href="{{ $product ? route('front.product', $product->slug) : '#' }}" class="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 dark:bg-gray-700 overflow-hidden block">
+                    @if($product && $product->thumbnail)
+                      <img src="{{ asset('assets/images/thumbnails/' . $product->thumbnail) }}"
+                           alt="{{ $product->name ?? 'Product' }}"
+                           class="w-full h-full object-cover" loading="lazy" />
                     @else
-                      <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-2">
-                        <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
+                      <div class="w-full h-full flex items-center justify-center">
+                        <span class="material-icons-outlined text-gray-300 dark:text-gray-500 text-2xl">image</span>
                       </div>
                     @endif
-                    <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate" title="{{ $item->product->name ?? 'Product' }}">
-                      {{ $item->product->name ?? 'Product' }}
-                    </h5>
-                    @if($item->product)
-                      <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
-                        ₹ {{ number_format($item->product->price, 2) }}
+                  </a>
+
+                  {{-- Product Details --}}
+                  <div class="flex-1 min-w-0">
+                    <a href="{{ $product ? route('front.product', $product->slug) : '#' }}"
+                      class="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 transition-colors line-clamp-2">
+                      {{ $product->name ?? 'Product Unavailable' }}
+                    </a>
+
+                    @if($product)
+                      {{-- Price --}}
+                      <div class="flex items-baseline gap-2 mt-1.5">
+                        <span class="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">₹{{ number_format($product->price, 2) }}</span>
+                        @if($product->previous_price && $product->previous_price > $product->price)
+                          <span class="text-xs text-gray-400 dark:text-gray-500 line-through">₹{{ number_format($product->previous_price, 2) }}</span>
+                          <span class="text-xs font-semibold text-green-600 dark:text-green-400">{{ round((($product->previous_price - $product->price) / $product->previous_price) * 100) }}% off</span>
+                        @endif
+                      </div>
+
+                      {{-- Stock Status --}}
+                      <p class="text-xs mt-1 {{ $product->stock && $product->stock > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400' }}">
+                        @if($product->stock && $product->stock > 0)
+                          In Stock
+                        @else
+                          Out of Stock
+                        @endif
                       </p>
+
+                      {{-- Actions Row --}}
+                      <div class="flex items-center gap-3 mt-3">
+                        @if(!$product->stock || $product->stock > 0)
+                          <button onclick="addToCart({{ $product->id }})"
+                            class="px-4 py-1.5 bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 transition-colors">
+                            Add to Cart
+                          </button>
+                        @else
+                          <span class="px-4 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs font-semibold cursor-not-allowed">
+                            Unavailable
+                          </span>
+                        @endif
+                        <button onclick="removeWishlistItem({{ $item->id }})"
+                          class="text-xs text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors font-medium">
+                          Remove
+                        </button>
+                      </div>
+                    @else
+                      <p class="text-sm text-red-500 dark:text-red-400 mt-1">This product is no longer available</p>
+                      <button onclick="removeWishlistItem({{ $item->id }})"
+                        class="mt-2 text-xs text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors font-medium">
+                        Remove
+                      </button>
                     @endif
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Added {{ $item->created_at->diffForHumans() }}
-                    </p>
                   </div>
-                @endforeach
-              </div>
+
+                  {{-- Added Date (desktop) --}}
+                  <div class="hidden sm:block flex-shrink-0 text-right">
+                    <p class="text-xs text-gray-400 dark:text-gray-500">Added {{ $item->created_at->diffForHumans() }}</p>
+                  </div>
+                </div>
+              @endforeach
             </div>
           @else
             @include('frontend.include.empty-state', [

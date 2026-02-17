@@ -80,7 +80,8 @@
       "WebFetch(domain:www.celiginglobal.com)",
       "WebFetch(domain:affiliate.nykaa.com)",
       "WebFetch(domain:www.instagram.com)",
-      "Bash(/c/wamp64/bin/php/php8.1.31/php.exe:*)"
+      "Bash(/c/wamp64/bin/php/php8.1.31/php.exe:*)",
+      "Bash(/c/wamp64/bin/php/php8.2.26/php.exe artisan view:clear)"
     ],
     "deny": [],
     "ask": []
