@@ -175,50 +175,118 @@
             </a>
           </div>
 
-          {{-- Purchase History Section --}}
+          {{-- Recent Orders Section --}}
           <div class="mb-6">
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                  <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-2xl">receipt_long</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Purchase History</h3>
-              </div>
-
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Your Orders</h3>
               @if($orders->count() > 0)
-                <div class="space-y-4">
-                  @foreach($orders as $order)
-                    <div class="border border-gray-200 dark:border-gray-700 p-4">
-                      <div class="flex justify-between items-start mb-2">
-                        <div>
-                          <h4 class="font-semibold text-gray-900 dark:text-gray-100">Order #{{ $order->order_number }}</h4>
-                          <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('M d, Y') }}</p>
+                <a href="#purchases" onclick="switchTab(null, 'purchases')" class="text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-semibold">
+                  View All Orders →
+                </a>
+              @endif
+            </div>
+
+            @if($orders->count() > 0)
+              <div class="space-y-3">
+                @foreach($orders->take(3) as $order)
+                  @php
+                    $dashCart = json_decode($order->cart, true);
+                    $dashCartItems = $dashCart['items'] ?? [];
+                    $itemsList = array_values($dashCartItems);
+                    $firstItem = !empty($itemsList) ? $itemsList[0] : null;
+                    $totalItemCount = count($itemsList);
+                    $shipTo = $order->shipping_name ?: ($order->customer_name ?: Auth::user()->name);
+                    $currSign = $order->currency_sign ?: '₹';
+                    $firstPhoto = $firstItem['item']['photo'] ?? null;
+                    $firstThumb = $firstItem['item']['thumbnail'] ?? null;
+                  @endphp
+                  <a href="#purchases" onclick="switchTab(null, 'purchases')"
+                    class="flex items-center gap-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md hover:border-orange-300 dark:hover:border-orange-600 transition-all group cursor-pointer">
+
+                    {{-- Product Image --}}
+                    <div class="flex-shrink-0 w-16 h-16 sm:w-[72px] sm:h-[72px] bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 overflow-hidden">
+                      @if($firstPhoto)
+                        <img src="{{ asset('assets/images/products/' . $firstPhoto) }}"
+                             alt="{{ $firstItem['item']['name'] ?? '' }}"
+                             class="w-full h-full object-cover" loading="lazy" />
+                      @elseif($firstThumb)
+                        <img src="{{ asset('assets/images/thumbnails/' . $firstThumb) }}"
+                             alt="{{ $firstItem['item']['name'] ?? '' }}"
+                             class="w-full h-full object-cover" loading="lazy" />
+                      @else
+                        <div class="w-full h-full flex items-center justify-center">
+                          <span class="material-icons-outlined text-gray-300 dark:text-gray-500 text-2xl">inventory_2</span>
                         </div>
-                        <span class="px-3 py-1 text-xs font-semibold
-                          @if($order->status == 'completed') bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200
-                          @elseif($order->status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200
-                          @elseif($order->status == 'processing') bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200
-                          @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200
+                      @endif
+                    </div>
+
+                    {{-- Order Info --}}
+                    <div class="flex-1 min-w-0">
+                      {{-- Product name --}}
+                      <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                        {{ $firstItem['item']['name'] ?? 'Order #' . $order->order_number }}
+                      </p>
+
+                      {{-- Item count + price --}}
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        @if($totalItemCount > 1)
+                          {{ $totalItemCount }} items
+                        @elseif(!empty($firstItem['qty']) && $firstItem['qty'] > 1)
+                          Qty: {{ $firstItem['qty'] }}
+                        @else
+                          1 item
+                        @endif
+                        <span class="mx-1 text-gray-300 dark:text-gray-600">&middot;</span>
+                        {{ $currSign }}{{ number_format($order->pay_amount, 2) }}
+                      </p>
+
+                      {{-- Date + Status --}}
+                      <div class="flex items-center gap-2 mt-1.5">
+                        <span class="text-xs text-gray-400 dark:text-gray-500">{{ $order->created_at->format('M d, Y') }}</span>
+                        <span class="inline-flex items-center gap-1 text-xs font-semibold
+                          @if($order->status == 'completed') text-green-600 dark:text-green-400
+                          @elseif($order->status == 'pending') text-yellow-600 dark:text-yellow-400
+                          @elseif($order->status == 'processing' || $order->status == 'on delivery') text-blue-600 dark:text-blue-400
+                          @elseif($order->status == 'declined') text-red-600 dark:text-red-400
+                          @else text-gray-600 dark:text-gray-400
                           @endif">
+                          <span class="w-1.5 h-1.5 rounded-full
+                            @if($order->status == 'completed') bg-green-500
+                            @elseif($order->status == 'pending') bg-yellow-500
+                            @elseif($order->status == 'processing' || $order->status == 'on delivery') bg-blue-500
+                            @elseif($order->status == 'declined') bg-red-500
+                            @else bg-gray-400
+                            @endif"></span>
                           {{ ucfirst($order->status) }}
                         </span>
                       </div>
-                      <p class="text-sm text-gray-600 dark:text-gray-400">
-                        Total: {{ $order->currency_sign }}{{ number_format($order->pay_amount, 2) }}
-                      </p>
                     </div>
-                  @endforeach
-                </div>
-              @else
-                {{-- Empty State --}}
-                <div class="text-center py-8">
-                  <p class="text-gray-600 dark:text-gray-400 mb-4">You haven't made any purchases yet</p>
-                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
-                    Start Shopping
+
+                    {{-- Price + Arrow --}}
+                    <div class="flex-shrink-0 flex items-center gap-3">
+                      <div class="hidden sm:block text-right">
+                        <p class="text-sm font-bold text-gray-900 dark:text-gray-100">{{ $currSign }}{{ number_format($order->pay_amount, 2) }}</p>
+                        <p class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-medium tracking-wide" title="{{ $order->order_number }}">#{{ Str::limit($order->order_number, 14) }}</p>
+                      </div>
+                      <div class="text-gray-300 dark:text-gray-600 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                      </div>
+                    </div>
                   </a>
+                @endforeach
+              </div>
+            @else
+              <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-10 text-center">
+                <div class="w-16 h-16 bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center mx-auto mb-4">
+                  <span class="material-icons-outlined text-4xl text-orange-400 dark:text-orange-500">shopping_bag</span>
                 </div>
-              @endif
-            </div>
+                <h4 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">No orders yet</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-5">Your purchase history will appear here.</p>
+                <a href="{{ route('front.index') }}" class="inline-block px-6 py-2.5 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                  Start Shopping
+                </a>
+              </div>
+            @endif
           </div>
 
           {{-- Wishlist Section --}}
@@ -296,46 +364,297 @@
 
         {{-- Purchase History Tab --}}
         <div id="content-purchases" class="tab-content hidden">
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Purchase History</h1>
 
-          @if($orders->count() > 0)
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
-              <div class="space-y-4">
+          {{-- Header: Title + Search --}}
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Your Orders</h1>
+            <form method="GET" action="{{ route('user.account') }}" class="flex items-center gap-2">
+              <input type="hidden" name="period" value="{{ $period ?? 'all' }}">
+              <div class="relative flex-1 sm:flex-none">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </span>
+                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search all orders"
+                  class="w-full sm:w-72 pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                  aria-label="Search orders" />
+              </div>
+              <button type="submit"
+                class="px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors whitespace-nowrap">
+                Search Orders
+              </button>
+              <input type="hidden" name="_hash" value="purchases">
+            </form>
+          </div>
+
+          {{-- Sub-tabs: Orders | Buy Again --}}
+          <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
+            <nav class="flex gap-6" aria-label="Order tabs">
+              <button type="button" onclick="switchOrderSubTab('orders')" id="subtab-orders"
+                class="order-subtab pb-3 text-sm font-semibold border-b-2 border-orange-600 text-orange-600 dark:text-orange-400 dark:border-orange-400 transition-colors">
+                Orders
+              </button>
+              <button type="button" onclick="switchOrderSubTab('buyagain')" id="subtab-buyagain"
+                class="order-subtab pb-3 text-sm font-semibold border-b-2 border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors">
+                Buy Again
+              </button>
+            </nav>
+          </div>
+
+          {{-- Orders Sub-tab Content --}}
+          <div id="orders-subtab-content">
+
+            {{-- Period filter + count --}}
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
+              <span class="text-sm text-gray-700 dark:text-gray-300">
+                <strong>{{ $orders->count() }} {{ Str::plural('order', $orders->count()) }}</strong> placed in
+              </span>
+              <form method="GET" action="{{ route('user.account') }}" id="periodFilterForm">
+                <input type="hidden" name="search" value="{{ $search ?? '' }}">
+                <input type="hidden" name="_hash" value="purchases">
+                <select name="period" onchange="document.getElementById('periodFilterForm').submit()"
+                  class="text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-1.5 px-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 cursor-pointer"
+                  aria-label="Filter orders by time period">
+                  <option value="3months" {{ ($period ?? 'all') === '3months' ? 'selected' : '' }}>past 3 months</option>
+                  <option value="6months" {{ ($period ?? 'all') === '6months' ? 'selected' : '' }}>past 6 months</option>
+                  <option value="year" {{ ($period ?? 'all') === 'year' ? 'selected' : '' }}>past year</option>
+                  <option value="all" {{ ($period ?? 'all') === 'all' ? 'selected' : '' }}>all time</option>
+                </select>
+              </form>
+            </div>
+
+            @if($orders->count() > 0)
+              <div class="space-y-5">
                 @foreach($orders as $order)
-                  <div class="border border-gray-200 dark:border-gray-700 p-4">
-                    <div class="flex justify-between items-start mb-2">
-                      <div>
-                        <h4 class="font-semibold text-gray-900 dark:text-gray-100">Order #{{ $order->order_number }}</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('M d, Y h:i A') }}</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Items: {{ $order->totalQty }}</p>
+                  @php
+                    $cart = json_decode($order->cart, true);
+                    $cartItems = $cart['items'] ?? [];
+                  @endphp
+                  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden">
+
+                    {{-- Order Header --}}
+                    <div class="bg-gray-50 dark:bg-gray-900/40 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3">
+                      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div class="flex flex-wrap gap-x-6 gap-y-1 text-xs uppercase tracking-wide">
+                          <div>
+                            <span class="text-gray-500 dark:text-gray-400">Order Placed</span>
+                            <p class="text-gray-900 dark:text-gray-100 font-medium normal-case text-sm mt-0.5">{{ $order->created_at->format('F d, Y') }}</p>
+                          </div>
+                          <div>
+                            <span class="text-gray-500 dark:text-gray-400">Total</span>
+                            <p class="text-gray-900 dark:text-gray-100 font-medium normal-case text-sm mt-0.5">{{ $order->currency_sign ?: '₹' }}{{ number_format($order->pay_amount, 2) }}</p>
+                          </div>
+                          <div>
+                            <span class="text-gray-500 dark:text-gray-400">Ship To</span>
+                            <p class="text-gray-900 dark:text-gray-100 font-medium normal-case text-sm mt-0.5">{{ $order->shipping_name ?: ($order->customer_name ?: Auth::user()->name) }}</p>
+                          </div>
+                        </div>
+                        <div class="text-right">
+                          <span class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Order #</span>
+                          <p class="text-sm text-orange-600 dark:text-orange-400 font-medium">{{ $order->order_number }}</p>
+                        </div>
                       </div>
-                      <span class="px-3 py-1 text-xs font-semibold
-                        @if($order->status == 'completed') bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200
-                        @elseif($order->status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200
-                        @elseif($order->status == 'processing') bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200
-                        @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200
-                        @endif">
-                        {{ ucfirst($order->status) }}
-                      </span>
                     </div>
-                    <div class="flex justify-between items-center mt-3">
-                      <p class="text-base font-semibold text-gray-900 dark:text-gray-100">
-                        Total: {{ $order->currency_sign }}{{ number_format($order->pay_amount, 2) }}
-                      </p>
+
+                    {{-- Order Body --}}
+                    <div class="p-4 sm:p-6">
+
+                      {{-- Status Badge --}}
+                      <div class="mb-4">
+                        <span class="inline-flex items-center gap-1.5 text-sm font-semibold
+                          @if($order->status == 'completed') text-green-700 dark:text-green-400
+                          @elseif($order->status == 'pending') text-yellow-700 dark:text-yellow-400
+                          @elseif($order->status == 'processing') text-blue-700 dark:text-blue-400
+                          @elseif($order->status == 'declined') text-red-700 dark:text-red-400
+                          @else text-gray-700 dark:text-gray-300
+                          @endif">
+                          <span class="w-2 h-2 rounded-full
+                            @if($order->status == 'completed') bg-green-600 dark:bg-green-400
+                            @elseif($order->status == 'pending') bg-yellow-600 dark:bg-yellow-400
+                            @elseif($order->status == 'processing') bg-blue-600 dark:bg-blue-400
+                            @elseif($order->status == 'declined') bg-red-600 dark:bg-red-400
+                            @else bg-gray-500
+                            @endif"></span>
+                          {{ ucfirst($order->status) }}
+                        </span>
+                      </div>
+
+                      <div class="flex flex-col lg:flex-row gap-6">
+                        {{-- Products List --}}
+                        <div class="flex-1 space-y-4">
+                          @foreach($cartItems as $key => $cartItem)
+                            <div class="flex gap-4">
+                              {{-- Product Image --}}
+                              <div class="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 overflow-hidden">
+                                @if(!empty($cartItem['item']['photo']))
+                                  <img src="{{ asset('assets/images/products/' . $cartItem['item']['photo']) }}"
+                                       alt="{{ $cartItem['item']['name'] ?? 'Product' }}"
+                                       class="w-full h-full object-cover"
+                                       loading="lazy" />
+                                @elseif(!empty($cartItem['item']['thumbnail']))
+                                  <img src="{{ asset('assets/images/thumbnails/' . $cartItem['item']['thumbnail']) }}"
+                                       alt="{{ $cartItem['item']['name'] ?? 'Product' }}"
+                                       class="w-full h-full object-cover"
+                                       loading="lazy" />
+                                @else
+                                  <div class="w-full h-full flex items-center justify-center">
+                                    <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-2xl">image</span>
+                                  </div>
+                                @endif
+                              </div>
+
+                              {{-- Product Details --}}
+                              <div class="flex-1 min-w-0">
+                                <h4 class="text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 line-clamp-2">
+                                  {{ $cartItem['item']['name'] ?? 'Product' }}
+                                  @if(($cartItem['qty'] ?? 1) > 1)
+                                    <span class="text-gray-600 dark:text-gray-400">({{ $cartItem['qty'] }})</span>
+                                  @endif
+                                </h4>
+                                @if(!empty($cartItem['size']))
+                                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Size: {{ str_replace('-', ' ', $cartItem['size']) }}</p>
+                                @endif
+                                @if(!empty($cartItem['color']))
+                                  <div class="flex items-center gap-1 mt-0.5">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">Color:</span>
+                                    <span class="w-3 h-3 border border-gray-300 dark:border-gray-600" style="background-color: #{{ $cartItem['color'] }}"></span>
+                                  </div>
+                                @endif
+                                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 mt-1">
+                                  {{ $order->currency_sign ?: '₹' }}{{ number_format(($cartItem['item_price'] ?? $cartItem['item']['price'] ?? 0) * ($order->currency_value ?? 1), 2) }}
+                                </p>
+
+                                {{-- Buy it again button --}}
+                                @if(!empty($cartItem['item']['id']))
+                                  <button type="button"
+                                    onclick="addToCart({{ $cartItem['item']['id'] }})"
+                                    class="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 border border-gray-300 dark:border-gray-600 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                    aria-label="Buy {{ $cartItem['item']['name'] ?? 'this product' }} again">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                    Buy it again
+                                  </button>
+                                @endif
+                              </div>
+                            </div>
+                          @endforeach
+                        </div>
+
+                        {{-- Order Actions --}}
+                        <div class="flex flex-col gap-2 lg:w-52 flex-shrink-0">
+                          <a href="javascript:void(0)" onclick="viewOrderDetails({{ $order->id }})"
+                            class="w-full text-center px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                            View Order Details
+                          </a>
+                          @if($order->status === 'pending')
+                            <button type="button" onclick="cancelOrder({{ $order->id }})"
+                              class="w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                              Cancel Order
+                            </button>
+                          @endif
+                          <a href="javascript:void(0)" onclick="viewOrderDetails({{ $order->id }})"
+                            class="w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            View Invoice
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 @endforeach
               </div>
-            </div>
-          @else
-            @include('frontend.include.empty-state', [
-              'icon' => 'shopping_bag',
-              'title' => 'No Purchases Yet',
-              'description' => 'You haven\'t made any purchases. Start shopping to see your order history here.',
-              'actionText' => 'Start Shopping',
-              'actionUrl' => route('front.index')
-            ])
-          @endif
+            @else
+              {{-- Empty State --}}
+              <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 lg:p-12 text-center">
+                <div class="max-w-md mx-auto">
+                  <div class="w-20 h-20 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <span class="material-icons-outlined text-5xl text-orange-600 dark:text-orange-400">shopping_bag</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                    @if(!empty($search))
+                      No orders found
+                    @else
+                      No orders yet
+                    @endif
+                  </h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                    @if(!empty($search))
+                      We couldn't find any orders matching "<strong>{{ $search }}</strong>". Try a different search term.
+                    @else
+                      You haven't placed any orders. Start shopping to see your purchase history here.
+                    @endif
+                  </p>
+                  <a href="{{ route('front.index') }}"
+                    class="inline-block px-6 py-2.5 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                    Start Shopping
+                  </a>
+                </div>
+              </div>
+            @endif
+          </div>
+
+          {{-- Buy Again Sub-tab Content --}}
+          <div id="buyagain-subtab-content" class="hidden">
+            @if(isset($buyAgainProducts) && $buyAgainProducts->count() > 0)
+              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                @foreach($buyAgainProducts as $productData)
+                  @php $product = $productData['product']; @endphp
+                  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-3 group hover:border-orange-300 dark:hover:border-orange-600 transition-colors">
+                    {{-- Product Image --}}
+                    <div class="aspect-square bg-gray-100 dark:bg-gray-700 overflow-hidden mb-3">
+                      @if($product->thumbnail)
+                        <img src="{{ asset('assets/images/thumbnails/' . $product->thumbnail) }}"
+                             alt="{{ $product->name }}"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                             loading="lazy" />
+                      @else
+                        <div class="w-full h-full flex items-center justify-center">
+                          <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-4xl">image</span>
+                        </div>
+                      @endif
+                    </div>
+
+                    {{-- Product Info --}}
+                    <h4 class="text-sm font-medium text-orange-600 dark:text-orange-400 line-clamp-2 mb-1" title="{{ $product->name }}">
+                      {{ $product->name }}
+                    </h4>
+                    <p class="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">
+                      {{ $productData['currency_sign'] }}{{ number_format($product->price, 2) }}
+                    </p>
+                    @if($product->previous_price && $product->previous_price > $product->price)
+                      <p class="text-xs text-gray-500 dark:text-gray-400 line-through mb-1">
+                        {{ $productData['currency_sign'] }}{{ number_format($product->previous_price, 2) }}
+                      </p>
+                    @endif
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                      Purchased {{ $productData['last_purchased']->format('M Y') }}
+                    </p>
+
+                    {{-- Add to Cart --}}
+                    <button type="button"
+                      onclick="addToCart({{ $product->id }})"
+                      class="w-full px-3 py-2 bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 transition-colors">
+                      Add to Cart
+                    </button>
+                  </div>
+                @endforeach
+              </div>
+            @else
+              <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 lg:p-12 text-center">
+                <div class="max-w-md mx-auto">
+                  <div class="w-20 h-20 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <span class="material-icons-outlined text-5xl text-orange-600 dark:text-orange-400">replay</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">No products to buy again</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                    Once you place orders, your previously purchased products will appear here for easy reordering.
+                  </p>
+                  <a href="{{ route('front.index') }}"
+                    class="inline-block px-6 py-2.5 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                    Browse Products
+                  </a>
+                </div>
+              </div>
+            @endif
+          </div>
+
         </div>
 
         {{-- Wishlists Tab --}}
@@ -1166,9 +1485,19 @@
 
   // Handle initial page load with hash
   document.addEventListener('DOMContentLoaded', function() {
-    const hash = window.location.hash.substring(1);
+    // Check for _hash query param (from search/filter forms) or URL hash
+    const urlParams = new URLSearchParams(window.location.search);
+    const hashParam = urlParams.get('_hash');
+    const hash = hashParam || window.location.hash.substring(1);
     if (hash) {
       switchTab(null, hash);
+      // Clean URL: replace _hash param with actual hash
+      if (hashParam) {
+        urlParams.delete('_hash');
+        const newSearch = urlParams.toString();
+        const newUrl = window.location.pathname + (newSearch ? '?' + newSearch : '') + '#' + hash;
+        history.replaceState(null, null, newUrl);
+      }
     }
 
     // Attach event listener to add address form
@@ -1586,6 +1915,83 @@
     .catch(error => {
       console.error('Error:', error);
       showToast('An error occurred while removing the item', 'error');
+    });
+  }
+
+  // Switch order sub-tabs (Orders / Buy Again)
+  function switchOrderSubTab(tab) {
+    document.querySelectorAll('.order-subtab').forEach(btn => {
+      btn.classList.remove('border-orange-600', 'text-orange-600', 'dark:text-orange-400', 'dark:border-orange-400');
+      btn.classList.add('border-transparent', 'text-gray-600', 'dark:text-gray-400');
+    });
+
+    const activeBtn = document.getElementById('subtab-' + tab);
+    if (activeBtn) {
+      activeBtn.classList.add('border-orange-600', 'text-orange-600', 'dark:text-orange-400', 'dark:border-orange-400');
+      activeBtn.classList.remove('border-transparent', 'text-gray-600', 'dark:text-gray-400');
+    }
+
+    document.getElementById('orders-subtab-content').classList.toggle('hidden', tab !== 'orders');
+    document.getElementById('buyagain-subtab-content').classList.toggle('hidden', tab !== 'buyagain');
+  }
+
+  // Add to cart
+  function addToCart(productId) {
+    fetch('{{ url("/") }}/addcart/' + productId + '?quantity=1', {
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        showToast(data.error, 'error');
+      } else {
+        showToast(data[1] || 'Product added to cart', 'success');
+        // Update cart count in header if element exists
+        const cartCount = document.querySelector('.cart-count, #cart-count');
+        if (cartCount && data.totalQty !== undefined) {
+          cartCount.textContent = data.totalQty;
+        }
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showToast('Could not add product to cart', 'error');
+    });
+  }
+
+  // View order details (scroll to order or show modal)
+  function viewOrderDetails(orderId) {
+    window.location.href = '{{ url("/") }}/user/order/' + orderId;
+  }
+
+  // Cancel order
+  function cancelOrder(orderId) {
+    if (!confirm('Are you sure you want to cancel this order?')) return;
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch('{{ url("/") }}/user/order/' + orderId + '/cancel', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success || data.message) {
+        showToast(data.message || 'Order cancelled successfully', 'success');
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        showToast(data.error || 'Failed to cancel order', 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showToast('An error occurred while cancelling the order', 'error');
     });
   }
 
