@@ -3,6 +3,9 @@
 // ************************************ OTP AUTHENTICATION SECTION **********************************************
 
 // OTP Login Routes (Guest only - redirect to account if already logged in)
+
+use App\Http\Controllers\User\AccountController;
+
 Route::middleware('guest')->group(function () {
     Route::get('/sign-in', 'Auth\OtpController@showLoginForm')->name('otp.login.form');
 });
@@ -2089,6 +2092,8 @@ Route::post('/apply-coupon', 'Front\CouponController@applyCoupon')->name('applyC
 Route::get('admin/journey', 'User\UserController@journey')->name('user-journey');
 
 
+Route::post('/activate-affiliate', 'User\UserController@activate')
+    ->name('affiliate.activate');
 
 
 

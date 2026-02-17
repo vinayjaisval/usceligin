@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-
   <meta name="description"
     content="CELIGIN - Premium cosmetics and skincare products. Discover your glow with our science-backed beauty solutions." />
   <title>CELIGIN - Premium Cosmetics & Skincare</title>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
-  <!-- SwiperJS CSS -->
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <!-- Plus Jakarta Sans font is now loaded via styles.css -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
@@ -20,7 +18,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-
   <style>
     /* Mobile menu animation */
     #mobile-menu {
@@ -28,22 +25,21 @@
       overflow: hidden;
       transition: max-height 0.3s ease-in-out;
     }
+
     #mobile-menu.show {
       max-height: 500px;
     }
   </style>
 </head>
-
 <body class="bg-white dark:bg-gray-900">
-  <!-- Skip to main content link for accessibility -->
+ 
+
   <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <!-- Promotion Bar -->
+ 
   @php
-    use App\Models\Coupon;
-    $available_coupons = Coupon::where('id', 1)->select('id', 'code', 'price')->get();
+  use App\Models\Coupon;
+  $available_coupons = Coupon::where('id', 1)->select('id', 'code', 'price')->get();
   @endphp
-
   @if($available_coupons->isNotEmpty())
   <div class="bg-primary-600 dark:bg-primary-700 text-white" role="banner" aria-label="Promotional announcement">
     <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8">
@@ -60,8 +56,7 @@
             {{ $available_coupons[0]->code }}
           </button>
         </div>
-
-        <!-- Close Button -->
+        
         <button
           class="p-1 text-white hover:text-gray-200 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 dark:focus:ring-offset-primary-700 transition-colors duration-200 ml-4 rounded"
           onclick="this.parentElement.parentElement.parentElement.style.display='none'" aria-label="Close promotional banner">
@@ -74,11 +69,9 @@
     </div>
   </div>
   @endif
-
   <!-- Header -->
   <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50" role="banner">
     <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8">
-
       <!-- Desktop Header (lg and above) - UNCHANGED FROM ORIGINAL -->
       <div class="hidden lg:block">
         <div class="grid grid-cols-3 items-center h-20">
@@ -97,7 +90,6 @@
                   </svg>
                 </button>
 
-                <!-- Search Dropdown -->
                 <div
                   class="search-dropdown absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600  shadow-lg hidden z-50 max-h-96 overflow-y-auto"
                   id="search-dropdown" role="listbox" aria-label="Search suggestions" aria-live="polite">
@@ -119,26 +111,25 @@
           <div class="flex items-center justify-end space-x-3">
             <!-- Account -->
             @auth
-              <a href="{{ route('user.account') }}"
-                class="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200"
-                aria-label="My account">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </a>
+            <a href="{{ route('user.account') }}"
+              class="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200"
+              aria-label="My account">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </a>
             @else
-              <a href="{{ route('otp.login.form') }}"
-                class="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200"
-                aria-label="Sign in to your account">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </a>
+            <a href="{{ route('otp.login.form') }}"
+              class="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200"
+              aria-label="Sign in to your account">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </a>
             @endauth
 
-            <!-- Wishlist -->
             <a href="{{ route('front.wishlist') }}"
               class="relative p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200"
               aria-label="Wishlist">
@@ -148,10 +139,10 @@
               <span id="wishlist-count"
                 class="absolute -top-1 -right-1 bg-red-600 dark:bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center "
                 aria-label="{{ Session::has('wishlist') ? count(Session::get('wishlist')) : '0' }} items in wishlist">
-              {{ Auth::check()
-    ? \App\Models\Wishlist::where('user_id', Auth::id())->count()
-    : count(Session::get('wishlist', []))
-}}
+                {{ Auth::check()
+                    ? \App\Models\Wishlist::where('user_id', Auth::id())->count()
+                    : count(Session::get('wishlist', []))
+                }}
               </span>
             </a>
 
@@ -168,7 +159,7 @@
                 class="absolute -top-1 -right-1 bg-red-600 dark:bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center "
                 aria-label="{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }} items in cart">
                 {{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}
-            
+
               </span>
             </a>
 
@@ -198,7 +189,6 @@
         </nav>
       </div>
 
-      <!-- Tablet & Mobile Header (below lg) -->
       <div class="lg:hidden">
         <!-- Row 1: Logo and Actions -->
         <div class="flex items-center justify-between h-14">
@@ -210,27 +200,26 @@
             </a>
           </div>
 
-          <!-- Right: Actions - Optimized touch targets -->
           <div class="flex items-center space-x-1">
             <!-- Account - Reduced icon size, proper padding -->
             @auth
-              <a href="{{ route('user.account') }}"
-                class="p-2.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200 touch-manipulation"
-                aria-label="My account">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </a>
+            <a href="{{ route('user.account') }}"
+              class="p-2.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200 touch-manipulation"
+              aria-label="My account">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </a>
             @else
-              <a href="{{ route('otp.login.form') }}"
-                class="p-2.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200 touch-manipulation"
-                aria-label="Sign in to your account">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </a>
+            <a href="{{ route('otp.login.form') }}"
+              class="p-2.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200 touch-manipulation"
+              aria-label="Sign in to your account">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </a>
             @endauth
 
             <!-- Wishlist -->
@@ -247,7 +236,6 @@
               </span>
             </a>
 
-            <!-- Cart -->
             <a href="{{ route('front.cart') }}"
               class="relative p-2.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900  transition-colors duration-200 touch-manipulation"
               aria-label="Shopping cart">
@@ -330,14 +318,14 @@
   </header>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
       const menuIcon = document.getElementById('menu-icon');
       const closeIcon = document.getElementById('close-icon');
 
       if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', function () {
+        mobileMenuButton.addEventListener('click', function() {
           const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
 
           if (isExpanded) {
@@ -356,7 +344,7 @@
         });
 
         // Close mobile menu when clicking outside
-        document.addEventListener('click', function (event) {
+        document.addEventListener('click', function(event) {
           if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
             mobileMenu.classList.remove('show');
             mobileMenuButton.setAttribute('aria-expanded', 'false');
@@ -396,7 +384,11 @@
       syncCounts();
 
       // Create a MutationObserver to watch for changes
-      const observerConfig = { childList: true, characterData: true, subtree: true };
+      const observerConfig = {
+        childList: true,
+        characterData: true,
+        subtree: true
+      };
 
       const wishlistDesktop = document.getElementById('wishlist-count');
       const cartDesktop = document.getElementById('cart-count');

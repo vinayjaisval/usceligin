@@ -6,6 +6,7 @@
     $user = App\Models\User::where('id', Auth::id())->select('reffered_by')->first();
     $orderCount = App\Models\Order::where('user_id', Auth::id())->count();
     $discountMRP =  0;
+    $points=round(Auth::user()->current_balance ?? 0) ;
     $couponDiscount=0;
     $cart = Session::get('cart');
     $subtotalMRP = $cart->totalPrice;
@@ -306,6 +307,20 @@
                       {{ App\Models\Product::convertPrice($taxAmount) }}
                   </span>
               </div>
+               <div class="flex justify-between items-center mt-3">
+                  <label class="text-gray-600 dark:text-gray-400">
+                      Use Celigin Points (Available: {{ $points }})
+                  </label>
+
+                  <input type="number"
+                        id="points-input"
+                        min="0"
+                        max="{{ $points }}"
+                        value="0"
+                        class="w-24 border rounded px-2 py-1 text-right"
+                  />
+              </div>
+
 
           </div>
 
@@ -349,7 +364,8 @@
 
           <input type="hidden" name="taxAmount" id="taxAmount" value="{{ $taxAmount }}">
 
-        
+        <input type="hidden" id="points-used" name="points_used" value="0">
+
           <input type="hidden" name="coupon_code" id="hidden_coupon_code" value="">
           <input type="hidden" name="coupon_discount" id="hidden_coupon_discount" value="">
 
@@ -728,8 +744,8 @@
     }
 
     // Calculate final total
-    const newTotal = taxableAmount - existingDiscount - couponDiscount + shipping + taxAmount;
-    
+    const newTotal = taxableAmount - existingDiscount -  couponDiscount + shipping + taxAmount;
+
     document.getElementById('final-total').textContent = '{{ $gs->currency_sign ?? "₹" }}' + newTotal.toFixed(2);
     document.getElementById('total_hidden').value = newTotal;
   }
@@ -905,30 +921,11 @@ $(document).ready(function () {
         });
     }
 
-     function fetchShippingChargeold(zip) {
-        $.ajax({
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: mainurl + "/getPinCodeDetails",
-            type: "POST",
-            data: { zipcode: zip },
-
-            success: function (response) {
-                if (response.status) {
-                    const shippingCost = parseFloat(response.result.shipping_cost || 0);
-                    updateShipping(shippingCost);
-                }
-            },
-            error: function (err) {
-                console.error("Shipping cost fetch error:", err);
-            }
-        });
-      }
 
     // ----------------------------------------------------------
     // 🔹 UPDATE SHIPPING + TOTAL
     // ----------------------------------------------------------
     function updateShipping(shippingCost) {
-
         if (shippingCost == 0) {
             $('#shipping-amount').html("FREE").removeClass("text-gray-900").addClass("text-green-600");
         } else {
@@ -991,6 +988,30 @@ function initiateRazorpay(checkoutUrl) {
 }
 </script>
 
-
-
+<script>
+    const maxPointsAllowed = {{ $points }};
+    const availablePoints = {{ $points }};
+    const originalTotal = {{ $finalTotal }};
+    const pointsInput = document.getElementById('points-input');
+    const finalTotalEl = document.getElementById('final-total');
+    const pointsUsedInput = document.getElementById('points-used');
+    pointsInput.addEventListener('input', function () {
+        let usedPoints = parseInt(this.value) || 0;
+        // Validation
+        if (usedPoints > maxPointsAllowed) {
+            usedPoints = maxPointsAllowed;
+            this.value = maxPointsAllowed;
+        }
+        if (usedPoints > availablePoints) {
+            usedPoints = availablePoints;
+            this.value = availablePoints;
+        }
+        // Final total calculation
+        let finalTotal = originalTotal - usedPoints;
+        if (finalTotal < 0) finalTotal = 0;
+        // Update UI
+        finalTotalEl.innerText = '₹' + finalTotal.toLocaleString('en-IN');
+        pointsUsedInput.value = usedPoints;
+    });
+</script>
 @endsection

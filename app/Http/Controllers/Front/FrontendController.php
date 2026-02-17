@@ -76,20 +76,16 @@ class FrontendController extends FrontBaseController
 
     public function index(Request $request)
     {
-
-
         $gs = $this->gs;
         $data['ps'] = $this->ps;
-        if (!empty($request->reff)) {
+        if (!empty($request->affilate_code)) {
             $affilate_user = DB::table('users')
-                ->where('affilate_code', '=', $request->reff)
+                ->where('affilate_code', '=', $request->affilate_code)
                 ->first();
-
-
             if (!empty($affilate_user)) {
                 if ($gs->is_affilate == 1) {
                     Session::put('affilate', $affilate_user->id);
-                    return redirect()->route('front.category');
+                    return redirect()->route('front.index');
                 }
             }
         }
@@ -1073,7 +1069,7 @@ class FrontendController extends FrontBaseController
 
     public function getPinCodeDetails(Request $request)
     {
-        
+
         try {
 
             /* ---------------------------------
@@ -1086,7 +1082,7 @@ class FrontendController extends FrontBaseController
                 $defaultAddress = Address::where('user_id', auth()->id())
                     ->where('is_default', 1)
                     ->first();
-                    
+
 
                 if (!$defaultAddress || empty($defaultAddress->pincode)) {
                     return response()->json([
@@ -1157,10 +1153,10 @@ class FrontendController extends FrontBaseController
     }
     public function delivery_cost($delivery_pincode)
     {
-        
+
         $cartData = Session::get('cart') ?? Session::get('admin_cart');
 
-      
+
         foreach ($cartData->items as $item) {
 
             $product = Product::find($item['item']->id);

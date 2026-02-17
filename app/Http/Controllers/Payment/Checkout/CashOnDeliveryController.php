@@ -18,7 +18,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use OrderHelper;
-
 use Illuminate\Support\Str;
 
 class CashOnDeliveryController extends CheckoutBaseControlller
@@ -28,12 +27,11 @@ class CashOnDeliveryController extends CheckoutBaseControlller
 
 
         $input = $request->all();
-
+       
         if ($request->pass_check) {
 
             $auth = OrderHelper::auth_check($input); // For Authentication Checking
             if (!$auth['auth_success']) {
-
                 return redirect()->back()->with('unsuccess', $auth['error_message']);
             }
         }
@@ -87,6 +85,8 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         $input['pay_amount'] = $orderTotal;
         $input['order_number'] = Str::random(4) . time();
         $input['wallet_price'] = $request->wallet_price / $this->curr->value;
+
+        
         if ($request->refferal_discount) {
             $input['refferal_discount'] = $request->refferal_discount;
         }
@@ -146,8 +146,6 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         if ($input['coupon_code'] != "") {
             OrderHelper::coupon_check($input['coupon_code']); // For Coupon Checking
         }
-
-
         if (Auth::check()) {
             if ($this->gs->is_reward == 1) {
                 $num = $order->pay_amount;
@@ -168,7 +166,6 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         OrderHelper::size_qty_check($cart); // For Size Quantiy Checking
         OrderHelper::stock_check($cart); // For Stock Checking
         OrderHelper::vendor_order_check($cart, $order); // For Vendor Order Checking
-
         Session::put('temporder', $order);
         Session::put('tempcart', $cart);
         Session::forget('cart');
@@ -177,7 +174,6 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         Session::forget('coupon_total');
         Session::forget('coupon_total1');
         Session::forget('coupon_percentage');
-
         if ($order->user_id != 0 && $order->wallet_price != 0) {
             OrderHelper::add_to_transaction($order, $order->wallet_price); // Store To Transactions
         }

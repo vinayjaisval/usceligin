@@ -13,9 +13,8 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request): ?string
     {
         if (!$request->expectsJson()) {
-            // Store the intended URL in session for redirect after login
+         
             session(['url.intended' => $request->fullUrl()]);
-
             return route('otp.login.form');
         }
 

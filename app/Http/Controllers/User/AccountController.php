@@ -9,6 +9,7 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
 {
@@ -17,6 +18,7 @@ class AccountController extends Controller
      */
     public function index()
     {
+
         // Check if user is authenticated
         if (!Auth::check()) {
             return redirect()->route('otp.login.form')
@@ -24,16 +26,6 @@ class AccountController extends Controller
         }
 
         $user = Auth::user();
-       
-        
-        //  $data =[];
-
-        // $data = array_values(Session::get('wishlist') ?? []);
-
-        // foreach ($data as $item) {
-        //     $this->addwish($item['id']);
-        // }
-
 
         // Get user's recent orders (limit to 5 most recent)
         $orders = Order::where('user_id', $user->id)
@@ -46,7 +38,7 @@ class AccountController extends Controller
             ->with('product')
             ->get();
 
-           
+
 
         // Get user's addresses
         $addresses = Address::where('user_id', $user->id)->get();
@@ -58,6 +50,40 @@ class AccountController extends Controller
         $totalOrders = Order::where('user_id', $user->id)->count();
         $totalWishlistItems = $wishlist->count();
 
+        $final_affilate_users = [];
+        $final_affilate_users = DB::table('orders')
+            // ->where('orders.status', 'completed')
+            ->where('orders.affilate_users', $user->id)
+            ->join('users as buyers', 'orders.user_id', '=', 'buyers.id')
+            ->where('buyers.affiliated_by', $user->id)
+
+            // ->leftJoin('address as billing_address', 'orders.billing_address_id', '=', 'billing_address.id') // 👈 JOIN here
+            ->select(
+                'orders.*',
+                'buyers.name as customer_name',
+                'buyers.id as buyer_id',
+
+            )
+            ->get();
+
+
+
+        $final_refferal_users = [];
+        $final_refferal_users = DB::table('orders')
+            // ->where('orders.status', 'completed')
+            ->where('orders.affilate_user', $user->id)
+            ->join('users as buyers', 'orders.user_id', '=', 'buyers.id')
+            ->where('buyers.reffered_by', $user->id)
+
+            // ->leftJoin('address as billing_address', 'orders.billing_address_id', '=', 'billing_address.id') // 👈 JOIN here
+            ->select(
+                'orders.*',
+                'buyers.name as customer_name',
+                'buyers.id as buyer_id',
+
+            )
+            ->get();
+
         return view('user.account.index', compact(
             'user',
             'orders',
@@ -65,16 +91,17 @@ class AccountController extends Controller
             'addresses',
             'points',
             'totalOrders',
-            'totalWishlistItems'
+            'totalWishlistItems',
+            'final_affilate_users',
+            'final_refferal_users'
         ));
     }
-     public function addwish($id)
+    public function addwish($id)
     {
-         $user = Auth::user();
+        $user = Auth::user();
         $data[0] = 0;
-        $ck = Wishlist::where('user_id','=',$user->id)->where('product_id','=',$id)->get()->count();
-        if($ck > 0)
-        {
+        $ck = Wishlist::where('user_id', '=', $user->id)->where('product_id', '=', $id)->get()->count();
+        if ($ck > 0) {
             $data['error'] = __('Already Added To The Wishlist.');
             return response()->json($data);
         }
@@ -86,7 +113,6 @@ class AccountController extends Controller
         $data[1] = count($user->wishlists);
         $data['success'] = __('Successfully Added To The Wishlist.');
         return response()->json($data);
-
     }
 
     /**

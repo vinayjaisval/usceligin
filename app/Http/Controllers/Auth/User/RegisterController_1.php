@@ -98,7 +98,6 @@ class RegisterController extends Controller
 
 	        $mailer = new GeniusMailer();
 	        $mailer->sendCustomMail($data);
-
           	return response()->json('We need to verify your email address. We have sent an email to '.$to.' to verify your email address. Please click link in that email to continue.');
 	        }
 	        else {

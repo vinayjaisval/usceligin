@@ -6,20 +6,20 @@
 
     {{-- Breadcrumb --}}
     @include('frontend.include.breadcrumb', ['items' => [
-      ['label' => 'Home', 'url' => route('front.index')],
-      ['label' => 'My Account']
+    ['label' => 'Home', 'url' => route('front.index')],
+    ['label' => 'My Account']
     ]])
 
     {{-- Success Message --}}
     @if(session('success'))
-      <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200">
-        <div class="flex items-start">
-          <span class="material-icons-outlined text-green-600 dark:text-green-400 mr-3 mt-0.5">check_circle</span>
-          <div class="flex-1">
-            <p class="font-semibold">{{ session('success') }}</p>
-          </div>
+    <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200">
+      <div class="flex items-start">
+        <span class="material-icons-outlined text-green-600 dark:text-green-400 mr-3 mt-0.5">check_circle</span>
+        <div class="flex-1">
+          <p class="font-semibold">{{ session('success') }}</p>
         </div>
       </div>
+    </div>
     @endif
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -40,28 +40,28 @@
           {{-- Navigation Menu --}}
           <nav class="p-2">
             <a href="#dashboard"
-               onclick="switchTab(event, 'dashboard')"
-               data-tab="dashboard"
-               class="tab-link active flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              onclick="switchTab(event, 'dashboard')"
+              data-tab="dashboard"
+              class="tab-link active flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
                 <span class="material-icons-outlined mr-3">dashboard</span>
                 <span>Dashboard</span>
               </div>
               <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
             </a>
-          <a href="{{ route('vendor.dashboard', ['tab' => 'purchases']) }}"
-            class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 hover:bg-gray-100">
-            <div class="flex items-center">
-              <span class="material-icons-outlined mr-3">shopping_bag</span>
-              <span>POS</span>
-            </div>
-          </a>
+            <a href="{{ route('vendor.dashboard', ['tab' => 'purchases']) }}"
+              class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 hover:bg-gray-100">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">shopping_bag</span>
+                <span>POS</span>
+              </div>
+            </a>
 
 
             <a href="#purchases"
-               onclick="switchTab(event, 'purchases')"
-               data-tab="purchases"
-               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              onclick="switchTab(event, 'purchases')"
+              data-tab="purchases"
+              class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
                 <span class="material-icons-outlined mr-3">shopping_bag</span>
                 <span>Purchase History</span>
@@ -70,9 +70,9 @@
             </a>
 
             <a href="#wishlists"
-               onclick="switchTab(event, 'wishlists')"
-               data-tab="wishlists"
-               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              onclick="switchTab(event, 'wishlists')"
+              data-tab="wishlists"
+              class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
                 <span class="material-icons-outlined mr-3">favorite_border</span>
                 <span>Wishlists</span>
@@ -81,9 +81,9 @@
             </a>
 
             <a href="#account"
-               onclick="switchTab(event, 'account')"
-               data-tab="account"
-               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              onclick="switchTab(event, 'account')"
+              data-tab="account"
+              class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
                 <span class="material-icons-outlined mr-3">person</span>
                 <span>Manage Account</span>
@@ -92,9 +92,9 @@
             </a>
 
             <a href="#support"
-               onclick="switchTab(event, 'support')"
-               data-tab="support"
-               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              onclick="switchTab(event, 'support')"
+              data-tab="support"
+              class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
                 <span class="material-icons-outlined mr-3">support_agent</span>
                 <span>Customer Service</span>
@@ -103,9 +103,9 @@
             </a>
 
             <a href="#affiliate"
-               onclick="switchTab(event, 'affiliate')"
-               data-tab="affiliate"
-               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              onclick="switchTab(event, 'affiliate')"
+              data-tab="affiliate"
+              class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
                 <span class="material-icons-outlined mr-3">groups</span>
                 <span>Affiliate</span>
@@ -114,9 +114,9 @@
             </a>
 
             <a href="#points"
-               onclick="switchTab(event, 'points')"
-               data-tab="points"
-               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+              onclick="switchTab(event, 'points')"
+              data-tab="points"
+              class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
                 <span class="material-icons-outlined mr-3">stars</span>
                 <span>CELIGIN Points</span>
@@ -186,37 +186,37 @@
               </div>
 
               @if($orders->count() > 0)
-                <div class="space-y-4">
-                  @foreach($orders as $order)
-                    <div class="border border-gray-200 dark:border-gray-700 p-4">
-                      <div class="flex justify-between items-start mb-2">
-                        <div>
-                          <h4 class="font-semibold text-gray-900 dark:text-gray-100">Order #{{ $order->order_number }}</h4>
-                          <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('M d, Y') }}</p>
-                        </div>
-                        <span class="px-3 py-1 text-xs font-semibold
+              <div class="space-y-4">
+                @foreach($orders as $order)
+                <div class="border border-gray-200 dark:border-gray-700 p-4">
+                  <div class="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 class="font-semibold text-gray-900 dark:text-gray-100">Order #{{ $order->order_number }}</h4>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('M d, Y') }}</p>
+                    </div>
+                    <span class="px-3 py-1 text-xs font-semibold
                           @if($order->status == 'completed') bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200
                           @elseif($order->status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200
                           @elseif($order->status == 'processing') bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200
                           @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200
                           @endif">
-                          {{ ucfirst($order->status) }}
-                        </span>
-                      </div>
-                      <p class="text-sm text-gray-600 dark:text-gray-400">
-                        Total: {{ $order->currency_sign }}{{ number_format($order->pay_amount, 2) }}
-                      </p>
-                    </div>
-                  @endforeach
+                      {{ ucfirst($order->status) }}
+                    </span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Total: {{ $order->currency_sign }}{{ number_format($order->pay_amount, 2) }}
+                  </p>
                 </div>
+                @endforeach
+              </div>
               @else
-                {{-- Empty State --}}
-                <div class="text-center py-8">
-                  <p class="text-gray-600 dark:text-gray-400 mb-4">You haven't made any purchases yet</p>
-                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
-                    Start Shopping
-                  </a>
-                </div>
+              {{-- Empty State --}}
+              <div class="text-center py-8">
+                <p class="text-gray-600 dark:text-gray-400 mb-4">You haven't made any purchases yet</p>
+                <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
+                  Start Shopping
+                </a>
+              </div>
               @endif
             </div>
           </div>
@@ -232,63 +232,63 @@
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 ml-4">Wishlist</h3>
                 </div>
                 @if($wishlist->count() > 0)
-                  <button
-                    onclick="removeAllWishlistItems()"
-                    class="px-3 py-1.5 bg-red-600 text-white text-xs font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors">
-                    Remove All
-                  </button>
+                <button
+                  onclick="removeAllWishlistItems()"
+                  class="px-3 py-1.5 bg-red-600 text-white text-xs font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors">
+                  Remove All
+                </button>
                 @endif
               </div>
 
               @if($wishlist->count() > 0)
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  @foreach($wishlist->take(4) as $item)
-                    <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-blue-500 dark:hover:border-blue-400 transition-colors relative">
-                      {{-- Remove Button --}}
-                      <button
-                        onclick="removeWishlistItem({{ $item->id }})"
-                        class="absolute top-2 right-2 w-6 h-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-red-600 hover:text-white hover:border-red-600 dark:hover:bg-red-600 dark:hover:border-red-600 transition-colors flex items-center justify-center z-10"
-                        title="Remove from wishlist">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                      </button>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                @foreach($wishlist->take(4) as $item)
+                <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-blue-500 dark:hover:border-blue-400 transition-colors relative">
+                  {{-- Remove Button --}}
+                  <button
+                    onclick="removeWishlistItem({{ $item->id }})"
+                    class="absolute top-2 right-2 w-6 h-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-red-600 hover:text-white hover:border-red-600 dark:hover:bg-red-600 dark:hover:border-red-600 transition-colors flex items-center justify-center z-10"
+                    title="Remove from wishlist">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
 
-                      @if($item->product && $item->product->thumbnail)
-                        <img src="{{ asset('assets/images/thumbnails/' . $item->product->thumbnail) }}"
-                             alt="{{ $item->product->name ?? 'Product' }}"
-                             class="w-full h-32 object-cover mb-2">
-                      @else
-                        <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-2">
-                          <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
-                        </div>
-                      @endif
-                      <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
-                        {{ $item->product->name ?? 'Product' }}
-                      </h5>
-                      @if($item->product)
-                        <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
-                          ₹ {{ number_format($item->product->price, 2) }}
-                        </p>
-                      @endif
-                    </div>
-                  @endforeach
-                </div>
-                @if($wishlist->count() > 4)
-                  <div class="mt-4 text-center">
-                    <a href="#wishlists" onclick="switchTab(event, 'wishlists')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
-                      View All {{ $wishlist->count() }} Items →
-                    </a>
+                  @if($item->product && $item->product->thumbnail)
+                  <img src="{{ asset('assets/images/thumbnails/' . $item->product->thumbnail) }}"
+                    alt="{{ $item->product->name ?? 'Product' }}"
+                    class="w-full h-32 object-cover mb-2">
+                  @else
+                  <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-2">
+                    <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
                   </div>
-                @endif
-              @else
-                {{-- Empty State --}}
-                <div class="text-center py-8">
-                  <p class="text-gray-600 dark:text-gray-400 mb-4">Your wishlist is empty</p>
-                  <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
-                    Browse Products
-                  </a>
+                  @endif
+                  <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                    {{ $item->product->name ?? 'Product' }}
+                  </h5>
+                  @if($item->product)
+                  <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
+                    ₹ {{ number_format($item->product->price, 2) }}
+                  </p>
+                  @endif
                 </div>
+                @endforeach
+              </div>
+              @if($wishlist->count() > 4)
+              <div class="mt-4 text-center">
+                <a href="#wishlists" onclick="switchTab(event, 'wishlists')" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
+                  View All {{ $wishlist->count() }} Items →
+                </a>
+              </div>
+              @endif
+              @else
+              {{-- Empty State --}}
+              <div class="text-center py-8">
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Your wishlist is empty</p>
+                <a href="{{ route('front.index') }}" class="inline-block px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
+                  Browse Products
+                </a>
+              </div>
               @endif
             </div>
           </div>
@@ -299,42 +299,42 @@
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Purchase History</h1>
 
           @if($orders->count() > 0)
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
-              <div class="space-y-4">
-                @foreach($orders as $order)
-                  <div class="border border-gray-200 dark:border-gray-700 p-4">
-                    <div class="flex justify-between items-start mb-2">
-                      <div>
-                        <h4 class="font-semibold text-gray-900 dark:text-gray-100">Order #{{ $order->order_number }}</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('M d, Y h:i A') }}</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Items: {{ $order->totalQty }}</p>
-                      </div>
-                      <span class="px-3 py-1 text-xs font-semibold
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
+            <div class="space-y-4">
+              @foreach($orders as $order)
+              <div class="border border-gray-200 dark:border-gray-700 p-4">
+                <div class="flex justify-between items-start mb-2">
+                  <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-gray-100">Order #{{ $order->order_number }}</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('M d, Y h:i A') }}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Items: {{ $order->totalQty }}</p>
+                  </div>
+                  <span class="px-3 py-1 text-xs font-semibold
                         @if($order->status == 'completed') bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200
                         @elseif($order->status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200
                         @elseif($order->status == 'processing') bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200
                         @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200
                         @endif">
-                        {{ ucfirst($order->status) }}
-                      </span>
-                    </div>
-                    <div class="flex justify-between items-center mt-3">
-                      <p class="text-base font-semibold text-gray-900 dark:text-gray-100">
-                        Total: {{ $order->currency_sign }}{{ number_format($order->pay_amount, 2) }}
-                      </p>
-                    </div>
-                  </div>
-                @endforeach
+                    {{ ucfirst($order->status) }}
+                  </span>
+                </div>
+                <div class="flex justify-between items-center mt-3">
+                  <p class="text-base font-semibold text-gray-900 dark:text-gray-100">
+                    Total: {{ $order->currency_sign }}{{ number_format($order->pay_amount, 2) }}
+                  </p>
+                </div>
               </div>
+              @endforeach
             </div>
+          </div>
           @else
-            @include('frontend.include.empty-state', [
-              'icon' => 'shopping_bag',
-              'title' => 'No Purchases Yet',
-              'description' => 'You haven\'t made any purchases. Start shopping to see your order history here.',
-              'actionText' => 'Start Shopping',
-              'actionUrl' => route('front.index')
-            ])
+          @include('frontend.include.empty-state', [
+          'icon' => 'shopping_bag',
+          'title' => 'No Purchases Yet',
+          'description' => 'You haven\'t made any purchases. Start shopping to see your order history here.',
+          'actionText' => 'Start Shopping',
+          'actionUrl' => route('front.index')
+          ])
           @endif
         </div>
 
@@ -343,61 +343,61 @@
           <div class="flex items-center justify-between mb-6">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Wishlists</h1>
             @if($wishlist->count() > 0)
-              <button
-                onclick="removeAllWishlistItems()"
-                class="px-4 py-2 bg-red-600 text-white text-sm font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors">
-                Remove All
-              </button>
+            <button
+              onclick="removeAllWishlistItems()"
+              class="px-4 py-2 bg-red-600 text-white text-sm font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors">
+              Remove All
+            </button>
             @endif
           </div>
 
           @if($wishlist->count() > 0)
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
-              <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                @foreach($wishlist as $item)
-                  <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-blue-500 dark:hover:border-blue-400 transition-colors relative">
-                    {{-- Remove Button --}}
-                    <button
-                      onclick="removeWishlistItem({{ $item->id }})"
-                      class="absolute top-2 right-2 w-7 h-7 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-red-600 hover:text-white hover:border-red-600 dark:hover:bg-red-600 dark:hover:border-red-600 transition-colors flex items-center justify-center z-10"
-                      title="Remove from wishlist">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                      </svg>
-                    </button>
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              @foreach($wishlist as $item)
+              <div class="border border-gray-200 dark:border-gray-700 p-3 group hover:border-blue-500 dark:hover:border-blue-400 transition-colors relative">
+                {{-- Remove Button --}}
+                <button
+                  onclick="removeWishlistItem({{ $item->id }})"
+                  class="absolute top-2 right-2 w-7 h-7 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-red-600 hover:text-white hover:border-red-600 dark:hover:bg-red-600 dark:hover:border-red-600 transition-colors flex items-center justify-center z-10"
+                  title="Remove from wishlist">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
 
-                    @if($item->product && $item->product->thumbnail)
-                      <img src="{{ asset('assets/images/thumbnails/' . $item->product->thumbnail) }}"
-                           alt="{{ $item->product->name ?? 'Product' }}"
-                           class="w-full h-32 object-cover mb-2">
-                    @else
-                      <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-2">
-                        <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
-                      </div>
-                    @endif
-                    <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate" title="{{ $item->product->name ?? 'Product' }}">
-                      {{ $item->product->name ?? 'Product' }}
-                    </h5>
-                    @if($item->product)
-                      <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
-                        ₹ {{ number_format($item->product->price, 2) }}
-                      </p>
-                    @endif
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Added {{ $item->created_at->diffForHumans() }}
-                    </p>
-                  </div>
-                @endforeach
+                @if($item->product && $item->product->thumbnail)
+                <img src="{{ asset('assets/images/thumbnails/' . $item->product->thumbnail) }}"
+                  alt="{{ $item->product->name ?? 'Product' }}"
+                  class="w-full h-32 object-cover mb-2">
+                @else
+                <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-2">
+                  <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
+                </div>
+                @endif
+                <h5 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate" title="{{ $item->product->name ?? 'Product' }}">
+                  {{ $item->product->name ?? 'Product' }}
+                </h5>
+                @if($item->product)
+                <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
+                  ₹ {{ number_format($item->product->price, 2) }}
+                </p>
+                @endif
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Added {{ $item->created_at->diffForHumans() }}
+                </p>
               </div>
+              @endforeach
             </div>
+          </div>
           @else
-            @include('frontend.include.empty-state', [
-              'icon' => 'favorite_border',
-              'title' => 'No Wishlist Items',
-              'description' => 'You haven\'t saved any items yet. Browse our products and add favorites to your wishlist.',
-              'actionText' => 'Browse Products',
-              'actionUrl' => route('front.index')
-            ])
+          @include('frontend.include.empty-state', [
+          'icon' => 'favorite_border',
+          'title' => 'No Wishlist Items',
+          'description' => 'You haven\'t saved any items yet. Browse our products and add favorites to your wishlist.',
+          'actionText' => 'Browse Products',
+          'actionUrl' => route('front.index')
+          ])
           @endif
         </div>
 
@@ -430,7 +430,7 @@
                     class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm"
                     placeholder="Enter your full name" />
                   @error('name')
-                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                   @enderror
                 </div>
 
@@ -439,12 +439,12 @@
                   <label for="email" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                     Email Address
                     @if($user->email_verified_at)
-                      <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 ml-2">
-                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        Verified
-                      </span>
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 ml-2">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                      </svg>
+                      Verified
+                    </span>
                     @endif
                   </label>
                   <input
@@ -455,7 +455,7 @@
                     class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm"
                     placeholder="your@email.com" />
                   @error('email')
-                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                   @enderror
                 </div>
               </div>
@@ -465,12 +465,12 @@
                 <label for="phone" class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                   Mobile Number
                   @if($user->phone_verified_at)
-                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 ml-2">
-                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                      </svg>
-                      Verified
-                    </span>
+                  <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 ml-2">
+                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    Verified
+                  </span>
                   @endif
                 </label>
                 <div class="relative flex items-center border border-gray-300 dark:border-gray-600 overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
@@ -485,7 +485,7 @@
                     maxlength="10" />
                 </div>
                 @error('phone')
-                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                 @enderror
               </div>
 
@@ -545,244 +545,244 @@
                   <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage your delivery and billing addresses (Maximum 3 addresses)</p>
                 </div>
                 @if($addresses->count() < 3)
-                <button
+                  <button
                   type="button"
                   onclick="toggleAddAddressForm()"
                   class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                   </svg>
                   Add New Address
-                </button>
-                @endif
+                  </button>
+                  @endif
               </div>
             </div>
 
             <div class="p-6 lg:p-8">
               @if($addresses->count() > 0)
-                {{-- Mobile Add Button --}}
-                @if($addresses->count() < 3)
+              {{-- Mobile Add Button --}}
+              @if($addresses->count() < 3)
                 <button
-                  type="button"
-                  onclick="toggleAddAddressForm()"
-                  class="sm:hidden w-full mb-4 flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-dashed border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                  </svg>
-                  Add New Address
+                type="button"
+                onclick="toggleAddAddressForm()"
+                class="sm:hidden w-full mb-4 flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-dashed border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Add New Address
                 </button>
                 @endif
 
                 {{-- Address Cards Grid --}}
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="address-cards-container">
                   @foreach($addresses as $address)
-                    <div class="relative group border-2 {{ $address->is_default ? 'border-blue-500 dark:border-blue-400 bg-blue-50/30 dark:bg-blue-900/10' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }} p-5 transition-all duration-200">
+                  <div class="relative group border-2 {{ $address->is_default ? 'border-blue-500 dark:border-blue-400 bg-blue-50/30 dark:bg-blue-900/10' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }} p-5 transition-all duration-200">
 
-                      {{-- Default Badge (Top Right) --}}
-                      @if($address->is_default)
-                      <div class="absolute -top-2 -right-2 bg-blue-600 dark:bg-blue-500 text-white px-3 py-1 text-xs font-semibold shadow-md">
-                        DEFAULT
-                      </div>
+                    {{-- Default Badge (Top Right) --}}
+                    @if($address->is_default)
+                    <div class="absolute -top-2 -right-2 bg-blue-600 dark:bg-blue-500 text-white px-3 py-1 text-xs font-semibold shadow-md">
+                      DEFAULT
+                    </div>
+                    @endif
+
+                    {{-- Address Type Icon & Badge --}}
+                    <div class="flex items-center gap-2 mb-3">
+                      <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-lg">
+                        @if($address->type === 'home') home
+                        @elseif($address->type === 'work') business
+                        @else location_on
+                        @endif
+                      </span>
+                      <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 uppercase tracking-wide">
+                        {{ ucfirst($address->type ?? 'home') }}
+                      </span>
+                    </div>
+
+                    {{-- Address Details --}}
+                    <div class="mb-4">
+                      <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">
+                        {{ $address->name }}
+                      </h3>
+                      <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        {{ $address->phone }}
+                      </p>
+                      <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {{ $address->address_line_1 }}@if($address->address_line_2), {{ $address->address_line_2 }}@endif
+                        <br>
+                        {{ $address->city }}, {{ $address->state }} - {{ $address->pincode }}
+                      </p>
+                    </div>
+
+                    {{-- Actions --}}
+                    <div class="flex flex-wrap gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+                      @if(!$address->is_default)
+                      <button
+                        type="button"
+                        onclick="setDefaultAddress({{ $address->id }})"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 border border-blue-200 dark:border-blue-700 transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Set as default
+                      </button>
                       @endif
 
-                      {{-- Address Type Icon & Badge --}}
-                      <div class="flex items-center gap-2 mb-3">
-                        <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-lg">
-                          @if($address->type === 'home') home
-                          @elseif($address->type === 'work') business
-                          @else location_on
-                          @endif
-                        </span>
-                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 uppercase tracking-wide">
-                          {{ ucfirst($address->type ?? 'home') }}
-                        </span>
-                      </div>
+                      <button
+                        type="button"
+                        onclick="editAddress({{ $address->id }})"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Edit
+                      </button>
 
-                      {{-- Address Details --}}
-                      <div class="mb-4">
-                        <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">
-                          {{ $address->name }}
-                        </h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 flex items-center gap-1.5">
-                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                          </svg>
-                          {{ $address->phone }}
-                        </p>
-                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                          {{ $address->address_line_1 }}@if($address->address_line_2), {{ $address->address_line_2 }}@endif
-                          <br>
-                          {{ $address->city }}, {{ $address->state }} - {{ $address->pincode }}
-                        </p>
-                      </div>
-
-                      {{-- Actions --}}
-                      <div class="flex flex-wrap gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
-                        @if(!$address->is_default)
-                        <button
-                          type="button"
-                          onclick="setDefaultAddress({{ $address->id }})"
-                          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 border border-blue-200 dark:border-blue-700 transition-colors">
-                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                          </svg>
-                          Set as default
-                        </button>
-                        @endif
-
-                        <button
-                          type="button"
-                          onclick="editAddress({{ $address->id }})"
-                          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 transition-colors">
-                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                          </svg>
-                          Edit
-                        </button>
-
-                        <button
-                          type="button"
-                          onclick="deleteAddress({{ $address->id }})"
-                          class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-700 transition-colors">
-                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                          </svg>
-                          Delete
-                        </button>
-                      </div>
+                      <button
+                        type="button"
+                        onclick="deleteAddress({{ $address->id }})"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-700 transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Delete
+                      </button>
                     </div>
+                  </div>
                   @endforeach
                 </div>
 
-              {{-- Add Address Form (Hidden) --}}
-              <div id="add-address-form" class="hidden border-t border-gray-200 dark:border-gray-700 pt-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Add New Address</h3>
-                <form id="myAccountAddressForm" class="space-y-4">
-                  @csrf
+                {{-- Add Address Form (Hidden) --}}
+                <div id="add-address-form" class="hidden border-t border-gray-200 dark:border-gray-700 pt-6">
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Add New Address</h3>
+                  <form id="myAccountAddressForm" class="space-y-4">
+                    @csrf
 
-                  {{-- Address Type --}}
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Address Type <span class="text-red-600">*</span>
-                    </label>
-                    <div class="flex gap-4">
-                      <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="radio" name="type" value="home" checked
-                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-                        <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
+                    {{-- Address Type --}}
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Address Type <span class="text-red-600">*</span>
                       </label>
-                      <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="radio" name="type" value="work"
-                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-                        <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
-                      </label>
-                      <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="radio" name="type" value="other"
-                          class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-                        <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
-                      </label>
+                      <div class="flex gap-4">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                          <input type="radio" name="type" value="home" checked
+                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                          <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                          <input type="radio" name="type" value="work"
+                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                          <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                          <input type="radio" name="type" value="other"
+                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                          <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  {{-- Name --}}
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Full Name <span class="text-red-600">*</span>
-                    </label>
-                    <input type="text" name="name" id="myAccountAddressForm_name" required
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
-                  </div>
-
-                  {{-- Phone --}}
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Phone Number <span class="text-red-600">*</span>
-                    </label>
-                    <input type="tel" name="phone" required maxlength="15"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
-                  </div>
-
-                  {{-- Address Line 1 --}}
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Address Line 1 <span class="text-red-600">*</span>
-                    </label>
-                    <input type="text" name="address_line_1" required
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
-                  </div>
-
-                  {{-- Address Line 2 --}}
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Address Line 2
-                    </label>
-                    <input type="text" name="address_line_2"
-                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
-                  </div>
-
-                  {{-- Pincode, City, State, Country --}}
-                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {{-- Name --}}
                     <div>
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Pincode <span class="text-red-600">*</span>
+                        Full Name <span class="text-red-600">*</span>
                       </label>
-                      <input type="text" name="pincode" id="myAccountAddressForm_pincode" required maxlength="6" pattern="[0-9]{6}"
-                        onblur="fetchPincodeDetails('myAccountAddressForm')"
+                      <input type="text" name="name" id="myAccountAddressForm_name" required
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
+
+                    {{-- Phone --}}
                     <div>
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        City <span class="text-red-600">*</span>
+                        Phone Number <span class="text-red-600">*</span>
                       </label>
-                      <input type="text" name="city" id="myAccountAddressForm_city" required readonly
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      <input type="tel" name="phone" required maxlength="15"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
+
+                    {{-- Address Line 1 --}}
                     <div>
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        State <span class="text-red-600">*</span>
+                        Address Line 1 <span class="text-red-600">*</span>
                       </label>
-                      <input type="text" name="state" id="myAccountAddressForm_state" required readonly
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      <input type="text" name="address_line_1" required
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
+
+                    {{-- Address Line 2 --}}
                     <div>
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Country <span class="text-red-600">*</span>
+                        Address Line 2
                       </label>
-                      <input type="text" name="country" id="myAccountAddressForm_country" value="India" readonly
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      <input type="text" name="address_line_2"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
-                  </div>
 
-                  {{-- Default Checkbox --}}
-                  <div class="flex items-start space-x-2">
-                    <input type="checkbox" name="is_default" value="1"
-                      class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                    <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                      Make this my default address
-                    </label>
-                  </div>
+                    {{-- Pincode, City, State, Country --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          Pincode <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="pincode" id="myAccountAddressForm_pincode" required maxlength="6" pattern="[0-9]{6}"
+                          onblur="fetchPincodeDetails('myAccountAddressForm')"
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          City <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="city" id="myAccountAddressForm_city" required readonly
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          State <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="state" id="myAccountAddressForm_state" required readonly
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          Country <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="country" id="myAccountAddressForm_country" value="India" readonly
+                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+                      </div>
+                    </div>
 
-                  {{-- Buttons --}}
-                  <div class="flex gap-3">
-                    <button type="submit"
-                      class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                      Save Address
-                    </button>
-                    <button type="button" onclick="cancelAddressForm()"
-                      class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
+                    {{-- Default Checkbox --}}
+                    <div class="flex items-start space-x-2">
+                      <input type="checkbox" name="is_default" value="1"
+                        class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+                      <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                        Make this my default address
+                      </label>
+                    </div>
 
-              {{-- Edit Address Modal/Form (Hidden) --}}
-              <div id="edit-address-form" class="hidden border-t border-gray-200 dark:border-gray-700 pt-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Edit Address</h3>
-                <div id="edit-address-form-content"></div>
-              </div>
+                    {{-- Buttons --}}
+                    <div class="flex gap-3">
+                      <button type="submit"
+                        class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        Save Address
+                      </button>
+                      <button type="button" onclick="cancelAddressForm()"
+                        class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
 
-              @else
+                {{-- Edit Address Modal/Form (Hidden) --}}
+                <div id="edit-address-form" class="hidden border-t border-gray-200 dark:border-gray-700 pt-6">
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Edit Address</h3>
+                  <div id="edit-address-form-content"></div>
+                </div>
+
+                @else
                 {{-- No Addresses Empty State --}}
                 <div class="text-center py-16 px-6 border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-900/20">
                   <div class="max-w-md mx-auto">
@@ -798,7 +798,7 @@
                       onclick="toggleAddAddressForm()"
                       class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors shadow-md">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                       </svg>
                       Add Your First Address
                     </button>
@@ -926,13 +926,13 @@
                     </div>
                   </form>
                 </div>
-              @endif
+                @endif
 
-              {{-- Maximum Limit Reached Message --}}
-              @if($addresses->count() >= 3)
+                {{-- Maximum Limit Reached Message --}}
+                @if($addresses->count() >= 3)
                 <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 flex items-start gap-3">
                   <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                   </svg>
                   <div class="flex-1">
                     <p class="text-sm font-medium text-blue-900 dark:text-blue-200">
@@ -943,7 +943,7 @@
                     </p>
                   </div>
                 </div>
-              @endif
+                @endif
             </div>
           </div>
         </div>
@@ -983,6 +983,15 @@
 
         {{-- Affiliate Tab --}}
         <div id="content-affiliate" class="tab-content hidden">
+          @php
+          $user = Auth::user();
+          $affiliateActive = $user->reffered_times > 0; // Assuming affiliate is active if they have referred at least one person
+          $affiliateCode = $user->affilate_code;
+          $affiliateLink = $affiliateActive
+          ? url('?affilate_code=' . $affiliateCode)
+          : '';
+          @endphp
+
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Affiliate Program</h1>
 
           <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8 text-center">
@@ -994,7 +1003,106 @@
             <button class="px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors">
               Learn More
             </button>
+
+            @if(!$affiliateActive)
+            <button
+              onclick="activateAffiliate()"
+              class="px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700">
+              Activate Affiliate
+            </button>
+            @else
+            <span class="text-green-600 font-semibold">
+              ✔ Affiliate Activated
+            </span>
+            @endif
+
+            {{-- Referral Box --}}
+            <div class="border p-4 mt-6 rounded
+            {{ !$affiliateActive ? 'opacity-50 pointer-events-none' : '' }}">
+
+              <h3 class="font-semibold mb-1">Refer Friends</h3>
+
+              <input
+                type="text"
+                id="referralLink"
+                value="{{ $affiliateLink }}"
+                readonly
+                class="w-full text-sm border rounded px-2 py-1 mb-2 text-center">
+
+              <button
+                onclick="copyReferral()"
+                class="bg-blue-600 text-white px-4 py-1 rounded text-sm">
+                Copy Link
+              </button>
+            </div>
+                  <div class="mr-table allproduct mt-4">
+                                <div class="table-responsive">
+                                    <table id="example" class="table" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ __('Id') }}</th>
+                                                <th>{{ __('Product') }}</th>
+                                                <th>{{ __('Customer Name') }}</th>
+                                                <th>{{ __('Total Amount') }}</th>
+                                                <th>{{ __('Affiliate Bonus') }}</th>
+                                                <th>{{ __('Payment Status') }}</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($final_affilate_users as $fuser)
+                                            @php
+                                            $cart = json_decode($fuser->cart, true); // Keep as array
+                                            @endphp
+
+                                            @foreach($cart['items'] ?? [] as $c)
+                                            <tr>
+                                                <td>
+                                                    <div>
+                                                        {{ $fuser->id }}
+                                                    </div>
+                                                </td>
+
+                                                <td data-label="{{ __('Product') }}">
+                                                    <div>
+                                                        <a href="{{ route('front.product', $c['item']['slug']) }}" target="_blank">
+                                                            {{ $c['item']['name'] }}
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+                                                <td data-label="{{ __('Customer Name') }}">
+                                                    <div>
+                                                        {{ $fuser->customer_name }}
+                                                    </div>
+                                                </td>
+                                                <td data-label="{{ __('Total Amount') }}">
+                                                    <div>
+                                                        {{ $fuser->pay_amount }}
+                                                    </div>
+                                                </td>
+                                                <td data-label="{{ __('Affiliate Bonus') }}">
+                                                    <div>
+                                                        {{ App\Models\Product::vendorConvertPrice($fuser->affilate_charge) }}
+                                                    </div>
+                                                </td>
+                                                <td data-label="{{ __('Total Amount') }}">
+                                                    <div>
+                                                        {{ $fuser->status }}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            @endforeach
+                                        </tbody>
+
+
+                                    </table>
+                                </div>
+                            </div>
+
           </div>
+                     
         </div>
 
         {{-- CELIGIN Points Tab --}}
@@ -1004,7 +1112,7 @@
           <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
             <div class="text-center mb-8">
               <div class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">Ȼ{{ round(Auth::user()->current_balance ?? 0) }}
-             </div>
+              </div>
               <p class="text-gray-600 dark:text-gray-400">Available Points</p>
             </div>
 
@@ -1020,80 +1128,125 @@
                 <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Redeem Rewards</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">Use points for discounts on orders</p>
               </div>
-             @php
-                $referralCode = Auth::user()->refferel_code ?? '';
-               
-                $referralLink = url('/?refferel_code=' . $referralCode);
-            @endphp
+              @php
+              $referralCode = Auth::user()->refferel_code ?? '';
 
-<div class="border border-gray-200 dark:border-gray-700 p-4 text-center rounded cursor-pointer">
-    <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400 mb-2">
-        share
-    </span>
+              $referralLink = url('/?refferel_code=' . $referralCode);
+              @endphp
 
-    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">
-        Refer Friends
-    </h3>
+              <div class="border border-gray-200 dark:border-gray-700 p-4 text-center rounded cursor-pointer">
+                <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400 mb-2">
+                  share
+                </span>
 
-    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
-        Earn bonus points for referrals
-    </p>
+                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                  Refer Friends
+                </h3>
 
-    <!-- Referral Input -->
-    <input
-        type="text"
-        id="referralLink"
-        value="{{ $referralLink }}"
-        readonly
-        class="w-full text-sm border rounded px-2 py-1 mb-2 text-center"
-    >
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  Earn bonus points for referrals
+                </p>
 
-    <!-- Copy Button -->
-    <button
-        onclick="copyReferral()"
-        class="bg-blue-600 text-white px-4 py-1 rounded text-sm mb-3">
-        Copy Link
-    </button>
+                <!-- Referral Input -->
+                <input
+                  type="text"
+                  id="referralLink"
+                  value="{{ $referralLink }}"
+                  readonly
+                  class="w-full text-sm border rounded px-2 py-1 mb-2 text-center">
 
-    <!-- Social Share Buttons -->
-   <div class="flex justify-center gap-4 mt-4">
+                <!-- Copy Button -->
+                <button
+                  onclick="copyReferral()"
+                  class="bg-blue-600 text-white px-4 py-1 rounded text-sm mb-3">
+                  Copy Link
+                </button>
 
-    <!-- WhatsApp -->
-    <a id="whatsappShare" target="_blank"
-       class="w-10 h-10 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 transition">
-        <svg class="w-5 h-5 fill-white" viewBox="0 0 32 32">
-            <path d="M16.1 3C9.4 3 4 8.4 4 15.1c0 2.7.9 5.2 2.4 7.3L4 29l6.8-2.2c2 .9 4.2 1.4 6.5 1.4 6.7 0 12.1-5.4 12.1-12.1C28.2 8.4 22.8 3 16.1 3zm0 22.1c-2.1 0-4.1-.6-5.9-1.7l-.4-.2-4 1.3 1.3-3.9-.3-.4c-1.1-1.8-1.7-3.9-1.7-6.1 0-6 4.9-10.9 10.9-10.9S27 9.1 27 15.1 22.1 25.1 16.1 25.1zm6-8.2c-.3-.1-1.9-.9-2.2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1-1.2-.4-2.3-1.4c-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.1-.3.2-.5s0-.3 0-.5-.7-1.8-.9-2.4c-.2-.6-.4-.5-.7-.5h-.6c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.6 4.2 3.6 2.4 1 2.4.7 2.8.7.4 0 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1z"/>
-        </svg>
-    </a>
+                <!-- Social Share Buttons -->
+                <div class="flex justify-center gap-4 mt-4">
 
-    <!-- Facebook -->
-    <a id="facebookShare" target="_blank"
-       class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition">
-        <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
-            <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.326v21.348C0 23.4.6 24 1.326 24h11.495v-9.294H9.691V11.01h3.13V8.309c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.31h3.587l-.467 3.696h-3.12V24h6.116C23.4 24 24 23.4 24 22.674V1.326C24 .6 23.4 0 22.675 0z"/>
-        </svg>
-    </a>
+                  <!-- WhatsApp -->
+                  <a id="whatsappShare" target="_blank"
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 transition">
+                    <svg class="w-5 h-5 fill-white" viewBox="0 0 32 32">
+                      <path d="M16.1 3C9.4 3 4 8.4 4 15.1c0 2.7.9 5.2 2.4 7.3L4 29l6.8-2.2c2 .9 4.2 1.4 6.5 1.4 6.7 0 12.1-5.4 12.1-12.1C28.2 8.4 22.8 3 16.1 3zm0 22.1c-2.1 0-4.1-.6-5.9-1.7l-.4-.2-4 1.3 1.3-3.9-.3-.4c-1.1-1.8-1.7-3.9-1.7-6.1 0-6 4.9-10.9 10.9-10.9S27 9.1 27 15.1 22.1 25.1 16.1 25.1zm6-8.2c-.3-.1-1.9-.9-2.2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1-1.2-.4-2.3-1.4c-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.1-.3.2-.5s0-.3 0-.5-.7-1.8-.9-2.4c-.2-.6-.4-.5-.7-.5h-.6c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.6 4.2 3.6 2.4 1 2.4.7 2.8.7.4 0 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1z" />
+                    </svg>
+                  </a>
 
-    <!-- Twitter / X -->
-    <a id="twitterShare" target="_blank"
-       class="w-10 h-10 flex items-center justify-center rounded-full bg-black hover:bg-gray-800 transition">
-        <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
-            <path d="M18.244 2H21.49l-7.09 8.1L22.75 22h-6.39l-5-6.56L5.78 22H2.53l7.58-8.67L1.5 2h6.55l4.52 5.98L18.24 2z"/>
-        </svg>
-    </a>
+                  <!-- Facebook -->
+                  <a id="facebookShare" target="_blank"
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition">
+                    <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                      <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.326v21.348C0 23.4.6 24 1.326 24h11.495v-9.294H9.691V11.01h3.13V8.309c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.31h3.587l-.467 3.696h-3.12V24h6.116C23.4 24 24 23.4 24 22.674V1.326C24 .6 23.4 0 22.675 0z" />
+                    </svg>
+                  </a>
 
-    <!-- Telegram -->
-    <a id="telegramShare" target="_blank"
-       class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 transition">
-        <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
-            <path d="M9.993 15.522l-.397 5.584c.568 0 .815-.245 1.111-.539l2.667-2.532 5.523 4.035c1.012.56 1.728.265 1.986-.935l3.6-16.88c.319-1.49-.538-2.07-1.515-1.7L1.353 9.6c-1.454.566-1.432 1.38-.248 1.745l5.524 1.72L19.41 5.44c.664-.44 1.27-.197.772.243"/>
-        </svg>
-    </a>
+                  <!-- Twitter / X -->
+                  <a id="twitterShare" target="_blank"
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-black hover:bg-gray-800 transition">
+                    <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                      <path d="M18.244 2H21.49l-7.09 8.1L22.75 22h-6.39l-5-6.56L5.78 22H2.53l7.58-8.67L1.5 2h6.55l4.52 5.98L18.24 2z" />
+                    </svg>
+                  </a>
 
-</div>
+                  <!-- Telegram -->
+                  <a id="telegramShare" target="_blank"
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 transition">
+                    <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                      <path d="M9.993 15.522l-.397 5.584c.568 0 .815-.245 1.111-.539l2.667-2.532 5.523 4.035c1.012.56 1.728.265 1.986-.935l3.6-16.88c.319-1.49-.538-2.07-1.515-1.7L1.353 9.6c-1.454.566-1.432 1.38-.248 1.745l5.524 1.72L19.41 5.44c.664-.44 1.27-.197.772.243" />
+                    </svg>
+                  </a>
 
-</div>
+                </div>
+                           
+              </div>
+                <div class="mr-table allproduct mt-4">
+                    <div class="table-responsive">
+                            <table id="example" class="table" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                    <th>{{ __('Id') }}</th>
+                                        <th>{{ __('Customer Name') }}</th>
+                                      
+                                        <th>{{ __('Purchase Amount') }}</th>
+                                        <th>{{ __('Status Point') }}</th>
 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($final_refferal_users as $fuser)
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                {{ $fuser->id }}
+                                            </div>
+                                        </td>
+                                        <td data-label="{{ __('Customer Name') }}">
+                                            <div>
+                                                {{ $fuser->customer_name }}
+                                            </div>
+                                        </td>
+                                        <!-- <td data-label="{{ __('Product') }}">
+                                            <div>
+                                              
+                                            </div>
+                                        </td> -->
+                                        <td data-label="{{ __('Affiliate Bonus') }}">
+                                            <div>
+                                            {{ App\Models\Product::vendorConvertPrice ( $fuser->affilate_charge) }}
+                                            </div>
+                                        </td>
+                                        <td data-label="{{ __('Affiliate Bonus') }}">
+                                            <div>
+                                            {{ $fuser->status }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
@@ -1106,27 +1259,27 @@
 {{-- Tab Switching JavaScript --}}
 
 <script>
-    const referralLink = "{{ url('/?refferel_code=' . Auth::user()->refferel_code) }}";
-    const text = "Join using my referral link & earn rewards!";
- 
-    const shareText = "Join using my referral link and earn rewards!";
+  const referralLink = "{{ url('/?refferel_code=' . Auth::user()->refferel_code) }}";
+  const text = "Join using my referral link & earn rewards!";
 
-    function copyReferral() {
-        navigator.clipboard.writeText(referralLink).then(() => {
-            alert("Referral link copied!");
-        });
-    }
-    document.getElementById('whatsappShare').href =
-        `https://wa.me/?text=${encodeURIComponent(text + ' ' + referralLink)}`;
+  const shareText = "Join using my referral link and earn rewards!";
 
-    document.getElementById('facebookShare').href =
-        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
+  function copyReferral() {
+    navigator.clipboard.writeText(referralLink).then(() => {
+      alert("Referral link copied!");
+    });
+  }
+  document.getElementById('whatsappShare').href =
+    `https://wa.me/?text=${encodeURIComponent(text + ' ' + referralLink)}`;
 
-    document.getElementById('twitterShare').href =
-        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(referralLink)}`;
+  document.getElementById('facebookShare').href =
+    `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
 
-    document.getElementById('telegramShare').href =
-        `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`;
+  document.getElementById('twitterShare').href =
+    `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(referralLink)}`;
+
+  document.getElementById('telegramShare').href =
+    `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`;
 </script>
 
 
@@ -1222,21 +1375,21 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     fetch(`/user/addresses/${addressId}/edit`, {
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.address) {
-        showEditForm(data.address);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      showToast('Failed to load address details', 'error');
-    });
+        headers: {
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.address) {
+          showEditForm(data.address);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showToast('Failed to load address details', 'error');
+      });
   }
 
   // Show edit form
@@ -1381,32 +1534,32 @@
     submitBtn.textContent = 'Updating...';
 
     fetch(`/user/addresses/${addressId}`, {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'X-HTTP-Method-Override': 'PUT',
-        'Accept': 'application/json'
-      },
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken,
+          'X-HTTP-Method-Override': 'PUT',
+          'Accept': 'application/json'
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
 
-      if (data.success || data.message) {
-        showToast(data.message || 'Address updated successfully', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      } else {
-        showToast(data.error || 'Failed to update address', 'error');
-      }
-    })
-    .catch(error => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      console.error('Error:', error);
-      showToast('An error occurred while updating the address', 'error');
-    });
+        if (data.success || data.message) {
+          showToast(data.message || 'Address updated successfully', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          showToast(data.error || 'Failed to update address', 'error');
+        }
+      })
+      .catch(error => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        console.error('Error:', error);
+        showToast('An error occurred while updating the address', 'error');
+      });
   }
 
   // Delete address
@@ -1418,25 +1571,25 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     fetch(`/user/addresses/${addressId}`, {
-      method: 'DELETE',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success || data.message) {
-        showToast(data.message || 'Address deleted successfully', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      } else {
-        showToast(data.error || 'Failed to delete address', 'error');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      showToast('An error occurred while deleting the address', 'error');
-    });
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success || data.message) {
+          showToast(data.message || 'Address deleted successfully', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          showToast(data.error || 'Failed to delete address', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showToast('An error occurred while deleting the address', 'error');
+      });
   }
 
   // Set default address
@@ -1444,25 +1597,25 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     fetch(`/user/addresses/${addressId}/set-default`, {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success || data.message) {
-        showToast(data.message || 'Default address updated', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      } else {
-        showToast(data.error || 'Failed to update default address', 'error');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      showToast('An error occurred while updating default address', 'error');
-    });
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success || data.message) {
+          showToast(data.message || 'Default address updated', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          showToast(data.error || 'Failed to update default address', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showToast('An error occurred while updating default address', 'error');
+      });
   }
 
   // Save new address
@@ -1476,31 +1629,31 @@
     submitBtn.textContent = 'Saving...';
 
     fetch('{{ route("user.addresses.store") }}', {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json'
-      },
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
 
-      if (data.success || data.message) {
-        showToast(data.message || 'Address saved successfully', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      } else {
-        showToast(data.error || 'Failed to save address', 'error');
-      }
-    })
-    .catch(error => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      console.error('Error:', error);
-      showToast('An error occurred while saving the address', 'error');
-    });
+        if (data.success || data.message) {
+          showToast(data.message || 'Address saved successfully', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          showToast(data.error || 'Failed to save address', 'error');
+        }
+      })
+      .catch(error => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        console.error('Error:', error);
+        showToast('An error occurred while saving the address', 'error');
+      });
   }
 
   // Fetch pincode details
@@ -1568,25 +1721,25 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     fetch(`{{ url('/') }}/user/wishlist/${wishlistId}`, {
-      method: 'DELETE',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success || data.message) {
-        showToast(data.message || 'Item removed from wishlist', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      } else {
-        showToast(data.error || 'Failed to remove item', 'error');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      showToast('An error occurred while removing the item', 'error');
-    });
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success || data.message) {
+          showToast(data.message || 'Item removed from wishlist', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          showToast(data.error || 'Failed to remove item', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showToast('An error occurred while removing the item', 'error');
+      });
   }
 
   // Remove all wishlist items
@@ -1597,26 +1750,26 @@
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch('{{ url('/') }}/user/wishlist/clear', {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success || data.message) {
-        showToast(data.message || 'All items removed from wishlist', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      } else {
-        showToast(data.error || 'Failed to clear wishlist', 'error');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      showToast('An error occurred while clearing the wishlist', 'error');
-    });
+    fetch('{{ url(' / ') }}/user/wishlist/clear', {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success || data.message) {
+          showToast(data.message || 'All items removed from wishlist', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          showToast(data.error || 'Failed to clear wishlist', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showToast('An error occurred while clearing the wishlist', 'error');
+      });
   }
 </script>
 
@@ -1631,4 +1784,22 @@
     color: rgb(251 146 60 / var(--tw-text-opacity));
   }
 </style>
+<script>
+  function activateAffiliate() {
+    fetch("{{ route('affiliate.activate') }}", {
+        method: "POST",
+        headers: {
+          "X-CSRF-TOKEN": "{{ csrf_token() }}",
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          location.reload();
+        }
+      });
+  }
+</script>
+
 @endsection

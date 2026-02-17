@@ -202,6 +202,25 @@ return redirect()->route('front.index');
         return view('user.affilate.refferal-link', compact('user'));
     }
 
+
+     public function activate()
+    {
+        
+        $user = $this->user;
+
+        if (!$user->reffered_times) {
+            $user->reffered_times = 3;
+
+            if (!$user->affilate_code) {
+                $user->affilate_code = strtoupper(Str::random(8));
+            }
+
+            $user->save();
+        }
+
+        return response()->json(['success' => true]);
+    }
+
     public function logs()
     {
         $user_id = Auth::user()->id;
