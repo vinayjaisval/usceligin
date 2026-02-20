@@ -7,8 +7,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ $gs->title ?? 'Vendor Dashboard' }} - @yield('page-title', 'Dashboard')</title>
+  <meta name="robots" content="noindex, nofollow">
+  <title>@yield('page-title', 'Dashboard') — {{ $gs->title ?? 'Vendor Dashboard' }}</title>
   <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/' . ($gs->favicon ?? 'favicon.ico')) }}">
+  @yield('seo')
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -31,29 +33,33 @@
 
         <!-- Logo -->
         <a href="{{ route('front.index') }}" class="flex-shrink-0">
-          <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}" alt="Logo" class="h-8 w-auto">
+          <img src="{{ asset('assets/images/' . ($gs->logo ?? 'logo.png')) }}" alt="{{ $gs->title ?? 'Celigin' }} logo" class="h-8 w-auto" width="auto" height="32">
         </a>
 
         <!-- Mobile Menu Button -->
-        <button type="button" id="mobile-menu-btn" class="lg:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" aria-label="Toggle menu">
-          <span class="material-icons-outlined">menu</span>
+        <button type="button" id="mobile-menu-btn"
+          class="lg:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1"
+          aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-sidebar">
+          <span class="material-icons-outlined" aria-hidden="true">menu</span>
         </button>
 
         <!-- Desktop Navigation -->
         <div class="hidden lg:flex items-center gap-4">
-          <a href="{{ route('front.index') }}" class="text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 flex items-center gap-1">
-            <span class="material-icons-outlined text-base">storefront</span>
+          <a href="{{ route('front.index') }}" class="text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-primary-500">
+            <span class="material-icons-outlined text-base" aria-hidden="true">storefront</span>
             Visit Store
           </a>
 
           <!-- User Menu -->
           <div class="relative" x-data="{ open: false }">
-            <button type="button" id="user-menu-btn" class="flex items-center gap-2 p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-              <div class="w-8 h-8 bg-primary-600 text-white flex items-center justify-center text-sm font-bold uppercase">
+            <button type="button" id="user-menu-btn"
+              class="flex items-center gap-2 p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+              aria-label="User account menu" aria-expanded="false" aria-haspopup="true">
+              <div class="w-8 h-8 bg-primary-600 text-white flex items-center justify-center text-sm font-bold uppercase" aria-hidden="true">
                 {{ substr($user->name ?? 'U', 0, 1) }}
               </div>
               <span class="text-sm font-medium hidden sm:block">{{ $user->name ?? 'User' }}</span>
-              <span class="material-icons-outlined text-base">expand_more</span>
+              <span class="material-icons-outlined text-base" aria-hidden="true">expand_more</span>
             </button>
 
             <div id="user-menu-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg py-1 z-50">
@@ -142,8 +148,9 @@
                   $isActive = in_array($currentRoute, $item['match']);
                 @endphp
                 <a href="{{ route($item['route']) }}"
-                   class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors {{ $isActive ? 'bg-primary-50 dark:bg-gray-700 text-primary-700 dark:text-primary-400 border-l-2 border-primary-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
-                  <span class="material-icons-outlined text-lg">{{ $item['icon'] }}</span>
+                   aria-current="{{ $isActive ? 'page' : false }}"
+                   class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 {{ $isActive ? 'bg-primary-50 dark:bg-gray-700 text-primary-700 dark:text-primary-400 border-l-2 border-primary-600 dark:border-primary-500' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
+                  <span class="material-icons-outlined text-lg" aria-hidden="true">{{ $item['icon'] }}</span>
                   <span>{{ $item['label'] }}</span>
                 </a>
               @endforeach
@@ -151,14 +158,14 @@
               <hr class="my-2 border-gray-200 dark:border-gray-700">
 
               <a href="{{ route('user.account') }}"
-                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                <span class="material-icons-outlined text-lg">manage_accounts</span>
+                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
+                <span class="material-icons-outlined text-lg" aria-hidden="true">manage_accounts</span>
                 <span>Back to My Account</span>
               </a>
 
               <a href="{{ route('user-logout') }}"
-                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 transition-colors">
-                <span class="material-icons-outlined text-lg">logout</span>
+                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500">
+                <span class="material-icons-outlined text-lg" aria-hidden="true">logout</span>
                 <span>Logout</span>
               </a>
             </nav>
@@ -171,30 +178,33 @@
           <div class="absolute left-0 top-0 bottom-0 w-72 bg-white dark:bg-gray-800 shadow-xl overflow-y-auto">
             <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <span class="font-semibold text-gray-900 dark:text-gray-100">Menu</span>
-              <button type="button" id="close-sidebar" class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400">
-                <span class="material-icons-outlined">close</span>
+              <button type="button" id="close-sidebar"
+              class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              aria-label="Close navigation menu">
+                <span class="material-icons-outlined" aria-hidden="true">close</span>
               </button>
             </div>
-            <nav class="p-2">
+            <nav class="p-2" aria-label="Mobile vendor navigation">
               @foreach($menuItems as $item)
                 @php
                   $isActive = in_array($currentRoute, $item['match']);
                 @endphp
                 <a href="{{ route($item['route']) }}"
+                   aria-current="{{ $isActive ? 'page' : false }}"
                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors {{ $isActive ? 'bg-primary-50 dark:bg-gray-700 text-primary-700 dark:text-primary-400' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
-                  <span class="material-icons-outlined text-lg">{{ $item['icon'] }}</span>
+                  <span class="material-icons-outlined text-lg" aria-hidden="true">{{ $item['icon'] }}</span>
                   <span>{{ $item['label'] }}</span>
                 </a>
               @endforeach
               <hr class="my-2 border-gray-200 dark:border-gray-700">
               <a href="{{ route('user.account') }}"
                  class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                <span class="material-icons-outlined text-lg">manage_accounts</span>
+                <span class="material-icons-outlined text-lg" aria-hidden="true">manage_accounts</span>
                 <span>Back to My Account</span>
               </a>
               <a href="{{ route('user-logout') }}"
                  class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 transition-colors">
-                <span class="material-icons-outlined text-lg">logout</span>
+                <span class="material-icons-outlined text-lg" aria-hidden="true">logout</span>
                 <span>Logout</span>
               </a>
             </nav>
@@ -227,7 +237,7 @@
             <div class="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200" role="alert">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                  <span class="material-icons-outlined text-lg">warning</span>
+                  <span class="material-icons-outlined text-lg" aria-hidden="true">warning</span>
                   <span>{{ $user->displayWarning() }}</span>
                 </div>
                 <a href="{{ route('vendor-warning', $user->verifies()->where('admin_warning','=','1')->latest('id')->first()->id) }}"
@@ -273,14 +283,23 @@
     if (mobileMenuBtn && mobileSidebar) {
       mobileMenuBtn.addEventListener('click', () => {
         mobileSidebar.classList.remove('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        closeSidebar?.focus();
       });
 
-      closeSidebar?.addEventListener('click', () => {
+      const closeMobileSidebar = () => {
         mobileSidebar.classList.add('hidden');
-      });
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenuBtn.focus();
+      };
 
-      sidebarOverlay?.addEventListener('click', () => {
-        mobileSidebar.classList.add('hidden');
+      closeSidebar?.addEventListener('click', closeMobileSidebar);
+      sidebarOverlay?.addEventListener('click', closeMobileSidebar);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !mobileSidebar.classList.contains('hidden')) {
+          closeMobileSidebar();
+        }
       });
     }
 
@@ -290,12 +309,23 @@
 
     if (userMenuBtn && userMenuDropdown) {
       userMenuBtn.addEventListener('click', () => {
+        const isOpen = !userMenuDropdown.classList.contains('hidden');
         userMenuDropdown.classList.toggle('hidden');
+        userMenuBtn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
       });
 
       document.addEventListener('click', (e) => {
         if (!userMenuBtn.contains(e.target) && !userMenuDropdown.contains(e.target)) {
           userMenuDropdown.classList.add('hidden');
+          userMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !userMenuDropdown.classList.contains('hidden')) {
+          userMenuDropdown.classList.add('hidden');
+          userMenuBtn.setAttribute('aria-expanded', 'false');
+          userMenuBtn.focus();
         }
       });
     }

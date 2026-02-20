@@ -17,6 +17,10 @@
     cursor: pointer;
     position: relative;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .product-card { transition: border-color .2s; }
+    .product-card .card-img img { transition: none; }
+  }
   .product-card:hover {
     border-color: #EA580C;
     box-shadow: 0 8px 24px -4px rgba(234,88,12,.15);
@@ -74,32 +78,37 @@
     cursor: pointer;
     border: none;
     width: 100%;
-    border-top: 1px solid #f3f4f6;
   }
-  .product-card:hover .card-add {
-    background: #EA580C;
-    color: #fff;
-    border-top-color: #EA580C;
-  }
+  .product-card:hover .card-add { background: #EA580C; color: #fff; border-top-color: #EA580C; }
   /* Added-to-cart badge */
   .product-card .added-badge {
-    position: absolute;
-    top: 8px; right: 8px;
-    background: #16a34a;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 7px;
-    display: none;
+    position: absolute; top: 8px; right: 8px;
+    background: #16a34a; color: #fff;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 7px; display: none;
   }
   .product-card.in-cart .added-badge { display: block; }
   .product-card.in-cart { border-color: #16a34a; }
   .product-card.in-cart .card-add { background: #f0fdf4; color: #16a34a; border-top-color: #bbf7d0; }
   .product-card:hover.in-cart .card-add { background: #16a34a; color: #fff; }
 
+  /* ── Dark mode: Product Card ──────────────────────────────── */
+  .dark .product-card { background: #1f2937; border-color: #374151; }
+  .dark .product-card:hover { border-color: #EA580C; }
+  .dark .product-card .card-img { background: #374151; }
+  .dark .product-card .card-name { color: #f3f4f6; }
+  .dark .product-card .card-price { color: #fb923c; }
+  .dark .product-card .card-add { background: #374151; color: #d1d5db; border-top-color: #4b5563; }
+  .dark .product-card:hover .card-add { background: #EA580C; color: #fff; }
+  .dark .product-card.in-cart { border-color: #16a34a; }
+  .dark .product-card.in-cart .card-add { background: #052e16; color: #4ade80; border-top-color: #166534; }
+  .dark .product-card:hover.in-cart .card-add { background: #16a34a; color: #fff; }
+
   /* ── Skeleton loader ──────────────────────────────────────── */
   .skeleton { animation: pulse 1.5s infinite; background: #f3f4f6; }
+  .dark .skeleton { background: #374151; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  @media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
 
   /* ── Pagination ───────────────────────────────────────────── */
   .page-btn {
@@ -111,6 +120,7 @@
     transition: all .15s;
     cursor: pointer;
   }
+  .dark .page-btn { border-color: #4b5563; color: #d1d5db; }
   .page-btn:hover:not(:disabled) { border-color: #EA580C; color: #EA580C; }
   .page-btn.active { background: #EA580C; border-color: #EA580C; color: #fff; }
   .page-btn:disabled { opacity: .35; cursor: default; }
@@ -176,9 +186,10 @@
       <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">POS - Sell Product</h1>
     </div>
     <div class="flex items-center gap-2">
-      <div id="cart-count-badge" class="hidden items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 text-green-700 text-sm font-semibold">
-        <span class="material-icons-outlined text-base">shopping_cart</span>
-        <span id="badge-count">0</span> in cart
+      <div id="cart-count-badge" class="hidden items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 text-green-700 text-sm font-semibold"
+        role="status" aria-live="polite" aria-atomic="true">
+        <span class="material-icons-outlined text-base" aria-hidden="true">shopping_cart</span>
+        <span id="badge-count">0</span><span class="sr-only"> products</span> in cart
       </div>
       <a href="{{ route('vendor-order-index') }}"
          class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
@@ -204,12 +215,14 @@
       </div>
       <!-- Search -->
       <div class="relative flex-1 max-w-xs">
-        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+        <label for="product-search" class="sr-only">Search products</label>
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true">
           <span class="material-icons-outlined text-base">search</span>
         </span>
-        <input type="text" id="product-search"
+        <input type="search" id="product-search"
           class="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 pl-9 pr-3 py-2 text-sm focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10"
-          placeholder="Search products…">
+          placeholder="Search products…"
+          aria-label="Search products">
       </div>
     </div>
 
@@ -322,21 +335,24 @@
 {{-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      PRODUCT ADD MODAL
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ --}}
-<div id="add-product" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+<div id="add-product"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+  role="dialog" aria-modal="true" aria-labelledby="add-product-title">
   <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 w-full max-w-lg max-h-[90vh] flex flex-col shadow-2xl">
     <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
       <div class="flex items-center gap-2">
-        <span class="material-icons-outlined text-primary-500">add_shopping_cart</span>
-        <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100">Add to Cart</h3>
+        <span class="material-icons-outlined text-primary-500" aria-hidden="true">add_shopping_cart</span>
+        <h2 id="add-product-title" class="text-sm font-bold text-gray-900 dark:text-gray-100">Add to Cart</h2>
       </div>
       <button type="button" id="pos-modal-close"
-        class="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-        <span class="material-icons-outlined">close</span>
+        class="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+        aria-label="Close dialog">
+        <span class="material-icons-outlined" aria-hidden="true">close</span>
       </button>
     </div>
     <div id="product-show" class="p-5 overflow-y-auto flex-1 text-sm text-gray-700 dark:text-gray-300">
       <div class="flex items-center justify-center py-10">
-        <svg class="animate-spin h-7 w-7 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg class="animate-spin h-7 w-7 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
         </svg>
@@ -344,7 +360,7 @@
     </div>
     <div class="px-5 py-3 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
       <button type="button" id="addProductRemoveBtn"
-        class="w-full py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        class="w-full py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500">
         Close
       </button>
     </div>
@@ -424,8 +440,9 @@ const POS = {
           <div class="card-name">${p.name}</div>
           <div class="card-price">${p.price}</div>
         </div>
-        <button type="button" class="card-add order_product_add" data-href="${p.id}" title="Add to cart">
-          <span class="material-icons-outlined" style="font-size:14px">add_shopping_cart</span>
+        <button type="button" class="card-add order_product_add" data-href="${p.id}"
+          aria-label="${inCart ? 'Add more of ' + p.name : 'Add ' + p.name + ' to cart'}">
+          <span class="material-icons-outlined" style="font-size:14px" aria-hidden="true">add_shopping_cart</span>
           ${inCart ? 'Add More' : 'Add to Cart'}
         </button>
       </div>`;
@@ -438,21 +455,21 @@ const POS = {
     const btnClass = (active, disabled) =>
       `page-btn${active ? ' active' : ''}${disabled ? ' disabled-btn' : ''}`;
 
-    let html = `<button class="${btnClass(false, this.page===0)}" data-page="${this.page-1}" ${this.page===0?'disabled':''}>
-      <span class="material-icons-outlined" style="font-size:16px">chevron_left</span></button>`;
+    let html = `<button class="${btnClass(false, this.page===0)}" data-page="${this.page-1}" ${this.page===0?'disabled':''} aria-label="Previous page">
+      <span class="material-icons-outlined" style="font-size:16px" aria-hidden="true">chevron_left</span></button>`;
 
     const range = Array.from({length: totalPages}, (_, i) => i)
       .filter(i => i===0 || i===totalPages-1 || Math.abs(i-this.page)<=1);
 
     let prev = -1;
     for (const i of range) {
-      if (prev !== -1 && i - prev > 1) html += `<span class="page-btn" style="border:none;color:#9ca3af;cursor:default">…</span>`;
-      html += `<button class="${btnClass(i===this.page, false)}" data-page="${i}">${i+1}</button>`;
+      if (prev !== -1 && i - prev > 1) html += `<span class="page-btn" style="border:none;color:#9ca3af;cursor:default" aria-hidden="true">…</span>`;
+      html += `<button class="${btnClass(i===this.page, false)}" data-page="${i}" aria-label="Page ${i+1}" ${i===this.page?'aria-current="page"':''}>${i+1}</button>`;
       prev = i;
     }
 
-    html += `<button class="${btnClass(false, this.page>=totalPages-1)}" data-page="${this.page+1}" ${this.page>=totalPages-1?'disabled':''}>
-      <span class="material-icons-outlined" style="font-size:16px">chevron_right</span></button>`;
+    html += `<button class="${btnClass(false, this.page>=totalPages-1)}" data-page="${this.page+1}" ${this.page>=totalPages-1?'disabled':''} aria-label="Next page">
+      <span class="material-icons-outlined" style="font-size:16px" aria-hidden="true">chevron_right</span></button>`;
     return html;
   },
 

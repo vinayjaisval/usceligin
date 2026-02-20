@@ -85,7 +85,9 @@
       "mcp__playwright__init-browser",
       "mcp__playwright__get-screenshot",
       "mcp__playwright__execute-code",
-      "Bash(php -l:*)"
+      "Bash(php -l:*)",
+      "Bash(\"C:/wamp64/bin/php/php8.2.26/php.exe\":*)",
+      "Bash(\"C:/wamp64/bin/php/php8.2.26/php.exe\" \"C:/wamp64/www/usceligin/artisan\" view:clear)"
     ],
     "deny": [],
     "ask": []

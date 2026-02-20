@@ -10,6 +10,10 @@
 }
 .siz-list li .box:hover { border-color:#EA580C; }
 .siz-list li.active .box { border-color:#EA580C; background:#fff7ed; color:#EA580C; }
+/* Dark mode sizes */
+.dark .siz-list li .box { background:#374151; border-color:#4b5563; color:#d1d5db; }
+.dark .siz-list li .box:hover { border-color:#fb923c; }
+.dark .siz-list li.active .box { border-color:#fb923c; background:#431407; color:#fb923c; }
 
 /* ── Color swatch active state ───────────────────────── */
 .color-list { display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:0; padding:0; }
@@ -25,9 +29,15 @@
   border-color:#111827;
   box-shadow:0 0 0 2px #fff, 0 0 0 4px #EA580C;
 }
+/* Dark mode colors */
+.dark .color-list li.active .box {
+  border-color:#f3f4f6;
+  box-shadow:0 0 0 2px #1f2937, 0 0 0 4px #fb923c;
+}
 
 /* ── Attribute radio ─────────────────────────────────── */
 .product-attr { accent-color:#EA580C; width:16px; height:16px; cursor:pointer; flex-shrink:0; }
+.dark .product-attr { accent-color:#fb923c; }
 </style>
 
 <div class="space-y-5">
@@ -66,6 +76,9 @@
           <span class="box"
             data-color="{{ $productt->color[$key] }}"
             style="background-color:{{ $productt->color[$key] }}"
+            role="button"
+            tabindex="0"
+            aria-label="Select color: {{ $productt->color[$key] }}"
             title="{{ $productt->color[$key] }}">
             <input type="hidden" class="size" value="{{ $productt->size[$key] }}">
             <input type="hidden" class="size_qty" value="{{ $productt->size_qty[$key] }}">
@@ -145,15 +158,19 @@
     {{-- Qty stepper --}}
     <div class="qty flex items-stretch border border-gray-200 dark:border-gray-600 overflow-hidden flex-shrink-0">
       <button type="button"
-        class="qtminus w-10 flex items-center justify-center text-lg font-bold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-colors border-r border-gray-200 dark:border-gray-600">
-        −
+        class="qtminus w-10 flex items-center justify-center text-lg font-bold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-colors border-r border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+        aria-label="Decrease quantity">
+        <span aria-hidden="true">−</span>
       </button>
       <input type="text"
         class="qttotal w-12 h-10 text-center text-sm font-bold text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500/20 border-0"
-        value="1">
+        value="1"
+        aria-label="Quantity"
+        inputmode="numeric">
       <button type="button"
-        class="qtplus w-10 flex items-center justify-center text-lg font-bold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-colors border-l border-gray-200 dark:border-gray-600">
-        +
+        class="qtplus w-10 flex items-center justify-center text-lg font-bold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-colors border-l border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+        aria-label="Increase quantity">
+        <span aria-hidden="true">+</span>
       </button>
     </div>
 
@@ -161,7 +178,7 @@
     @if($productt->stock <= 0)
       <button type="button"
         class="flex-1 h-10 bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 text-sm font-semibold cursor-not-allowed"
-        disabled>
+        disabled aria-disabled="true">
         Out of Stock
       </button>
     @else
