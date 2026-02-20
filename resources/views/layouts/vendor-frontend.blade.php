@@ -64,7 +64,7 @@
                 Vendor Profile
               </a>
               <hr class="my-1 border-gray-200 dark:border-gray-700">
-              <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <a href="{{ route('user-logout') }}" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
                 Sign Out
               </a>
             </div>
@@ -129,9 +129,11 @@
                 $currentRoute = Route::currentRouteName();
                 $menuItems = [
                   ['route' => 'vendor.dashboard', 'icon' => 'dashboard', 'label' => 'Dashboard', 'match' => ['vendor.dashboard']],
-                  ['route' => 'vendor-order-index', 'icon' => 'receipt_long', 'label' => 'All Orders', 'match' => ['vendor-order-index', 'vendor-order-show', 'vendor-order-edit']],
-                  ['route' => 'vendor-order-create', 'icon' => 'add_shopping_cart', 'label' => 'Create Order', 'match' => ['vendor-order-create']],
-                  ['route' => 'vendor-prod-index', 'icon' => 'inventory_2', 'label' => 'Products', 'match' => ['vendor-prod-index', 'vendor-prod-edit']],
+                  ['route' => 'vendor-order-index', 'icon' => 'receipt_long', 'label' => 'Orders', 'match' => ['vendor-order-index', 'vendor-order-show', 'vendor-order-edit', 'vendor-order-details']],
+                  ['route' => 'vendor-order-create', 'icon' => 'point_of_sale', 'label' => 'POS (Sell Product)', 'match' => ['vendor-order-create']],
+                  ['route' => 'vendor-wt-index', 'icon' => 'account_balance_wallet', 'label' => 'Withdraw', 'match' => ['vendor-wt-index', 'vendor-wt-create']],
+                  ['route' => 'vendor-mlm-users', 'icon' => 'people', 'label' => 'Customers', 'match' => ['vendor-mlm-users']],
+                  ['route' => 'vendor.income', 'icon' => 'trending_up', 'label' => 'Top Earning', 'match' => ['vendor.income']],
                 ];
               @endphp
 
@@ -148,10 +150,16 @@
 
               <hr class="my-2 border-gray-200 dark:border-gray-700">
 
-              <a href="{{ route('logout') }}"
+              <a href="{{ route('user.account') }}"
+                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                <span class="material-icons-outlined text-lg">manage_accounts</span>
+                <span>Back to My Account</span>
+              </a>
+
+              <a href="{{ route('user-logout') }}"
                  class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 transition-colors">
                 <span class="material-icons-outlined text-lg">logout</span>
-                <span>Sign Out</span>
+                <span>Logout</span>
               </a>
             </nav>
           </div>
@@ -178,6 +186,17 @@
                   <span>{{ $item['label'] }}</span>
                 </a>
               @endforeach
+              <hr class="my-2 border-gray-200 dark:border-gray-700">
+              <a href="{{ route('user.account') }}"
+                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                <span class="material-icons-outlined text-lg">manage_accounts</span>
+                <span>Back to My Account</span>
+              </a>
+              <a href="{{ route('user-logout') }}"
+                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 transition-colors">
+                <span class="material-icons-outlined text-lg">logout</span>
+                <span>Logout</span>
+              </a>
             </nav>
           </div>
         </div>
@@ -238,6 +257,12 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    var mainurl = "{{ url('/') }}";
+    var admin_loader = 0;
+    var whole_sell = 0;
+  </script>
   <script>
     // Mobile sidebar toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');

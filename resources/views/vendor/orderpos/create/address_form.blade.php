@@ -1,159 +1,146 @@
 @php
-
- $cartEmpty = !Session::has('cart') && !Session::has('admin_cart');
-
+  $cartEmpty = !Session::has('cart') && !Session::has('admin_cart');
+  $sessionAddr = Session::has('order_address') ? Session::get('order_address') : null;
 @endphp
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<script>let CART_EMPTY = {{ $cartEmpty ? 'true' : 'false' }};</script>
 
-{{-- CART EMPTY ALERT --}}
+{{-- Cart empty notice --}}
 @if($cartEmpty)
-  <div class="alert alert-warning">
-    Please add items to cart to calculate shipping cost.
-  </div>
-@endif
-
-{{-- PASS CART FLAG TO JS --}}
-<script>
-  let CART_EMPTY = {{ $cartEmpty ? 'true' : 'false' }};
-</script>
-
-{{-- ================= SESSION ADDRESS ================= --}}
-@if (Session::has('order_address'))
-@php
-$user = Session::get('order_address');
-@endphp
-
-<div class="row mt-2">
-  <div class="col-md-4">
-    <label>Name *</label>
-    <input type="text" class="form-control" name="customer_name" value="{{ $user['customer_name'] }}" required>
-  </div>
-  <div class="col-md-4">
-    <label>Email *</label>
-    <input type="email" class="form-control" name="customer_email" value="{{ $user['customer_email'] }}" required>
-  </div>
-  <div class="col-md-4">
-    <label>Phone *</label>
-    <input type="text" class="form-control" name="customer_phone" value="{{ $user['customer_phone'] }}" required>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-    <label>Postal Code *</label>
-    <input type="text" class="form-control zipcode" id="customer_zip" name="customer_zip"
-           value="{{ $user['customer_zip'] }}" required>
-    <span id="loader" style="display:none"><i class="fa fa-spinner fa-spin"></i></span>
-  </div>
-
-  <div class="col-md-6">
-    <label>Country</label>
-    <input type="text" class="form-control" id="customer_country" name="customer_country"
-           value="{{ $user['customer_country'] }}" readonly required>
-  </div>
-
-  <div class="col-md-6">
-    <label>City</label>
-    <input type="text" class="form-control" id="customer_city" name="customer_city"
-           value="{{ $user['customer_city'] }}" readonly required>
-  </div>
-
-  <div class="col-md-6">
-    <label>State</label>
-    <input type="text" class="form-control" id="customer_state" name="customer_state"
-           value="{{ $user['customer_state'] }}" readonly required>
-  </div>
-
-  <div class="col-md-12">
-    <label>Address *</label>
-    <textarea class="form-control" name="customer_address" required>{{ $user['customer_address'] }}</textarea>
-  </div>
-
-  <input type="hidden" name="shipping_cost" id="shipping_cost" value="0">
-</div>
-
-@else
-
-{{-- ================= GUEST USER ================= --}}
-<div class="row mt-2">
-  <div class="col-md-4">
-    <label>Name *</label>
-    <input type="text" class="form-control" name="customer_name" required>
-  </div>
-  <div class="col-md-4">
-    <label>Email *</label>
-    <input type="email" class="form-control" name="customer_email" required>
-  </div>
-  <div class="col-md-4">
-    <label>Phone *</label>
-    <input type="text" class="form-control" name="customer_phone" required>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-    <label>Postal Code *</label>
-    <input type="text" class="form-control zipcode" id="customer_zip" name="customer_zip" required>
-    <span id="loader" style="display:none"><i class="fa fa-spinner fa-spin"></i></span>
-  </div>
-
-  <div class="col-md-6">
-    <label>Country</label>
-    <input type="text" class="form-control" id="customer_country" name="customer_country" readonly required>
-  </div>
-
-  <div class="col-md-6">
-    <label>City</label>
-    <input type="text" class="form-control" id="customer_city" name="customer_city" readonly required>
-  </div>
-
-  <div class="col-md-6">
-    <label>State</label>
-    <input type="text" class="form-control" id="customer_state" name="customer_state" readonly required>
-  </div>
-
-  <div class="col-md-12">
-    <label>Address *</label>
-    <textarea class="form-control" name="customer_address" required></textarea>
-  </div>
-
-  <input type="hidden" name="shipping_cost" id="shipping_cost" value="0">
+<div class="flex items-start gap-2 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 mb-4 text-xs text-amber-700 dark:text-amber-300">
+  <span class="material-icons-outlined text-sm mt-0.5 flex-shrink-0">info</span>
+  <span>Add products to cart first to calculate shipping cost.</span>
 </div>
 @endif
 
-{{-- ================= SHIPPING JS ================= --}}
+{{-- Row 1: Name, Email, Phone --}}
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+  <div>
+    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 uppercase tracking-wide">
+      Name <span class="text-red-500">*</span>
+    </label>
+    <input type="text"
+      class="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors"
+      name="customer_name"
+      value="{{ $sessionAddr['customer_name'] ?? '' }}"
+      placeholder="Full name"
+      required>
+  </div>
+  <div>
+    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 uppercase tracking-wide">
+      Email <span class="text-red-500">*</span>
+    </label>
+    <input type="email"
+      class="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors"
+      name="customer_email"
+      value="{{ $sessionAddr['customer_email'] ?? '' }}"
+      placeholder="email@example.com"
+      required>
+  </div>
+  <div>
+    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 uppercase tracking-wide">
+      Phone <span class="text-red-500">*</span>
+    </label>
+    <input type="text"
+      class="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors"
+      name="customer_phone"
+      value="{{ $sessionAddr['customer_phone'] ?? '' }}"
+      placeholder="Phone number"
+      required>
+  </div>
+</div>
+
+{{-- Row 2: Postal Code + auto-fill fields --}}
+<div class="grid grid-cols-2 gap-3 mb-3">
+  <div class="relative">
+    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 uppercase tracking-wide">
+      Postal Code <span class="text-red-500">*</span>
+    </label>
+    <div class="relative">
+      <input type="text"
+        class="zipcode w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 pr-8 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors"
+        id="customer_zip"
+        name="customer_zip"
+        value="{{ $sessionAddr['customer_zip'] ?? '' }}"
+        placeholder="6-digit pincode"
+        maxlength="6"
+        required>
+      <span id="loader" class="absolute right-2 top-2.5 hidden">
+        <svg class="animate-spin h-4 w-4 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+      </span>
+    </div>
+    <p class="text-xs text-gray-400 mt-0.5">City, state & country auto-fill on valid pincode</p>
+  </div>
+  <div>
+    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 uppercase tracking-wide">Country</label>
+    <input type="text"
+      class="w-full border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 text-sm cursor-not-allowed"
+      id="customer_country"
+      name="customer_country"
+      value="{{ $sessionAddr['customer_country'] ?? '' }}"
+      placeholder="Auto-filled"
+      readonly>
+  </div>
+</div>
+
+<div class="grid grid-cols-2 gap-3 mb-3">
+  <div>
+    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 uppercase tracking-wide">City</label>
+    <input type="text"
+      class="w-full border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 text-sm cursor-not-allowed"
+      id="customer_city"
+      name="customer_city"
+      value="{{ $sessionAddr['customer_city'] ?? '' }}"
+      placeholder="Auto-filled"
+      readonly>
+  </div>
+  <div>
+    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 uppercase tracking-wide">State</label>
+    <input type="text"
+      class="w-full border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 text-sm cursor-not-allowed"
+      id="customer_state"
+      name="customer_state"
+      value="{{ $sessionAddr['customer_state'] ?? '' }}"
+      placeholder="Auto-filled"
+      readonly>
+  </div>
+</div>
+
+{{-- Row 3: Full Address --}}
+<div class="mb-3">
+  <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 uppercase tracking-wide">
+    Address <span class="text-red-500">*</span>
+  </label>
+  <textarea
+    class="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors resize-none"
+    name="customer_address"
+    rows="2"
+    placeholder="Street address, area, landmark..."
+    required>{{ $sessionAddr['customer_address'] ?? '' }}</textarea>
+</div>
+
+<input type="hidden" name="shipping_cost" id="shipping_cost" value="{{ $sessionAddr['shipping_cost'] ?? 0 }}">
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
   const zipInput = document.getElementById('customer_zip');
   const loader = document.getElementById('loader');
-
   if (!zipInput) return;
 
   zipInput.addEventListener('input', async () => {
-
-    /* CART EMPTY BLOCK */
     if (CART_EMPTY) {
-      alert('❌ Pehle item cart me add karo, phir pincode bharo');
       zipInput.value = '';
       return;
     }
-
     let zip = zipInput.value.trim();
+    if (!/^\d{0,6}$/.test(zip)) { zipInput.value = ''; return; }
+    if (zip.length !== 6) { resetShipping(); return; }
 
-    if (!/^\d{0,6}$/.test(zip)) {
-      zipInput.value = '';
-      return;
-    }
-
-    if (zip.length !== 6) {
-      resetShipping();
-      return;
-    }
-
-    loader.style.display = 'inline-block';
-
+    loader.classList.remove('hidden');
     try {
       const res = await fetch(`${mainurl}/getPinCodeDetails`, {
         method: 'POST',
@@ -163,33 +150,24 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         body: JSON.stringify({ zipcode: zip })
       });
-
       const data = await res.json();
-      loader.style.display = 'none';
-
-      if (!data.status) {
-        alert(data.message || 'Shipping not available');
-        resetShipping();
-        return;
-      }
-
+      loader.classList.add('hidden');
+      if (!data.status) { resetShipping(); return; }
       customer_city.value = data.result.city;
       customer_state.value = data.result.state;
       customer_country.value = data.result.country;
       shipping_cost.value = data.result.shipping_cost;
-
     } catch (e) {
-      loader.style.display = 'none';
-      alert('Error while calculating shipping');
+      loader.classList.add('hidden');
       resetShipping();
     }
   });
 
   function resetShipping() {
-    customer_city.value = '';
-    customer_state.value = '';
-    customer_country.value = '';
-    shipping_cost.value = 0;
+    document.getElementById('customer_city').value = '';
+    document.getElementById('customer_state').value = '';
+    document.getElementById('customer_country').value = '';
+    document.getElementById('shipping_cost').value = 0;
   }
 });
 </script>

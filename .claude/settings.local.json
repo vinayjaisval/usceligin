@@ -81,7 +81,11 @@
       "WebFetch(domain:affiliate.nykaa.com)",
       "WebFetch(domain:www.instagram.com)",
       "Bash(/c/wamp64/bin/php/php8.1.31/php.exe:*)",
-      "Bash(/c/wamp64/bin/php/php8.2.26/php.exe artisan view:clear)"
+      "Bash(/c/wamp64/bin/php/php8.2.26/php.exe artisan view:clear)",
+      "mcp__playwright__init-browser",
+      "mcp__playwright__get-screenshot",
+      "mcp__playwright__execute-code",
+      "Bash(php -l:*)"
     ],
     "deny": [],
     "ask": []
