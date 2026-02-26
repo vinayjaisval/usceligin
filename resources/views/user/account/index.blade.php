@@ -1306,270 +1306,283 @@
         {{-- Affiliate Tab --}}
         <div id="content-affiliate" class="tab-content hidden">
           @php
-          $user = Auth::user();
-          $affiliateActive = $user->reffered_times > 0; // Assuming affiliate is active if they have referred at least one person
-          $affiliateCode = $user->affilate_code;
-          $affiliateLink = $affiliateActive
-          ? url('?affilate_code=' . $affiliateCode)
-          : '';
+            $user          = Auth::user();
+            $affiliateActive = $user->reffered_times > 0;
+            $affiliateCode = $user->affilate_code;
+            $affiliateLink = $affiliateActive ? url('?affilate_code=' . $affiliateCode) : '';
+            $thClass       = 'text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider py-3 px-4';
           @endphp
 
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Affiliate Program</h1>
+          <h1 class="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white mb-6">Affiliate Program</h1>
 
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8 text-center">
-            <span class="material-icons-outlined text-6xl text-blue-600 dark:text-blue-400 mb-4">groups</span>
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Join Our Affiliate Program</h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
-              Earn rewards by referring friends and family. Share your unique referral link and get exclusive benefits.
-            </p>
-            <button class="px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors">
-              Learn More
-            </button>
+          <div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 p-6 lg:p-8">
 
-            @if(!$affiliateActive)
-            <button
-              onclick="activateAffiliate()"
-              class="px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700">
-              Activate Affiliate
-            </button>
-            @else
-            <span class="text-green-600 font-semibold">
-              ✔ Affiliate Activated
-            </span>
-            @endif
-
-            {{-- Referral Box --}}
-            <div class="border p-4 mt-6 rounded
-            {{ !$affiliateActive ? 'opacity-50 pointer-events-none' : '' }}">
-
-              <h3 class="font-semibold mb-1">Refer Friends</h3>
-
-              <input
-                type="text"
-                id="referralLink"
-                value="{{ $affiliateLink }}"
-                readonly
-                class="w-full text-sm border rounded px-2 py-1 mb-2 text-center">
-
-              <button
-                onclick="copyReferral()"
-                class="bg-blue-600 text-white px-4 py-1 rounded text-sm">
-                Copy Link
-              </button>
+            {{-- Hero --}}
+            <div class="text-center pb-8 mb-8 border-b border-neutral-200 dark:border-neutral-700">
+              <span class="material-icons-outlined text-6xl text-primary-600 dark:text-primary-400 mb-4 block" aria-hidden="true">groups</span>
+              <h2 class="text-xl font-semibold text-neutral-900 dark:text-white mb-3">Join Our Affiliate Program</h2>
+              <p class="text-neutral-500 dark:text-neutral-400 mb-6 max-w-2xl mx-auto">
+                Earn commissions by referring customers. Share your unique affiliate link and get rewarded for every sale you drive.
+              </p>
+              @if(!$affiliateActive)
+                <button
+                  id="activateAffiliateBtn"
+                  onclick="activateAffiliate()"
+                  aria-label="Activate your affiliate account"
+                  class="px-6 py-3 bg-primary-800 text-white font-semibold hover:bg-primary-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
+                  Activate Affiliate
+                </button>
+              @else
+                <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-900 text-white text-sm font-medium" role="status">
+                  <span class="material-icons-outlined text-base" aria-hidden="true">check_circle</span>
+                  Affiliate Activated
+                </span>
+              @endif
             </div>
-                  <div class="mr-table allproduct mt-4">
-                                <div class="table-responsive">
-                                    <table id="example" class="table" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>{{ __('Id') }}</th>
-                                                <th>{{ __('Product') }}</th>
-                                                <th>{{ __('Customer Name') }}</th>
-                                                <th>{{ __('Total Amount') }}</th>
-                                                <th>{{ __('Affiliate Bonus') }}</th>
-                                                <th>{{ __('Payment Status') }}</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($final_affilate_users as $fuser)
-                                            @php
-                                            $cart = json_decode($fuser->cart, true); // Keep as array
-                                            @endphp
+            {{-- Affiliate Link Box --}}
+            <div class="border border-neutral-200 dark:border-neutral-700 p-5 mb-8 {{ !$affiliateActive ? 'opacity-50 pointer-events-none select-none' : '' }}"
+                 aria-disabled="{{ !$affiliateActive ? 'true' : 'false' }}">
+              <h3 class="font-semibold text-neutral-900 dark:text-white mb-1" id="affiliateLinkHeading">Your Affiliate Link</h3>
+              <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
+                {{ $affiliateActive ? 'Share this link to earn commissions on every referred purchase.' : 'Activate your affiliate account above to unlock your unique link.' }}
+              </p>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  id="affiliateReferralLink"
+                  value="{{ $affiliateLink }}"
+                  readonly
+                  aria-label="Your affiliate referral link"
+                  aria-describedby="affiliateLinkHeading"
+                  placeholder="{{ !$affiliateActive ? 'Activate affiliate to see your link' : '' }}"
+                  class="flex-1 text-sm border border-neutral-200 dark:border-neutral-700 px-3 py-2 text-neutral-600 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 focus:outline-none focus:border-primary-600">
+                <button
+                  id="copyAffiliateBtn"
+                  onclick="copyAffiliateLink()"
+                  aria-label="Copy affiliate link to clipboard"
+                  class="bg-primary-800 text-white px-5 py-2 text-sm font-medium hover:bg-primary-900 transition-colors whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
+                  Copy Link
+                </button>
+              </div>
+              <span id="affiliateCopyFeedback" class="sr-only" aria-live="polite" aria-atomic="true"></span>
+            </div>
 
-                                            @foreach($cart['items'] ?? [] as $c)
-                                            <tr>
-                                                <td>
-                                                    <div>
-                                                        {{ $fuser->id }}
-                                                    </div>
-                                                </td>
-
-                                                <td data-label="{{ __('Product') }}">
-                                                    <div>
-                                                        <a href="{{ route('front.product', $c['item']['slug']) }}" target="_blank">
-                                                            {{ $c['item']['name'] }}
-                                                        </a>
-                                                    </div>
-                                                </td>
-
-                                                <td data-label="{{ __('Customer Name') }}">
-                                                    <div>
-                                                        {{ $fuser->customer_name }}
-                                                    </div>
-                                                </td>
-                                                <td data-label="{{ __('Total Amount') }}">
-                                                    <div>
-                                                        {{ $fuser->pay_amount }}
-                                                    </div>
-                                                </td>
-                                                <td data-label="{{ __('Affiliate Bonus') }}">
-                                                    <div>
-                                                        {{ App\Models\Product::vendorConvertPrice($fuser->affilate_charge) }}
-                                                    </div>
-                                                </td>
-                                                <td data-label="{{ __('Total Amount') }}">
-                                                    <div>
-                                                        {{ $fuser->status }}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            @endforeach
-                                        </tbody>
-
-
-                                    </table>
-                                </div>
-                            </div>
+            {{-- Earnings Table --}}
+            <div>
+              <h3 class="text-base font-semibold text-neutral-900 dark:text-white mb-4" id="affiliateEarningsHeading">Affiliate Earnings</h3>
+              <div class="overflow-x-auto border border-neutral-200 dark:border-neutral-700">
+                <table class="w-full min-w-max border-collapse text-sm" aria-labelledby="affiliateEarningsHeading">
+                  <caption class="sr-only">Affiliate earnings showing products, customers, order amounts, commissions, and payment status</caption>
+                  <thead>
+                    <tr class="bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+                      <th scope="col" class="{{ $thClass }}">#</th>
+                      <th scope="col" class="{{ $thClass }}">Product</th>
+                      <th scope="col" class="{{ $thClass }}">Customer</th>
+                      <th scope="col" class="{{ $thClass }}">Order Amount</th>
+                      <th scope="col" class="{{ $thClass }}">Commission</th>
+                      <th scope="col" class="{{ $thClass }}">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
+                    @php $rowNum = 0; @endphp
+                    @forelse($final_affilate_users as $fuser)
+                      @php $cart = json_decode($fuser->cart, true); @endphp
+                      @foreach($cart['items'] ?? [] as $c)
+                        @php
+                          $rowNum++;
+                          $statusKey = strtolower($fuser->status ?? '');
+                          [$badgeClass, $badgeLabel] = match(true) {
+                              in_array($statusKey, ['active', 'paid', 'completed']) => ['bg-primary-900 text-white', ucfirst($fuser->status)],
+                              $statusKey === 'pending' => ['border border-neutral-400 text-neutral-600 dark:text-neutral-300', 'Pending'],
+                              default => ['bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300', ucfirst($fuser->status)],
+                          };
+                        @endphp
+                        <tr class="hover:bg-primary-100 dark:hover:bg-primary-900/10 transition-colors">
+                          <td class="py-3 px-4 text-neutral-500 whitespace-nowrap">{{ $rowNum }}</td>
+                          <td class="py-3 px-4 font-medium text-neutral-900 dark:text-white">
+                            <a href="{{ route('front.product', $c['item']['slug']) }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               aria-label="{{ $c['item']['name'] }} (opens in new tab)"
+                               class="text-primary-700 hover:text-primary-900 dark:text-primary-400 hover:underline">
+                              {{ $c['item']['name'] }}
+                            </a>
+                          </td>
+                          <td class="py-3 px-4 text-neutral-700 dark:text-neutral-300 whitespace-nowrap">{{ $fuser->customer_name }}</td>
+                          <td class="py-3 px-4 text-neutral-700 dark:text-neutral-300 whitespace-nowrap">{{ App\Models\Product::vendorConvertPrice($fuser->pay_amount) }}</td>
+                          <td class="py-3 px-4 font-medium text-primary-700 dark:text-primary-400 whitespace-nowrap">{{ App\Models\Product::vendorConvertPrice($fuser->affilate_charge) }}</td>
+                          <td class="py-3 px-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium {{ $badgeClass }}">{{ $badgeLabel }}</span>
+                          </td>
+                        </tr>
+                      @endforeach
+                    @empty
+                      <tr>
+                        <td colspan="6" class="py-12 text-center">
+                          <span class="material-icons-outlined text-5xl text-neutral-300 dark:text-neutral-600 block mb-3" aria-hidden="true">storefront</span>
+                          <p class="font-medium text-neutral-700 dark:text-neutral-300 mb-1">No earnings yet</p>
+                          <p class="text-sm text-neutral-500">Share your affiliate link to start earning commissions</p>
+                        </td>
+                      </tr>
+                    @endforelse
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
           </div>
-                     
         </div>
 
         {{-- CELIGIN Points Tab --}}
         <div id="content-points" class="tab-content hidden">
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">CELIGIN Points</h1>
+          @php
+            $referralCode = Auth::user()->refferel_code ?? '';
+            $referralLink = url('/?refferel_code=' . $referralCode);
+            $thClass      = 'text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider py-3 px-4';
+          @endphp
 
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
-            <div class="text-center mb-8">
-              <div class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">Ȼ{{ round(Auth::user()->current_balance ?? 0) }}
+          <h1 class="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white mb-6">CELIGIN Points</h1>
+
+          <div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 p-6 lg:p-8">
+
+            {{-- Points Balance --}}
+            <div class="text-center py-8 mb-8 bg-primary-100 dark:bg-primary-900/20"
+                 role="region" aria-label="Your points balance">
+              <div class="flex items-center justify-center gap-3 mb-2">
+                <span class="material-icons-outlined text-4xl text-primary-600" aria-hidden="true">stars</span>
+                <span class="text-5xl sm:text-6xl font-bold text-neutral-900 dark:text-white"
+                      aria-label="{{ round(Auth::user()->current_balance ?? 0) }} available points">
+                  {{ round(Auth::user()->current_balance ?? 0) }}
+                </span>
               </div>
-              <p class="text-gray-600 dark:text-gray-400">Available Points</p>
+              <p class="text-sm font-medium text-neutral-500 uppercase tracking-wider" aria-hidden="true">Available Points</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
-                <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400 mb-2">shopping_cart</span>
-                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Earn on Purchases</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Get 1 point for every ₹100 spent</p>
+            {{-- How It Works Cards --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+
+              {{-- Earn --}}
+              <div class="border border-neutral-200 dark:border-neutral-700 p-5 text-center">
+                <span class="material-icons-outlined text-3xl text-primary-600 dark:text-primary-400 mb-3 block" aria-hidden="true">shopping_cart</span>
+                <h3 class="font-semibold text-neutral-900 dark:text-white mb-1">Earn on Purchases</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400">Get 1 point for every ₹100 spent</p>
               </div>
 
-              <div class="border border-gray-200 dark:border-gray-700 p-4 text-center">
-                <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400 mb-2">card_giftcard</span>
-                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Redeem Rewards</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Use points for discounts on orders</p>
+              {{-- Redeem --}}
+              <div class="border border-neutral-200 dark:border-neutral-700 p-5 text-center">
+                <span class="material-icons-outlined text-3xl text-primary-600 dark:text-primary-400 mb-3 block" aria-hidden="true">card_giftcard</span>
+                <h3 class="font-semibold text-neutral-900 dark:text-white mb-1">Redeem Rewards</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400">Use points for discounts on orders</p>
               </div>
-              @php
-              $referralCode = Auth::user()->refferel_code ?? '';
 
-              $referralLink = url('/?refferel_code=' . $referralCode);
-              @endphp
+              {{-- Refer Friends --}}
+              <div class="border border-neutral-200 dark:border-neutral-700 p-5 text-center sm:col-span-2 lg:col-span-1">
+                <span class="material-icons-outlined text-3xl text-primary-600 dark:text-primary-400 mb-3 block" aria-hidden="true">share</span>
+                <h3 class="font-semibold text-neutral-900 dark:text-white mb-1" id="referralLinkHeading">Refer Friends</h3>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-4">Earn bonus points for referrals</p>
 
-              <div class="border border-gray-200 dark:border-gray-700 p-4 text-center rounded cursor-pointer">
-                <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400 mb-2">
-                  share
-                </span>
-
-                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">
-                  Refer Friends
-                </h3>
-
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                  Earn bonus points for referrals
-                </p>
-
-                <!-- Referral Input -->
+                {{-- Referral Link Input --}}
                 <input
                   type="text"
                   id="referralLink"
                   value="{{ $referralLink }}"
                   readonly
-                  class="w-full text-sm border rounded px-2 py-1 mb-2 text-center">
+                  aria-label="Your referral link"
+                  aria-describedby="referralLinkHeading"
+                  class="w-full text-xs border border-neutral-200 dark:border-neutral-700 px-3 py-2 mb-2 text-center text-neutral-600 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 select-all focus:outline-none focus:border-primary-600">
 
-                <!-- Copy Button -->
+                {{-- Copy Button --}}
                 <button
+                  id="copyReferralBtn"
                   onclick="copyReferral()"
-                  class="bg-blue-600 text-white px-4 py-1 rounded text-sm mb-3">
+                  aria-label="Copy referral link to clipboard"
+                  class="w-full bg-primary-800 text-white px-4 py-2 text-sm font-medium hover:bg-primary-900 transition-colors mb-2 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
                   Copy Link
                 </button>
+                <span id="referralCopyFeedback" class="sr-only" aria-live="polite" aria-atomic="true"></span>
 
-                <!-- Social Share Buttons -->
-                <div class="flex justify-center gap-4 mt-4">
-
-                  <!-- WhatsApp -->
-                  <a id="whatsappShare" target="_blank"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 transition">
-                    <svg class="w-5 h-5 fill-white" viewBox="0 0 32 32">
+                {{-- Social Share --}}
+                <div class="flex justify-center gap-3 mt-3" role="group" aria-label="Share referral link on social media">
+                  <a id="whatsappShare" target="_blank" rel="noopener noreferrer"
+                     aria-label="Share on WhatsApp (opens in new tab)"
+                     class="w-9 h-9 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                    <svg class="w-4 h-4 fill-white" viewBox="0 0 32 32" aria-hidden="true">
                       <path d="M16.1 3C9.4 3 4 8.4 4 15.1c0 2.7.9 5.2 2.4 7.3L4 29l6.8-2.2c2 .9 4.2 1.4 6.5 1.4 6.7 0 12.1-5.4 12.1-12.1C28.2 8.4 22.8 3 16.1 3zm0 22.1c-2.1 0-4.1-.6-5.9-1.7l-.4-.2-4 1.3 1.3-3.9-.3-.4c-1.1-1.8-1.7-3.9-1.7-6.1 0-6 4.9-10.9 10.9-10.9S27 9.1 27 15.1 22.1 25.1 16.1 25.1zm6-8.2c-.3-.1-1.9-.9-2.2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1-1.2-.4-2.3-1.4c-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.1-.3.2-.5s0-.3 0-.5-.7-1.8-.9-2.4c-.2-.6-.4-.5-.7-.5h-.6c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.6 4.2 3.6 2.4 1 2.4.7 2.8.7.4 0 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1z" />
                     </svg>
                   </a>
-
-                  <!-- Facebook -->
-                  <a id="facebookShare" target="_blank"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition">
-                    <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                  <a id="facebookShare" target="_blank" rel="noopener noreferrer"
+                     aria-label="Share on Facebook (opens in new tab)"
+                     class="w-9 h-9 flex items-center justify-center rounded-full bg-[#1877F2] hover:bg-[#166FE5] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:ring-offset-2">
+                    <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.326v21.348C0 23.4.6 24 1.326 24h11.495v-9.294H9.691V11.01h3.13V8.309c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.31h3.587l-.467 3.696h-3.12V24h6.116C23.4 24 24 23.4 24 22.674V1.326C24 .6 23.4 0 22.675 0z" />
                     </svg>
                   </a>
-
-                  <!-- Twitter / X -->
-                  <a id="twitterShare" target="_blank"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-black hover:bg-gray-800 transition">
-                    <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                  <a id="twitterShare" target="_blank" rel="noopener noreferrer"
+                     aria-label="Share on X (opens in new tab)"
+                     class="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-900 hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2">
+                    <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M18.244 2H21.49l-7.09 8.1L22.75 22h-6.39l-5-6.56L5.78 22H2.53l7.58-8.67L1.5 2h6.55l4.52 5.98L18.24 2z" />
                     </svg>
                   </a>
-
-                  <!-- Telegram -->
-                  <a id="telegramShare" target="_blank"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 transition">
-                    <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                  <a id="telegramShare" target="_blank" rel="noopener noreferrer"
+                     aria-label="Share on Telegram (opens in new tab)"
+                     class="w-9 h-9 flex items-center justify-center rounded-full bg-[#2AABEE] hover:bg-[#229ED9] transition-colors focus:outline-none focus:ring-2 focus:ring-[#2AABEE] focus:ring-offset-2">
+                    <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M9.993 15.522l-.397 5.584c.568 0 .815-.245 1.111-.539l2.667-2.532 5.523 4.035c1.012.56 1.728.265 1.986-.935l3.6-16.88c.319-1.49-.538-2.07-1.515-1.7L1.353 9.6c-1.454.566-1.432 1.38-.248 1.745l5.524 1.72L19.41 5.44c.664-.44 1.27-.197.772.243" />
                     </svg>
                   </a>
-
                 </div>
-                           
               </div>
-                <div class="mr-table allproduct mt-4">
-                    <div class="table-responsive">
-                            <table id="example" class="table" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                    <th>{{ __('Id') }}</th>
-                                        <th>{{ __('Customer Name') }}</th>
-                                      
-                                        <th>{{ __('Purchase Amount') }}</th>
-                                        <th>{{ __('Status Point') }}</th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($final_refferal_users as $fuser)
-                                    <tr>
-                                        <td>
-                                            <div>
-                                                {{ $fuser->id }}
-                                            </div>
-                                        </td>
-                                        <td data-label="{{ __('Customer Name') }}">
-                                            <div>
-                                                {{ $fuser->customer_name }}
-                                            </div>
-                                        </td>
-                                        <!-- <td data-label="{{ __('Product') }}">
-                                            <div>
-                                              
-                                            </div>
-                                        </td> -->
-                                        <td data-label="{{ __('Affiliate Bonus') }}">
-                                            <div>
-                                            {{ App\Models\Product::vendorConvertPrice ( $fuser->affilate_charge) }}
-                                            </div>
-                                        </td>
-                                        <td data-label="{{ __('Affiliate Bonus') }}">
-                                            <div>
-                                            {{ $fuser->status }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                    </div>
-                </div>
+            </div>{{-- end grid --}}
+
+            {{-- Referral History --}}
+            <div>
+              <h3 class="text-base font-semibold text-neutral-900 dark:text-white mb-4" id="referralHistoryHeading">Referral History</h3>
+              <div class="overflow-x-auto border border-neutral-200 dark:border-neutral-700">
+                <table class="w-full min-w-max border-collapse text-sm" aria-labelledby="referralHistoryHeading">
+                  <caption class="sr-only">Referral history showing referred friends, their purchase amounts, and reward status</caption>
+                  <thead>
+                    <tr class="bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+                      <th scope="col" class="{{ $thClass }}">#</th>
+                      <th scope="col" class="{{ $thClass }}">Referred Friend</th>
+                      <th scope="col" class="{{ $thClass }}">Purchase Amount</th>
+                      <th scope="col" class="{{ $thClass }}">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
+                    @forelse($final_refferal_users as $fuser)
+                    <tr class="hover:bg-primary-100 dark:hover:bg-primary-900/10 transition-colors">
+                      <td class="py-3 px-4 text-neutral-500 whitespace-nowrap">{{ $loop->iteration }}</td>
+                      <td class="py-3 px-4 font-medium text-neutral-900 dark:text-white whitespace-nowrap">{{ $fuser->customer_name }}</td>
+                      <td class="py-3 px-4 text-neutral-700 dark:text-neutral-300 whitespace-nowrap">{{ App\Models\Product::vendorConvertPrice($fuser->affilate_charge) }}</td>
+                      <td class="py-3 px-4 whitespace-nowrap">
+                        @php
+                          $statusKey = strtolower($fuser->status ?? '');
+                          [$badgeClass, $badgeLabel] = match(true) {
+                              $statusKey === 'active' => ['bg-primary-900 text-white', 'Active'],
+                              $statusKey === 'pending' => ['border border-neutral-400 text-neutral-600 dark:text-neutral-300', 'Pending'],
+                              default => ['bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300', ucfirst($fuser->status)],
+                          };
+                        @endphp
+                        <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium {{ $badgeClass }}">{{ $badgeLabel }}</span>
+                      </td>
+                    </tr>
+                    @empty
+                    <tr>
+                      <td colspan="4" class="py-12 text-center">
+                        <span class="material-icons-outlined text-5xl text-neutral-300 dark:text-neutral-600 block mb-3" aria-hidden="true">group_add</span>
+                        <p class="font-medium text-neutral-700 dark:text-neutral-300 mb-1">No referrals yet</p>
+                        <p class="text-sm text-neutral-500">Share your referral link above to start earning bonus points</p>
+                      </td>
+                    </tr>
+                    @endforelse
+                  </tbody>
+                </table>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -1582,26 +1595,49 @@
 
 <script>
   const referralLink = "{{ url('/?refferel_code=' . Auth::user()->refferel_code) }}";
-  const text = "Join using my referral link & earn rewards!";
+  const shareText    = "Join using my referral link & earn rewards!";
 
-  const shareText = "Join using my referral link and earn rewards!";
-
-  function copyReferral() {
-    navigator.clipboard.writeText(referralLink).then(() => {
-      alert("Referral link copied!");
+  // Shared copy utility — eliminates duplication between referral and affiliate copy buttons
+  function copyToClipboard(value, btnId, feedbackId, feedbackMsg, fallbackInputId) {
+    navigator.clipboard.writeText(value).then(() => {
+      const btn      = document.getElementById(btnId);
+      const feedback = document.getElementById(feedbackId);
+      if (btn) {
+        btn.textContent = 'Copied!';
+        btn.disabled = true;
+        setTimeout(() => { btn.textContent = 'Copy Link'; btn.disabled = false; }, 2000);
+      }
+      if (feedback) {
+        feedback.textContent = feedbackMsg;
+        setTimeout(() => { feedback.textContent = ''; }, 2000);
+      }
+    }).catch(() => {
+      const input = document.getElementById(fallbackInputId);
+      if (input) { input.select(); document.execCommand('copy'); }
     });
   }
+
+  function copyReferral() {
+    copyToClipboard(referralLink, 'copyReferralBtn', 'referralCopyFeedback', 'Referral link copied to clipboard', 'referralLink');
+  }
+
+  function copyAffiliateLink() {
+    const input = document.getElementById('affiliateReferralLink');
+    if (!input || !input.value) return;
+    copyToClipboard(input.value, 'copyAffiliateBtn', 'affiliateCopyFeedback', 'Affiliate link copied to clipboard', 'affiliateReferralLink');
+  }
+
   document.getElementById('whatsappShare').href =
-    `https://wa.me/?text=${encodeURIComponent(text + ' ' + referralLink)}`;
+    `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + referralLink)}`;
 
   document.getElementById('facebookShare').href =
     `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
 
   document.getElementById('twitterShare').href =
-    `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(referralLink)}`;
+    `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(referralLink)}`;
 
   document.getElementById('telegramShare').href =
-    `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`;
+    `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(shareText)}`;
 </script>
 
 
@@ -2195,6 +2231,12 @@
 </style>
 <script>
   function activateAffiliate() {
+    const btn = document.getElementById('activateAffiliateBtn');
+    if (btn) {
+      btn.textContent = 'Activating...';
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
+    }
     fetch("{{ route('affiliate.activate') }}", {
         method: "POST",
         headers: {
@@ -2206,6 +2248,19 @@
       .then(data => {
         if (data.success) {
           location.reload();
+        } else {
+          if (btn) {
+            btn.textContent = 'Activate Affiliate';
+            btn.disabled = false;
+            btn.removeAttribute('aria-busy');
+          }
+        }
+      })
+      .catch(() => {
+        if (btn) {
+          btn.textContent = 'Activate Affiliate';
+          btn.disabled = false;
+          btn.removeAttribute('aria-busy');
         }
       });
   }
