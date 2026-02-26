@@ -1350,7 +1350,7 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/order/create/user-address', 'Vendor\OrderCreateController@userAddress');
         Route::post('/order/create/user-address', 'Vendor\OrderCreateController@userAddressSubmit')->name('vendor.order.create.user.address');
         Route::post('/order/create/order/view', 'Vendor\OrderCreateController@viewCreateOrder')->name('vendor.order.create.view');
-        Route::get('/order/create/order/submit', 'Vendor\OrderCreateController@CreateOrderSubmit')->name('vendor-order-create-submit');
+        Route::post('/order/create/order/submit', 'Vendor\OrderCreateController@CreateOrderSubmit')->name('vendor-order-create-submit');
 
         Route::get('/order/{id}/track', 'Vendor\OrderTrackController@index')->name('vendor-order-track');
         Route::get('/order/{id}/trackload', 'Vendor\OrderTrackController@load')->name('vendor-order-track-load');

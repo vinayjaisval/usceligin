@@ -415,10 +415,12 @@ class OrderCreateController extends VendorBaseController
     public function viewCreateOrder(Request $request)
     {
        
+   
 
         Session::put('order_address', $request->all());
 
         $cart = Session::get('admin_cart');
+        
         $address = Session::get('order_address');
 
         return view('vendor.orderpos.create.view', compact('cart', 'address'));
@@ -427,13 +429,11 @@ class OrderCreateController extends VendorBaseController
 
     public function CreateOrderSubmit(Request $request)
     {
-        // dd($request->all());
-
-
+       
         $user = $this->user;
         $address = Session::get('order_address');
         $input = $address;
-        // dd($input);
+     
         $curr = Currency::where('is_default', '=', 1)->first();
 
         $oldCart = Session::get('admin_cart');
@@ -543,7 +543,7 @@ class OrderCreateController extends VendorBaseController
         $input['packing_cost'] = 0;
         $input['seller_id'] =  $user->id ?? null;
 
-        // dd($input);
+       
 
         $order->fill($input)->save();
         $order->tracks()->create(['title' => 'Pending', 'text' => 'You have successfully placed your order.']);
@@ -591,7 +591,7 @@ class OrderCreateController extends VendorBaseController
         $mailer = new GeniusMailer();
         $mailer->sendCustomMail($data);
 
-        return redirect(route('vendor-order-show', $order->id))->with('added', 'Order has been placed successfully!');
+        return redirect(route('vendor-order-index', $order->id))->with('added', 'Order has been placed successfully!');
     }
 
 

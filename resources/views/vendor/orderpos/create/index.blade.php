@@ -254,7 +254,7 @@
   {{-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        STEP 2 + 3 — CUSTOMER FORM + CART
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ --}}
-  <form action="{{ route('vendor.order.create.view') }}" method="POST" id="pos-form">
+  <form action="{{ route('vendor-order-create-submit', ['method' => 'cod']) }}" method="POST" id="pos-form">
     @csrf
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 

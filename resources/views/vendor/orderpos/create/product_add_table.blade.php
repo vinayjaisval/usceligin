@@ -47,6 +47,8 @@
         </a>
       </div>
       <input type="hidden" value="{{ $qty }}" name="totalqty">
+      <input type="hidden" value="{{ $cart->totalPrice }}" name="totalprice">
+
     @endforeach
   </div>
 
