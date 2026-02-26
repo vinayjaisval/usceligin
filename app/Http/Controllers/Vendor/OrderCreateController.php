@@ -414,16 +414,8 @@ class OrderCreateController extends VendorBaseController
 
     public function viewCreateOrder(Request $request)
     {
-       
-   
-
         Session::put('order_address', $request->all());
-
-        $cart = Session::get('admin_cart');
-        
-        $address = Session::get('order_address');
-
-        return view('vendor.orderpos.create.view', compact('cart', 'address'));
+        return redirect()->route('vendor-order-create');
     }
 
 
