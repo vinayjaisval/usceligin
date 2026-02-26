@@ -94,14 +94,18 @@
   ];
 
   // Shared token shortcuts
-  $divider = 'border-neutral-200 dark:border-neutral-700';
-  $card    = 'bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700';
-  $lblRow  = 'text-xs uppercase tracking-wide font-medium text-neutral-400 dark:text-neutral-500 mb-0.5 block';
-  $valRow  = 'text-sm font-bold text-neutral-900 dark:text-neutral-100';
-  $iconSm  = 'w-4 h-4 text-neutral-400 dark:text-neutral-500 flex-shrink-0 mt-0.5';
-  $secHd   = 'text-xs uppercase tracking-wider font-bold text-neutral-500 dark:text-neutral-400 mb-3 pb-2 border-b border-neutral-200 dark:border-neutral-700';
+  $divider  = 'border-neutral-200 dark:border-neutral-700';
+  $card     = 'bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700';
+  $lblRow   = 'text-xs uppercase tracking-wide font-medium text-neutral-400 dark:text-neutral-500 mb-0.5 block';
+  $valRow   = 'text-sm font-bold text-neutral-900 dark:text-neutral-100';
+  $iconSm   = 'w-4 h-4 text-neutral-400 dark:text-neutral-500 flex-shrink-0 mt-0.5';
+  $secHd    = 'text-xs uppercase tracking-wider font-bold text-neutral-500 dark:text-neutral-400 mb-3 pb-2 border-b border-neutral-200 dark:border-neutral-700';
+  $colHd    = 'text-xs uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500';
+  // Button base classes — append bg/border/color per variant
+  $btnSolid = 'flex-1 flex items-center justify-center text-white text-sm font-semibold px-5 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1';
+  $btnGhost = 'flex-1 flex items-center justify-center text-sm font-semibold px-5 py-2.5 border transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1';
 
-  // Order detail rows (same visual style as billing address)
+  // Order detail rows
   $orderDetails = [
     ['icon' => 'tag',         'label' => 'Order Number',   'value' => $order['order_number']],
     ['icon' => 'calendar',    'label' => 'Order Date',     'value' => $order['created_at'] ?? ($order['order_date'] ?? 'N/A')],
@@ -118,7 +122,7 @@
   } elseif (isset($paymentInfo['totalPrice']) && $paymentInfo['totalPrice'] > 0) {
     $subtotal = $paymentInfo['totalPrice'];
   } else {
-    // Derive: items total = paid - shipping - tax + discounts
+    // Derive: items total = paid − shipping − tax + discounts
     $subtotal = ($paymentInfo['pay_amount'] ?? 0)
       - ($paymentInfo['shipping_cost'] ?? 0)
       - ($paymentInfo['tax'] ?? 0)
@@ -147,18 +151,19 @@
   ];
 @endphp
 
-<main id="main-content" role="main" class="bg-neutral-50 dark:bg-neutral-900 min-h-screen py-5 sm:py-6">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+{{-- Single padding source: py on main only, inner div handles horizontal + space-y --}}
+<main id="main-content" role="main" class="bg-neutral-50 dark:bg-neutral-900 min-h-screen py-6 sm:py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
 
     {{-- ═══════════════════════════════════════════════════════
-         ROW 1 — 3 columns: [Status Banner] | [Amount Paid] | [CTAs]
+         ROW 1 — 2 columns: [Status Banner] | [Amount Paid]
          ═══════════════════════════════════════════════════════ --}}
     <div class="overflow-hidden border {{ $divider }}" role="region" aria-labelledby="payment-status-title">
       <div class="flex flex-col sm:flex-row sm:items-stretch">
 
-        {{-- Col 1: Status icon + title + message (status-tinted bg, flex-1) --}}
-        <div class="{{ $currentStatus['bg'] }} flex items-center gap-5 px-6 py-6 sm:flex-1">
-          <div class="{{ $currentStatus['iconBg'] }} p-3 flex-shrink-0" aria-hidden="true">
+        {{-- Col 1: Status icon + title + message — stacked on mobile, side-by-side on sm+ --}}
+        <div class="{{ $currentStatus['bg'] }} flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 px-6 py-6 sm:flex-1">
+          <div class="{{ $currentStatus['iconBg'] }} p-3 self-start sm:flex-shrink-0" aria-hidden="true">
             <svg class="w-8 h-8 {{ $currentStatus['iconColor'] }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {!! $icons[$demoStatus] !!}
             </svg>
@@ -171,54 +176,47 @@
           </div>
         </div>
 
-        {{-- Col 2: Amount paid (status-tinted bg, border-l) --}}
-        <div class="{{ $currentStatus['bg'] }} flex flex-col justify-center px-8 py-6 text-right border-t sm:border-t-0  {{ $currentStatus['border'] }} sm:min-w-[210px]">
-          <p class="text-xs uppercase tracking-widest font-semibold text-neutral-500 dark:text-neutral-400 mb-1">
-            {{ $currentStatus['amtLabel'] }}
-          </p>
+        {{-- Col 2: Amount paid — left-aligned on mobile, right-aligned on sm+ --}}
+        <div class="{{ $currentStatus['bg'] }} flex flex-col justify-center px-6 sm:px-8 py-4 sm:py-6 text-left sm:text-right border-t sm:border-t-0 sm:border-l {{ $currentStatus['border'] }} sm:min-w-[210px]">
+          <p class="{{ $colHd }} tracking-widest mb-1">{{ $currentStatus['amtLabel'] }}</p>
           <p class="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-neutral-100 leading-tight">
             {{ App\Models\Product::convertPrice($paymentInfo['pay_amount']) }}
           </p>
-
-          
-
-        
-
         </div>
 
       </div>
     </div>
 
-    {{-- Col 3: CTA Buttons (padded, solid + ghost style) --}}
-        <div class="flex gap-3 mt-6">
-          @if($demoStatus === 'success' || $demoStatus === 'pending')
-            <a href="{{ route('front.index') }}"
-               class="w-full flex items-center justify-center bg-primary-800 hover:bg-primary-900 text-white text-sm font-semibold px-5 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 whitespace-nowrap">
-              Continue Shopping
-            </a>
-            <a href="{{ route('user.account') }}"
-               class="w-full flex items-center justify-center border border-primary-700 dark:border-primary-500 text-primary-700 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-sm font-semibold px-5 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 whitespace-nowrap">
-              View My Orders
-            </a>
-          @else
-            <a href="{{ route('front.checkout') }}"
-               class="w-full flex items-center justify-center bg-semantic-error hover:opacity-90 text-white text-sm font-semibold px-5 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 whitespace-nowrap">
-              Retry Payment
-            </a>
-            <a href="{{ route('front.cart') }}"
-               class="w-full flex items-center justify-center border border-neutral-400 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700/30 text-sm font-semibold px-5 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-500 whitespace-nowrap">
-              Back to Cart
-            </a>
-          @endif
-        </div>
+    {{-- CTA Buttons — flex-col on mobile, flex-row on sm+ --}}
+    <div class="flex flex-col sm:flex-row gap-3">
+      @if($demoStatus === 'success' || $demoStatus === 'pending')
+        <a href="{{ route('front.index') }}"
+           class="{{ $btnSolid }} bg-primary-800 hover:bg-primary-900 focus:ring-primary-600">
+          Continue Shopping
+        </a>
+        <a href="{{ route('user.account') }}"
+           class="{{ $btnGhost }} border-primary-700 dark:border-primary-500 text-primary-700 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 focus:ring-primary-600">
+          View My Orders
+        </a>
+      @else
+        <a href="{{ route('front.checkout') }}"
+           class="{{ $btnSolid }} bg-semantic-error hover:opacity-90 focus:ring-red-500">
+          Retry Payment
+        </a>
+        <a href="{{ route('front.cart') }}"
+           class="{{ $btnGhost }} border-neutral-400 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700/30 focus:ring-neutral-500">
+          Back to Cart
+        </a>
+      @endif
+    </div>
 
 
     {{-- ═══════════════════════════════════════════════════════
          ROW 2 — 2 columns:
-           Left  → Order Details | Billing Address (side by side)
-           Right → Ordered Items + Payment Breakdown
+           Left  → Order Details | Billing Address
+           Right → Ordered Items + Payment Breakdown (or Failed help)
          ═══════════════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start mt-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
 
       {{-- ── LEFT COLUMN: Order Details + Billing Address ─────── --}}
       <div class="{{ $card }} grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
@@ -246,14 +244,12 @@
                 {!! $icons['check-circle'] !!}
               </svg>
               <div>
-                <dt class="text-xs uppercase tracking-wide font-medium text-semantic-success mb-0.5 block">Transaction ID</dt>
+                <dt class="{{ $lblRow }} !text-semantic-success">Transaction ID</dt>
                 <dd class="text-xs font-mono font-bold text-neutral-900 dark:text-neutral-100 break-all">{{ $order['transaction_id'] }}</dd>
               </div>
             </div>
             @endif
           </dl>
-
-          
         </section>
 
         {{-- Billing Address --}}
@@ -325,15 +321,15 @@
           </h2>
         </div>
 
-        {{-- Invoice column headers --}}
+        {{-- Invoice column headers — $colHd applied to each cell (DRY) --}}
         <div class="flex items-center px-5 py-2 bg-neutral-50 dark:bg-neutral-900/30 border-b {{ $divider }}">
-          <div class="flex-1 text-xs uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">Item</div>
-          <div class="w-10 text-center text-xs uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">Qty</div>
-          <div class="hidden sm:block w-24 text-right text-xs uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">Unit Price</div>
-          <div class="w-24 text-right text-xs uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">Total</div>
+          <div class="flex-1 {{ $colHd }}">Item</div>
+          <div class="w-10 text-center {{ $colHd }}">Qty</div>
+          <div class="hidden sm:block w-24 text-right {{ $colHd }}">Unit Price</div>
+          <div class="w-24 text-right {{ $colHd }}">Total</div>
         </div>
 
-        {{-- Product rows (invoice rows) --}}
+        {{-- Product rows --}}
         <ul class="divide-y {{ $divider }}" role="list">
           @foreach($itemsSource as $product)
           @php
@@ -372,10 +368,10 @@
           @endforeach
         </ul>
 
-        {{-- Payment Breakdown (invoice footer — subtle bg, values align with Total column) --}}
+        {{-- Payment Breakdown — values align with Total column via w-24 --}}
         <div class="bg-neutral-50 dark:bg-neutral-900/30 border-t {{ $divider }}">
           <div class="px-5 pt-4 pb-3 space-y-1.5">
-            <p class="text-xs uppercase tracking-widest font-bold text-neutral-400 dark:text-neutral-500 mb-3">Payment Breakdown</p>
+            <p class="{{ $colHd }} mb-3">Payment Breakdown</p>
             @foreach($breakdown as $item)
             <div class="flex items-center text-sm">
               <dt class="flex-1 text-neutral-500 dark:text-neutral-400">{{ $item['label'] }}</dt>
@@ -392,8 +388,8 @@
             @endforeach
           </div>
 
-          {{-- Total Paid — spans full width, prominent --}}
-          <div class="flex items-center justify-between px-5 py-4 border-t border-neutral-200 dark:border-neutral-600">
+          {{-- Total Paid --}}
+          <div class="flex items-center justify-between px-5 py-4 border-t {{ $divider }}">
             <span class="text-base font-bold text-neutral-900 dark:text-neutral-100">Total Paid</span>
             <span class="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
               {{ App\Models\Product::convertPrice($paymentInfo['pay_amount']) }}
@@ -474,7 +470,7 @@
 
 
     {{-- Footer --}}
-    <p class="text-center text-xs text-neutral-500 dark:text-neutral-400 pb-1 mt-6">
+    <p class="text-center text-xs text-neutral-500 dark:text-neutral-400 pb-1">
       Have questions?
       <a href="mailto:{{ $settings['support_email'] }}"
          class="text-primary-700 dark:text-primary-400 hover:underline font-medium">
