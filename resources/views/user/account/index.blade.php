@@ -711,7 +711,6 @@
                 </div>
               @endforeach
             </div>
-          </div>
           @else
           @include('frontend.include.empty-state', [
           'icon' => 'favorite_border',
