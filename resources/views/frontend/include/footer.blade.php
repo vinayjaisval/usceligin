@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="space-y-4">
+      <nav aria-label="Useful Links" class="space-y-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Useful Links</h3>
         <ul class="space-y-2">
           @if($ps->home == 1)
@@ -54,20 +54,17 @@
             </li>
           @endif
           <li>
-            <a href="{{ url('new-arrivals') }}" aria-expanded="false"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">New
-              Arrivals</a>
+            <a href="{{ url('new-arrivals') }}"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">New Arrivals</a>
           </li>
          
           <li>
-            <a href="{{ url('best-sellers') }}" aria-expanded="false"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Best
-              Sellers</a>
+            <a href="{{ url('best-sellers') }}"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Best Sellers</a>
           </li>
           <li>
-            <a href="{{url('skin-care')}}" aria-expanded="false"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Skin
-              Care</a>
+            <a href="{{url('skin-care')}}"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Skin Care</a>
           </li>
           <li><a href="{{url('celigin-join-club')}}"
               class="text-sm bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent font-medium hover:from-pink-600 hover:to-blue-600 transition-all duration-200">Join
@@ -76,9 +73,9 @@
               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Sale</a>
           </li>
         </ul>
-      </div>
+      </nav>
 
-      <div class="space-y-4">
+      <nav aria-label="Information" class="space-y-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Information</h3>
         <ul class="space-y-2">
           <li><a href="/track-your-order"
@@ -108,7 +105,7 @@
             </li>
           @endif
         </ul>
-      </div>
+      </nav>
 
       <div class="space-y-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Good emails.</h3>
@@ -204,13 +201,6 @@
     </div>
   </div>
 </footer>
-<button
-  class="fixed bottom-6 right-6 bg-primary-600 text-white p-3  shadow-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-all duration-200 z-50 opacity-0 pointer-events-none"
-  id="scrollToTop" aria-label="Scroll to top">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
-    <polyline points="18,15 12,9 6,15"></polyline>
-  </svg>
-</button>
 
 <!-- SwiperJS JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -758,6 +748,22 @@
     }
   }
 
+  // Promo Banner — sessionStorage dismiss
+  (function () {
+    const banner = document.getElementById('promo-banner');
+    if (banner && sessionStorage.getItem('promo-banner-closed') === '1') {
+      banner.style.display = 'none';
+    }
+  })();
+
+  function closePromoBanner() {
+    const banner = document.getElementById('promo-banner');
+    if (banner) {
+      banner.style.display = 'none';
+      sessionStorage.setItem('promo-banner-closed', '1');
+    }
+  }
+
   // Promo Code Copy Function
   function copyPromoCode(element) {
     const code = element.getAttribute('data-code');
@@ -805,7 +811,41 @@
       document.body.removeChild(textarea);
     }
   }
+
+  // Back to Top
+  document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 400) {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        btn.style.transform = 'translateY(0)';
+      } else {
+        btn.style.opacity = '0';
+        btn.style.pointerEvents = 'none';
+        btn.style.transform = 'translateY(8px)';
+      }
+    }, { passive: true });
+
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
 </script>
+
+{{-- Back to Top Button --}}
+<button
+  id="back-to-top"
+  type="button"
+  aria-label="Back to top"
+  style="opacity:0; pointer-events:none; transform:translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease;"
+  class="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-primary-800 dark:bg-primary-700 text-white shadow-lg flex items-center justify-center hover:bg-primary-900 dark:hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
+  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+  </svg>
+</button>
 
 </body>
 

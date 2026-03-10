@@ -126,6 +126,46 @@ class OrderController extends UserBaseController
     }
 
 
+    public function refund_request(Request $request, $id)
+    {
+        $user = $this->user;
+        $order = Order::where('id', $id)->where('user_id', $user->id)->first();
+
+        if (!$order) {
+            return response()->json(['error' => 'Order not found.'], 404);
+        }
+
+        if ($order->status === 'refund_requested') {
+            return response()->json(['error' => 'A refund request already exists for this order.'], 422);
+        }
+
+        if ($order->status !== 'completed') {
+            return response()->json(['error' => 'Only delivered orders can be refunded.'], 422);
+        }
+
+        $daysLeft = max(0, 5 - (int) $order->updated_at->diffInDays(now()));
+        if ($daysLeft <= 0) {
+            return response()->json(['error' => 'The 5-day refund window has expired.'], 422);
+        }
+
+        $order->update(['status' => 'refund_requested']);
+
+        // Notify admin via email
+        try {
+            $gs     = \App\Models\Generalsetting::findOrFail(1);
+            $mailer = new GeniusMailer();
+            $mailer->sendCustomMail([
+                'to'      => $gs->from_email,
+                'subject' => 'Refund Request — Order #' . $order->order_number,
+                'body'    => "Customer " . $user->name . " has requested a refund for order #" . $order->order_number . " (Amount: " . $order->currency_sign . number_format($order->pay_amount, 2) . ").\n\nPlease review it in the admin panel.",
+            ]);
+        } catch (\Exception $e) {
+            // Mail failure should not block the request
+        }
+
+        return response()->json(['success' => true, 'message' => 'Refund request submitted. Our team will review it within 1–2 business days.']);
+    }
+
     public function cancelWaybill($id)
     {
         $order = Order::where('id',$id)->first();

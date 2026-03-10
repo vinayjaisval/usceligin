@@ -1456,8 +1456,11 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('print/order/print/{id}', 'User\OrderController@orderprint')->name('user-order-print');
         Route::get('/json/trans', 'User\OrderController@trans');
 
-        // user order cancel 
+        // user order cancel
         Route::get('/order/cancel/{id}', 'User\OrderController@cancel_order')->name('user-order-cancel');
+
+        // user refund request
+        Route::post('/user/order/{id}/refund-request', 'User\OrderController@refund_request')->name('user.order.refund-request');
 
         // User Orders Ends
 
@@ -1784,6 +1787,7 @@ Route::group(['middleware' => 'maintenance'], function () {
         // join now club
         Route::get('/celigin-join-club', 'Front\FrontendController@celigin_join_club')->name('front.celigin-join-club');
         Route::get('/join-now-club', 'Front\FrontendController@join_now_club')->name('front.join-now-club');
+        Route::get('/return-refund-policy', 'Front\FrontendController@return_refund_policy')->name('front.return-refund-policy');
         Route::post('/join-now-club-store', 'Front\FrontendController@join_now_club_store')->name('front.join-now-club-store');
 
         // cell for eduction 

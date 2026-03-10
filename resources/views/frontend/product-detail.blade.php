@@ -19,11 +19,18 @@
       <!-- Product Detail Section -->
       <section role="main">
 
-        <!-- Free Shipping Banner -->
-        <div
-          class="bg-primary-100 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 p-4 mb-6 text-center">
-          <span class="text-gray-900 dark:text-gray-100"><strong>FREE SHIPPING on all Beauty Steals!</strong></span>
-          <span class="text-sm text-gray-600 dark:text-gray-400 ml-2">Diamond & Platinum members only.</span>
+        <!-- Promo Banner -->
+        <div class="bg-primary-100 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4">
+            <div>
+              <p class="font-bold text-gray-900 dark:text-gray-100 text-sm sm:text-base">FREE SHIPPING on all Beauty Steals!</p>
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5">Diamond & Platinum members only. Join CELIGIN CLUB to unlock exclusive perks.</p>
+            </div>
+            <a href="{{ route('front.celigin-join-club') }}"
+              class="flex-shrink-0 inline-flex items-center px-4 py-2 bg-primary-700 dark:bg-primary-600 text-white text-xs sm:text-sm font-semibold hover:bg-primary-800 dark:hover:bg-primary-500 transition-colors">
+              Join CELIGIN CLUB
+            </a>
+          </div>
         </div>
 
 
@@ -104,53 +111,6 @@
               </div>
             </div>
 
-            <!-- Pickup and Delivery Options -->
-            <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
-              <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">Pickup and delivery options</h3>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                @php
-                  $deliveryOptions = [
-                    [
-                      'id' => 'ship',
-                      'title' => 'Ship',
-                      'description' => 'Free standard shipping over ₹35',
-                      'icon' => '<rect x="1" y="3" width="15" height="13"></rect><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle>',
-                      'isActive' => true
-                    ],
-                    [
-                      'id' => 'pickup',
-                      'title' => 'Pickup',
-                      'description' => 'Free ship to pick up',
-                      'icon' => '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>',
-                      'isActive' => false
-                    ],
-                    [
-                      'id' => 'same-day',
-                      'title' => 'Same day',
-                      'description' => 'Free same day delivery over ₹35',
-                      'icon' => '<circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline>',
-                      'isActive' => false
-                    ]
-                  ];
-                @endphp
-
-                @foreach($deliveryOptions as $option)
-                  <a href="#"
-                    class="flex items-start space-x-3 p-4 border-2 {{ $option['isActive'] ? 'border-primary-600 dark:border-primary-400 bg-primary-100 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/30' : 'border-gray-200 dark:border-gray-700 hover:border-primary-600 dark:hover:border-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800' }} transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 delivery-option"
-                    data-option="{{ $option['id'] }}">
-                    <svg class="w-5 h-5 text-gray-900 dark:text-gray-100 flex-shrink-0" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" aria-hidden="true">
-                      {!! $option['icon'] !!}
-                    </svg>
-                    <div class="text-left">
-                      <div class="font-semibold text-gray-900 dark:text-gray-100">{{ $option['title'] }}</div>
-                      <div class="text-sm text-gray-600 dark:text-gray-400">{{ $option['description'] }}</div>
-                    </div>
-                  </a>
-                @endforeach
-              </div>
-            </div>
-
             <!-- Quantity, Add to Cart & Wishlist -->
             <div class="border-t border-gray-200 dark:border-gray-700 pt-5 space-y-4">
               <div class="flex items-stretch gap-3">
@@ -216,93 +176,208 @@
               </p>
             </div>
 
-            <!-- Product Summary -->
-            <div class="border-t border-gray-200 dark:border-gray-700 pt-5 space-y-5">
-              <div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Summary</h3>
-                <div class="mb-4">
-                  <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Highlights</h4>
-                  <div class="flex flex-wrap gap-2">
-                    @php
-                      $highlights = [
-                        ['label' => 'Clean Ingredients', 'color' => 'green', 'icon' => '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22,4 12,14.01 9,11.01"></polyline>'],
-                        ['label' => 'Cruelty Free', 'color' => 'blue', 'icon' => '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>'],
-                        ['label' => 'Vegan', 'color' => 'purple', 'icon' => '<path d="M17 8l4 4-4 4M7 8l-4 4 4 4"></path><path d="M12 2v20"></path>'],
-                        ['label' => 'Sustainable', 'color' => 'teal', 'icon' => '<path d="M3 12h18m-9-9v18"></path>'],
-                        ['label' => 'Give Back', 'color' => 'pink', 'icon' => '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>']
-                      ];
-                    @endphp
+            <!-- Social Share -->
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Share this product</p>
+              <div class="flex items-center gap-2">
+                @php
+                  $shareUrl = urlencode(url()->current());
+                  $shareText = urlencode($productt->name);
+                @endphp
+                <a href="https://wa.me/?text={{ $shareText }}%20{{ $shareUrl }}" target="_blank" rel="noopener"
+                  class="flex items-center justify-center w-9 h-9 bg-green-500 text-white hover:bg-green-600 transition-colors"
+                  aria-label="Share on WhatsApp">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank" rel="noopener"
+                  class="flex items-center justify-center w-9 h-9 bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                  aria-label="Share on Facebook">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="https://twitter.com/intent/tweet?text={{ $shareText }}&url={{ $shareUrl }}" target="_blank" rel="noopener"
+                  class="flex items-center justify-center w-9 h-9 bg-black dark:bg-gray-700 text-white hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+                  aria-label="Share on X (Twitter)">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://t.me/share/url?url={{ $shareUrl }}&text={{ $shareText }}" target="_blank" rel="noopener"
+                  class="flex items-center justify-center w-9 h-9 bg-sky-500 text-white hover:bg-sky-600 transition-colors"
+                  aria-label="Share on Telegram">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </a>
+                <button onclick="copyProductLink()"
+                  class="flex items-center justify-center w-9 h-9 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  aria-label="Copy product link">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                </button>
+                <span id="copy-link-feedback" class="text-xs text-green-600 dark:text-green-400 hidden">Copied!</span>
+              </div>
+            </div>
 
-                    @foreach($highlights as $highlight)
-                      <span class="inline-flex items-center space-x-1 px-2 py-1 bg-{{ $highlight['color'] }}-50 dark:bg-{{ $highlight['color'] }}-900/20 border border-{{ $highlight['color'] }}-200 dark:border-{{ $highlight['color'] }}-800 text-xs text-gray-900 dark:text-gray-100">
-                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                          {!! $highlight['icon'] !!}
-                        </svg>
-                        <span>{{ $highlight['label'] }}</span>
-                      </span>
-                    @endforeach
+            <!-- Product Accordions -->
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
+              @php
+                $accordionSections = [
+                  [
+                    'id' => 'summary',
+                    'title' => 'Summary',
+                    'type' => 'summary',
+                  ],
+                  [
+                    'id' => 'benefits',
+                    'title' => 'Benefits',
+                    'content' => $productt->benefits ?? '<ul class="list-disc list-inside space-y-2"><li>Deeply nourishes and hydrates skin</li><li>Reduces the appearance of fine lines</li><li>Brightens and evens skin tone</li><li>Gentle formula suitable for all skin types</li><li>Dermatologically tested</li></ul>',
+                    'isHtml' => true,
+                  ],
+                  [
+                    'id' => 'how-to-use',
+                    'title' => 'How To Use',
+                    'content' => $productt->how_to_use ?? '<ol class="list-decimal list-inside space-y-2"><li>Apply a small amount to clean, damp skin</li><li>Gently massage in circular motions until absorbed</li><li>Follow with moisturizer if needed</li><li>Use morning and evening for best results</li></ol>',
+                    'isHtml' => true,
+                  ],
+                  [
+                    'id' => 'ingredients',
+                    'title' => 'Ingredients',
+                    'content' => $productt->ingredients ?? '<p class="text-sm leading-relaxed">Aqua, Glycerin, Natural Extracts, Vitamin E, Hyaluronic Acid, Niacinamide, Aloe Vera Leaf Extract, and other premium ingredients. Full ingredient list available on product packaging.</p>',
+                    'isHtml' => true,
+                  ],
+                  [
+                    'id' => 'return-policy',
+                    'title' => 'Return / Refund Policy',
+                    'type' => 'policy',
+                  ],
+                ];
+              @endphp
+
+              @foreach($accordionSections as $section)
+                @php $isSummary = isset($section['type']) && $section['type'] === 'summary'; @endphp
+                <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
+                  <button type="button"
+                    class="accordion-trigger w-full flex items-center justify-between py-4 px-1 text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-200 focus:outline-none"
+                    aria-expanded="{{ $isSummary ? 'true' : 'false' }}" data-accordion="{{ $section['id'] }}">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $section['title'] }}</span>
+                    <svg class="accordion-icon w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform duration-200 flex-shrink-0"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </button>
+
+                  <div class="accordion-content {{ $isSummary ? '' : 'hidden' }} pb-4 text-sm text-gray-700 dark:text-gray-300" id="{{ $section['id'] }}-content">
+
+                    {{-- Summary --}}
+                    @if($isSummary)
+                      @php
+                        $tags = collect(is_array($productt->tags)
+                          ? $productt->tags
+                          : json_decode($productt->tags ?? '[]', true)
+                        )->filter()->values();
+                      @endphp
+
+                      {{-- 1. Chips --}}
+                      <div class="flex flex-wrap gap-2 mb-5">
+                        @if($tags->isNotEmpty())
+                          @foreach($tags as $tag)
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-xs font-medium text-green-800 dark:text-green-300">
+                              <svg class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                              </svg>
+                              {{ $tag }}
+                            </span>
+                          @endforeach
+                        @else
+                          <span class="text-sm text-gray-400 dark:text-gray-500">—</span>
+                        @endif
+                      </div>
+
+                      {{-- 2. Item details table --}}
+                      <ul class="mb-5 divide-y divide-gray-100 dark:divide-gray-700 border border-gray-100 dark:border-gray-700">
+                        <li class="flex items-center justify-between px-3 py-2.5">
+                          <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Item Form</span>
+                          <span class="text-sm text-gray-900 dark:text-gray-100 font-medium">
+                            {{ !empty($productt->size) ? $productt->size : '—' }}
+                          </span>
+                        </li>
+                        <li class="flex items-center justify-between px-3 py-2.5">
+                          <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Item Weight</span>
+                          <span class="text-sm text-gray-900 dark:text-gray-100 font-medium">
+                            {{ !empty($productt->measure) ? $productt->measure : '—' }}
+                          </span>
+                        </li>
+                      </ul>
+
+                      {{-- 3. Summary paragraph --}}
+                      @if(!empty($productt->details))
+                        <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                          {!! clean($productt->details, ['HTML.Allowed' => 'p,br,b,strong,em,ul,ol,li,span,div', 'AutoFormat.RemoveEmpty' => true]) !!}
+                        </div>
+                      @else
+                        <p class="text-sm text-gray-400 dark:text-gray-500">—</p>
+                      @endif
+
+                    {{-- Return/Refund Policy --}}
+                    @elseif(isset($section['type']) && $section['type'] === 'policy')
+                      <div class="space-y-4">
+
+                        {{-- Non-returnable notice --}}
+                        <div class="flex items-start gap-3 p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800">
+                          <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+                          <div>
+                            <p class="text-xs font-semibold text-amber-800 dark:text-amber-300 mb-0.5">Non-Returnable Item</p>
+                            <p class="text-xs text-amber-700 dark:text-amber-400">Due to the personal care nature of this product, we are unable to accept returns once the item has been opened or used.</p>
+                          </div>
+                        </div>
+
+                        {{-- Exception: damaged / wrong / defective --}}
+                        <div class="flex items-start gap-3 p-3 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
+                          <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                          <div>
+                            <p class="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">Received a damaged, wrong, or defective item?</p>
+                            <p class="text-xs text-blue-700 dark:text-blue-400">You may raise a refund or replacement request within <strong>5 days of delivery</strong>. Visit <a href="{{ route('user.account') }}#purchases" class="underline font-semibold hover:text-blue-900 dark:hover:text-blue-200">Your Orders</a>, attach a clear photo of the item showing the issue, and submit your request — our team will review it promptly.</p>
+                          </div>
+                        </div>
+
+                        {{-- Quick summary list --}}
+                        <ul class="space-y-2 text-xs text-gray-600 dark:text-gray-400">
+                          <li class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                            Refund or replacement processed within 3–5 business days of approval
+                          </li>
+                          <li class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                            Photo evidence required via Your Orders for all claims
+                          </li>
+                          <li class="flex items-start gap-2">
+                            <svg class="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            Claims raised after 5 days of delivery will not be accepted
+                          </li>
+                        </ul>
+
+                        {{-- Actions --}}
+                        <div class="flex flex-wrap items-center gap-3 pt-1">
+                          <a href="{{ route('user.account') }}#purchases"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs font-semibold hover:bg-gray-700 dark:hover:bg-gray-300 transition-colors">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            Request Refund via Orders
+                          </a>
+                          <a href="{{ route('front.return-refund-policy') }}"
+                            class="inline-flex items-center gap-1.5 text-xs font-medium text-primary-600 dark:text-primary-400 hover:underline">
+                            Read full policy →
+                          </a>
+                        </div>
+
+                      </div>
+
+                    {{-- Standard HTML content --}}
+                    @else
+                      {!! clean($section['content'] ?? '', [
+                          'HTML.Allowed' => 'p,br,strong,em,ul,ol,li,span',
+                          'AutoFormat.RemoveEmpty' => true
+                      ]) !!}
+                    @endif
+
                   </div>
                 </div>
-              </div>
-
-              <div>
-                <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                  {{ $productt->summary ?? 'Discover premium quality beauty products designed to enhance your natural radiance. Formulated with carefully selected ingredients for optimal results.' }}
-                </p>
-              </div>
-
-              <!-- Expandable Sections -->
-              <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
-                @php
-                  $accordionSections = [
-                    [
-                      'id' => 'details',
-                      'title' => 'Details',
-                      'content' => $productt->description ?? '<p>Detailed product information coming soon.</p>',
-                      'isHtml' => true
-                    ],
-                    [
-                      'id' => 'how-to-use',
-                      'title' => 'How To Use',
-                      'content' => $productt->how_to_use ?? '<ol class="list-decimal list-inside space-y-2"><li>Apply a small amount to clean, damp skin or hair</li><li>Gently massage in circular motions</li><li>Allow to absorb fully before applying other products</li><li>Use daily for best results</li></ol>',
-                      'isHtml' => true
-                    ],
-                    [
-                      'id' => 'ingredients',
-                      'title' => 'Ingredients',
-                      'content' => $productt->ingredients ?? '<p>Aqua, Glycerin, Natural Extracts, Vitamin E, Hyaluronic Acid, and other premium ingredients. Full ingredient list available on product packaging.</p>',
-                      'isHtml' => true
-                    ]
-                  ];
-                @endphp
-
-                @foreach($accordionSections as $section)
-                  <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
-                    <a href="#"
-                      class="accordion-trigger w-full flex items-center justify-between py-4 px-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600"
-                      aria-expanded="false" data-accordion="{{ $section['id'] }}">
-                      <span class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ $section['title'] }}</span>
-                      <svg class="accordion-icon w-4 h-4 text-gray-900 dark:text-gray-100 transition-transform duration-200"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                      </svg>
-                    </a>
-                    <div
-                      class="accordion-content hidden py-4 px-4 mt-1 mb-4 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50"
-                      id="{{ $section['id'] }}-content">
-                      @if($section['isHtml'])
-                        {!! clean($section['content'], [
-                            'HTML.Allowed' => 'p,br,strong,em,ul,ol,li,span',
-                            'AutoFormat.RemoveEmpty' => true
-                        ]) !!}
-                      @else
-                        {{ $section['content'] }}
-                      @endif
-                    </div>
-                  </div>
-                @endforeach
-              </div>
+              @endforeach
             </div>
 
           </div>
@@ -310,6 +385,183 @@
 
       </section>
     </div>
+
+    <!-- Product Content Sections -->
+    @php
+      // Gallery images — fallback to main product photo if gallery is empty
+      $galleries = $productt->galleries ?? collect();
+      $galleryImages = $galleries->map(fn($g) => asset('assets/images/galleries/' . $g->photo))->values();
+      $mainPhoto = filter_var($productt->photo, FILTER_VALIDATE_URL)
+        ? $productt->photo
+        : asset('assets/images/products/' . $productt->photo);
+
+      // Only include sections that have actual content saved in the database
+      $contentSections = collect([
+        [
+          'label'   => 'Summary',
+          'heading' => 'About This Product',
+          'body'    => $productt->summary,
+          'isHtml'  => false,
+        ],
+        [
+          'label'   => 'Benefits',
+          'heading' => 'Why You\'ll Love It',
+          'body'    => $productt->benefits,
+          'isHtml'  => true,
+        ],
+        [
+          'label'   => 'How To Use',
+          'heading' => 'How To Use',
+          'body'    => $productt->how_to_use,
+          'isHtml'  => true,
+        ],
+        [
+          'label'   => 'Ingredients',
+          'heading' => 'Key Ingredients',
+          'body'    => $productt->ingredients,
+          'isHtml'  => false,
+        ],
+      ])->filter(fn($s) => !empty(trim(strip_tags($s['body'] ?? ''))))->values();
+    @endphp
+
+    @if($contentSections->isNotEmpty())
+      @foreach($contentSections as $index => $cs)
+        @php
+          // Pick a gallery image for this section; cycle through available ones
+          $sectionImage = $galleryImages->get($index) ?? $galleryImages->get($index % max($galleryImages->count(), 1)) ?? $mainPhoto;
+          $isEven = $index % 2 === 0;
+        @endphp
+        <section class="border-t border-gray-100 dark:border-gray-800">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+              {{-- Image: gallery photo for this section --}}
+              <div class="{{ $isEven ? 'order-1' : 'order-1 lg:order-2' }}">
+                <div class="aspect-[4/3] bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                  <img
+                    src="{{ $sectionImage }}"
+                    alt="{{ $productt->name }} — {{ $cs['label'] }}"
+                    class="w-full h-full object-cover"
+                    loading="lazy" />
+                </div>
+              </div>
+
+              {{-- Text: pulled directly from product fields --}}
+              <div class="{{ $isEven ? 'order-2' : 'order-2 lg:order-1' }}">
+                <p class="text-xs font-semibold tracking-widest uppercase text-primary-600 dark:text-primary-400 mb-3">{{ $cs['label'] }}</p>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-snug">{{ $cs['heading'] }}</h2>
+                <div class="w-10 h-0.5 bg-primary-600 dark:bg-primary-400 mb-6"></div>
+                <div class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+                  @if($cs['isHtml'])
+                    {!! clean($cs['body'], ['HTML.Allowed' => 'p,br,strong,em,ul,ol,li,span', 'AutoFormat.RemoveEmpty' => true]) !!}
+                  @else
+                    <p>{{ $cs['body'] }}</p>
+                  @endif
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      @endforeach
+    @endif
+
+    <!-- Reviews Section -->
+    @php
+      $reviews    = App\Models\Rating::where('product_id', $productt->id)->orderBy('id', 'desc')->get();
+      $avgRating  = App\Models\Rating::where('product_id', $productt->id)->avg('rating') ?? 0;
+      $reviewCount = (int) App\Models\Rating::ratingCount($productt->id);
+    @endphp
+    <section class="border-t border-gray-100 dark:border-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+
+        <div class="mb-8">
+          <p class="text-xs font-semibold tracking-widest uppercase text-primary-600 dark:text-primary-400 mb-2">Customer Feedback</p>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Reviews</h2>
+          <div class="w-10 h-0.5 bg-primary-600 dark:bg-primary-400 mt-4"></div>
+        </div>
+
+        @if($reviews->count() > 0)
+          {{-- Rating summary --}}
+          <div class="flex items-center gap-6 mb-10 pb-8 border-b border-gray-200 dark:border-gray-700">
+            <div class="text-center">
+              <p class="text-5xl font-bold text-gray-900 dark:text-gray-100">{{ number_format($avgRating, 1) }}</p>
+              <div class="flex items-center justify-center gap-0.5 mt-2">
+                @for($i = 1; $i <= 5; $i++)
+                  <svg class="w-4 h-4 {{ $i <= round($avgRating) ? 'text-yellow-500' : 'text-gray-300 dark:text-gray-600' }} fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                @endfor
+              </div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ $reviewCount }} {{ Str::plural('review', $reviewCount) }}</p>
+            </div>
+          </div>
+
+          {{-- Review list --}}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            @foreach($reviews as $review)
+              <div class="border border-gray-200 dark:border-gray-700 p-5">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-semibold text-gray-900 dark:text-gray-100 text-sm">{{ $review->user->name ?? 'Customer' }}</span>
+                  <div class="flex items-center gap-0.5">
+                    @for($i = 1; $i <= 5; $i++)
+                      <svg class="w-3.5 h-3.5 {{ $i <= $review->rating ? 'text-yellow-500' : 'text-gray-300 dark:text-gray-600' }} fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    @endfor
+                  </div>
+                </div>
+                @if($review->review)
+                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{{ $review->review }}</p>
+                @endif
+                @if($review->review_date)
+                  <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">{{ $review->review_date }}</p>
+                @endif
+              </div>
+            @endforeach
+          </div>
+
+        @else
+          <div class="text-center py-12 border border-dashed border-gray-200 dark:border-gray-700">
+            <svg class="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+            <p class="text-gray-500 dark:text-gray-400">No reviews yet. Be the first to review this product!</p>
+          </div>
+        @endif
+
+      </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section class="border-t border-gray-100 dark:border-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+
+        <div class="mb-8">
+          <p class="text-xs font-semibold tracking-widest uppercase text-primary-600 dark:text-primary-400 mb-2">Join the conversation</p>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Comments</h2>
+          <div class="w-10 h-0.5 bg-primary-600 dark:bg-primary-400 mt-4"></div>
+        </div>
+
+        @auth
+          <form class="mb-10 max-w-2xl" onsubmit="submitComment(event, {{ $productt->id }})">
+            @csrf
+            <textarea name="comment" rows="4"
+              class="w-full px-4 py-3 text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
+              placeholder="Share your thoughts about this product..."></textarea>
+            <button type="submit"
+              class="mt-3 px-6 py-2.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-300 transition-colors">
+              Post Comment
+            </button>
+          </form>
+        @else
+          <div class="mb-8 max-w-2xl p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              <a href="{{ route('otp.login.form') }}" class="text-primary-600 dark:text-primary-400 font-medium hover:underline">Sign in</a> to leave a comment.
+            </p>
+          </div>
+        @endauth
+
+        <div id="comments-list" class="max-w-2xl">
+          <p class="text-sm text-gray-400 dark:text-gray-500">No comments yet. Start the conversation!</p>
+        </div>
+
+      </div>
+    </section>
 
     <!-- Recommendations -->
     <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-800" aria-labelledby="recommendations-title" role="region">
@@ -474,7 +726,6 @@
       thumbnails: document.querySelectorAll('.gallery-thumbnail'),
 
       // Options
-      deliveryOptions: document.querySelectorAll('.delivery-option'),
       accordionTriggers: document.querySelectorAll('.accordion-trigger')
     };
 
@@ -659,33 +910,6 @@
     };
 
     // ========================================
-    // Delivery Options Handler
-    // ========================================
-    const DeliveryManager = {
-      activeClasses: ['border-primary-600', 'dark:border-primary-400', 'bg-primary-100', 'dark:bg-primary-900/20'],
-      inactiveClasses: ['border-gray-200', 'dark:border-gray-700'],
-
-      init() {
-        DOM.deliveryOptions.forEach(option => {
-          option.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.setActive(e.currentTarget);
-          });
-        });
-      },
-
-      setActive(selectedOption) {
-        DOM.deliveryOptions.forEach(opt => {
-          opt.classList.remove(...this.activeClasses);
-          opt.classList.add(...this.inactiveClasses);
-        });
-
-        selectedOption.classList.remove(...this.inactiveClasses);
-        selectedOption.classList.add(...this.activeClasses);
-      }
-    };
-
-    // ========================================
     // Accordion Handler
     // ========================================
     const AccordionManager = {
@@ -730,6 +954,14 @@
         content.classList.remove('hidden');
         trigger.setAttribute('aria-expanded', 'true');
         icon.style.transform = 'rotate(45deg)';
+      },
+
+      initOpenState() {
+        // Rotate icon for any accordion already open on page load
+        document.querySelectorAll('.accordion-trigger[aria-expanded="true"]').forEach(trigger => {
+          const icon = trigger.querySelector('.accordion-icon');
+          if (icon) icon.style.transform = 'rotate(45deg)';
+        });
       }
     };
 
@@ -739,9 +971,33 @@
     QuantityManager.init();
     CartWishlistManager.init();
     GalleryManager.init();
-    DeliveryManager.init();
     AccordionManager.init();
+    AccordionManager.initOpenState();
   });
+
+  function copyProductLink() {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+      var feedback = document.getElementById('copy-link-feedback');
+      if (feedback) {
+        feedback.classList.remove('hidden');
+        setTimeout(function() { feedback.classList.add('hidden'); }, 2000);
+      }
+    });
+  }
+
+  function submitComment(e, productId) {
+    e.preventDefault();
+    var form = e.target;
+    var textarea = form.querySelector('textarea[name="comment"]');
+    var text = textarea ? textarea.value.trim() : '';
+    if (!text) return;
+    // Placeholder — integrate with your comments endpoint when ready
+    var list = document.getElementById('comments-list');
+    if (list) {
+      list.innerHTML = '<p class="text-xs text-gray-500 dark:text-gray-400 py-2">Comment submitted. It will appear after approval.</p>';
+    }
+    if (textarea) textarea.value = '';
+  }
 </script>
 
 @endSection

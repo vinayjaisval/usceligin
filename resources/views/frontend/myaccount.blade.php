@@ -695,8 +695,24 @@
 
   // Handle form submission for adding new address
   document.addEventListener('DOMContentLoaded', function() {
-    // Set dashboard as default active
-    switchTab('dashboard');
+    // Hash → tab ID mapping (supports external links like #account, #points, #support)
+    const hashTabMap = {
+      'dashboard': 'dashboard',
+      'purchase-history': 'purchase-history',
+      'wishlists': 'wishlists',
+      'manage-account': 'manage-account',
+      'account': 'manage-account',
+      'customer-service': 'customer-service',
+      'support': 'customer-service',
+      'affiliate': 'affiliate',
+      'celigin-points': 'celigin-points',
+      'points': 'celigin-points',
+    };
+
+    // Determine tab from URL hash or default to dashboard
+    const hash = window.location.hash.replace('#', '');
+    const targetTab = hashTabMap[hash] || 'dashboard';
+    switchTab(targetTab);
 
     // Attach event listener to add address form
     const addAddressForm = document.getElementById('myAccountAddressForm');

@@ -41,7 +41,7 @@
   $available_coupons = Coupon::where('id', 1)->select('id', 'code', 'price')->get();
   @endphp
   @if($available_coupons->isNotEmpty())
-  <div class="bg-primary-600 dark:bg-primary-700 text-white" role="banner" aria-label="Promotional announcement">
+  <div id="promo-banner" class="bg-primary-600 dark:bg-primary-700 text-white" role="banner" aria-label="Promotional announcement">
     <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8">
       <div class="flex items-center justify-between py-1">
         <!-- Promotion Content -->
@@ -58,8 +58,9 @@
         </div>
         
         <button
+          type="button"
           class="p-1 text-white hover:text-gray-200 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 dark:focus:ring-offset-primary-700 transition-colors duration-200 ml-4 rounded"
-          onclick="this.parentElement.parentElement.parentElement.style.display='none'" aria-label="Close promotional banner">
+          onclick="closePromoBanner()" aria-label="Close promotional banner">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
