@@ -1267,6 +1267,11 @@ class FrontendController extends FrontBaseController
         return view('frontend.celigin-join-club');
     }
 
+    public function return_refund_policy()
+    {
+        return view('frontend.return-refund-policy');
+    }
+
     public function join_now_club()
     {
         return view('frontend.join-now-club');

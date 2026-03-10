@@ -88,7 +88,13 @@
       "Bash(php -l:*)",
       "Bash(\"C:/wamp64/bin/php/php8.2.26/php.exe\":*)",
       "Bash(\"C:/wamp64/bin/php/php8.2.26/php.exe\" \"C:/wamp64/www/usceligin/artisan\" view:clear)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(\"C:\\\\wamp64\\\\bin\\\\php\\\\php8.2.28\\\\php.exe\":*)",
+      "Bash(\"/mnt/c/wamp64/bin/php/php8.2.26/php.exe\":*)",
+      "Bash(cmd.exe:*)",
+      "Bash(\"C:/wamp64/bin/php/php8.2.28/php.exe\" artisan:*)",
+      "Read(//c/wamp64/www/usceligin/**)",
+      "Bash(/c/wamp64/bin/php/php8.2.26/php.exe artisan config:clear)"
     ],
     "deny": [],
     "ask": []

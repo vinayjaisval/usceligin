@@ -14,7 +14,7 @@
     @if(session('success'))
     <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200">
       <div class="flex items-start">
-        <span class="material-icons-outlined text-green-600 dark:text-green-400 mr-3 mt-0.5">check_circle</span>
+        <span class="material-icons-outlined text-green-600 dark:text-green-400 mr-3 mt-0.5" aria-hidden="true">check_circle</span>
         <div class="flex-1">
           <p class="font-semibold">{{ session('success') }}</p>
         </div>
@@ -30,7 +30,7 @@
 
           {{-- User Avatar --}}
           <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex flex-col items-center">
-            <div class="w-20 h-20 rounded-full bg-blue-600 dark:bg-blue-500 text-white flex items-center justify-center text-3xl font-bold mb-3">
+            <div class="w-20 h-20 rounded-full bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 flex items-center justify-center text-3xl font-bold mb-3">
               {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
             </div>
             <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 text-center">{{ Auth::user()->name ?? 'User' }}</h2>
@@ -44,15 +44,15 @@
               data-tab="dashboard"
               class="tab-link active flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
-                <span class="material-icons-outlined mr-3">dashboard</span>
+                <span class="material-icons-outlined mr-3" aria-hidden="true">dashboard</span>
                 <span>Dashboard</span>
               </div>
-              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500" aria-hidden="true">chevron_right</span>
             </a>
             <a href="{{ route('vendor.dashboard', ['tab' => 'purchases']) }}"
               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 hover:bg-gray-100">
               <div class="flex items-center">
-                <span class="material-icons-outlined mr-3">shopping_bag</span>
+                <span class="material-icons-outlined mr-3" aria-hidden="true">shopping_bag</span>
                 <span>POS</span>
               </div>
             </a>
@@ -63,10 +63,10 @@
               data-tab="purchases"
               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
-                <span class="material-icons-outlined mr-3">shopping_bag</span>
+                <span class="material-icons-outlined mr-3" aria-hidden="true">shopping_bag</span>
                 <span>Purchase History</span>
               </div>
-              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500" aria-hidden="true">chevron_right</span>
             </a>
 
             <a href="#wishlists"
@@ -74,10 +74,10 @@
               data-tab="wishlists"
               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
-                <span class="material-icons-outlined mr-3">favorite_border</span>
+                <span class="material-icons-outlined mr-3" aria-hidden="true">favorite_border</span>
                 <span>Wishlists</span>
               </div>
-              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500" aria-hidden="true">chevron_right</span>
             </a>
 
             <a href="#account"
@@ -85,10 +85,10 @@
               data-tab="account"
               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
-                <span class="material-icons-outlined mr-3">person</span>
+                <span class="material-icons-outlined mr-3" aria-hidden="true">person</span>
                 <span>Manage Account</span>
               </div>
-              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500" aria-hidden="true">chevron_right</span>
             </a>
 
             <a href="#support"
@@ -96,10 +96,10 @@
               data-tab="support"
               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
-                <span class="material-icons-outlined mr-3">support_agent</span>
+                <span class="material-icons-outlined mr-3" aria-hidden="true">support_agent</span>
                 <span>Customer Service</span>
               </div>
-              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500" aria-hidden="true">chevron_right</span>
             </a>
 
             <a href="#affiliate"
@@ -107,10 +107,10 @@
               data-tab="affiliate"
               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
-                <span class="material-icons-outlined mr-3">groups</span>
+                <span class="material-icons-outlined mr-3" aria-hidden="true">groups</span>
                 <span>Affiliate</span>
               </div>
-              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500" aria-hidden="true">chevron_right</span>
             </a>
 
             <a href="#points"
@@ -118,17 +118,17 @@
               data-tab="points"
               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center">
-                <span class="material-icons-outlined mr-3">stars</span>
+                <span class="material-icons-outlined mr-3" aria-hidden="true">stars</span>
                 <span>CELIGIN Points</span>
               </div>
-              <span class="material-icons-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+              <span class="material-icons-outlined text-gray-400 dark:text-gray-500" aria-hidden="true">chevron_right</span>
             </a>
 
             <form method="POST" action="{{ route('logout') }}" class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
               @csrf
               <button type="submit" class="w-full flex items-center justify-between px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                 <div class="flex items-center">
-                  <span class="material-icons-outlined mr-3">logout</span>
+                  <span class="material-icons-outlined mr-3" aria-hidden="true">logout</span>
                   <span>Sign Out</span>
                 </div>
               </button>
@@ -148,21 +148,21 @@
           <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 mb-5">
             <div class="grid grid-cols-3 divide-x divide-gray-200 dark:divide-gray-700">
               <a href="#purchases" onclick="switchTab(null, 'purchases')" class="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl">shopping_bag</span>
+                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl" aria-hidden="true">shopping_bag</span>
                 <div>
                   <p class="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{{ $totalOrders }}</p>
                   <p class="text-xs text-gray-500 dark:text-gray-400">Orders</p>
                 </div>
               </a>
               <a href="#wishlists" onclick="switchTab(null, 'wishlists')" class="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl">favorite_border</span>
+                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl" aria-hidden="true">favorite_border</span>
                 <div>
                   <p class="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{{ $totalWishlistItems }}</p>
                   <p class="text-xs text-gray-500 dark:text-gray-400">Wishlist</p>
                 </div>
               </a>
               <a href="#points" onclick="switchTab(null, 'points')" class="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl">stars</span>
+                <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl" aria-hidden="true">stars</span>
                 <div>
                   <p class="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{{ round(Auth::user()->current_balance ?? 0) }}</p>
                   <p class="text-xs text-gray-500 dark:text-gray-400">Points</p>
@@ -174,12 +174,12 @@
           {{-- Join CELIGIN CLUB --}}
           <a href="{{ route('front.celigin-join-club') }}"
             class="flex items-center gap-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-4 py-3.5 mb-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group">
-            <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl group-hover:text-orange-500 transition-colors">card_membership</span>
+            <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-xl transition-colors" aria-hidden="true">card_membership</span>
             <div class="flex-1 min-w-0">
               <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Join CELIGIN CLUB</p>
               <p class="text-xs text-gray-500 dark:text-gray-400">Exclusive benefits and rewards for members</p>
             </div>
-            <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg">chevron_right</span>
+            <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg" aria-hidden="true">chevron_right</span>
           </a>
 
           {{-- Your Orders --}}
@@ -187,7 +187,7 @@
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
               <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Your Orders</h3>
               @if($orders->count() > 0)
-                <a href="#purchases" onclick="switchTab(null, 'purchases')" class="text-xs text-orange-600 dark:text-orange-400 hover:text-orange-700 font-medium">View all →</a>
+                <a href="#purchases" onclick="switchTab(null, 'purchases')" class="text-xs text-primary-700 dark:text-primary-400 hover:text-primary-900 font-medium">View all →</a>
               @endif
             </div>
 
@@ -227,7 +227,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                       <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $currSign }}{{ number_format($order->pay_amount, 2) }}</span>
-                      <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg">chevron_right</span>
+                      <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg" aria-hidden="true">chevron_right</span>
                     </div>
                   </div>
 
@@ -236,19 +236,10 @@
                     @foreach(array_slice($itemsList, 0, 3) as $cartItem)
                       <div class="flex items-center gap-3">
                         <div class="flex-shrink-0 w-16 h-16 bg-gray-100 dark:bg-gray-700 overflow-hidden">
-                          @if(!empty($cartItem['item']['photo']))
-                            <img src="{{ asset('assets/images/products/' . $cartItem['item']['photo']) }}"
-                                 alt="{{ $cartItem['item']['name'] ?? '' }}"
-                                 class="w-full h-full object-cover" loading="lazy" />
-                          @elseif(!empty($cartItem['item']['thumbnail']))
-                            <img src="{{ asset('assets/images/thumbnails/' . $cartItem['item']['thumbnail']) }}"
-                                 alt="{{ $cartItem['item']['name'] ?? '' }}"
-                                 class="w-full h-full object-cover" loading="lazy" />
-                          @else
-                            <div class="w-full h-full flex items-center justify-center">
-                              <span class="material-icons-outlined text-gray-300 dark:text-gray-500">inventory_2</span>
-                            </div>
-                          @endif
+                          <x-product-image
+                            :photo="$cartItem['item']['photo'] ?? null"
+                            :thumbnail="$cartItem['item']['thumbnail'] ?? null"
+                            :name="$cartItem['item']['name'] ?? 'Product'" />
                         </div>
                         <div class="flex-1 min-w-0">
                           <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{{ $cartItem['item']['name'] ?? 'Product' }}</p>
@@ -265,7 +256,7 @@
             @else
               <div class="px-4 py-8 text-center">
                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">No orders yet</p>
-                <a href="{{ route('front.index') }}" class="text-sm text-orange-600 dark:text-orange-400 font-medium hover:text-orange-700">Start Shopping →</a>
+                <a href="{{ route('front.index') }}" class="text-sm text-primary-700 dark:text-primary-400 font-medium hover:text-primary-900 hover:underline">Start Shopping →</a>
               </div>
             @endif
           </div>
@@ -275,7 +266,7 @@
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
               <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Wishlist</h3>
               @if($wishlist->count() > 0)
-                <a href="#wishlists" onclick="switchTab(null, 'wishlists')" class="text-xs text-orange-600 dark:text-orange-400 hover:text-orange-700 font-medium">View all →</a>
+                <a href="#wishlists" onclick="switchTab(null, 'wishlists')" class="text-xs text-primary-700 dark:text-primary-400 hover:text-primary-900 font-medium">View all →</a>
               @endif
             </div>
 
@@ -292,7 +283,7 @@
                            class="w-full h-full object-cover" loading="lazy" />
                     @else
                       <div class="w-full h-full flex items-center justify-center">
-                        <span class="material-icons-outlined text-gray-300 dark:text-gray-500">image</span>
+                        <span class="material-icons-outlined text-gray-300 dark:text-gray-500" aria-hidden="true">image</span>
                       </div>
                     @endif
                   </div>
@@ -301,7 +292,7 @@
                     <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{{ $wProduct->name ?? 'Product' }}</p>
                     @if($wProduct)
                       <div class="flex items-baseline gap-1.5 mt-0.5">
-                        <span class="text-xs font-semibold text-gray-900 dark:text-gray-100">₹{{ number_format($wProduct->price, 2) }}</span>
+                        <span class="text-xs font-semibold text-gray-900 dark:text-gray-100">{{ $wProduct->showPrice() }}</span>
                         @if($wProduct->previous_price && $wProduct->previous_price > $wProduct->price)
                           <span class="text-xs text-green-600 dark:text-green-400 font-medium">{{ round((($wProduct->previous_price - $wProduct->price) / $wProduct->previous_price) * 100) }}% off</span>
                         @endif
@@ -309,13 +300,13 @@
                     @endif
                   </div>
 
-                  <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg flex-shrink-0">chevron_right</span>
+                  <span class="material-icons-outlined text-gray-300 dark:text-gray-600 text-lg flex-shrink-0" aria-hidden="true">chevron_right</span>
                 </a>
               @endforeach
             @else
               <div class="px-4 py-8 text-center">
                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Your wishlist is empty</p>
-                <a href="{{ route('front.index') }}" class="text-sm text-orange-600 dark:text-orange-400 font-medium hover:text-orange-700">Browse Products →</a>
+                <a href="{{ route('front.index') }}" class="text-sm text-primary-700 dark:text-primary-400 font-medium hover:text-primary-900 hover:underline">Browse Products →</a>
               </div>
             @endif
           </div>
@@ -334,11 +325,11 @@
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </span>
                 <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search all orders"
-                  class="w-full sm:w-72 pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                  aria-label="Search orders" />
+                  class="w-full sm:w-72 pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors"
+                  id="order-search" aria-label="Search orders by order number or product name" />
               </div>
               <button type="submit"
-                class="px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors whitespace-nowrap">
+                class="px-4 py-2 bg-primary-800 text-white text-sm font-semibold hover:bg-primary-900 transition-colors whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
                 Search Orders
               </button>
               <input type="hidden" name="_hash" value="purchases">
@@ -347,13 +338,15 @@
 
           {{-- Sub-tabs: Orders | Buy Again --}}
           <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
-            <nav class="flex gap-6" aria-label="Order tabs">
-              <button type="button" onclick="switchOrderSubTab('orders')" id="subtab-orders"
-                class="order-subtab pb-3 text-sm font-semibold border-b-2 border-orange-600 text-orange-600 dark:text-orange-400 dark:border-orange-400 transition-colors">
+            <nav class="flex gap-6" role="tablist" aria-label="Purchase history tabs">
+              <button type="button" role="tab" aria-selected="true" aria-controls="orders-subtab-content"
+                onclick="switchOrderSubTab('orders')" id="subtab-orders"
+                class="order-subtab pb-3 text-sm font-semibold border-b-2 border-primary-800 dark:border-primary-400 text-primary-800 dark:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
                 Orders
               </button>
-              <button type="button" onclick="switchOrderSubTab('buyagain')" id="subtab-buyagain"
-                class="order-subtab pb-3 text-sm font-semibold border-b-2 border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors">
+              <button type="button" role="tab" aria-selected="false" aria-controls="buyagain-subtab-content"
+                onclick="switchOrderSubTab('buyagain')" id="subtab-buyagain"
+                class="order-subtab pb-3 text-sm font-semibold border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-primary-800 dark:hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
                 Buy Again
               </button>
             </nav>
@@ -364,14 +357,14 @@
 
             {{-- Period filter + count --}}
             <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
-              <span class="text-sm text-gray-700 dark:text-gray-300">
+              <label for="periodFilter" class="text-sm text-gray-700 dark:text-gray-300">
                 <strong>{{ $orders->count() }} {{ Str::plural('order', $orders->count()) }}</strong> placed in
-              </span>
+              </label>
               <form method="GET" action="{{ route('user.account') }}" id="periodFilterForm">
                 <input type="hidden" name="search" value="{{ $search ?? '' }}">
                 <input type="hidden" name="_hash" value="purchases">
-                <select name="period" onchange="document.getElementById('periodFilterForm').submit()"
-                  class="text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-1.5 px-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 cursor-pointer"
+                <select id="periodFilter" name="period" onchange="document.getElementById('periodFilterForm').submit()"
+                  class="text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-1.5 px-3 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 cursor-pointer"
                   aria-label="Filter orders by time period">
                   <option value="3months" {{ ($period ?? 'all') === '3months' ? 'selected' : '' }}>past 3 months</option>
                   <option value="6months" {{ ($period ?? 'all') === '6months' ? 'selected' : '' }}>past 6 months</option>
@@ -388,6 +381,23 @@
                     $cart = json_decode($order->cart, true);
                     $cartItems = $cart['items'] ?? [];
                   @endphp
+                  @php
+                    $refundDays        = config('order.refund_window_days', 5);
+                    $isRefundRequested = $order->status === 'refund_requested';
+                    $isCompleted       = $order->status === 'completed' || $isRefundRequested;
+                    $receivedAt        = $isCompleted ? $order->updated_at : null;
+                    $daysLeft          = ($isCompleted && !$isRefundRequested)
+                                          ? max(0, $refundDays - (int) $receivedAt->diffInDays(now()))
+                                          : null;
+                    $refundEligible    = ($order->status === 'completed') && $daysLeft > 0;
+
+                    $statusStep = match(true) {
+                      in_array($order->status, ['completed', 'refund_requested'])  => 4,
+                      in_array($order->status, ['on delivery','out for delivery']) => 3,
+                      in_array($order->status, ['processing','shipped'])           => 2,
+                      default                                                      => 1,
+                    };
+                  @endphp
                   <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden">
 
                     {{-- Order Header --}}
@@ -396,7 +406,7 @@
                         <div class="flex flex-wrap gap-x-6 gap-y-1 text-xs uppercase tracking-wide">
                           <div>
                             <span class="text-gray-500 dark:text-gray-400">Order Placed</span>
-                            <p class="text-gray-900 dark:text-gray-100 font-medium normal-case text-sm mt-0.5">{{ $order->created_at->format('F d, Y') }}</p>
+                            <p class="text-gray-900 dark:text-gray-100 font-medium normal-case text-sm mt-0.5">{{ $order->created_at->format('M d, Y') }}</p>
                           </div>
                           <div>
                             <span class="text-gray-500 dark:text-gray-400">Total</span>
@@ -406,10 +416,16 @@
                             <span class="text-gray-500 dark:text-gray-400">Ship To</span>
                             <p class="text-gray-900 dark:text-gray-100 font-medium normal-case text-sm mt-0.5">{{ $order->shipping_name ?: ($order->customer_name ?: Auth::user()->name) }}</p>
                           </div>
+                          @if($isCompleted && $receivedAt)
+                            <div>
+                              <span class="text-gray-500 dark:text-gray-400">Delivered</span>
+                              <p class="text-gray-900 dark:text-gray-100 font-medium normal-case text-sm mt-0.5">{{ $receivedAt->format('M d, Y') }}</p>
+                            </div>
+                          @endif
                         </div>
                         <div class="text-right">
                           <span class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Order #</span>
-                          <p class="text-sm text-orange-600 dark:text-orange-400 font-medium">{{ $order->order_number }}</p>
+                          <p class="text-sm text-gray-900 dark:text-gray-100 font-medium">{{ $order->order_number }}</p>
                         </div>
                       </div>
                     </div>
@@ -417,24 +433,9 @@
                     {{-- Order Body --}}
                     <div class="p-4 sm:p-6">
 
-                      {{-- Status Badge --}}
-                      <div class="mb-4">
-                        <span class="inline-flex items-center gap-1.5 text-sm font-semibold
-                          @if($order->status == 'completed') text-green-700 dark:text-green-400
-                          @elseif($order->status == 'pending') text-yellow-700 dark:text-yellow-400
-                          @elseif($order->status == 'processing') text-blue-700 dark:text-blue-400
-                          @elseif($order->status == 'declined') text-red-700 dark:text-red-400
-                          @else text-gray-700 dark:text-gray-300
-                          @endif">
-                          <span class="w-2 h-2 rounded-full
-                            @if($order->status == 'completed') bg-green-600 dark:bg-green-400
-                            @elseif($order->status == 'pending') bg-yellow-600 dark:bg-yellow-400
-                            @elseif($order->status == 'processing') bg-blue-600 dark:bg-blue-400
-                            @elseif($order->status == 'declined') bg-red-600 dark:bg-red-400
-                            @else bg-gray-500
-                            @endif"></span>
-                          {{ ucfirst($order->status) }}
-                        </span>
+                      {{-- Status Tracker --}}
+                      <div class="mb-6">
+                        <x-order-status-tracker :order="$order" :status-step="$statusStep" />
                       </div>
 
                       <div class="flex flex-col lg:flex-row gap-6">
@@ -442,28 +443,14 @@
                         <div class="flex-1 space-y-4">
                           @foreach($cartItems as $key => $cartItem)
                             <div class="flex gap-4">
-                              {{-- Product Image --}}
                               <div class="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 overflow-hidden">
-                                @if(!empty($cartItem['item']['photo']))
-                                  <img src="{{ asset('assets/images/products/' . $cartItem['item']['photo']) }}"
-                                       alt="{{ $cartItem['item']['name'] ?? 'Product' }}"
-                                       class="w-full h-full object-cover"
-                                       loading="lazy" />
-                                @elseif(!empty($cartItem['item']['thumbnail']))
-                                  <img src="{{ asset('assets/images/thumbnails/' . $cartItem['item']['thumbnail']) }}"
-                                       alt="{{ $cartItem['item']['name'] ?? 'Product' }}"
-                                       class="w-full h-full object-cover"
-                                       loading="lazy" />
-                                @else
-                                  <div class="w-full h-full flex items-center justify-center">
-                                    <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-2xl">image</span>
-                                  </div>
-                                @endif
+                                <x-product-image
+                                  :photo="$cartItem['item']['photo'] ?? null"
+                                  :thumbnail="$cartItem['item']['thumbnail'] ?? null"
+                                  :name="$cartItem['item']['name'] ?? 'Product'" />
                               </div>
-
-                              {{-- Product Details --}}
                               <div class="flex-1 min-w-0">
-                                <h4 class="text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 line-clamp-2">
+                                <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2">
                                   {{ $cartItem['item']['name'] ?? 'Product' }}
                                   @if(($cartItem['qty'] ?? 1) > 1)
                                     <span class="text-gray-600 dark:text-gray-400">({{ $cartItem['qty'] }})</span>
@@ -475,20 +462,20 @@
                                 @if(!empty($cartItem['color']))
                                   <div class="flex items-center gap-1 mt-0.5">
                                     <span class="text-xs text-gray-500 dark:text-gray-400">Color:</span>
-                                    <span class="w-3 h-3 border border-gray-300 dark:border-gray-600" style="background-color: #{{ $cartItem['color'] }}"></span>
+                                    <span class="w-3 h-3 border border-gray-300 dark:border-gray-600"
+                                          style="background-color: #{{ $cartItem['color'] }}"
+                                          aria-label="{{ $cartItem['color'] }} colour swatch"></span>
                                   </div>
                                 @endif
                                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 mt-1">
                                   {{ $order->currency_sign ?: '₹' }}{{ number_format(($cartItem['item_price'] ?? $cartItem['item']['price'] ?? 0) * ($order->currency_value ?? 1), 2) }}
                                 </p>
-
-                                {{-- Buy it again button --}}
                                 @if(!empty($cartItem['item']['id']))
                                   <button type="button"
                                     onclick="addToCart({{ $cartItem['item']['id'] }})"
-                                    class="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 border border-gray-300 dark:border-gray-600 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                                    aria-label="Buy {{ $cartItem['item']['name'] ?? 'this product' }} again">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                    aria-label="Buy {{ $cartItem['item']['name'] ?? 'this item' }} again"
+                                    class="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 border border-primary-200 dark:border-primary-700 text-xs font-medium text-primary-700 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/20 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                                     Buy it again
                                   </button>
                                 @endif
@@ -498,21 +485,62 @@
                         </div>
 
                         {{-- Order Actions --}}
-                        <div class="flex flex-col gap-2 lg:w-52 flex-shrink-0">
-                          <a href="javascript:void(0)" onclick="viewOrderDetails({{ $order->id }})"
-                            class="w-full text-center px-4 py-2 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                        <div class="flex flex-col gap-2.5 lg:w-52 flex-shrink-0">
+
+                          {{-- 1. View Order Details — always active --}}
+                          <a href="{{ url('/user/order/' . $order->id) }}"
+                            class="w-full text-center px-4 py-2 bg-primary-800 text-white text-sm font-semibold hover:bg-primary-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600">
                             View Order Details
                           </a>
+
+                          {{-- 2. Cancel Order — active only when pending/ordered --}}
                           @if($order->status === 'pending')
                             <button type="button" onclick="cancelOrder({{ $order->id }})"
-                              class="w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                              class="w-full text-center px-4 py-2 border border-red-400 dark:border-red-600 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                               Cancel Order
                             </button>
+                          @else
+                            <button type="button" disabled
+                              class="w-full text-center px-4 py-2 bg-gray-100 dark:bg-gray-700/50 text-gray-400 dark:text-gray-500 text-sm font-medium cursor-not-allowed border border-gray-200 dark:border-gray-600">
+                              Cancellation Closed
+                            </button>
                           @endif
-                          <a href="javascript:void(0)" onclick="viewOrderDetails({{ $order->id }})"
+
+                          {{-- 3. Request Refund — active within 5 days of delivery --}}
+                          @if($isRefundRequested)
+                            <button type="button" disabled
+                              class="w-full text-center px-4 py-2 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-sm font-semibold cursor-not-allowed border border-amber-300 dark:border-amber-700">
+                              Refund Under Review
+                            </button>
+                          @elseif($refundEligible)
+                            <button type="button" onclick="requestRefund({{ $order->id }})"
+                              class="w-full text-center px-4 py-2 bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition-colors">
+                              Request Refund — {{ $daysLeft }}d left
+                            </button>
+                          @elseif($isCompleted)
+                            <button type="button" disabled
+                              class="w-full text-center px-4 py-2 bg-gray-100 dark:bg-gray-700/50 text-gray-400 dark:text-gray-500 text-sm font-medium cursor-not-allowed border border-gray-200 dark:border-gray-600">
+                              Refund Window Closed
+                            </button>
+                          @else
+                            <button type="button" disabled
+                              class="w-full text-center px-4 py-2 bg-gray-100 dark:bg-gray-700/50 text-gray-400 dark:text-gray-500 text-sm font-medium cursor-not-allowed border border-gray-200 dark:border-gray-600">
+                              Refund After Delivery
+                            </button>
+                          @endif
+
+                          {{-- 4. View Invoice — always active --}}
+                          <a href="{{ url('/user/order/' . $order->id) }}"
                             class="w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                             View Invoice
                           </a>
+
+                          {{-- 5. Return & Refund Policy — always shown --}}
+                          <a href="{{ route('front.return-refund-policy') }}"
+                            class="w-full text-center text-xs text-primary-700 dark:text-primary-400 hover:text-primary-900 transition-colors py-1 underline underline-offset-2">
+                            Return &amp; Refund Policy
+                          </a>
+
                         </div>
                       </div>
                     </div>
@@ -523,8 +551,8 @@
               {{-- Empty State --}}
               <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 lg:p-12 text-center">
                 <div class="max-w-md mx-auto">
-                  <div class="w-20 h-20 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center mx-auto mb-5">
-                    <span class="material-icons-outlined text-5xl text-orange-600 dark:text-orange-400">shopping_bag</span>
+                  <div class="w-20 h-20 bg-primary-100 dark:bg-primary-900/20 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <span class="material-icons-outlined text-5xl text-primary-600 dark:text-primary-400" aria-hidden="true">shopping_bag</span>
                   </div>
                   <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                     @if(!empty($search))
@@ -541,7 +569,7 @@
                     @endif
                   </p>
                   <a href="{{ route('front.index') }}"
-                    class="inline-block px-6 py-2.5 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                    class="inline-block px-6 py-2.5 bg-primary-800 text-white text-sm font-semibold hover:bg-primary-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600">
                     Start Shopping
                   </a>
                 </div>
@@ -555,7 +583,7 @@
               <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 @foreach($buyAgainProducts as $productData)
                   @php $product = $productData['product']; @endphp
-                  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-3 group hover:border-orange-300 dark:hover:border-orange-600 transition-colors">
+                  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-3 group hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
                     {{-- Product Image --}}
                     <div class="aspect-square bg-gray-100 dark:bg-gray-700 overflow-hidden mb-3">
                       @if($product->thumbnail)
@@ -565,13 +593,13 @@
                              loading="lazy" />
                       @else
                         <div class="w-full h-full flex items-center justify-center">
-                          <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-4xl">image</span>
+                          <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-4xl" aria-hidden="true">image</span>
                         </div>
                       @endif
                     </div>
 
                     {{-- Product Info --}}
-                    <h4 class="text-sm font-medium text-orange-600 dark:text-orange-400 line-clamp-2 mb-1" title="{{ $product->name }}">
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-2 mb-1" title="{{ $product->name }}">
                       {{ $product->name }}
                     </h4>
                     <p class="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">
@@ -589,7 +617,7 @@
                     {{-- Add to Cart --}}
                     <button type="button"
                       onclick="addToCart({{ $product->id }})"
-                      class="w-full px-3 py-2 bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 transition-colors">
+                      class="w-full px-3 py-2 bg-primary-800 text-white text-xs font-semibold hover:bg-primary-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600">
                       Add to Cart
                     </button>
                   </div>
@@ -598,15 +626,15 @@
             @else
               <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 lg:p-12 text-center">
                 <div class="max-w-md mx-auto">
-                  <div class="w-20 h-20 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center mx-auto mb-5">
-                    <span class="material-icons-outlined text-5xl text-orange-600 dark:text-orange-400">replay</span>
+                  <div class="w-20 h-20 bg-primary-100 dark:bg-primary-900/20 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <span class="material-icons-outlined text-5xl text-primary-600 dark:text-primary-400" aria-hidden="true">replay</span>
                   </div>
                   <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">No products to buy again</h3>
                   <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
                     Once you place orders, your previously purchased products will appear here for easy reordering.
                   </p>
                   <a href="{{ route('front.index') }}"
-                    class="inline-block px-6 py-2.5 bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition-colors">
+                    class="inline-block px-6 py-2.5 bg-primary-800 text-white text-sm font-semibold hover:bg-primary-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600">
                     Browse Products
                   </a>
                 </div>
@@ -626,8 +654,9 @@
               @endif
             </div>
             @if($wishlist->count() > 0)
-              <button onclick="removeAllWishlistItems()"
-                class="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium transition-colors">
+              <button type="button" onclick="removeAllWishlistItems()"
+                aria-label="Remove all {{ $wishlist->count() }} items from wishlist"
+                class="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                 Remove All
               </button>
             @endif
@@ -640,31 +669,28 @@
                 <div class="flex items-start gap-4 p-4 sm:p-5 group" id="wishlist-row-{{ $item->id }}">
 
                   {{-- Product Image --}}
-                  <a href="{{ $product ? route('front.product', $product->slug) : '#' }}" class="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 dark:bg-gray-700 overflow-hidden block">
-                    @if($product && $product->thumbnail)
-                      <img src="{{ asset('assets/images/thumbnails/' . $product->thumbnail) }}"
-                           alt="{{ $product->name ?? 'Product' }}"
-                           class="w-full h-full object-cover" loading="lazy" />
-                    @else
-                      <div class="w-full h-full flex items-center justify-center">
-                        <span class="material-icons-outlined text-gray-300 dark:text-gray-500 text-2xl">image</span>
-                      </div>
-                    @endif
+                  <a href="{{ $product ? route('front.product', $product->slug) : '#' }}"
+                     class="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 dark:bg-gray-700 overflow-hidden block"
+                     aria-label="View {{ $product->name ?? 'product' }} details">
+                    <x-product-image
+                      :photo="null"
+                      :thumbnail="$product?->thumbnail"
+                      :name="$product->name ?? 'Product'" />
                   </a>
 
                   {{-- Product Details --}}
                   <div class="flex-1 min-w-0">
                     <a href="{{ $product ? route('front.product', $product->slug) : '#' }}"
-                      class="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 transition-colors line-clamp-2">
+                      class="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100 hover:text-primary-800 dark:hover:text-primary-400 transition-colors line-clamp-2">
                       {{ $product->name ?? 'Product Unavailable' }}
                     </a>
 
                     @if($product)
                       {{-- Price --}}
                       <div class="flex items-baseline gap-2 mt-1.5">
-                        <span class="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">₹{{ number_format($product->price, 2) }}</span>
+                        <span class="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">{{ $product->showPrice() }}</span>
                         @if($product->previous_price && $product->previous_price > $product->price)
-                          <span class="text-xs text-gray-400 dark:text-gray-500 line-through">₹{{ number_format($product->previous_price, 2) }}</span>
+                          <span class="text-xs text-gray-400 dark:text-gray-500 line-through">{{ $product->showPreviousPrice() }}</span>
                           <span class="text-xs font-semibold text-green-600 dark:text-green-400">{{ round((($product->previous_price - $product->price) / $product->previous_price) * 100) }}% off</span>
                         @endif
                       </div>
@@ -681,24 +707,27 @@
                       {{-- Actions Row --}}
                       <div class="flex items-center gap-3 mt-3">
                         @if(!$product->stock || $product->stock > 0)
-                          <button onclick="addToCart({{ $product->id }})"
-                            class="px-4 py-1.5 bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 transition-colors">
+                          <button type="button" onclick="addToCart({{ $product->id }})"
+                            aria-label="Add {{ $product->name }} to cart"
+                            class="px-4 py-1.5 bg-primary-800 text-white text-xs font-semibold hover:bg-primary-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600">
                             Add to Cart
                           </button>
                         @else
-                          <span class="px-4 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs font-semibold cursor-not-allowed">
+                          <span class="px-4 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs font-semibold cursor-not-allowed" aria-disabled="true">
                             Unavailable
                           </span>
                         @endif
-                        <button onclick="removeWishlistItem({{ $item->id }})"
-                          class="text-xs text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors font-medium">
+                        <button type="button" onclick="removeWishlistItem({{ $item->id }})"
+                          aria-label="Remove {{ $product->name }} from wishlist"
+                          class="text-xs text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-red-500">
                           Remove
                         </button>
                       </div>
                     @else
                       <p class="text-sm text-red-500 dark:text-red-400 mt-1">This product is no longer available</p>
-                      <button onclick="removeWishlistItem({{ $item->id }})"
-                        class="mt-2 text-xs text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors font-medium">
+                      <button type="button" onclick="removeWishlistItem({{ $item->id }})"
+                        aria-label="Remove unavailable item from wishlist"
+                        class="mt-2 text-xs text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-red-500">
                         Remove
                       </button>
                     @endif
@@ -813,7 +842,7 @@
               {{-- Account Info Box --}}
               <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
                 <div class="flex items-start gap-3 mb-4">
-                  <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-xl mt-0.5">info</span>
+                  <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-xl mt-0.5" aria-hidden="true">info</span>
                   <div class="flex-1">
                     <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Account Details</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2.5 gap-x-6 text-sm">
@@ -908,7 +937,7 @@
 
                     {{-- Address Type Icon & Badge --}}
                     <div class="flex items-center gap-2 mb-3">
-                      <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-lg">
+                      <span class="material-icons-outlined text-gray-400 dark:text-gray-500 text-lg" aria-hidden="true">
                         @if($address->type === 'home') home
                         @elseif($address->type === 'work') business
                         @else location_on
@@ -1108,7 +1137,7 @@
                 <div class="text-center py-16 px-6 border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-900/20">
                   <div class="max-w-md mx-auto">
                     <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span class="material-icons-outlined text-5xl text-blue-600 dark:text-blue-400">add_location_alt</span>
+                      <span class="material-icons-outlined text-5xl text-blue-600 dark:text-blue-400" aria-hidden="true">add_location_alt</span>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">No Saved Addresses</h3>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
@@ -1276,7 +1305,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
               <div class="flex items-start">
-                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-3xl mr-4">email</span>
+                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-3xl mr-4" aria-hidden="true">email</span>
                 <div>
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Email Support</h3>
                   <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Get help via email within 24 hours</p>
@@ -1289,7 +1318,7 @@
 
             <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
               <div class="flex items-start">
-                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-3xl mr-4">phone</span>
+                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-3xl mr-4" aria-hidden="true">phone</span>
                 <div>
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Phone Support</h3>
                   <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Talk to our support team</p>
@@ -1318,7 +1347,7 @@
 
             {{-- Hero --}}
             <div class="text-center pb-8 mb-8 border-b border-neutral-200 dark:border-neutral-700">
-              <span class="material-icons-outlined text-6xl text-primary-600 dark:text-primary-400 mb-4 block" aria-hidden="true">groups</span>
+              <span class="material-icons-outlined text-6xl text-gray-400 dark:text-gray-500 mb-4 block" aria-hidden="true">groups</span>
               <h2 class="text-xl font-semibold text-neutral-900 dark:text-white mb-3">Join Our Affiliate Program</h2>
               <p class="text-neutral-500 dark:text-neutral-400 mb-6 max-w-2xl mx-auto">
                 Earn commissions by referring customers. Share your unique affiliate link and get rewarded for every sale you drive.
@@ -1355,7 +1384,7 @@
                   aria-label="Your affiliate referral link"
                   aria-describedby="affiliateLinkHeading"
                   placeholder="{{ !$affiliateActive ? 'Activate affiliate to see your link' : '' }}"
-                  class="flex-1 text-sm border border-neutral-200 dark:border-neutral-700 px-3 py-2 text-neutral-600 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 focus:outline-none focus:border-primary-600">
+                  class="flex-1 text-sm border border-neutral-200 dark:border-neutral-700 px-3 py-2 text-neutral-600 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 focus:outline-none focus:border-gray-500">
                 <button
                   id="copyAffiliateBtn"
                   onclick="copyAffiliateLink()"
@@ -1392,25 +1421,25 @@
                           $rowNum++;
                           $statusKey = strtolower($fuser->status ?? '');
                           [$badgeClass, $badgeLabel] = match(true) {
-                              in_array($statusKey, ['active', 'paid', 'completed']) => ['bg-primary-900 text-white', ucfirst($fuser->status)],
+                              in_array($statusKey, ['active', 'paid', 'completed']) => ['bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900', ucfirst($fuser->status)],
                               $statusKey === 'pending' => ['border border-neutral-400 text-neutral-600 dark:text-neutral-300', 'Pending'],
                               default => ['bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300', ucfirst($fuser->status)],
                           };
                         @endphp
-                        <tr class="hover:bg-primary-100 dark:hover:bg-primary-900/10 transition-colors">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
                           <td class="py-3 px-4 text-neutral-500 whitespace-nowrap">{{ $rowNum }}</td>
                           <td class="py-3 px-4 font-medium text-neutral-900 dark:text-white">
                             <a href="{{ route('front.product', $c['item']['slug']) }}"
                                target="_blank"
                                rel="noopener noreferrer"
                                aria-label="{{ $c['item']['name'] }} (opens in new tab)"
-                               class="text-primary-700 hover:text-primary-900 dark:text-primary-400 hover:underline">
+                               class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:underline">
                               {{ $c['item']['name'] }}
                             </a>
                           </td>
                           <td class="py-3 px-4 text-neutral-700 dark:text-neutral-300 whitespace-nowrap">{{ $fuser->customer_name }}</td>
                           <td class="py-3 px-4 text-neutral-700 dark:text-neutral-300 whitespace-nowrap">{{ App\Models\Product::vendorConvertPrice($fuser->pay_amount) }}</td>
-                          <td class="py-3 px-4 font-medium text-primary-700 dark:text-primary-400 whitespace-nowrap">{{ App\Models\Product::vendorConvertPrice($fuser->affilate_charge) }}</td>
+                          <td class="py-3 px-4 font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">{{ App\Models\Product::vendorConvertPrice($fuser->affilate_charge) }}</td>
                           <td class="py-3 px-4 whitespace-nowrap">
                             <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium {{ $badgeClass }}">{{ $badgeLabel }}</span>
                           </td>
@@ -1446,10 +1475,10 @@
           <div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 p-6 lg:p-8">
 
             {{-- Points Balance --}}
-            <div class="text-center py-8 mb-8 bg-primary-100 dark:bg-primary-900/20"
+            <div class="text-center py-8 mb-8 bg-gray-50 dark:bg-gray-700/40 border border-gray-200 dark:border-gray-700"
                  role="region" aria-label="Your points balance">
               <div class="flex items-center justify-center gap-3 mb-2">
-                <span class="material-icons-outlined text-4xl text-primary-600" aria-hidden="true">stars</span>
+                <span class="material-icons-outlined text-4xl text-gray-400 dark:text-gray-500" aria-hidden="true">stars</span>
                 <span class="text-5xl sm:text-6xl font-bold text-neutral-900 dark:text-white"
                       aria-label="{{ round(Auth::user()->current_balance ?? 0) }} available points">
                   {{ round(Auth::user()->current_balance ?? 0) }}
@@ -1463,21 +1492,21 @@
 
               {{-- Earn --}}
               <div class="border border-neutral-200 dark:border-neutral-700 p-5 text-center">
-                <span class="material-icons-outlined text-3xl text-primary-600 dark:text-primary-400 mb-3 block" aria-hidden="true">shopping_cart</span>
+                <span class="material-icons-outlined text-3xl text-gray-400 dark:text-gray-500 mb-3 block" aria-hidden="true">shopping_cart</span>
                 <h3 class="font-semibold text-neutral-900 dark:text-white mb-1">Earn on Purchases</h3>
                 <p class="text-sm text-neutral-500 dark:text-neutral-400">Get 1 point for every ₹100 spent</p>
               </div>
 
               {{-- Redeem --}}
               <div class="border border-neutral-200 dark:border-neutral-700 p-5 text-center">
-                <span class="material-icons-outlined text-3xl text-primary-600 dark:text-primary-400 mb-3 block" aria-hidden="true">card_giftcard</span>
+                <span class="material-icons-outlined text-3xl text-gray-400 dark:text-gray-500 mb-3 block" aria-hidden="true">card_giftcard</span>
                 <h3 class="font-semibold text-neutral-900 dark:text-white mb-1">Redeem Rewards</h3>
                 <p class="text-sm text-neutral-500 dark:text-neutral-400">Use points for discounts on orders</p>
               </div>
 
               {{-- Refer Friends --}}
               <div class="border border-neutral-200 dark:border-neutral-700 p-5 text-center sm:col-span-2 lg:col-span-1">
-                <span class="material-icons-outlined text-3xl text-primary-600 dark:text-primary-400 mb-3 block" aria-hidden="true">share</span>
+                <span class="material-icons-outlined text-3xl text-gray-400 dark:text-gray-500 mb-3 block" aria-hidden="true">share</span>
                 <h3 class="font-semibold text-neutral-900 dark:text-white mb-1" id="referralLinkHeading">Refer Friends</h3>
                 <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-4">Earn bonus points for referrals</p>
 
@@ -1489,7 +1518,7 @@
                   readonly
                   aria-label="Your referral link"
                   aria-describedby="referralLinkHeading"
-                  class="w-full text-xs border border-neutral-200 dark:border-neutral-700 px-3 py-2 mb-2 text-center text-neutral-600 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 select-all focus:outline-none focus:border-primary-600">
+                  class="w-full text-xs border border-neutral-200 dark:border-neutral-700 px-3 py-2 mb-2 text-center text-neutral-600 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 select-all focus:outline-none focus:border-gray-500">
 
                 {{-- Copy Button --}}
                 <button
@@ -1552,7 +1581,7 @@
                   </thead>
                   <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
                     @forelse($final_refferal_users as $fuser)
-                    <tr class="hover:bg-primary-100 dark:hover:bg-primary-900/10 transition-colors">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
                       <td class="py-3 px-4 text-neutral-500 whitespace-nowrap">{{ $loop->iteration }}</td>
                       <td class="py-3 px-4 font-medium text-neutral-900 dark:text-white whitespace-nowrap">{{ $fuser->customer_name }}</td>
                       <td class="py-3 px-4 text-neutral-700 dark:text-neutral-300 whitespace-nowrap">{{ App\Models\Product::vendorConvertPrice($fuser->affilate_charge) }}</td>
@@ -1560,7 +1589,7 @@
                         @php
                           $statusKey = strtolower($fuser->status ?? '');
                           [$badgeClass, $badgeLabel] = match(true) {
-                              $statusKey === 'active' => ['bg-primary-900 text-white', 'Active'],
+                              $statusKey === 'active' => ['bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900', 'Active'],
                               $statusKey === 'pending' => ['border border-neutral-400 text-neutral-600 dark:text-neutral-300', 'Pending'],
                               default => ['bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300', ucfirst($fuser->status)],
                           };
@@ -1651,7 +1680,7 @@
 
     // Remove active class from all tab links
     document.querySelectorAll('.tab-link').forEach(link => {
-      link.classList.remove('active', 'bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400');
+      link.classList.remove('active', 'bg-primary-100', 'dark:bg-primary-900/20', 'text-primary-800', 'dark:text-primary-400', 'font-semibold');
     });
 
     // Show selected tab content
@@ -1663,7 +1692,7 @@
     // Add active class to selected tab link
     const selectedLink = document.querySelector(`[data-tab="${tabName}"]`);
     if (selectedLink) {
-      selectedLink.classList.add('active', 'bg-blue-50', 'dark:bg-blue-900/20', 'text-blue-600', 'dark:text-blue-400');
+      selectedLink.classList.add('active', 'bg-primary-100', 'dark:bg-primary-900/20', 'text-primary-800', 'dark:text-primary-400', 'font-semibold');
     }
 
     // Update URL hash without scrolling
@@ -2112,14 +2141,14 @@
   // Switch order sub-tabs (Orders / Buy Again)
   function switchOrderSubTab(tab) {
     document.querySelectorAll('.order-subtab').forEach(btn => {
-      btn.classList.remove('border-orange-600', 'text-orange-600', 'dark:text-orange-400', 'dark:border-orange-400');
-      btn.classList.add('border-transparent', 'text-gray-600', 'dark:text-gray-400');
+      btn.classList.remove('border-primary-800', 'dark:border-primary-400', 'text-primary-800', 'dark:text-primary-400');
+      btn.classList.add('border-transparent', 'text-neutral-500', 'dark:text-neutral-400');
     });
 
     const activeBtn = document.getElementById('subtab-' + tab);
     if (activeBtn) {
-      activeBtn.classList.add('border-orange-600', 'text-orange-600', 'dark:text-orange-400', 'dark:border-orange-400');
-      activeBtn.classList.remove('border-transparent', 'text-gray-600', 'dark:text-gray-400');
+      activeBtn.classList.add('border-primary-800', 'dark:border-primary-400', 'text-primary-800', 'dark:text-primary-400');
+      activeBtn.classList.remove('border-transparent', 'text-neutral-500', 'dark:text-neutral-400');
     }
 
     document.getElementById('orders-subtab-content').classList.toggle('hidden', tab !== 'orders');
@@ -2153,9 +2182,38 @@
     });
   }
 
-  // View order details (scroll to order or show modal)
+  // Request refund for a completed order
+  function requestRefund(orderId) {
+    if (!confirm('Submit a refund request for this order? Our team will review it within 1–2 business days.')) return;
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch('{{ url("/") }}/user/order/' + orderId + '/refund-request', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showToast(data.message || 'Refund request submitted successfully.', 'success');
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        showToast(data.error || 'Failed to submit refund request.', 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showToast('An error occurred. Please try again.', 'error');
+    });
+  }
+
+  // View order details
+  const orderDetailBase = '{{ url("/user/order") }}';
   function viewOrderDetails(orderId) {
-    window.location.href = '{{ url("/") }}/user/order/' + orderId;
+    window.location.href = orderDetailBase + '/' + orderId;
   }
 
   // Cancel order
