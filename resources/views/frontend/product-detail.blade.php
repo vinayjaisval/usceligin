@@ -23,13 +23,15 @@
         <div class="bg-primary-100 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 mb-6">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4">
             <div>
-              <p class="font-bold text-gray-900 dark:text-gray-100 text-sm sm:text-base">FREE SHIPPING on all Beauty Steals!</p>
-              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5">Diamond & Platinum members only. Join CELIGIN CLUB to unlock exclusive perks.</p>
+              <p class="font-bold text-gray-900 dark:text-gray-100 text-sm sm:text-base">{{ $gs->deal_title }}</p>
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5">{{ $gs->deal_details }}</p>
             </div>
-            <a href="{{ route('front.celigin-join-club') }}"
+            @if($gs->deal_time != null)
+            <a href="{{$gs->deal_background}}"
               class="flex-shrink-0 inline-flex items-center px-4 py-2 bg-primary-700 dark:bg-primary-600 text-white text-xs sm:text-sm font-semibold hover:bg-primary-800 dark:hover:bg-primary-500 transition-colors">
               Join CELIGIN CLUB
             </a>
+            @endif
           </div>
         </div>
 
@@ -419,7 +421,7 @@
           'label'   => 'Ingredients',
           'heading' => 'Key Ingredients',
           'body'    => $productt->ingredients,
-          'isHtml'  => false,
+          'isHtml'  => true,
         ],
       ])->filter(fn($s) => !empty(trim(strip_tags($s['body'] ?? ''))))->values();
     @endphp

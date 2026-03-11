@@ -442,7 +442,7 @@ class OrderCreateController extends VendorBaseController
 
     public function CreateOrderSubmit(Request $request)
     {
-       
+       dd($request->all());
         $user = $this->user;
         $address = Session::get('order_address');
         $input = $address;
@@ -615,6 +615,8 @@ class OrderCreateController extends VendorBaseController
 
     public function CreateOrderSubmit2(Request $request)
     {
+
+    
         $address = Session::get('order_address');
         $input = $address;
         $curr = Currency::where('is_default', '=', 1)->first();

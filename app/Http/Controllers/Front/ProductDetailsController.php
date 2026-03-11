@@ -11,7 +11,8 @@ use App\{
     Models\Product,
     Models\Comment,
     Models\Currency,
-    Models\ProductClick
+    Models\ProductClick,
+    Models\Pagesetting
 };
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -72,8 +73,9 @@ class ProductDetailsController extends FrontBaseController
         $product_click->product_id = $productt->id;
         $product_click->date = Carbon::now()->format('Y-m-d');
         $product_click->save();
+           $deal = Pagesetting::findOrFail(1);
 
-        return view('frontend.product-detail', compact('productt', 'curr', 'affilate_user'));
+        return view('frontend.product-detail', compact('productt', 'curr', 'affilate_user','deal'));
     }
 
     public function report(Request $request)
