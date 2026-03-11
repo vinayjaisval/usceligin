@@ -4,8 +4,9 @@
 @endphp
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<script>let CART_EMPTY = {{ $cartEmpty ? 'true' : 'false' }};</script>
-
+<script>
+window.CART_EMPTY = {{ $cartEmpty ? 'true' : 'false' }};
+</script>
 {{-- Cart empty notice --}}
 @if($cartEmpty)
 <div class="flex items-start gap-2 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 mb-4 text-xs text-amber-700 dark:text-amber-300">
@@ -128,6 +129,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const zipInput = document.getElementById('customer_zip');
+ 
   const loader = document.getElementById('loader');
   if (!zipInput) return;
 

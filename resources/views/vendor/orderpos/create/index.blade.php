@@ -267,7 +267,7 @@
 
     {{-- ─── LEFT: STEP 2 CUSTOMER DETAILS (2/3) ──────────────── --}}
     <div class="lg:col-span-2">
-      <form action="{{ route('vendor-order-create-submit', ['method' => 'cod']) }}" method="POST" id="pos-form">
+      <form action="{{ route('vendor.order.create.view') }}" method="POST" id="pos-form">
         @csrf
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
 
@@ -464,7 +464,8 @@
         {{-- ── Step 6: Place Order (always pinned at bottom) ── --}}
         <div class="border-t border-gray-200 dark:border-gray-700 flex-shrink-0 px-4 py-3">
           @if($hasAddress)
-          <form method="GET" action="{{ route('vendor-order-create-submit') }}" id="order-submit-form">
+          <form method="POST" action="{{ route('vendor-order-create-submit') }}" id="order-submit-form">
+            @csrf
             <input type="hidden" name="coupon_discount" id="form-coupon"   value="0">
             <input type="hidden" name="shipping_cost"   id="form-shipping" value="{{ $posShipping }}">
             <input type="hidden" name="total"           id="form-total"    value="{{ $posTotal }}">
@@ -772,7 +773,9 @@ $(document).on('click', '.removeOrder', function(e) {
    EXISTING CUSTOMER → AUTO-FILL
 ═══════════════════════════════════════════════════════════════ */
 $(document).on('change', '#order_create_user', function() {
+
   const user_id = $(this).val();
+  
   if (user_id) {
     $.ajax({
       url: mainurl + '/vendor/order/create/user-address',

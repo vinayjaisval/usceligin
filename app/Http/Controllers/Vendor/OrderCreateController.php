@@ -389,8 +389,9 @@ class OrderCreateController extends VendorBaseController
     }
 
 
-    public function userAddress(Request $request)
+    public function userAddresss(Request $request)
     {
+        // dd($request->all());
         Session::forget('order_address');
         if ($request->user_id == 'guest') {
             $isUser = 0;
@@ -405,8 +406,27 @@ class OrderCreateController extends VendorBaseController
     }
 
 
+    public function userAddress(Request $request)
+    {
+
+        $isUser = 1;
+
+        $user = User::find($request->user_id);
+
+        if (!$user) {
+            return response()->json('User not found', 404);
+        }
+
+        return view(
+            'vendor.orderpos.create.address_form',
+            compact('user',  'isUser')
+        )->render(); // for AJAX
+    }
+
+
     public function userAddressSubmit(Request $request)
     {
+
         Session::put('order_address', $request->all());
         return back();
     }
@@ -414,6 +434,7 @@ class OrderCreateController extends VendorBaseController
 
     public function viewCreateOrder(Request $request)
     {
+       
         Session::put('order_address', $request->all());
         return redirect()->route('vendor-order-create');
     }
@@ -425,7 +446,9 @@ class OrderCreateController extends VendorBaseController
         $user = $this->user;
         $address = Session::get('order_address');
         $input = $address;
-     
+
+        // $input = $request->all();
+
         $curr = Currency::where('is_default', '=', 1)->first();
 
         $oldCart = Session::get('admin_cart');
@@ -439,11 +462,8 @@ class OrderCreateController extends VendorBaseController
         // dd($t_cart);
         $rules = [
             'customer_email'    => 'required',
-
-            // 'photo'    => 'required|mimes:jpeg,jpg,png,svg',
-            // 'password' => 'required'
-
         ];
+
 
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
@@ -535,7 +555,7 @@ class OrderCreateController extends VendorBaseController
         $input['packing_cost'] = 0;
         $input['seller_id'] =  $user->id ?? null;
 
-       
+
 
         $order->fill($input)->save();
         $order->tracks()->create(['title' => 'Pending', 'text' => 'You have successfully placed your order.']);

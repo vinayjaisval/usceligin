@@ -76,6 +76,7 @@ class FrontendController extends FrontBaseController
 
     public function index(Request $request)
     {
+        
         $gs = $this->gs;
         $data['ps'] = $this->ps;
         if (!empty($request->affilate_code)) {
