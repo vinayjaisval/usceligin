@@ -389,40 +389,43 @@ class OrderCreateController extends VendorBaseController
     }
 
 
-    public function userAddresss(Request $request)
-    {
-        // dd($request->all());
-        Session::forget('order_address');
-        if ($request->user_id == 'guest') {
-            $isUser = 0;
-            $country = Country::all();
-            return view('admin.order.create.address_form', compact('country', 'isUser'));
-        } else {
-            $isUser = 1;
-            $user = User::findOrFail($request->user_id);
-            $country = Country::all();
-            return view('vendor.orderpos.create.address_form', compact('user', 'country', 'isUser'));
-        }
+    // public function userAddresss(Request $request)
+    // {
+        
+    //     Session::forget('order_address');
+    //     if ($request->user_id == 'guest') {
+    //         $isUser = 0;
+    //         $country = Country::all();
+    //         return view('admin.order.create.address_form', compact('country', 'isUser'));
+    //     } else {
+    //         $isUser = 1;
+    //         $user = User::findOrFail($request->user_id);
+    //         $country = Country::all();
+    //         return view('vendor.orderpos.create.address_form', compact('user', 'country', 'isUser'));
+    //     }
+    // }
+
+
+   public function userAddress(Request $request)
+{
+    $isUser = 1;
+
+    if (!$request->user_id) {
+        return response()->json(['message' => 'User ID is required'], 400);
     }
 
+    $user = User::find($request->user_id);
+  
 
-    public function userAddress(Request $request)
-    {
-
-        $isUser = 1;
-
-        $user = User::find($request->user_id);
-
-        if (!$user) {
-            return response()->json('User not found', 404);
-        }
-
-        return view(
-            'vendor.orderpos.create.address_form',
-            compact('user',  'isUser')
-        )->render(); // for AJAX
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
     }
 
+    return view('vendor.orderpos.create.address_form', [
+        'user' => $user,
+        'isUser' => $isUser
+    ])->render();
+}
 
     public function userAddressSubmit(Request $request)
     {
@@ -442,7 +445,8 @@ class OrderCreateController extends VendorBaseController
 
     public function CreateOrderSubmit(Request $request)
     {
-       dd($request->all());
+       
+   
         $user = $this->user;
         $address = Session::get('order_address');
         $input = $address;
@@ -459,7 +463,7 @@ class OrderCreateController extends VendorBaseController
         $t_oldCart = Session::get('admin_cart');
         // $t_cart = new Cart($t_oldCart);
         $t_cart = Cart::restoreCart($t_oldCart);
-        // dd($t_cart);
+       
         $rules = [
             'customer_email'    => 'required',
         ];
@@ -535,8 +539,8 @@ class OrderCreateController extends VendorBaseController
         $input['user_id'] = $exits_user->id ? $exits_user->id : NULL;
 
         $input['affilate_users'] = $affilate_users;
-        $input['pay_amount'] = $request->total / $this->curr->value - $request->coupon_discount;
-
+        // $input['pay_amount'] = $request->total / $this->curr->value - $request->coupon_discount;
+        $input['pay_amount'] = $request->total;
         $input['seller_commission'] = $input['pay_amount'] * 0.05;
         $input['order_number'] = Str::random(8) . time();
         $input['payment_status'] = 'Pending';
@@ -590,7 +594,9 @@ class OrderCreateController extends VendorBaseController
         $mailer->sendAutoOrderMail($data, $order->id);
         $ps = Pagesetting::first();
         $discouts = $request->coupon_discount ?? 0;
-        $totalprice = (int)($request->total - $discouts);
+        $totalprice = (int)($request->total);
+
+       
         if ($request->payment_method == "online") {
             $this->createPaymentLink($totalprice, $order->customer_email, $order->customer_phone, $order->order_number);
         }
@@ -613,101 +619,101 @@ class OrderCreateController extends VendorBaseController
 
 
 
-    public function CreateOrderSubmit2(Request $request)
-    {
+    // public function CreateOrderSubmit2(Request $request)
+    // {
 
     
-        $address = Session::get('order_address');
-        $input = $address;
-        $curr = Currency::where('is_default', '=', 1)->first();
+    //     $address = Session::get('order_address');
+    //     $input = $address;
+    //     $curr = Currency::where('is_default', '=', 1)->first();
 
-        $oldCart = Session::get('admin_cart');
-        // $cart = new Cart($oldCart);
-        $cart = Cart::restoreCart($oldCart);
+    //     $oldCart = Session::get('admin_cart');
+    //     // $cart = new Cart($oldCart);
+    //     $cart = Cart::restoreCart($oldCart);
 
-        OrderHelper::license_check($cart); // For License Checking
-        $t_oldCart = Session::get('admin_cart');
-        // $t_cart = new Cart($t_oldCart);
-        $t_cart = Cart::restoreCart($t_oldCart);
+    //     OrderHelper::license_check($cart); // For License Checking
+    //     $t_oldCart = Session::get('admin_cart');
+    //     // $t_cart = new Cart($t_oldCart);
+    //     $t_cart = Cart::restoreCart($t_oldCart);
 
-        $new_cart = [];
-        // $new_cart['totalQty'] = $t_cart->totalQty; // commet by ankit
-        $new_cart['totalQty']   = $address['totalqty'];
-        $new_cart['totalPrice'] = $t_cart->totalPrice + $address['shipping_cost'];
-        $new_cart['items']      = $t_cart->items;
-        $new_cart               = json_encode($new_cart);
-        $temp_affilate_users = OrderHelper::product_affilate_check($cart); // For Product Based Affilate Checking
-        $affilate_users = $temp_affilate_users == null ? null : json_encode($temp_affilate_users);
+    //     $new_cart = [];
+    //     // $new_cart['totalQty'] = $t_cart->totalQty; // commet by ankit
+    //     $new_cart['totalQty']   = $address['totalqty'];
+    //     $new_cart['totalPrice'] = $t_cart->totalPrice + $address['shipping_cost'];
+    //     $new_cart['items']      = $t_cart->items;
+    //     $new_cart               = json_encode($new_cart);
+    //     $temp_affilate_users = OrderHelper::product_affilate_check($cart); // For Product Based Affilate Checking
+    //     $affilate_users = $temp_affilate_users == null ? null : json_encode($temp_affilate_users);
 
-        $order = new Order;
-        $input['cart'] = $new_cart;
-        // $input['totalQty'] = $t_cart->totalQty; //commit by ankit
-        $input['totalQty']       = $address['totalqty'];
-        $input['user_id']        = $address['user_id'] != 'guest' ? $address['user_id'] : NULL;
-        $input['affilate_users'] = $affilate_users;
-        $input['pay_amount']     = $cart->totalPrice + $address['shipping_cost'] / $this->curr->value;
-        $input['order_number']   = Str::random(8) . time();
-        $input['payment_status'] = 'Pending';
+    //     $order = new Order;
+    //     $input['cart'] = $new_cart;
+    //     // $input['totalQty'] = $t_cart->totalQty; //commit by ankit
+    //     $input['totalQty']       = $address['totalqty'];
+    //     $input['user_id']        = $address['user_id'] != 'guest' ? $address['user_id'] : NULL;
+    //     $input['affilate_users'] = $affilate_users;
+    //     $input['pay_amount']     = $cart->totalPrice + $address['shipping_cost'] / $this->curr->value;
+    //     $input['order_number']   = Str::random(8) . time();
+    //     $input['payment_status'] = 'Pending';
 
-        // $input['payment_status'] = "Completed";
-        $input['txnid']          = Str::random(8) . time();
-        $input['tax']            = 0;
-        $input['method']         = 'Created By Admin';
-        $input['currency_sign']  = $curr->sign;
-        $input['currency_name']  = $curr->name;
-        $input['currency_value'] = $curr->value;
-        $input['shipping_cost']  = $address['shipping_cost'];
-        $input['packing_cost']   = 0;
-        $input['coupon_discount'] = $request->code ?? 0;
-
-
-        $order->fill($input)->save();
-        $order->tracks()->create(['title' => 'Pending', 'text' => 'You have successfully placed your order.']);
-        $order->notifications()->create();
+    //     // $input['payment_status'] = "Completed";
+    //     $input['txnid']          = Str::random(8) . time();
+    //     $input['tax']            = 0;
+    //     $input['method']         = 'Created By Admin';
+    //     $input['currency_sign']  = $curr->sign;
+    //     $input['currency_name']  = $curr->name;
+    //     $input['currency_value'] = $curr->value;
+    //     $input['shipping_cost']  = $address['shipping_cost'];
+    //     $input['packing_cost']   = 0;
+    //     $input['coupon_discount'] = $request->code ?? 0;
 
 
-        OrderHelper::size_qty_check($cart); // For Size Quantiy Checking
-        OrderHelper::stock_check($cart); // For Stock Checking
-        OrderHelper::vendor_order_check($cart, $order); // For Vendor Order Checking
-
-        Session::forget('admin_cart');
-        Session::forget('order_address');
+    //     $order->fill($input)->save();
+    //     $order->tracks()->create(['title' => 'Pending', 'text' => 'You have successfully placed your order.']);
+    //     $order->notifications()->create();
 
 
-        if ($order->user_id != 0 && $order->wallet_price != 0) {
-            OrderHelper::add_to_transaction($order, $order->wallet_price); // Store To Transactions
-        }
+    //     OrderHelper::size_qty_check($cart); // For Size Quantiy Checking
+    //     OrderHelper::stock_check($cart); // For Stock Checking
+    //     OrderHelper::vendor_order_check($cart, $order); // For Vendor Order Checking
 
-        //Sending Email To Buyer
-        $data = [
-            'to' => $order->customer_email,
-            'type' => "new_order",
-            'cname' => $order->customer_name,
-            'oamount' => "",
-            'aname' => "",
-            'aemail' => "",
-            'wtitle' => "",
-            'onumber' => $order->order_number,
-        ];
+    //     Session::forget('admin_cart');
+    //     Session::forget('order_address');
 
-        $mailer = new GeniusMailer();
-        $mailer->sendAutoOrderMail($data, $order->id);
-        $ps = Pagesetting::first();
-        $discouts = $request->code ?? 0;
-        $totalprice = (int)($t_cart->totalPrice + $address['shipping_cost'] - $discouts);
-        if ($request->method == "online") {
-            $this->createPaymentLink($totalprice, $order->customer_email, $order->customer_phone, $order->order_number);
-        }
-        //Sending Email To Admin
-        $data = [
-            'to' => $ps->contact_email,
-            'subject' => "New Order Recieved!!",
-            'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
-        ];
-        $mailer = new GeniusMailer();
-        $mailer->sendCustomMail($data);
-        return redirect(route('admin-order-show', $order->id))->with('added', 'Order has been placed successfully!');
-    }
+
+    //     if ($order->user_id != 0 && $order->wallet_price != 0) {
+    //         OrderHelper::add_to_transaction($order, $order->wallet_price); // Store To Transactions
+    //     }
+
+    //     //Sending Email To Buyer
+    //     $data = [
+    //         'to' => $order->customer_email,
+    //         'type' => "new_order",
+    //         'cname' => $order->customer_name,
+    //         'oamount' => "",
+    //         'aname' => "",
+    //         'aemail' => "",
+    //         'wtitle' => "",
+    //         'onumber' => $order->order_number,
+    //     ];
+
+    //     $mailer = new GeniusMailer();
+    //     $mailer->sendAutoOrderMail($data, $order->id);
+    //     $ps = Pagesetting::first();
+    //     $discouts = $request->code ?? 0;
+    //     $totalprice = (int)($t_cart->totalPrice + $address['shipping_cost'] - $discouts);
+    //     if ($request->method == "online") {
+    //         $this->createPaymentLink($totalprice, $order->customer_email, $order->customer_phone, $order->order_number);
+    //     }
+    //     //Sending Email To Admin
+    //     $data = [
+    //         'to' => $ps->contact_email,
+    //         'subject' => "New Order Recieved!!",
+    //         'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
+    //     ];
+    //     $mailer = new GeniusMailer();
+    //     $mailer->sendCustomMail($data);
+    //     return redirect(route('admin-order-show', $order->id))->with('added', 'Order has been placed successfully!');
+    // }
 
 
     public function createPaymentLink($amount, $customer_email, $customer_phone, $order_id)
@@ -729,8 +735,10 @@ class OrderCreateController extends VendorBaseController
                     'sms' => true,
                     'email' => true
                 ],
-                'callback_url' => url("/order/update/") . '/' . $order_id,
+               'callback_url' => route('order-update',$order_id),
+               'callback_method' => 'get',
             ]);
+          
 
             return $paymentLink;
         } catch (\Razorpay\Api\Errors\BadRequestError $e) {
@@ -758,6 +766,6 @@ class OrderCreateController extends VendorBaseController
 
     public function thankyou()
     {
-        return view('admin.thankyou');
+        return view('vendor.thankyou');
     }
 }

@@ -774,17 +774,43 @@ $(document).on('click', '.removeOrder', function(e) {
 ═══════════════════════════════════════════════════════════════ */
 $(document).on('change', '#order_create_user', function() {
 
-  const user_id = $(this).val();
-  
+  const user_id = $(this).val(); 
+  console.log("Selected User ID:", user_id);
+
   if (user_id) {
+
+    console.log("Sending AJAX request...");
+
     $.ajax({
       url: mainurl + '/vendor/order/create/user-address',
-      type: 'GET', data: { user_id },
-      success(data) { $('#order_create_user_address').html(data); }
+      type: 'GET',
+      data: { user_id: user_id },
+
+      beforeSend: function () {
+        console.log("Request started...");
+      },
+
+      success: function(data) {
+        console.log("Response received:", data);
+        $('#order_create_user_address').html(data);
+      },
+
+      error: function(xhr, status, error) {
+        console.log("AJAX Error:", error);
+        console.log("Status:", status);
+        console.log("Response:", xhr.responseText);
+      },
+
+      complete: function() {
+        console.log("Request completed");
+      }
     });
+
   } else {
+    console.log("User ID not selected, clearing fields");
     $('#order_create_user_address').find('input, textarea').val('');
   }
+
 });
 
 /* ═══════════════════════════════════════════════════════════════

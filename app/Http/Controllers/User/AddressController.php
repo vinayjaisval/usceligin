@@ -15,6 +15,7 @@ class AddressController extends Controller
     public function store(Request $request)
     {
 
+  
         $validated = $request->validate([
             'address_category' => 'nullable|in:delivery,billing',
             'type' => 'nullable|in:home,work,other',

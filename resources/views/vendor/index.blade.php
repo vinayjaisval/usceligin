@@ -129,7 +129,7 @@
                     <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $data->showPrice() }}</span>
                   </td>
                   <td class="px-4 py-3 text-right">
-                    <a href="{{ route('vendor-prod-edit', $data->id) }}"
+                    <a href="{{ route('front.product', $data->slug) }}"
                        class="inline-flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500"
                        aria-label="View details for {{ Str::limit(strip_tags($data->name), 20) }}">
                       <span class="material-icons-outlined text-sm" aria-hidden="true">visibility</span>

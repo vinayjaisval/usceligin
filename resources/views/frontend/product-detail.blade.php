@@ -308,12 +308,15 @@
                       </ul>
 
                       {{-- 3. Summary paragraph --}}
-                      @if(!empty($productt->details))
-                        <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                          {!! clean($productt->details, ['HTML.Allowed' => 'p,br,b,strong,em,ul,ol,li,span,div', 'AutoFormat.RemoveEmpty' => true]) !!}
-                        </div>
+                     @if(!empty($productt->details))
+                      <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed ck-content">
+                      {!! clean($productt->details, [
+                      'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,b,strong,em,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
+                      'AutoFormat.RemoveEmpty' => true
+                      ]) !!}
+                      </div>
                       @else
-                        <p class="text-sm text-gray-400 dark:text-gray-500">—</p>
+                      <p class="text-sm text-gray-400 dark:text-gray-500">—</p>
                       @endif
 
                     {{-- Return/Refund Policy --}}
@@ -453,12 +456,15 @@
                 <p class="text-xs font-semibold tracking-widest uppercase text-primary-600 dark:text-primary-400 mb-3">{{ $cs['label'] }}</p>
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-snug">{{ $cs['heading'] }}</h2>
                 <div class="w-10 h-0.5 bg-primary-600 dark:bg-primary-400 mb-6"></div>
-                <div class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-                  @if($cs['isHtml'])
-                    {!! clean($cs['body'], ['HTML.Allowed' => 'p,br,strong,em,ul,ol,li,span', 'AutoFormat.RemoveEmpty' => true]) !!}
-                  @else
-                    <p>{{ $cs['body'] }}</p>
-                  @endif
+                <div class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed" >
+               @if($cs['isHtml'])
+                {!! clean($cs['body'], [
+                    'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,b,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
+                    'AutoFormat.RemoveEmpty' => true
+                ]) !!}
+                @else
+                <p>{{ $cs['body'] }}</p>
+                @endif
                 </div>
               </div>
 

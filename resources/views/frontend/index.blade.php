@@ -273,10 +273,10 @@
 
               <!-- CTA Button -->
               <div>
-                <a href="{{ route('front.category') }}"
+                <a href="{{ url('new-arrivals') }}"
                   class="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-8 py-2.5 sm:py-3.5 bg-primary-800 text-white font-semibold hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-all duration-200 text-sm sm:text-base shadow-sm hover:shadow-md"
                   aria-label="Get special offer price of ₹39.00">
-                  Get Only ₹39.00
+                  Get Only ₹2,992.00
                   <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                   </svg>

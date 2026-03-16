@@ -67,6 +67,7 @@
             checked
             class="w-4 h-4 text-primary-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-600 mt-0.5">
           <span class="ml-2 text-sm text-neutral-700 dark:text-gray-300">
+            
             Use same address for billing
           </span>
         </label>

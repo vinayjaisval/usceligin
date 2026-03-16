@@ -78,8 +78,8 @@
                 <div class="col-lg-6">
                     <div class="invoice__orderDetails" style="margin-top:5px;">
                         <p><strong>{{ __('Shipping Details') }}</strong></p>
-                        <span><strong>{{ __('Customer Name') }}</strong>: {{ $order->shipping_customer_name ?? null }}</span><br>
-                        <span><strong>{{ __('Address') }}</strong>: {{ $order->shipping_address ?? null }}</span><br>
+                        <span><strong>{{ __('Customer Name') }}</strong>: {{ $order->shipping_customer_name ?? $order->customer_name }}</span><br>
+                        <span><strong>{{ __('Address') }}</strong>: {{ $order->shipping_address ?? $order->customer_address }}</span><br>
                         <span><strong>{{ __('City') }}</strong>: {{ $order->shipping_city ?? null }}</span><br>
                         <span><strong>{{ __('State') }}</strong>: {{ $order->shipping_state_id ?? null }}, {{ $order->shipping_zip ?? null }}</span><br>
 
@@ -92,7 +92,7 @@
                     <div class="invoice__orderDetails" style="margin-top:5px;">
                         <p><strong>{{ __('Billing Details') }}</strong></p>
                         <span><strong>{{ __('Customer Name') }}</strong>: {{ $order->customer_name }}</span><br>
-                        <span><strong>{{ __('Address') }}</strong>: {{ $order->billing_address }}</span><br>
+                        <span><strong>{{ __('Address') }}</strong>: {{ $order->billing_address ?? $order->customer_address }}</span><br>
                         <span><strong>{{ __('City') }}</strong>: {{ $order->billing_city }}</span><br>
                         <span><strong>{{ __('State') }}</strong>: {{ $order->billing_state_id }}, {{ $order->billing_zip }}</span><br>
 
@@ -178,31 +178,7 @@
                                             <td>₹{{ \PriceHelper::showOrderCurrencyPrice((($subtotal) ),$order->currency_sign) }}</td>
 
                                         </tr>
-                                        <!-- @if($order->shipping_cost != 0)
-                                        @php 
-                                        $price = round(($order->shipping_cost ),2);
-                                        @endphp
-                                            @if(DB::table('shippings')->where('price','=',$price)->count() > 0)
-                                            <tr class="no-border">
-                                                <td colspan="1"></td>
-                                                <td><strong>{{ DB::table('shippings')->where('price','=',$price)->first()->title }}({{$order->currency_sign}})</strong></td>
-                                                <td>{{ \PriceHelper::showOrderCurrencyPrice($order->shipping_cost,$order->currency_sign) }}</td>
-                                            </tr>
-                                            @endif
-                                        @endif
-
-                                        @if($order->packing_cost != 0)
-                                            @php 
-                                            $pprice = round(($order->packing_cost / $order->currency_value),2);
-                                            @endphp
-                                            @if(DB::table('packages')->where('price','=',$pprice)->count() > 0)
-                                            <tr class="no-border">
-                                                <td colspan="1"></td>
-                                                <td><strong>{{ DB::table('packages')->where('price','=',$pprice)->first()->title }}({{$order->currency_sign}})</strong></td>
-                                                <td>{{ \PriceHelper::showOrderCurrencyPrice($order->packing_cost,$order->currency_sign) }}</td>
-                                            </tr>
-                                            @endif
-                                        @endif -->
+                                       
 
                                         {{-- @if($order->tax != 0)
                                         <tr class="no-border">
@@ -259,7 +235,7 @@
                                         <tr class="final-border">
                                             <td colspan="1"></td>
                                             <td><strong>{{ __('Total') }}</strong></td>
-                                            <td>₹ {{ \PriceHelper::showOrderCurrencyPrice((($order->pay_amount + $order->wallet_price  - $order->coupon_discount) ),$order->currency_sign) }}
+                                            <td>₹ {{ \PriceHelper::showOrderCurrencyPrice((($order->pay_amount ) ),$order->currency_sign) }}
                                             </td>
                                         </tr>
 

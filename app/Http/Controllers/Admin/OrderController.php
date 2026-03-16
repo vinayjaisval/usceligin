@@ -39,7 +39,6 @@ class OrderController extends AdminBaseController
         } else if ($request->status == 'declined') {
             return view('admin.order.declined');
         } else {
-
             return view('admin.order.index');
         }
     }
@@ -323,229 +322,10 @@ class OrderController extends AdminBaseController
         return view('admin.order.delivery', compact('data'));
     }
 
-    //*** POST Request
-    // public function update(Request $request, $id)
-    // {
-    //     //--- Logic Section
-    //     $data = Order::findOrFail($id);
-    //     $input = $request->all();
-    //     if ($request->has('status')) {
-    //         if ($data->status == "completed") {
-    //             $input['status'] = "completed";
-    //             $data->update($input);
-    //             $msg = __('Status Updated Successfully.');
-    //             return response()->json($msg);
-    //         } 
-    //         else {
-    //             if ($input['status'] == "completed") {
-    //                 if ($data->vendor_ids) {
-    //                     $vendor_ids = json_decode($data->vendor_ids, true);
-    //                     foreach ($vendor_ids as $vendor) {
-    //                         $deliveryRider = DeliveryRider::where('order_id', $data->id)->where('vendor_id', $vendor)->first();
-    //                         if ($deliveryRider) {
-    //                             $rider = Rider::findOrFail($deliveryRider->rider_id);
-    //                             $service_area = RiderServiceArea::findOrFail($deliveryRider->service_area_id);
-    //                             $rider->balance += $service_area->price;
-    //                             $rider->update();
-    //                         }
-    //                     }
-    //                 }
-    //                 foreach ($data->vendororders as $vorder) {
-    //                     if ($uprice = User::find($vorder->user_id)) {
-    //                         $uprice->current_balance = ($uprice->current_balance ?? 0) + ($vorder->price ?? 0);
-
-    //                         $vorder->status = 'completed';
-    //                         $vorder->update();
-
-    //                         $uprice->update();
-    //                         $uprice->update();
-    //                     }
-    //                 }
-
-    //                 if ($data->is_shipping == 1) {
-    //                     $vendor_ids = json_decode($data->vendor_ids, true);
-    //                     $shipping_ids = json_decode($data->vendor_shipping_id, true);
-    //                     $packaging_ids = json_decode($data->vendor_packing_id, true);
-
-    //                     foreach ($vendor_ids as $vendor) {
-    //                         $vendor = User::findOrFail($vendor);
-    //                         if ($vendor) {
-    //                             $shpping_id = $shipping_ids[$vendor->id];
-    //                             $packaging_id = $packaging_ids[$vendor->id];
-    //                             $shipping = Shipping::findOrFail($shpping_id);
-    //                             $packaging = Package::findOrFail($packaging_id);
-    //                             $extra = 0;
-    //                             if ($shipping) {
-    //                                 $extra += $shipping->price;
-    //                             }
-    //                             if ($packaging) {
-    //                                 $extra += $packaging->price;
-    //                             }
-    //                             $vendor->current_balance = $vendor->current_balance + $extra;
-    //                             if ($data->method == 'Cash On Delivery') {
-    //                                 $vendor->admin_commission += $extra;
-    //                             }
-    //                             $vendor->update();
-    //                         }
-    //                     }
-    //                 }
-
-    //                 if (User::where('id', $data->affilate_user)->exists()) {
-    //                     $user_referred_by = User::where('id', $data->affilate_user)->pluck('reffered_by');
-    //                     if (count($user_referred_by) > 0) {
-    //                         $sub_user_reffered_by = User::where('reffered_by', $user_referred_by)->pluck('id');
-    //                         $product_orders = Order::whereIn('user_id', $sub_user_reffered_by)->where('status', 'completed')->pluck('user_id')->unique();
-    //                         if (count($product_orders) > 1) {
-    //                             $auser = User::where('id', $user_referred_by)->first();
-    //                             $auser->affilate_income += $data->affilate_charge;
-    //                             $auser->update();
-    //                             $affiliate_bonus = new AffliateBonus();
-    //                             $affiliate_bonus->refer_id = $auser->id;
-    //                             $affiliate_bonus->bonus =  $data->affilate_charge;
-    //                             $affiliate_bonus->type = 'Order';
-    //                             $affiliate_bonus->user_id = $data->user_id;
-    //                             $affiliate_bonus->save();
-    //                         }
-    //                     }
-    //                 }
-
-
-
-    //                 if ($data->affilate_users != null) {
-    //                     $ausers = json_decode($data->affilate_users, true);
-
-    //                     if (is_array($ausers)) {
-    //                         foreach ($ausers as $auser) {
-    //                             $user = User::find($auser['user_id']);
-    //                             if ($user) {
-    //                                 $user->affilate_income += $auser['charge'];
-    //                                 $user->update();
-    //                             }
-    //                         }
-    //                     } else {
-    //                         // Optional: Log or handle unexpected data format
-    //                         \Log::warning('Invalid affiliate_users format:', ['value' => $data->affilate_users]);
-    //                     }
-    //                 }
-
-                    
-    //             }
-    //             if ($input['status'] == "declined") {
-                   
-    //                 if ($data->user_id != 0) {
-    //                     if ($data->wallet_price != 0) {
-    //                         $user = User::find($data->user_id);
-    //                         if ($user) {
-    //                             $user->balance = $user->balance + $data->wallet_price;
-    //                             $user->save();
-    //                         }
-    //                     }
-    //                 }
-
-    //                 $cart = json_decode($data->cart, true);
-
-    //                 // Restore Product Stock If Any
-    //                 foreach ($cart['items'] ?? [] as $prod) {
-    //                     $x = (string)$prod['stock'];
-    //                     if ($x != null) {
-    //                         $product = Product::findOrFail($prod['item']['id']);
-    //                         $product->stock = $product->stock + $prod['qty'];
-    //                         $product->update();
-    //                     }
-    //                 }
-
-    //                 // Restore Product Size Qty If Any
-    //                 foreach ($cart['items'] ?? [] as $prod) {
-    //                     $x = (string)$prod['size_qty'];
-    //                     if (!empty($x)) {
-    //                         $product = Product::findOrFail($prod['item']['id']);
-    //                         $x = (int)$x;
-    //                         $temp = $product->size_qty;
-    //                         $temp[$prod['size_key']] = $x;
-    //                         $temp1 = implode(',', $temp);
-    //                         $product->size_qty =  $temp1;
-    //                         $product->update();
-    //                     }
-    //                 }
-
-    //                 $maildata = [
-    //                     'to' => $data->customer_email,
-    //                     'subject' => 'Your order ' . $data->order_number . ' is Declined!',
-    //                     'body' => "Hello " . $data->customer_name . "," . "\n We are sorry for the inconvenience caused. We are looking forward to your next visit.",
-    //                 ];
-    //                 $mailer = new GeniusMailer();
-    //                 $mailer->sendCustomMail($maildata);
-    //             }
-
-    //             $data->update($input);
-             
-    //             if (User::where('id', $data->user_id)->exists()) {
-    //                 $orderCount = Order::where('user_id', $data->user_id)->where('status', 'completed')->count();
-    //                 if ($orderCount == 1) {
-    //                     $user = User::where('id', $data->user_id)->select('reffered_by')->first();
-    //                     if ($user && $user->reffered_by) {
-    //                         $referrer = User::find($user->reffered_by);
-    //                         if ($referrer) {
-    //                             $referrer->referral_income += 250;
-    //                             $referrer->reffered_times += 1;
-
-    //                             $referrer->save();
-    //                         }
-    //                     }
-    //                 }
-    //             }
-               
-    //             if (User::where('id', $data->user_id)->exists()) {
-    //                 $orderCount = Order::where('user_id', $data->user_id)->where('status', 'completed')->count();
-    //                 if ($orderCount == 1) {
-    //                     $user = User::where('id', $data->user_id)->select('affiliated_by')->first();
-    //                     if ($user && $user->affiliated_by) {
-    //                         $affilated = User::find($user->affiliated_by);
-                        
-    //                         if ($affilated) {
-    //                             $total = $data->pay_amount;
-    //                             $affilated->affilate_income += ($total / 100) * 10;
-    //                             $affilated->save();
-    //                             $sub_user = User::where('id', $affilated->id)->select('affiliated_by')->first();
-    //                             if ($sub_user && $sub_user->affiliated_by) {
-    //                                 $affiliated = User::find($sub_user->affiliated_by);
-    //                                 if ($affiliated) {
-    //                                     $affiliated->affilate_income += ($total / 100) * 5;
-    //                                     $affiliated->save();
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //             if ($request->track_text) {
-    //                 $title = ucwords($request->status);
-    //                 $ck = OrderTrack::where('order_id', '=', $id)->where('title', '=', $title)->first();
-    //                 if ($ck) {
-    //                     $ck->order_id = $id;
-    //                     $ck->title = $title;
-    //                     $ck->text = $request->track_text;
-    //                     $ck->update();
-    //                 } else {
-    //                     $data = new OrderTrack;
-    //                     $data->order_id = $id;
-    //                     $data->title = $title;
-    //                     $data->text = $request->track_text;
-    //                     $data->save();
-    //                 }
-    //             }
-    //             $msg = __('Status Updated Successfully.');
-    //             return response()->json($msg);
-    //         }
-    //     }
-
-    //     $data->update($input);
-
-    //     $msg = __('Data Updated Successfully.');
-    //     return redirect()->back()->with('success', $msg);
-    // }
+   
     public function update(Request $request, $id)
     {
+        
         $order = Order::findOrFail($id);
         $input = $request->all();
    
@@ -555,14 +335,7 @@ class OrderController extends AdminBaseController
            
             $currentStatus = $order->status;
    
-            // Prevent status change if already completed
-            // if ($currentStatus === 'completed') {
-            //     $input['status'] = 'completed'; // Force keep it as completed
-            //     $order->update($input);
-            //     return response()->json(__('Status already completed and cannot be changed.'));
-            // }
-    
-            // Handle if status is being updated to 'completed'
+          
             if ($newStatus === 'completed') {
                
                
