@@ -137,8 +137,8 @@
                                 <tr>
                                     <th width="45%">{{ __('Total Cost') }}</th>
                                     <td width="10%">:</td>
-                                    <td width="45%">{{ \PriceHelper::showOrderCurrencyPrice((($order->pay_amount +
-                                        $order->wallet_price - $order->coupon_discount) ),$order->currency_sign) }}</td>
+                                    <td width="45%">{{ \PriceHelper::showOrderCurrencyPrice((($order->pay_amount 
+                                        ) ),$order->currency_sign) }}</td>
                                 </tr>
                                 <tr>
                                     <th width="45%">{{ __('Ordered Date') }}</th>
@@ -151,6 +151,9 @@
                                     <td width="45%">
                                         @if($order->method == "cod")
                                         <span class='badge badge-success'>{{__('Cash On Delivery')}}</span>
+                                        @endif
+                                     @if($order->method == "online")
+                                        <span class='badge badge-success'>{{__('online')}}</span>
                                         @endif
                                     
                                   
@@ -174,9 +177,6 @@
                                 </tr>
                                 @endif
 
-
-                                <!-- <th width="45%">{{ __('Payment Status') }}</th> -->
-                                <!-- <th width="10%">:</th> -->
 
                                 @if($order->payment_status == 'Pending')
                                 <span class='badge badge-danger'>{{__('Unpaid')}}</span>
@@ -219,17 +219,17 @@
                                 <tr>
                                     <th width="45%">{{ __('Email') }}</th>
                                     <th width="10%">:</th>
-                                    <td width="45%">{{$order->billing_email}}</td>
+                                    <td width="45%">{{$order->billing_email ?? $order->customer_email}}</td>
                                 </tr>
                                 <tr>
                                     <th width="45%">{{ __('Phone') }}</th>
                                     <th width="10%">:</th>
-                                    <td width="45%">{{$order->billing_phone}}</td>
+                                    <td width="45%">{{$order->billing_phone ?? $order->customer_phone}}</td>
                                 </tr>
                                 <tr>
                                     <th width="45%">{{ __('Address') }}</th>
                                     <th width="10%">:</th>
-                                    <td width="45%">{{$order->billing_address}}</td>
+                                    <td width="45%">{{$order->billing_address ?? $order->customer_address}}</td>
                                 </tr>
                                 <tr>
                                     <th width="45%">{{ __('Country') }}</th>
@@ -251,7 +251,7 @@
                                 <tr>
                                     <th width="45%">{{ __('Postal Code') }}</th>
                                     <th width="10%">:</th>
-                                    <td width="45%">{{$order->billing_zip}}</td>
+                                    <td width="45%">{{$order->billing_zip ?? $order->customer_zip}}</td>
                                 </tr>
                                 @if($order->coupon_code != null)
                                 <tr>
@@ -320,22 +320,22 @@
                                 <tr>
                                     <th width="45%"><strong>{{ __('Name') }}:</strong></th>
                                     <th width="10%">:</th>
-                                    <td>{{$order->shipping_customer_name}}</td>
+                                    <td>{{$order->shipping_customer_name ?? $order->customer_name}}</td>
                                 </tr>
                                 <tr>
                                     <th width="45%"><strong>{{ __('Email') }}:</strong></th>
                                     <th width="10%">:</th>
-                                    <td width="45%">{{$order->shipping_email ?? null}}</td>
+                                    <td width="45%">{{$order->shipping_email ?? $order->customer_email}}</td>
                                 </tr>
                                 <tr>
                                     <th width="45%"><strong>{{ __('Phone') }}:</strong></th>
                                     <th width="10%">:</th>
-                                    <td width="45%">{{$order->shipping_phone ?? null}}</td>
+                                    <td width="45%">{{$order->shipping_phone ?? $order->customer_phone}}</td>
                                 </tr>
                                 <tr>
                                     <th width="45%"><strong>{{ __('Address') }}:</strong></th>
                                     <th width="10%">:</th>
-                                    <td width="45%">{{$order->shipping_address ?? null}}</td>
+                                    <td width="45%">{{$order->shipping_address ?? $order->customer_address}}</td>
                                 </tr>
                                 <tr>
                                     <th width="45%"><strong>{{ __('Country') }}:</strong></th>
@@ -360,7 +360,7 @@
                                 <tr>
                                     <th width="45%"><strong>{{ __('Postal Code') }}:</strong></th>
                                     <th width="10%">:</th>
-                                    <td width="45%">{{$order->shipping_zip ?? null}}</td>
+                                    <td width="45%">{{$order->shipping_zip ?? $order->customer_zip}}</td>
                                 </tr>
 
 

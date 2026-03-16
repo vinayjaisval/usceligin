@@ -49,6 +49,7 @@
               </div>
               <span class="material-icons-outlined text-gray-400 dark:text-gray-500" aria-hidden="true">chevron_right</span>
             </a>
+            @if(Auth::user()->reffered_times == 3)
             <a href="{{ route('vendor.dashboard', ['tab' => 'purchases']) }}"
               class="tab-link flex items-center justify-between px-4 py-3 text-gray-900 hover:bg-gray-100">
               <div class="flex items-center">
@@ -56,6 +57,7 @@
                 <span>POS</span>
               </div>
             </a>
+            @endif
 
 
             <a href="#purchases"

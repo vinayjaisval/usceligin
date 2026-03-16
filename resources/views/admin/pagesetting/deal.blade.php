@@ -59,16 +59,17 @@
                         <div class="row mt-5">
                           <div class="col-lg-4">
                             <div class="left-area">
-                                <h4 class="heading">{{ __('Current Featured Image') }} *</h4>
+                                <h4 class="heading">{{ __('Product link') }}</h4>
                             </div>
                           </div>
                           <div class="col-lg-7">
                             <div class="img-upload full-width-img">
-                                <div id="image-preview" class="img-preview" style="background: url({{ $gs->deal_background ? asset('assets/images/'.$gs->deal_background):asset('assets/images/noimage.png') }});">
-                                    <label for="image-upload" class="img-label" id="image-label"><i class="icofont-upload-alt"></i>{{ __('Upload Image') }}</label>
-                                    <input type="file" name="deal_background" class="img-upload" id="image-upload">
-                                  </div>
-                                  <p class="text">{{ __('Prefered Size: (1920x800) or Square Sized Image') }}</p>
+                              <input class="form-control" type="text" name="deal_background" value="{{$gs->deal_background}}">
+                                <!-- <div id="image-preview" class="img-preview" style="background: url({{ $gs->deal_background ? asset('assets/images/'.$gs->deal_background):asset('assets/images/noimage.png') }});"> -->
+                                    <!-- <label for="image-upload" class="img-label" id="image-label"><i class="icofont-upload-alt"></i>{{ __('Upload Image') }}</label> -->
+                                    <!-- <input type="file" name="deal_background" class="img-upload" id="image-upload"> -->
+                                  <!-- </div> -->
+                                  <!-- <p class="text">{{ __('Prefered Size: (1920x800) or Square Sized Image') }}</p> -->
                             </div>
                           </div>
                         </div>

@@ -4,8 +4,9 @@
 @endphp
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<script>let CART_EMPTY = {{ $cartEmpty ? 'true' : 'false' }};</script>
-
+<script>
+window.CART_EMPTY = {{ $cartEmpty ? 'true' : 'false' }};
+</script>
 {{-- Cart empty notice --}}
 @if($cartEmpty)
 <div class="flex items-start gap-2 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 mb-4 text-xs text-amber-700 dark:text-amber-300">
@@ -23,7 +24,7 @@
     <input type="text"
       class="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors"
       name="customer_name"
-      value="{{ $sessionAddr['customer_name'] ?? '' }}"
+      value="{{ $sessionAddr['customer_name'] ?? $user->name ?? ''}}"
       placeholder="Full name"
       required>
   </div>
@@ -34,7 +35,7 @@
     <input type="email"
       class="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors"
       name="customer_email"
-      value="{{ $sessionAddr['customer_email'] ?? '' }}"
+      value="{{ $sessionAddr['customer_email'] ?? $user->email ?? ''}}"
       placeholder="email@example.com"
       required>
   </div>
@@ -45,7 +46,7 @@
     <input type="text"
       class="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors"
       name="customer_phone"
-      value="{{ $sessionAddr['customer_phone'] ?? '' }}"
+      value="{{ $sessionAddr['customer_phone'] ?? $user->phone ?? ''}}"
       placeholder="Phone number"
       required>
   </div>
@@ -62,10 +63,10 @@
         class="zipcode w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 pr-8 text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 transition-colors"
         id="customer_zip"
         name="customer_zip"
-        value="{{ $sessionAddr['customer_zip'] ?? '' }}"
+        value="{{ $sessionAddr['customer_zip'] ?? $user->zip ?? ''}}"
         placeholder="6-digit pincode"
         maxlength="6"
-        required>
+        >
       <span id="loader" class="absolute right-2 top-2.5 hidden">
         <svg class="animate-spin h-4 w-4 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -81,7 +82,7 @@
       class="w-full border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 text-sm cursor-not-allowed"
       id="customer_country"
       name="customer_country"
-      value="{{ $sessionAddr['customer_country'] ?? '' }}"
+      value="{{ $sessionAddr['customer_country'] ?? $user->country ?? '' }}"
       placeholder="Auto-filled"
       readonly>
   </div>
@@ -94,7 +95,7 @@
       class="w-full border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 text-sm cursor-not-allowed"
       id="customer_city"
       name="customer_city"
-      value="{{ $sessionAddr['customer_city'] ?? '' }}"
+      value="{{ $sessionAddr['customer_city'] ?? $user->city_id ?? '' }}"
       placeholder="Auto-filled"
       readonly>
   </div>
@@ -104,7 +105,7 @@
       class="w-full border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 text-sm cursor-not-allowed"
       id="customer_state"
       name="customer_state"
-      value="{{ $sessionAddr['customer_state'] ?? '' }}"
+      value="{{ $sessionAddr['customer_state'] ?? $user->city_id ?? '' }}"
       placeholder="Auto-filled"
       readonly>
   </div>
@@ -120,7 +121,7 @@
     name="customer_address"
     rows="2"
     placeholder="Street address, area, landmark..."
-    required>{{ $sessionAddr['customer_address'] ?? '' }}</textarea>
+    required>{{ $sessionAddr['customer_address'] ?? $user->address ?? '' }}</textarea>
 </div>
 
 <input type="hidden" name="shipping_cost" id="shipping_cost" value="{{ $sessionAddr['shipping_cost'] ?? 0 }}">
@@ -128,6 +129,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const zipInput = document.getElementById('customer_zip');
+ 
   const loader = document.getElementById('loader');
   if (!zipInput) return;
 

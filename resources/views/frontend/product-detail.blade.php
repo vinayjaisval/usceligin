@@ -23,13 +23,15 @@
         <div class="bg-primary-100 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 mb-6">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4">
             <div>
-              <p class="font-bold text-gray-900 dark:text-gray-100 text-sm sm:text-base">FREE SHIPPING on all Beauty Steals!</p>
-              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5">Diamond & Platinum members only. Join CELIGIN CLUB to unlock exclusive perks.</p>
+              <p class="font-bold text-gray-900 dark:text-gray-100 text-sm sm:text-base">{{ $gs->deal_title }}</p>
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5">{{ $gs->deal_details }}</p>
             </div>
-            <a href="{{ route('front.celigin-join-club') }}"
+            @if($gs->deal_time != null)
+            <a href="{{$gs->deal_background}}"
               class="flex-shrink-0 inline-flex items-center px-4 py-2 bg-primary-700 dark:bg-primary-600 text-white text-xs sm:text-sm font-semibold hover:bg-primary-800 dark:hover:bg-primary-500 transition-colors">
               Join CELIGIN CLUB
             </a>
+            @endif
           </div>
         </div>
 
@@ -306,12 +308,15 @@
                       </ul>
 
                       {{-- 3. Summary paragraph --}}
-                      @if(!empty($productt->details))
-                        <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                          {!! clean($productt->details, ['HTML.Allowed' => 'p,br,b,strong,em,ul,ol,li,span,div', 'AutoFormat.RemoveEmpty' => true]) !!}
-                        </div>
+                     @if(!empty($productt->details))
+                      <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed ck-content">
+                      {!! clean($productt->details, [
+                      'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,b,strong,em,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
+                      'AutoFormat.RemoveEmpty' => true
+                      ]) !!}
+                      </div>
                       @else
-                        <p class="text-sm text-gray-400 dark:text-gray-500">—</p>
+                      <p class="text-sm text-gray-400 dark:text-gray-500">—</p>
                       @endif
 
                     {{-- Return/Refund Policy --}}
@@ -419,7 +424,7 @@
           'label'   => 'Ingredients',
           'heading' => 'Key Ingredients',
           'body'    => $productt->ingredients,
-          'isHtml'  => false,
+          'isHtml'  => true,
         ],
       ])->filter(fn($s) => !empty(trim(strip_tags($s['body'] ?? ''))))->values();
     @endphp
@@ -451,12 +456,15 @@
                 <p class="text-xs font-semibold tracking-widest uppercase text-primary-600 dark:text-primary-400 mb-3">{{ $cs['label'] }}</p>
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-snug">{{ $cs['heading'] }}</h2>
                 <div class="w-10 h-0.5 bg-primary-600 dark:bg-primary-400 mb-6"></div>
-                <div class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-                  @if($cs['isHtml'])
-                    {!! clean($cs['body'], ['HTML.Allowed' => 'p,br,strong,em,ul,ol,li,span', 'AutoFormat.RemoveEmpty' => true]) !!}
-                  @else
-                    <p>{{ $cs['body'] }}</p>
-                  @endif
+                <div class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed" >
+               @if($cs['isHtml'])
+                {!! clean($cs['body'], [
+                    'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,b,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
+                    'AutoFormat.RemoveEmpty' => true
+                ]) !!}
+                @else
+                <p>{{ $cs['body'] }}</p>
+                @endif
                 </div>
               </div>
 

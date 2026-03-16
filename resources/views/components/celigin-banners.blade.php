@@ -24,7 +24,7 @@
         <div class="banner-content">
           <span class="badge">JOIN CELIGIN CLUB</span>
           <h3>Become a Brand Ambassador</h3>
-          <a href="{{ url('/join') }}" class="banner-btn">Join Now</a>
+          <a href="{{ url('celigin-join-club') }}" class="banner-btn">Join Now</a>
         </div>
       </div>
 

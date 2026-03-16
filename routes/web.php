@@ -1162,7 +1162,8 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/order/edit/{id}', 'Vendor\OrderController@edit')->name('vendor-order-edit');
         Route::post('/order/update/{id}', 'Vendor\OrderController@update')->name('vendor-order-update');
         Route::post('cancelWaybill/{id}', 'Vendor\OrderController@cancelWaybill');
-       
+       Route::get('/order/update/{id}', 'Vendor\OrderCreateController@orderUpdate')->name('order-update');
+       Route::get('order-thankyou', 'Vendor\OrderCreateController@thankyou')->name('order-thankyou');
        
        
         //------------ ORDER SECTION ENDS------------
@@ -1349,8 +1350,9 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/order/remove/addcart/{id}', 'Vendor\OrderCreateController@removeCart')->name('vendor.order.remove.cart');
         Route::get('/order/create/user-address', 'Vendor\OrderCreateController@userAddress');
         Route::post('/order/create/user-address', 'Vendor\OrderCreateController@userAddressSubmit')->name('vendor.order.create.user.address');
+        
         Route::post('/order/create/order/view', 'Vendor\OrderCreateController@viewCreateOrder')->name('vendor.order.create.view');
-        Route::get('/order/create/order/submit', 'Vendor\OrderCreateController@CreateOrderSubmit')->name('vendor-order-create-submit');
+        Route::post('/order/create/order/submit', 'Vendor\OrderCreateController@CreateOrderSubmit')->name('vendor-order-create-submit');
 
         Route::get('/order/{id}/track', 'Vendor\OrderTrackController@index')->name('vendor-order-track');
         Route::get('/order/{id}/trackload', 'Vendor\OrderTrackController@load')->name('vendor-order-track-load');

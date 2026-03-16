@@ -57,77 +57,7 @@ class CheckoutController extends FrontBaseController
         }
     }
 
-    // public function checkout1()
-    // {
-    //     if (isset($_GET['remove_coupon'])) {
-    //         Session::forget('already') ? Session::forget('already') : null;
-    //         Session::forget('coupon');
-    //         Session::forget('coupon_code');
-    //         Session::forget('coupon_id');
-    //         Session::forget('coupon_total1');
-    //         Session::forget('coupon_percentage');
-    //     }
-
-    //     if (!Session::has('cart')) {
-    //         return redirect()->route('front.cart')->with('success', __("You don't have any product to checkout."));
-    //     }
-    //     $dp = 1;
-    //     $vendor_shipping_id = 0;
-    //     $vendor_packing_id = 0;
-    //     $curr = $this->curr;
-    //     $gateways =  PaymentGateway::scopeHasGateway($this->curr->id);
-    //     // dd($gateways);
-    //     $pickups =  DB::table('pickups')->get();
-    //     $oldCart = Session::get('cart');
-    //     // $cart = new Cart($oldCart);
-
-    //     $cart = $oldCart;
-
-    //     $products = $cart->items;
-    //     $paystack = PaymentGateway::whereKeyword('paystack')->first();
-    //     $paystackData = $paystack->convertAutoData();
-    //     // $voguepay = PaymentGateway::whereKeyword('voguepay')->first();
-    //     // $voguepayData = $voguepay->convertAutoData();
-    //     // If a user is Authenticated then there is no problm user can go for checkout
-
-    //     if (Auth::check()) {
-
-    //         $total = $cart->totalPrice;
-    //         $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
-
-    //         if (!Session::has('coupon_total')) {
-    //             $total = $total - $coupon;
-    //             $total = $total + 0;
-    //             dd($total);
-    //         } else {
-    //             $total = Session::get('coupon_total');
-    //             $total =  str_replace(',', '', str_replace($curr->sign, '', $total));
-    //         }
-    //         $orderCount = Order::where('user_id', Auth::user()->id)->count();
-
-    //         // $orderCompleted = Order::where('user_id', Auth::user()->id)->where('status', 'completed')->count();
-
-    //         if ($orderCount == 0) {
-    //             $user = User::where('id', Auth::user()->id)->select('reffered_by')->first();
-               
-    //             if ($user && $user->reffered_by) {
-    //                 $refferal_discount = $total * ($this->gs->referral_bonus / 100);
-    //                 $total = $total - ($total * ($this->gs->referral_bonus / 100));
-    //             } else {
-    //                 $refferal_discount = 0;
-    //             }
-    //         } else {
-    //             $refferal_discount = 0;
-    //         }
-
-            
-    //         return view('frontend.checkout', ['products' => $cart->items, 'refferal_discount' => $refferal_discount, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr,  'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id, 'paystack' => $paystackData]);
-    //     }
-
-
-       
-
-    // }
+   
 
     public function checkout()
     {
@@ -216,15 +146,16 @@ class CheckoutController extends FrontBaseController
                           ->orWhereNull('address_category');
                 })
                 ->get();
+               
 
             $billingAddresses = Address::where('user_id', $user->id)
                 ->where('address_category', 'billing')
                 ->get();
-
+             
             // For backward compatibility, also pass combined addresses
             $addresses = $deliveryAddresses;
             $defaultAddress = $deliveryAddresses->firstWhere('is_default', true);
-            $defaultBillingAddress = $billingAddresses->firstWhere('is_default', true);
+            $defaultBillingAddress = $billingAddresses->firstWhere('is_default', false);
 
             // -----------------------------------------------------------
             // 🔹 RETURN VIEW

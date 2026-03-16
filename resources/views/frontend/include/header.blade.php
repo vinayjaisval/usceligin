@@ -29,6 +29,15 @@
     #mobile-menu.show {
       max-height: 500px;
     }
+
+    .ck-content ul{
+list-style: disc;
+padding-left:20px;
+}
+
+.ck-content li{
+margin-bottom:4px;
+}
   </style>
 </head>
 <body class="bg-white dark:bg-gray-900">

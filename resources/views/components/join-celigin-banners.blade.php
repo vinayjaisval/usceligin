@@ -27,7 +27,7 @@
           <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white mb-6">
             Become a Brand Ambassador
           </h3>
-          <a href="{{ url('/join') }}"
+          <a href="{{ url('celigin-join-club') }}"
             class="inline-flex items-center px-4 py-2 bg-amber-600 text-white font-medium hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 w-fit text-sm"
             aria-label="Join CELIGIN Club to become a brand ambassador">
             Join Now
@@ -44,7 +44,7 @@
           <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white">
             Cell For Education
           </h3>
-          <a href="{{ url('/education') }}"
+          <a href="{{ url('celigin-join-club') }}"
             class="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white font-medium hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 text-sm"
             aria-label="Learn more about Cell For Education program">
             Read More

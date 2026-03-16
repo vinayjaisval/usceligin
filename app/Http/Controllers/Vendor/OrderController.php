@@ -88,7 +88,7 @@ class OrderController extends VendorBaseController
             })
             ->addColumn('action', function (Order $data) {
                 $orders = '<a href="javascript:;" data-href="' . route('vendor-order-edit', $data->id) . ')' . '</a>';
-                return '<div class="godropdown"><button class="go-dropdown-toggle">' . __('Actions') . '<i class="fas fa-chevron-down"></i></button><div class="action-list"><a href="' . route('vendor-order-show', $data->id) . '" > <i class="fas fa-eye"></i> ' . __('View Details') . '</a><a href="javascript:;" class="send" data-email="' . $data->customer_email . '" data-toggle="modal" data-target="#vendorform"><i class="fas fa-envelope"></i> ' . __('Send') . '</a><a href="javascript:;" data-href="' . route('vendor-order-track', $data->id) . '" class="track" data-toggle="modal" data-target="#modal1"><i class="fas fa-truck"></i> ' . __('Track Order') . '</a>' . $orders . '</div></div>';
+                return '<div class="godropdown"><button class="go-dropdown-toggle">'  . '<i class="fas fa-chevron-down"></i></button><div class="action-list"><a href="' . route('vendor-order-show', $data->id) . '" > <i class="fas fa-eye"></i> ' . __('View Details') . '</a><a href="javascript:;" class="send" data-email="' . $data->customer_email . '" data-toggle="modal" data-target="#vendorform"><i class="fas fa-envelope"></i> ' . __('') . '</a><a href="javascript:;" data-href="' . route('vendor-order-track', $data->id) . '" class="track" data-toggle="modal" data-target="#modal1"><i class="fas fa-truck"></i> ' . __('') . '</a>' . $orders . '</div></div>';
             })
             ->rawColumns(['id', 'action'])
             ->toJson(); //--- Returning Json Data To Client Side
@@ -100,10 +100,7 @@ class OrderController extends VendorBaseController
         $cart = json_decode($order->cart, true);
         return view('vendor.orderpos.details', compact('order', 'cart'));
     }
-    // public function index()
-    // {
-    //     return view('vendor.orderpos.index');
-    // }
+   
 
     public function invoice($id)
     {
@@ -164,6 +161,9 @@ class OrderController extends VendorBaseController
     //*** POST Request
     public function update(Request $request, $id)
     {
+
+         
+          
         //--- Logic Section
         $data = Order::findOrFail($id);
         $input = $request->all();
@@ -263,10 +263,10 @@ class OrderController extends VendorBaseController
                     //     'subject' => 'Your order ' . $data->order_number . ' is Confirmed!',
                     //     'body' => "Hello " . $data->customer_name . "," . "\n Thank you for shopping with us. We are looking forward to your next visit.",
                     // ];
-
                     // $mailer = new GeniusMailer();
                     // $mailer->sendCustomMail($maildata);
-                }
+               
+                    }
                 if ($input['status'] == "declined") {
                     if ($data->user_id != 0) {
                         if ($data->wallet_price != 0) {

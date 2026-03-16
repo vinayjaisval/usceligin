@@ -268,7 +268,7 @@
     {{-- ─── LEFT: STEP 2 CUSTOMER DETAILS (2/3) ──────────────── --}}
     <div class="lg:col-span-2">
       <form action="{{ route('vendor.order.create.view') }}" method="POST" id="pos-form">
-        @csrf
+      @csrf
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
 
           <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3">
@@ -464,7 +464,8 @@
         {{-- ── Step 6: Place Order (always pinned at bottom) ── --}}
         <div class="border-t border-gray-200 dark:border-gray-700 flex-shrink-0 px-4 py-3">
           @if($hasAddress)
-          <form method="GET" action="{{ route('vendor-order-create-submit') }}" id="order-submit-form">
+          <form method="POST" action="{{ route('vendor-order-create-submit') }}" id="order-submit-form">
+            @csrf
             <input type="hidden" name="coupon_discount" id="form-coupon"   value="0">
             <input type="hidden" name="shipping_cost"   id="form-shipping" value="{{ $posShipping }}">
             <input type="hidden" name="total"           id="form-total"    value="{{ $posTotal }}">
@@ -772,16 +773,44 @@ $(document).on('click', '.removeOrder', function(e) {
    EXISTING CUSTOMER → AUTO-FILL
 ═══════════════════════════════════════════════════════════════ */
 $(document).on('change', '#order_create_user', function() {
-  const user_id = $(this).val();
+
+  const user_id = $(this).val(); 
+  console.log("Selected User ID:", user_id);
+
   if (user_id) {
+
+    console.log("Sending AJAX request...");
+
     $.ajax({
       url: mainurl + '/vendor/order/create/user-address',
-      type: 'GET', data: { user_id },
-      success(data) { $('#order_create_user_address').html(data); }
+      type: 'GET',
+      data: { user_id: user_id },
+
+      beforeSend: function () {
+        console.log("Request started...");
+      },
+
+      success: function(data) {
+        console.log("Response received:", data);
+        $('#order_create_user_address').html(data);
+      },
+
+      error: function(xhr, status, error) {
+        console.log("AJAX Error:", error);
+        console.log("Status:", status);
+        console.log("Response:", xhr.responseText);
+      },
+
+      complete: function() {
+        console.log("Request completed");
+      }
     });
+
   } else {
+    console.log("User ID not selected, clearing fields");
     $('#order_create_user_address').find('input, textarea').val('');
   }
+
 });
 
 /* ═══════════════════════════════════════════════════════════════
