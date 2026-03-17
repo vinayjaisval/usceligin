@@ -9,81 +9,56 @@
 <main id="main-content" role="main">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    {{-- Breadcrumb --}}
-    <div class="py-4 sm:py-6">
+    {{-- Line 1: Breadcrumb --}}
+    <div class="py-3">
       <x-breadcrumb title="New Arrivals" />
     </div>
 
-    {{-- Category Header with Form-based Filtering --}}
-    <section class="py-6 sm:py-8 lg:py-12" aria-labelledby="category-title">
-      {{-- Title --}}
-      <div class="mb-6 sm:mb-8">
-        <h1 id="category-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100">
-          New Arrivals
-        </h1>
-      </div>
-
+    {{-- Lines 2–3: Title, Tags, Filter --}}
+    <section class="pb-2" aria-labelledby="category-title">
       <form id="filters-form" method="GET" action="{{ url()->current() }}">
-        {{-- Category Tags as Buttons --}}
-        <nav class="mb-6 sm:mb-8" aria-label="Category filters">
-          <div class="flex flex-wrap gap-2 sm:gap-3" role="list">
 
-            <button
-              type="submit"
-              name="tags"
-              value=""
-              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
-              aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}"
-              role="listitem">
-              All
-            </button>
+        {{-- Line 2: Title (left) + Tags (right) --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-6 mb-3">
+          <h1 id="category-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 shrink-0">
+            New Arrivals
+          </h1>
+          <nav aria-label="Category filters">
+            <div class="flex flex-wrap gap-2" role="list">
+              <button type="submit" name="tags" value=""
+                class="px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+                aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}" role="listitem">
+                All
+              </button>
+              @foreach($tags as $tag)
+              <button type="submit" name="tags" value="{{ $tag->slug }}"
+                class="px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ isset($currentCategory) && $currentCategory === $tag->slug ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+                aria-pressed="{{ isset($currentCategory) && $currentCategory === $tag->slug ? 'true' : 'false' }}" role="listitem">
+                {{ $tag->name }}
+              </button>
+              @endforeach
+            </div>
+          </nav>
+        </div>
 
-            @foreach($tags as $tag)
-            <button
-              type="submit"
-              name="tags"
-              value="{{ $tag->slug }}"
-              class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ isset($currentCategory) && $currentCategory === $tag->slug ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
-              aria-pressed="{{ isset($currentCategory) && $currentCategory === $tag->slug ? 'true' : 'false' }}"
-              role="listitem">
-              {{ $tag->name }}
-            </button>
-            @endforeach
-
-
-
-          </div>
-        </nav>
-
-        {{-- Results Count & Sort Controls --}}
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
-          {{-- Results Count --}}
-          <div class="flex items-center">
-            <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
-              <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $prods->count() }}</span> results
-            </span>
-          </div>
-
-          {{-- Sort Dropdown --}}
+        {{-- Line 3: Results count (left) + Sort (right) --}}
+        <div class="flex items-center justify-between gap-4 mb-6 sm:mb-8 pb-3 border-b border-gray-200 dark:border-gray-700">
+          <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
+            <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $prods->count() }}</span> results
+          </span>
           <div class="flex items-center gap-2 sm:gap-3">
-            <label for="sort-select" class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
-              Sort by
-            </label>
-            <select
-              id="sort-select"
-              name="sort"
-              class="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-offset-gray-900 transition-colors duration-200"
-              aria-label="Sort products by"
-              onchange="this.form.submit()">
-              @php
-              $currentSort = request()->query('sort', 'popularity');
-              @endphp
+            <label for="sort-select" class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sort by</label>
+            <select id="sort-select" name="sort"
+              class="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-offset-gray-900 transition-colors duration-200"
+              aria-label="Sort products by" onchange="this.form.submit()">
+              @php $currentSort = request()->query('sort', 'popularity'); @endphp
               <option value="popularity" {{ $currentSort === 'popularity' ? 'selected' : '' }}>Popularity</option>
               <option value="price-low" {{ $currentSort === 'price-low' ? 'selected' : '' }}>Price: Low to High</option>
               <option value="price-high" {{ $currentSort === 'price-high' ? 'selected' : '' }}>Price: High to Low</option>
             </select>
           </div>
         </div>
+
       </form>
     </section>
 
