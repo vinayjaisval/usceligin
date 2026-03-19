@@ -11,7 +11,7 @@
       'color'    => 'text-semantic-success',
       'bg'       => 'bg-green-50 dark:bg-green-950/30',
       'border'   => 'border-green-200 dark:border-green-900',
-      'title'    => 'Payment Successful!',
+      'title'    => 'Order Successful!',
       'message'  => 'Your order has been placed. A confirmation email is on its way.',
       'amtLabel' => 'Amount Paid',
     ],
@@ -39,33 +39,11 @@
 
   $currentStatus = $statusConfig[$demoStatus] ?? $statusConfig['success'];
 
-  $order = $order ?? [
-    'order_number'   => 'hejH1764847275',
-    'order_date'     => '04-Dec-2025',
-    'transaction_id' => 'pay_RnWArmPcKs1FBy',
-    'payment_method' => 'Razorpay',
-  ];
+  $order = $order ?? '';
 
-  $paymentInfo = $paymentInfo ?? [
-    'totalPrice'        => 8092,
-    'shipping_cost'     => 150,
-    'refferal_discount' => 150,
-    'coupon_discount'   => 500,
-    'tax'               => 0,
-    'pay_amount'        => 7742,
-  ];
+  $paymentInfo = $paymentInfo ?? '';
 
-  $billingAddress = $billingAddress[0] ?? [
-    'name'    => 'Vinay',
-    'email'   => 'vinay.jaisval2015@gmail.com',
-    'phone'   => '9889259224',
-    'address' => 'Noida Sector-2, B-95',
-    'flat'    => '217B',
-    'city'    => 'Gautam Buddha Nagar',
-    'state'   => 'Uttar Pradesh',
-    'pincode' => '201301',
-    'country' => 'India',
-  ];
+  $billingAddress = $billingAddress[0] ?? '';
 
   $orderProducts = $orderProducts ?? [
     ['name' => 'Organic Face Serum - Vitamin C', 'image' => asset('assets/images/noimage.png'), 'quantity' => 2, 'price' => 1299, 'total' => 2598],

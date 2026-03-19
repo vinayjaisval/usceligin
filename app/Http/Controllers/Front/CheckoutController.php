@@ -12,9 +12,9 @@ use App\Models\City;
 use App\Models\State;
 use App\Models\Address;
 use DB;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Session;
+use Illuminate\Support\Facades\Session;
 
 
 class CheckoutController extends FrontBaseController
@@ -257,14 +257,14 @@ class CheckoutController extends FrontBaseController
 
     public function payreturn()
     {
-         $billingAddress=Address::where('user_id', Auth::user()->id)->where('is_default', 1)->get();
+         $billingAddress=Address::where('user_id', Auth::user()->id)->where('address_category', 'delivery')->get();
         
-       
+
         if (Session::has('tempcart')) {
             $oldCart = Session::get('tempcart');          
             // $tempcart = new Cart($oldCart);
             $tempcart = $oldCart;
-            // dd($tempcart);
+             
             $order = Session::get('temporder');
         } else {
             $tempcart = '';
@@ -272,7 +272,7 @@ class CheckoutController extends FrontBaseController
         }
         
         $cart = json_decode($order->cart ,true);
-         $paymentInfo=$order;
+        $paymentInfo=$order;
 
         return view('frontend.payment-status', compact('tempcart', 'order' ,'billingAddress', 'paymentInfo'));
     }

@@ -14,12 +14,14 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class LoginController extends Controller
 {
   public function __construct()
   {
     $this->middleware('guest', ['except' => ['logout', 'userLogout', 'loginotp']]);
+    
   }
 
   public function login(Request $request)
@@ -97,6 +99,9 @@ class LoginController extends Controller
   public function send_otp(Request $request)
   {
 
+ 
+
+
     // Validate input
     $request->validate([
 
@@ -129,15 +134,27 @@ class LoginController extends Controller
       'expires_at' => now()->addMinutes(5)
     ]);
 
-  
+
     // Send OTP
     if ($method === 'email') {
       $mailer = new GeniusMailer();
+
+      $htmlBody = View::make('emails.otp', [
+       
+        'name'       =>'User',
+        'headline'   => 'Here`s your one-time login code:',
+        'otp' => $otp,
+        'subject' => ' Your login code is' . $otp,
+        'cta_label'  => 'Visit Website',
+        'cta_url'    => url('/')
+      ])->render();
+
       $mailData = [
         'to' => $identifier,
-        'subject' => 'Your Login OTP Code',
-        'body' => "Your OTP code is: {$otp}"
+        'subject' => 'Celigin Login OTP Code - '. $otp,
+        'body' => $htmlBody
       ];
+      
       \Log::info("OTP sent to email {$identifier}: {$otp}");
       $mailer->sendCustomMail($mailData);
     } elseif ($method === 'phone') {
@@ -178,10 +195,9 @@ class LoginController extends Controller
         'refferel_code' => md5(($request->name ?? 'User') . $identifier . rand(1111, 9999)),
       ];
 
-     
+
       if (Session::has('refferel_user_id')) {
         $input['reffered_by'] = Session::get('refferel_user_id');
-       
       }
 
       if (Session::has('affilate')) {
@@ -254,10 +270,20 @@ class LoginController extends Controller
     if ($method === 'email') {
       try {
         $mailer = new GeniusMailer();
+
+        $htmlBody = View::make('emails.otp', [
+      
+        'name'       =>'User',
+        'headline'   => 'You asked for a new code. Here it is:',
+        'otp' => $otp,
+        'subject' => 'Your login code is' . $otp,
+        'cta_label'  => 'Visit Website',
+        'cta_url'    => url('/')
+      ])->render();
         $mailData = [
           'to'      => $identifier,
-          'subject' => 'Your Login OTP Code',
-          'body'    => "Your OTP code is: {$otp}"
+          'subject' => 'Here`s your new login code: ' . $otp,
+          'body'    =>  $htmlBody
         ];
         $mailer->sendCustomMail($mailData);
         \Log::info("OTP resent to email {$identifier}: {$otp}");

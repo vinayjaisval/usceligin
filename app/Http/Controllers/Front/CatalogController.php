@@ -247,8 +247,10 @@ class CatalogController extends FrontBaseController
   public function new_arrivals(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
 
-     $tags = Tag::all();
-    
+    // dd($request->all());
+
+    $tags = Tag::all();
+
     $data['tags'] = $tags;
     $gs = $this->gs;
 
@@ -275,12 +277,14 @@ class CatalogController extends FrontBaseController
 
 
     $tag_data = Tag::where('slug', $tag)->first('id');
-    $tag_id = $tag_data->id ?? '';
 
-    
+    $tag_id = $tag_data->id ?? '';
+  
+
+
     // Tag functionality disabled - tags table doesn't exist
-    
-    
+
+
 
     if (!empty($slug)) {
       $cat = Category::where('slug', $slug)->firstOrFail();
@@ -295,23 +299,15 @@ class CatalogController extends FrontBaseController
       $childcat = Childcategory::where('slug', $slug2)->firstOrFail();
       $data['childcat'] = $childcat;
     }
-    $data['latest_products'] = Product::with('user')->whereStatus(1)->whereLatest(1)
-
-
-
-      ->when('user', function ($query) {
-        foreach ($query as $q) {
-          if ($q->is_vendor == 2) {
-            return $q;
-          }
-        }
-      })
+    $data['latest_products'] = Product::with('user')
+      ->where('status', 1)
+      ->where('latest', 1)
       ->withCount('ratings')
       ->withAvg('ratings', 'rating')
       ->get()
       ->chunk(4);
 
-     // dd($data['latest_products']);
+    //dd($data['latest_products']->count());
 
     $prods = Product::with('user')->when($cat, function ($query, $cat) {
       return $query->where('category_id', $cat->id);
@@ -421,12 +417,13 @@ class CatalogController extends FrontBaseController
 
 
 
-     $prods = $prods->where('status', 1)->get()
+    $prods = $prods->where('status', 1)
+    ->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
 
-      ->map(function ($item) {
-        $item->price = $item->vendorSizePrice();
-        return $item;
-      })->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
+$prods->getCollection()->transform(function ($item) {
+    $item->price = $item->vendorSizePrice();
+    return $item;
+});
     $data['prods'] = $prods;
     $data['tags'] = []; // Empty tags array - tags functionality disabled
 
@@ -435,7 +432,7 @@ class CatalogController extends FrontBaseController
       return view('frontend.new-arrivals', $data);
     }
 
-    
+
     return view('frontend.new-arrivals', $data);
   }
 
@@ -977,8 +974,12 @@ class CatalogController extends FrontBaseController
 
       ->map(function ($item) {
         $item->price = $item->vendorSizePrice();
+
+       
         return $item;
       })->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
+
+  
     $data['prods'] = $prods;
     $data['tags'] = []; // Empty tags array - tags functionality disabled
 
@@ -990,16 +991,15 @@ class CatalogController extends FrontBaseController
   }
 
 
-   public function loadMoreProducts(Request $request)
-    {
+  public function loadMoreProducts(Request $request)
+  {
 
-        dd($request->all());
-        $skip = $request->skip ?? 0;
-        $limit = 8; // how many load per click
 
-        $products = Product::latest()->skip($skip)->take($limit)->get();
+    $skip = $request->skip ?? 0;
+    $limit = 8; // how many load per click
 
-        return view('frontend.partials.product-list', compact('products'))->render();
-    }
+    $products = Product::latest()->skip($skip)->take($limit)->get();
 
+    return view('frontend.partials.product-list', compact('products'))->render();
+  }
 }

@@ -532,7 +532,7 @@
                           @endif
 
                           {{-- 4. View Invoice — always active --}}
-                          <a href="{{ url('/user/order/' . $order->id) }}"
+                          <a href="{{ url('/user/print/order/print/' . $order->id) }}"
                             class="w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                             View Invoice
                           </a>
@@ -842,7 +842,7 @@
               </div>
 
               {{-- Account Info Box --}}
-              <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
+              <!-- <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
                 <div class="flex items-start gap-3 mb-4">
                   <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-xl mt-0.5" aria-hidden="true">info</span>
                   <div class="flex-1">
@@ -875,7 +875,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               {{-- Update Button --}}
               <div class="flex gap-3">
@@ -2220,32 +2220,33 @@
 
   // Cancel order
   function cancelOrder(orderId) {
-    if (!confirm('Are you sure you want to cancel this order?')) return;
 
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  if (!confirm('Are you sure you want to cancel this order?')) return;
 
-    fetch('{{ url("/") }}/user/order/' + orderId + '/cancel', {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success || data.message) {
-        showToast(data.message || 'Order cancelled successfully', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      } else {
-        showToast(data.error || 'Failed to cancel order', 'error');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      showToast('An error occurred while cancelling the order', 'error');
-    });
-  }
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+  fetch("{{ route('user-order-cancel', ':id') }}".replace(':id', orderId), {
+    method: 'POST',
+    headers: {
+      'X-CSRF-TOKEN': csrfToken,
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showToast(data.message || 'Order cancelled successfully', 'success');
+      setTimeout(() => location.reload(), 1000);
+    } else {
+      showToast(data.message || 'Failed to cancel order', 'error');
+    }
+  })
+  .catch(error => {
+    console.error(error);
+    showToast('Something went wrong', 'error');
+  });
+
+}
   // Remove all wishlist items
   function removeAllWishlistItems() {
     if (!confirm('Are you sure you want to remove ALL items from your wishlist? This action cannot be undone.')) {
@@ -2254,7 +2255,7 @@
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch('{{ url(' / ') }}/user/wishlist/clear', {
+    fetch('{{url('/')}}/user/wishlist/clear', {
         method: 'POST',
         headers: {
           'X-CSRF-TOKEN': csrfToken,

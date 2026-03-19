@@ -10,15 +10,17 @@ use App\{
 };
 use App\Helpers\PriceHelper;
 use App\Models\Country;
+
 use App\Models\Package;
 use App\Models\Reward;
-use App\Models\Shipping;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Session;
-use OrderHelper;
+use Illuminate\Support\Facades\Session;
+use App\Helpers\OrderHelper;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 
 class CashOnDeliveryController extends CheckoutBaseControlller
 {
@@ -27,7 +29,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
 
 
         $input = $request->all();
-       
+
         if ($request->pass_check) {
 
             $auth = OrderHelper::auth_check($input); // For Authentication Checking
@@ -86,7 +88,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         $input['order_number'] = Str::random(4) . time();
         $input['wallet_price'] = $request->wallet_price / $this->curr->value;
 
-        
+
         if ($request->refferal_discount) {
             $input['refferal_discount'] = $request->refferal_discount;
         }
@@ -140,7 +142,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         $order->tracks()->create(['title' => 'Pending', 'text' => 'You have successfully placed your order.']);
         $order->notifications()->create();
 
-        // ShippedToDelivery::dispatch($input['order_number']);
+         ShippedToDelivery::dispatch($input['order_number']);
 
 
         if ($input['coupon_code'] != "") {
@@ -161,8 +163,6 @@ class CashOnDeliveryController extends CheckoutBaseControlller
                 }
             }
         }
-
-
         OrderHelper::size_qty_check($cart); // For Size Quantiy Checking
         OrderHelper::stock_check($cart); // For Stock Checking
         OrderHelper::vendor_order_check($cart, $order); // For Vendor Order Checking
@@ -179,26 +179,65 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         }
 
         //Sending Email To Buyer
-        $data = [
-            'to' => $order->customer_email,
-            'type' => "new_order",
-            'cname' => $order->customer_name,
-            'oamount' => "",
-            'aname' => "",
-            'aemail' => "",
-            'wtitle' => "",
-            'onumber' => $order->order_number,
-        ];
+        // $data = [
+        //     'to' => $order->customer_email,
+        //     'type' => "new_order",
+        //     'cname' => $order->customer_name,
+        //     'oamount' => "",
+        //     'aname' => "",
+        //     'aemail' => "",
+        //     'wtitle' => "",
+        //     'onumber' => $order->order_number,
+        // ]; 
 
+        try {
 
-        $data = [
-            'to' => $this->ps->contact_email,
-            'subject' => "New Order Recieved!!",
-            'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
-        ];
-        $mailer = new GeniusMailer();
+            // Log::info('📧 Mail start', [
+            //     'order_id' => $order->order_number,
+            //     'email' => $this->ps->contact_email
+            // ]);
 
-        $mailer->sendCustomMail($data);
+            $mailer = new GeniusMailer();
+
+            $htmlBody = View::make('emails.order', [
+                'name'       => $order->customer_name,
+                'headline'   => 'Your order is confirmed and we are getting it ready.',
+                'order_id'   => $order->order_number,
+                'total'      => $order->pay_amount,
+                'subject'    => "Order $order->order_number confirmed — thanks!",
+                'cta_label'  => 'Visit Website',
+                'cta_url'    => url('/')
+            ])->render();
+
+            if (empty($htmlBody)) {
+                Log::error('❌ Email body empty');
+            }
+
+            $data = [
+                'to'      => 'vinay.jaisval2015@gmail.com' ?? Auth::user()->email,
+                'subject' => "Order $order->order_number confirmed — thanks!",
+                'body'    => $htmlBody
+            ];
+        //      $data = [
+        //     'to' => $this->ps->contact_email,
+        //     'subject' => "New Order Recieved!!",
+        //     'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
+        // ];
+
+            // Log::info('📧 Sending mail...', $data);
+
+            $result = $mailer->sendCustomMail($data);
+
+            // Log::info('📧 Mail response', ['result' => $result]);
+        } catch (\Exception $e) {
+
+            Log::error('❌ Mail failed', [
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
+        }
+
         return redirect($success_url);
     }
 }
