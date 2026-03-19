@@ -324,7 +324,7 @@
         </div>
 
         {{-- ── RIGHT: DETAILS ── --}}
-        <aside class="lg:col-span-2" aria-label="Contact information">
+        <div class="lg:col-span-2" aria-label="Contact information">
 
           {{-- Office Info --}}
           <div class="border border-gray-200 dark:border-gray-700 mb-6">
@@ -388,7 +388,7 @@
           </div>
 
           {{-- Business Hours --}}
-          <div class="border border-gray-200 dark:border-gray-700 mb-6">
+          <div class="border border-gray-200 dark:border-gray-700">
             <div class="px-5 py-3.5 border-b border-gray-200 dark:border-gray-700
                         bg-gray-50 dark:bg-gray-800">
               <h3 class="text-xs font-semibold uppercase tracking-widest"
@@ -406,68 +406,19 @@
                 </div>
                 <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-700">
                   <dt class="text-gray-500 dark:text-gray-400">Sunday</dt>
-                  <dd class="text-gray-400 dark:text-gray-500">Closed</dd>
+                  <dd class="text-gray-500 dark:text-gray-400">Closed</dd>
                 </div>
               </dl>
-              <p class="mt-4 text-xs text-gray-400 dark:text-gray-500 leading-relaxed">
+              <p class="mt-4 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
                 All times are in IST (UTC +5:30).
                 Support emails are monitored 7 days a week.
               </p>
             </div>
           </div>
 
-          {{-- Social --}}
-          <div class="border border-gray-200 dark:border-gray-700">
-            <div class="px-5 py-3.5 border-b border-gray-200 dark:border-gray-700
-                        bg-gray-50 dark:bg-gray-800">
-              <h3 class="text-xs font-semibold uppercase tracking-widest"
-                  style="color:#1C3057;">Follow Us</h3>
-            </div>
-            <div class="px-5 py-4 flex flex-wrap gap-3">
-              <a href="#" aria-label="Instagram"
-                 class="inline-flex items-center gap-2 text-xs font-semibold uppercase
-                        tracking-wide text-gray-600 dark:text-gray-300
-                        border border-gray-200 dark:border-gray-600
-                        px-3 py-2 transition-colors
-                        hover:text-white dark:hover:text-white"
-                 style="--hover-bg:#1C3057;"
-                 onmouseover="this.style.backgroundColor='#1C3057';this.style.borderColor='#1C3057';"
-                 onmouseout="this.style.backgroundColor='';this.style.borderColor='';">
-                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M7.5 2h9A5.5 5.5 0 0122 7.5v9A5.5 5.5 0 0116.5 22h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2zm0 1.5A4 4 0 003.5 7.5v9A4 4 0 007.5 20.5h9a4 4 0 004-4v-9a4 4 0 00-4-4h-9zM12 7a5 5 0 110 10A5 5 0 0112 7zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm5.25-2.25a.75.75 0 110 1.5.75.75 0 010-1.5z"/>
-                </svg>
-                Instagram
-              </a>
-              <a href="#" aria-label="Facebook"
-                 class="inline-flex items-center gap-2 text-xs font-semibold uppercase
-                        tracking-wide text-gray-600 dark:text-gray-300
-                        border border-gray-200 dark:border-gray-600
-                        px-3 py-2 transition-colors
-                        hover:text-white dark:hover:text-white"
-                 onmouseover="this.style.backgroundColor='#1C3057';this.style.borderColor='#1C3057';"
-                 onmouseout="this.style.backgroundColor='';this.style.borderColor='';">
-                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M13.5 8.5H16V5.5h-2.5C11.57 5.5 10 7.07 10 9v1.5H8V13h2v8.5h3V13h2.5l.5-2.5H13V9a.5.5 0 01.5-.5z"/>
-                </svg>
-                Facebook
-              </a>
-              <a href="#" aria-label="X / Twitter"
-                 class="inline-flex items-center gap-2 text-xs font-semibold uppercase
-                        tracking-wide text-gray-600 dark:text-gray-300
-                        border border-gray-200 dark:border-gray-600
-                        px-3 py-2 transition-colors
-                        hover:text-white dark:hover:text-white"
-                 onmouseover="this.style.backgroundColor='#1C3057';this.style.borderColor='#1C3057';"
-                 onmouseout="this.style.backgroundColor='';this.style.borderColor='';">
-                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
-                </svg>
-                X / Twitter
-              </a>
-            </div>
-          </div>
 
-        </aside>
+
+        </div>
       </div>
     </div>
   </section>
