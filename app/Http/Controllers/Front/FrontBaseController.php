@@ -64,7 +64,6 @@ class FrontBaseController extends Controller
             }
             Session::put('popup', 1);
 
-dd($next($request));
             return $next($request);
         });
 
