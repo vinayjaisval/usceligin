@@ -1,34 +1,35 @@
 <?php
-
 namespace App\Jobs;
 
-use App\Models\Order;
-use App\Models\Product;
-use GuzzleHttp\Client;
+use App\Models\Cart;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Product;
+use GuzzleHttp\Client;
+use App\Models\ShippingAddress;
+use App\Models\Shop;
+use App\Utils\Helpers;
 use Illuminate\Support\Facades\Log;
-
+use DB;
 class ShippedToDelivery implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $input;
-
     /**
      * Create a new job instance.
      */
     public function __construct($input)
     {
         $this->input = $input;
+        
     }
-
-    /**
-     * Execute the job.
-     */
+   
     public function handle(): void
     {
         $orders = Order::where('orders.status', 'pending')
@@ -47,54 +48,66 @@ class ShippedToDelivery implements ShouldQueue
                 'shipping.phone as shipping_phone'
             )
             ->get();
+
+        //    dd($orders);
+               
         if ($orders->isEmpty()) {
             Log::warning("Order not found: {$this->input}");
             return;
         }
 
+
+
+
+    
         foreach ($orders as $order) {
-            // Skip if AWB already generated
+            // Prevent duplicate shipment creation
+          
             if (!empty($order->third_party_delivery_tracking_id)) {
                 Log::info("Shipment already created for Order: {$order->order_number}");
                 continue;
             }
-
+    
             $cartItems = json_decode($order->cart, true);
-
+    
             if (!isset($cartItems['items']) || empty($cartItems['items'])) {
                 Log::warning("Cart items missing in order: {$order->order_number}");
                 continue;
             }
-
-            // Prepare product details
+    
+            // Prepare product details summary (e.g., names, total qty, etc.)
             $productsDesc = [];
             $totalQuantity = 0;
             $totalWeight = 0;
-
+    
             foreach ($cartItems['items'] as $item) {
                 $productData = $item['item'];
                 $product = Product::find($productData['id']);
-
+    
                 if (!$product) {
                     Log::warning("Product not found: ID {$productData['id']}");
                     continue;
                 }
-
+    
                 $productsDesc[] = $product->name;
                 $totalQuantity += $item['qty'];
                 $totalWeight += $product->weight * $item['qty'];
             }
-
+    
             if (empty($productsDesc)) {
                 Log::warning("No valid products found for Order: {$order->order_number}");
                 continue;
             }
+            if($order->method  == 1){
+                $paymentMode = 'COD';
+            }
+            else{
+                $paymentMode = $order->method;
+            }
+                    // $paymentMode = $order->method == 1 ? 'COD' : 'Prepaid';
+                    $codAmount = $paymentMode === 'COD' ? $order->pay_amount : 0;
 
-            // Determine payment mode and COD
-            $paymentMode = $order->method == 1 ? 'COD' : 'Prepaid';
-            $codAmount = $paymentMode === 'COD' ? $order->pay_amount : 0;
-
-            // Build shipment data
+    
             $shipmentData = [
                 'shipments' => [
                     [
@@ -105,7 +118,7 @@ class ShippedToDelivery implements ShouldQueue
                         'state'          => $order->shipping_state ?? '',
                         'country'        => $order->shipping_country ?? '',
                         'phone'          => $order->customer_phone ?? '',
-                        'order'          => $order->order_number,
+                        'order'          => $order->shipping_phone,
                         'payment_mode'   => $paymentMode,
                         'return_pin'     => '201301',
                         'return_city'    => 'Noida',
@@ -114,11 +127,17 @@ class ShippedToDelivery implements ShouldQueue
                         'return_state'   => 'Uttar Pradesh',
                         'return_country' => 'India',
                         'products_desc'  => implode(', ', $productsDesc),
+                        'hsn_code'       => '', // Optional
                         'cod_amount'     => $codAmount,
                         'order_date'     => now(),
-                        'total_amount'   => $order->pay_amount,
+                        'total_amount'   => $codAmount,
+                        'seller_inv'     => '',
                         'quantity'       => $totalQuantity,
+                        'waybill'        => '',
+                        'shipment_width' => 10,
+                        'shipment_height'=> 10,
                         'weight'         => $totalWeight ?: 1,
+                        'seller_gst_tin' => '',
                         'shipping_mode'  => 'Surface',
                     ]
                 ],
@@ -132,8 +151,10 @@ class ShippedToDelivery implements ShouldQueue
                 ]
             ];
 
+            // dd($shipmentData);
+    
             try {
-                $client = new Client();
+                $client = new \GuzzleHttp\Client();
                 $response = $client->post('https://track.delhivery.com/api/cmu/create.json', [
                     'headers' => [
                         'Authorization' => 'Token 4fe90509d391df11535a3533bc932022b11f9fd4',
@@ -145,37 +166,33 @@ class ShippedToDelivery implements ShouldQueue
                     ],
                     'verify' => false,
                 ]);
-
+                
+    
                 $responseBody = $response->getBody()->getContents();
+                
                 $responseDecoded = json_decode($responseBody);
-
+    
                 if (!empty($responseDecoded->packages[0]->waybill)) {
-
-
-                    $order->update([
-                        'status' => 'processing',                // or 'shipped'
-                        'shipment_status' => 'shipped',         // track shipment stage
-                        'third_party_delivery_tracking_id' => $responseDecoded->packages[0]->waybill,
-                        'shipped_at' => now(),                  // timestamp when shipment was created
-                    ]);
-                    // Update order and maintain status
-                    // if ($order->status === 'pending') {
-                    //     $order->status = 'processing';
-                    // }
-
-                    // $order->third_party_delivery_tracking_id = $responseDecoded->packages[0]->waybill;
-                    // $order->save();
-
-                    Log::info("AWB generated: {$responseDecoded->packages[0]->waybill} for Order: {$order->order_number}, status: {$order->status}");
+                    DB::table('orders')
+                        ->where('order_number', $order->order_number)
+                        ->update([
+                            'status' => 'Pending',
+                            'third_party_delivery_tracking_id' => $responseDecoded->packages[0]->waybill,
+                        ]);
+    
+                    Log::info("AWB generated: {$responseDecoded->packages[0]->waybill} for Order: {$order->order_number}");
                 } else {
-                    Log::error("AWB not generated for Order: {$order->order_number}, response: {$responseBody}");
+                    Log::error("AWB not generated for Order: {$order->order_number}");
                 }
-
+    
             } catch (\Exception $e) {
                 Log::error("Delhivery API error for order {$order->order_number}: " . $e->getMessage());
             }
         }
-
+    
         Log::info('Delhivery shipment job completed.');
     }
+
+    
 }
+

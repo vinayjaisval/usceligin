@@ -145,14 +145,14 @@
             <div>
               <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Ship To</h3>
               <address class="not-italic text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                <span class="block font-medium text-gray-900 dark:text-gray-100">{{ $order->shipping_name ?: $order->customer_name }}</span>
-                @if($order->shipping_phone ?: $order->customer_phone)
-                  <span class="block mt-0.5">{{ $order->shipping_phone ?: $order->customer_phone }}</span>
+                <span class="block font-medium text-gray-900 dark:text-gray-100">{{ $address->name ?: $order->customer_name }}</span>
+                @if($address->phone ?: $order->customer_phone)
+                  <span class="block mt-0.5">{{ $address->phone ?: $order->customer_phone }}</span>
                 @endif
                 <span class="block mt-1">
-                  {{ $order->shipping_address ?: $order->customer_address }}
-                  @if($order->shipping_city ?: $order->customer_city)
-                    <br>{{ $order->shipping_city ?: $order->customer_city }}{{ ($order->shipping_state ?: $order->customer_state) ? ', ' . ($order->shipping_state ?: $order->customer_state) : '' }}{{ ($order->shipping_zip ?: $order->customer_zip) ? ' – ' . ($order->shipping_zip ?: $order->customer_zip) : '' }}
+                  {{ $address->address_line_1 ?: $order->customer_address }}
+                  @if($address->city ?: $order->customer_city)
+                    <br>{{ $address->city ?: $order->customer_city }}{{ ($address->state ?: $order->customer_state) ? ', ' . ($address->state ?: $order->customer_state) : '' }}{{ ($address->pincode ?: $order->customer_zip) ? ' – ' . ($address->pincode ?: $order->customer_zip) : '' }}
                   @endif
                   @if($order->shipping_country ?: $order->customer_country)
                     <br>{{ $order->shipping_country ?: $order->customer_country }}
@@ -165,7 +165,7 @@
               <dl class="text-sm space-y-1">
                 <div class="flex gap-2">
                   <dt class="text-gray-500 dark:text-gray-400">Method:</dt>
-                  <dd class="font-medium text-gray-900 dark:text-gray-100 capitalize">{{ $order->method ?: 'Online Payment' }}</dd>
+                  <dd class="font-medium text-gray-900 dark:text-gray-100 capitalize">{{ $order->method == 9 ? 'Online Payment' : 'Cash on Delivery' }}</dd>
                 </div>
                 <div class="flex gap-2">
                   <dt class="text-gray-500 dark:text-gray-400">Status:</dt>

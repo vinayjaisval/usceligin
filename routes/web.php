@@ -1459,8 +1459,8 @@ Route::group(['middleware' => 'maintenance'], function () {
         Route::get('/json/trans', 'User\OrderController@trans');
 
         // user order cancel
-        Route::get('/order/cancel/{id}', 'User\OrderController@cancel_order')->name('user-order-cancel');
-
+     Route::post('/order/cancel/{id}', 'User\OrderController@cancel_order')
+    ->name('user-order-cancel');
         // user refund request
         Route::post('/user/order/{id}/refund-request', 'User\OrderController@refund_request')->name('user.order.refund-request');
 
@@ -1803,6 +1803,8 @@ Route::group(['middleware' => 'maintenance'], function () {
         // LEGAL PAGES SECTION
         Route::get('/terms', 'Front\FrontendController@terms')->name('terms');
         Route::get('/privacy', 'Front\FrontendController@privacy')->name('privacy');
+        Route::get('/return-cancellation-policy', 'Front\FrontendController@retun_cancellation_policy')->name('return-cancellation-policy');
+
         // LEGAL PAGES SECTION ENDS
 
         // CONTACT SECTION
@@ -2100,6 +2102,7 @@ Route::get('admin/journey', 'User\UserController@journey')->name('user-journey')
 
 Route::post('/activate-affiliate', 'User\UserController@activate')
     ->name('affiliate.activate');
+    
 
 
 

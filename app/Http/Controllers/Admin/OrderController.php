@@ -11,6 +11,8 @@ use App\{
     Classes\GeniusMailer,
     Models\Generalsetting
 };
+use App\Classes\PriceHelper;
+
 use App\Models\AffliateBonus;
 use App\Models\DeliveryRider;
 use App\Models\Package;
@@ -19,11 +21,13 @@ use App\Models\Rider;
 use App\Models\RiderServiceArea;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
-use Datatables;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
-use Session;
+use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Client;
-use Log;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
+
 
 class OrderController extends AdminBaseController
 {
@@ -72,8 +76,6 @@ class OrderController extends AdminBaseController
 
 
             $datas = Order::latest('id')->get();
-          
-
         }
 
         //--- Integrating This Collection Into Datatables
@@ -94,42 +96,42 @@ class OrderController extends AdminBaseController
     }
     public function datatables($status)
     {
-       
+
         $query = Order::query()
-        ->leftJoin('users', 'orders.user_id', '=', 'users.id')
-        ->leftJoin('address', 'orders.shipping_address_id', '=', 'address.id')
-        ->select(
-            'orders.*',
-            'address.customer_name as user_name',
-            'users.phone as phone',
-            'address.phone as shipping_phone'
-        );
+            ->leftJoin('users', 'orders.user_id', '=', 'users.id')
+            ->leftJoin('address', 'orders.shipping_address_id', '=', 'address.id')
+            ->select(
+                'orders.*',
+                'address.customer_name as user_name',
+                'users.phone as phone',
+                'address.phone as shipping_phone'
+            );
         if (in_array($status, ['pending', 'processing', 'completed', 'declined'])) {
             $query->where('orders.status', $status);
         }
-    
+
         $datas = $query->latest('id')->get();
-    
+
         return Datatables::of($datas)
             ->editColumn('id', function (Order $data) {
                 return '<a href="' . route('admin-order-invoice', $data->id) . '">' . e($data->order_number) . '</a>';
             })
             ->editColumn('pay_amount', function (Order $data) {
-                $total = ($data->pay_amount + $data->wallet_price) ;
+                $total = ($data->pay_amount + $data->wallet_price);
                 return \PriceHelper::showOrderCurrencyPrice($total, $data->currency_sign);
             })
             ->editColumn('created_at', function (Order $data) {
-                $created_at = $data->created_at ;
+                $created_at = $data->created_at;
                 return $created_at->format('d M Y');
             })
             ->addColumn('phone', function (Order $data) {
                 // You can change this logic depending on where phone is stored
-                return e( $data->phone);
+                return e($data->phone);
             })
             ->addColumn('action', function (Order $data) {
                 $orders = '<a href="javascript:;" data-href="' . route('admin-order-edit', $data->id) . '" class="delivery" data-toggle="modal" data-target="#modal1">
                     <i class="fas fa-dollar-sign"></i> ' . __('Delivery Status') . '</a>';
-    
+
                 return '
                     <div class="godropdown">
                         <button class="go-dropdown-toggle">' . __('Actions') . '<i class="fas fa-chevron-down"></i></button>
@@ -138,15 +140,15 @@ class OrderController extends AdminBaseController
                             <a href="javascript:;" class="send" data-email="' . e($data->customer_email) . '" data-toggle="modal" data-target="#vendorform">
                                 <i class="fas fa-envelope"></i> ' . __('Send') . '</a>
                             <a href="javascript:;" data-href="' . route('admin-order-track', $data->id) . '" class="track" data-toggle="modal" data-target="#modal1">
-                                <i class="fas fa-truck"></i> ' . __('Track Order') . '</a>' 
-                                . $orders . '
+                                <i class="fas fa-truck"></i> ' . __('Track Order') . '</a>'
+                    . $orders . '
                         </div>
                     </div>';
             })
             ->rawColumns(['id', 'action'])
             ->toJson();
     }
-    
+
     public function show($id)
     {
         $order = Order::where('orders.id', $id)
@@ -168,7 +170,7 @@ class OrderController extends AdminBaseController
                 'shipping.flat_no as shipping_flat_no',
                 'shipping.landmark as shipping_landmark',
                 'shipping.address as shipping_address',
-                
+
 
 
                 'billing.customer_name as customer_name',
@@ -213,7 +215,7 @@ class OrderController extends AdminBaseController
                 'shipping.flat_no as shipping_flat_no',
                 'shipping.landmark as shipping_landmark',
                 'shipping.address as shipping_address',
-                
+
 
 
                 'billing.customer_name as customer_name',
@@ -263,43 +265,43 @@ class OrderController extends AdminBaseController
     public function printpage($id)
     {
         $order = Order::where('orders.id', $id)
-        ->leftJoin('users', 'orders.user_id', '=', 'users.id')
-        ->leftJoin('address as shipping', 'orders.shipping_address_id', '=', 'shipping.id')
-        ->leftJoin('address as billing', 'orders.billing_address_id', '=', 'billing.id')
-        ->select(
-            'orders.*',
-            'users.name as user_name',
-            'users.phone as user_phone',
-            'shipping.phone as shipping_phone',
+            ->leftJoin('users', 'orders.user_id', '=', 'users.id')
+            ->leftJoin('address as shipping', 'orders.shipping_address_id', '=', 'shipping.id')
+            ->leftJoin('address as billing', 'orders.billing_address_id', '=', 'billing.id')
+            ->select(
+                'orders.*',
+                'users.name as user_name',
+                'users.phone as user_phone',
+                'shipping.phone as shipping_phone',
 
-            'shipping.customer_name as shipping_customer_name',
-            'shipping.zip as shipping_zip',
-            'shipping.email as shipping_email',
-            'shipping.country_id as shipping_country_id',
-            'shipping.state_id as shipping_state_id',
-            'shipping.city as shipping_city',
-            'shipping.flat_no as shipping_flat_no',
-            'shipping.landmark as shipping_landmark',
-            'shipping.address as shipping_address',
-            
-
-
-            'billing.customer_name as customer_name',
-            'billing.phone as billing_phone',
-            'billing.zip as billing_zip',
-            'billing.email as billing_email',
-            'billing.country_id as billing_country_id',
-            'billing.state_id as billing_state_id',
-            'billing.city as billing_city',
-            'billing.flat_no as billing_flat_no',
-            'billing.landmark as billing_landmark',
-            'billing.address as billing_address',
-            'billing.same_address_shipping as same_address_shipping'
+                'shipping.customer_name as shipping_customer_name',
+                'shipping.zip as shipping_zip',
+                'shipping.email as shipping_email',
+                'shipping.country_id as shipping_country_id',
+                'shipping.state_id as shipping_state_id',
+                'shipping.city as shipping_city',
+                'shipping.flat_no as shipping_flat_no',
+                'shipping.landmark as shipping_landmark',
+                'shipping.address as shipping_address',
 
 
 
-        )
-        ->firstOrFail();
+                'billing.customer_name as customer_name',
+                'billing.phone as billing_phone',
+                'billing.zip as billing_zip',
+                'billing.email as billing_email',
+                'billing.country_id as billing_country_id',
+                'billing.state_id as billing_state_id',
+                'billing.city as billing_city',
+                'billing.flat_no as billing_flat_no',
+                'billing.landmark as billing_landmark',
+                'billing.address as billing_address',
+                'billing.same_address_shipping as same_address_shipping'
+
+
+
+            )
+            ->firstOrFail();
         $cart = json_decode($order->cart, true);
         return view('admin.order.print', compact('order', 'cart'));
     }
@@ -322,23 +324,22 @@ class OrderController extends AdminBaseController
         return view('admin.order.delivery', compact('data'));
     }
 
-   
+
     public function update(Request $request, $id)
     {
-        
+       
         $order = Order::findOrFail($id);
         $input = $request->all();
-   
-        // Handle status update
+
         if ($request->has('status')) {
             $newStatus = $input['status'];
-           
+
             $currentStatus = $order->status;
-   
-          
+
+
             if ($newStatus === 'completed') {
-               
-               
+
+
                 if ($order->affilate_user) {
                     $userRefBy = User::where('id', $order->affilate_user)->pluck('reffered_by');
                     if ($userRefBy->count() > 0) {
@@ -349,7 +350,7 @@ class OrderController extends AdminBaseController
                             if ($auser) {
                                 $auser->affilate_income += $order->affilate_charge;
                                 $auser->update();
-    
+
                                 $bonus = new AffliateBonus();
                                 $bonus->refer_id = $auser->id;
                                 $bonus->bonus = $order->affilate_charge;
@@ -360,7 +361,7 @@ class OrderController extends AdminBaseController
                         }
                     }
                 }
-    
+
                 // 5. Multiple affiliate users
                 if (!empty($order->affilate_users)) {
                     $ausers = json_decode($order->affilate_users, true);
@@ -377,7 +378,6 @@ class OrderController extends AdminBaseController
                     }
                 }
             }
-    
             // Handle if status is being updated to 'declined'
             elseif ($newStatus === 'declined') {
                 if ($order->user_id != 0 && $order->wallet_price != 0) {
@@ -387,14 +387,14 @@ class OrderController extends AdminBaseController
                         $user->save();
                     }
                 }
-    
+
                 $cart = json_decode($order->cart, true);
                 foreach ($cart['items'] ?? [] as $prod) {
                     $product = Product::find($prod['item']['id']);
                     if ($product) {
                         $product->stock += $prod['qty'] ?? 0;
                         $product->update();
-    
+
                         if (!empty($prod['size_qty']) && isset($prod['size_key'])) {
                             $temp = $product->size_qty;
                             $temp[$prod['size_key']] = (int)$prod['size_qty'];
@@ -403,20 +403,68 @@ class OrderController extends AdminBaseController
                         }
                     }
                 }
-    
+
                 // Send email
-                $mailData = [
-                    'to' => $order->customer_email,
-                    'subject' => 'Your order ' . $order->order_number . ' is Declined!',
-                    'body' => "Hello " . $order->customer_name . ",\n We are sorry for the inconvenience caused. We are looking forward to your next visit.",
-                ];
+                // $mailData = [
+                //     'to' => 'vinay.jaisval2015@gmail.com',
+                //     'subject' => 'Your order ' . $order->order_number . ' is Declined!',
+                //     'body' => "Hello " . $order->customer_name . ",\n We are sorry for the inconvenience caused. We are looking forward to your next visit.",
+                // ];
+
                 $mailer = new GeniusMailer();
-                $mailer->sendCustomMail($mailData);
+                $htmlBody = View::make('emails.order_cancel', [
+                    'name'       => $order->customer_name,
+                    'headline'   => "Your order $order->order_number has been cancelled as requested.",
+                    'total'   => "$order->pay_amount will be credited back to your original payment method within 5–7 business days.",
+
+                    'subject'    => "Order $order->order_number has been cancelled",
+                    'cta_label'  => 'Visit Website',
+                    'cta_url'    => url('/')
+                ])->render();
+
+                if (empty($htmlBody)) {
+                    Log::error('❌ Email body empty');
+                }
+
+                $data = [
+                    'to'      => 'vinay.jaisval2015@gmail.com' ?? Auth::user()->email,
+                    'subject' => "Your order $order->order_number  is Declined!",
+                    'body'    => $htmlBody
+                ];
+
+                $mailer->sendCustomMail($data);
             }
-    
+            // Handle if status is being updated to 'on delivery'
+            elseif ($newStatus === 'on delivery') {
+                $mailer = new GeniusMailer();
+
+                $htmlBody = View::make('emails.order_ship', [
+                    'name'       => $order->customer_name,
+                    'headline'   => 'Great news — your order is on its way!',
+                    'order_id'   => $order->order_number,
+                    'total'      => $order->pay_amount,
+                    'subject'    => " Your order -  $order->order_number has shipped!",
+                    'cta_label'  => 'Visit Website',
+                    'cta_url'    => url('/')
+                ])->render();
+
+                if (empty($htmlBody)) {
+                    Log::error('❌ Email body empty');
+                }
+
+                $data = [
+                    'to'      => $order->customer_email ?? Auth::user()->email,
+                    'subject' => "Your order $order->order_number has shipped!",
+                    'body'    => $htmlBody
+                ];
+
+                $result = $mailer->sendCustomMail($data);
+
+                Log::info('📧 Mail response', ['result' => $result]);
+            }
+
             // Save new status
             $order->update($input);
-    
             // Track order status if provided
             if ($request->track_text) {
                 $title = ucwords($newStatus);
@@ -424,17 +472,17 @@ class OrderController extends AdminBaseController
                 $track->text = $request->track_text;
                 $track->save();
             }
-    
+
             // Referral bonus logic
-            
+
             if (User::where('id', $order->user_id)->exists()) {
                 $orderCount = Order::where('user_id', $order->user_id)->where('status', 'completed')->count();
-                    
+
                 if ($orderCount == 1) {
                     $user = User::find($order->user_id);
                     if ($user && $user->reffered_by) {
                         $referrer = User::find($user->reffered_by);
-                        
+
                         if ($referrer) {
                             $referrer->referral_income += 250;
                             $referrer->current_balance += 250;
@@ -442,17 +490,17 @@ class OrderController extends AdminBaseController
                             $referrer->save();
                         }
                     }
-     
+
                     if ($user && $user->affiliated_by) {
-                       
+
                         $affiliated = User::find($user->affiliated_by);
-                     
+
                         if ($affiliated) {
                             $total = $order->pay_amount;
                             $affiliated->affilate_income += ($total / 100) * 8;
                             $affiliated->current_balance += ($total / 100) * 8;
                             $affiliated->save();
-    
+
                             $sub = User::find($affiliated->affiliated_by);
                             if ($sub) {
                                 $sub->affilate_income += ($total / 100) * 5;
@@ -463,15 +511,15 @@ class OrderController extends AdminBaseController
                     }
                 }
             }
-    
-            return response()->json(__('Status Updated Successfully.'));
+
+            return redirect()->back()->with('success', __('Data Updated Successfully.'));
         }
-     
+
         // Non-status update logic
         $order->update($input);
         return redirect()->back()->with('success', __('Data Updated Successfully.'));
     }
-    
+
 
     public function product_submit(Request $request)
     {
@@ -498,7 +546,7 @@ class OrderController extends AdminBaseController
 
     public function addcart($id)
     {
-        
+
         $order = Order::find($id);
         $id = $_GET['id'];
         $qty = $_GET['qty'];
@@ -650,7 +698,7 @@ class OrderController extends AdminBaseController
     public function updatecart($id)
     {
         $order = Order::find($id);
-       
+
         $id = $_GET['id'];
         $qty = $_GET['qty'];
         $size = str_replace(' ', '-', $_GET['size']);
@@ -842,39 +890,123 @@ class OrderController extends AdminBaseController
     }
 
 
+    // public function cancelWaybill(Request $request, $id)
+    // {
+
+    //     $order = Order::where('id', $id)->first();
+
+    //     if (!$order || empty($order->third_party_delivery_tracking_id)) {
+    //         return response()->json([
+    //             'error' => 'Invalid order or waybill missing'
+    //         ], 400);
+    //     }
+
+    //     $client = new Client();
+    //     $url = 'https://track.delhivery.com/api/p/edit';
+
+    //     $headers = [
+    //         'Authorization' => 'Token 4fe90509d391df11535a3533bc932022b11f9fd4',
+    //         'Accept' => 'application/json',
+    //     ];
+
+    //     $body = [
+    //         'waybill' => $order->third_party_delivery_tracking_id,
+    //         'cancellation' => 'true',
+    //     ];
+
+    //     try {
+    //         $response = $client->post($url, [
+    //             'headers' => $headers,
+    //             'form_params' => $body, // ✅ FIXED
+    //             'verify' => false, // ⚠️ only for local
+    //         ]);
+
+    //         $content = $response->getBody()->getContents();
+    //         Log::info('Cancel Response: ' . $content);
+
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'response' => json_decode($content),
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         Log::error('Cancel Error: ' . $e->getMessage());
+
+    //         return response()->json([
+    //             'error' => $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
+
+
     public function cancelWaybill(Request $request, $id)
     {
+        $order = Order::find($id);
 
-       
+        // ✅ Validate order
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
 
-        $order = Order::where('id', $id)->first();
+        // ✅ Validate waybill
+        if (empty($order->third_party_delivery_tracking_id)) {
+            return response()->json(['error' => 'Waybill not found'], 400);
+        }
+
+        // ✅ Prevent double cancel
+        if ($order->shipment_status === 'cancelled') {
+            return response()->json(['message' => 'Already cancelled']);
+        }
 
         $client = new Client();
-        $url = 'https://track.delhivery.com/api/p/edit';
-        $headers = [
-            'Authorization' => 'Token 4fe90509d391df11535a3533bc932022b11f9fd4',  // Replace with your actual token
-            'Content-Type' => 'application/json',
-        ];
-        $body = [
-            'waybill' => $order->third_party_delivery_tracking_id,
-            'cancellation' => 'true',
-        ];
+
         try {
-            $response = $client->post($url, [
-                'headers' => $headers,
-                'json' => $body,
+            $response = $client->post('https://track.delhivery.com/api/p/edit', [
+                'headers' => [
+                    'Authorization' => 'Token 4fe90509d391df11535a3533bc932022b11f9fd4',
+                    'Accept' => 'application/json',
+                ],
+
+                // ✅ IMPORTANT FIX
+                'form_params' => [
+                    'waybill' => $order->third_party_delivery_tracking_id,
+                    'cancellation' => 'true',
+                ],
+
+                // ⚠️ only for local (fix SSL properly in production)
+                'verify' => false,
             ]);
-            $statusCode = $response->getStatusCode();
+
             $content = $response->getBody()->getContents();
-            Log::info($content);
-            // Handle the response as needed
+            $data = json_decode($content, true);
+
+            Log::info('Delhivery Cancel Response', $data);
+
+            // ✅ Update DB after success
+            if (!empty($data['status']) && $data['status'] === true) {
+
+                $order->update([
+                    'status' => 'declined',
+                    'shipment_status' => 'cancelled',
+                    'cancelled_at' => now(),
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Shipment cancelled successfully',
+                    'data' => $data
+                ]);
+            }
+
+            // ❌ API failed
             return response()->json([
-                'status_code' => $statusCode,
-                'content' => json_decode($content),
-            ]);
+                'success' => false,
+                'message' => 'Cancel failed',
+                'data' => $data
+            ], 400);
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
-            // Handle any errors that occur during the request
+
+            Log::error('Cancel Error: ' . $e->getMessage());
+
             return response()->json([
                 'error' => $e->getMessage(),
             ], 500);

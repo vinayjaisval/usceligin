@@ -8,10 +8,50 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
 
-    protected $fillable = ['name', 'photo', 'zip', 'city_id', 'state_id', 'country','address', 'phone', 'fax', 'email', 'password', 'affilate_code', 'verification_link', 'shop_name', 'owner_name', 'shop_number', 'shop_address', 'reg_number', 'shop_message', 'is_vendor', 'shop_details', 'shop_image', 'shipping_cost', 'date', 'mail_sent', 'email_verified', 'email_token', 'reward','reffered_by','refferel_code','reffered_times','affiliated_by','referral_income','seller_id', 'phone_verified_at', 'last_otp_sent_at', 'otp_attempts_count', 'is_phone_primary'];
+    protected $fillable = [
+        'name',
+        'photo',
+        'zip',
+        'city_id',
+        'state_id',
+        'country',
+        'address',
+        'phone',
+        'fax',
+        'email',
+        'password',
+        'affilate_code',
+        'verification_link',
+        'shop_name',
+        'owner_name',
+        'shop_number',
+        'shop_address',
+        'reg_number',
+        'shop_message',
+        'is_vendor',
+        'shop_details',
+        'shop_image',
+        'shipping_cost',
+        'date',
+        'mail_sent',
+        'email_verified',
+        'email_token',
+        'reward',
+        'reffered_by',
+        'refferel_code',
+        'reffered_times',
+        'affiliated_by',
+        'referral_income',
+        'seller_id',
+        'phone_verified_at',
+        'last_otp_sent_at',
+        'otp_attempts_count',
+        'is_phone_primary'
+    ];
 
     protected $hidden = [
-        'password', 'remember_token'
+        'password',
+        'remember_token'
     ];
 
     protected $casts = [
@@ -40,6 +80,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany('App\Models\Order', 'seller_id');
     }
+     public function address()
+    {
+        return $this->hasMany('App\Models\Address', 'user_id');
+    }
+   
     public function comments()
     {
         return $this->hasMany('App\Models\Comment');
@@ -249,7 +294,7 @@ class User extends Authenticatable implements JWTSubject
     public function otpVerifications()
     {
         return $this->hasMany('App\Models\OtpVerification', 'phone', 'phone')
-                    ->orWhere('email', $this->email);
+            ->orWhere('email', $this->email);
     }
 
     /**
@@ -268,4 +313,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->is_phone_primary ? 'phone' : 'email';
     }
+
+
 }

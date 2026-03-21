@@ -234,12 +234,14 @@ const AddressManager = {
    */
   async storeAddress(formId, type) {
     const form = document.getElementById(formId);
+   
     if (!form) {
       this.showToast('Form not found', 'error');
       return;
     }
 
     const data = this.getFormData(form);
+    
     data.address_category = type;
 
     try {
@@ -536,6 +538,7 @@ const selectDeliveryAddress = (id) => AddressManager.selectDeliveryAddress(id);
 const selectBillingFromDelivery = (id) => AddressManager.selectBillingFromDelivery(id);
 const selectBillingAddress = (id) => AddressManager.selectBillingAddress(id);
 const setDefaultAddress = (id) => AddressManager.setDefault(id, 'delivery');
+
 const setDefaultBillingAddress = (id) => AddressManager.setDefault(id, 'billing');
 const deleteAddress = (id) => AddressManager.deleteAddress(id, 'delivery');
 const deleteBillingAddress = (id) => AddressManager.deleteAddress(id, 'billing');

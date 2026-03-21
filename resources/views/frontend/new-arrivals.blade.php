@@ -1,109 +1,105 @@
 @extends('frontend.include.app')
-
 @section('content')
-
  @php
     $tags = \App\Models\Tag::all();
 @endphp
-
 <main id="main-content" role="main">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    {{-- Line 1: Breadcrumb --}}
-    <div class="py-3">
-      <x-breadcrumb title="New Arrivals" />
-    </div>
-
-    {{-- Lines 2–3: Title, Tags, Filter --}}
-    <section class="pb-2" aria-labelledby="category-title">
-      <form id="filters-form" method="GET" action="{{ url()->current() }}">
-
-        {{-- Line 2: Title (left) + Tags (right) --}}
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-6 mb-3">
-          <h1 id="category-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 shrink-0">
-            New Arrivals
-          </h1>
-          <nav aria-label="Category filters">
-            <div class="flex flex-wrap gap-2" role="list">
-              <button type="submit" name="tags" value=""
-                class="px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
-                aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}" role="listitem">
-                All
-              </button>
-              @foreach($tags as $tag)
-              <button type="submit" name="tags" value="{{ $tag->slug }}"
-                class="px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ isset($currentCategory) && $currentCategory === $tag->slug ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
-                aria-pressed="{{ isset($currentCategory) && $currentCategory === $tag->slug ? 'true' : 'false' }}" role="listitem">
-                {{ $tag->name }}
-              </button>
-              @endforeach
-            </div>
-          </nav>
-        </div>
-
-        {{-- Line 3: Results count (left) + Sort (right) --}}
-        <div class="flex items-center justify-between gap-4 mb-6 sm:mb-8 pb-3 border-b border-gray-200 dark:border-gray-700">
-          <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
-            <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $prods->count() }}</span> results
-          </span>
-          <div class="flex items-center gap-2 sm:gap-3">
-            <label for="sort-select" class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sort by</label>
-            <select id="sort-select" name="sort"
-              class="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-offset-gray-900 transition-colors duration-200"
-              aria-label="Sort products by" onchange="this.form.submit()">
-              @php $currentSort = request()->query('sort', 'popularity'); @endphp
-              <option value="popularity" {{ $currentSort === 'popularity' ? 'selected' : '' }}>Popularity</option>
-              <option value="price-low" {{ $currentSort === 'price-low' ? 'selected' : '' }}>Price: Low to High</option>
-              <option value="price-high" {{ $currentSort === 'price-high' ? 'selected' : '' }}>Price: High to Low</option>
-            </select>
-          </div>
-        </div>
-
-      </form>
-    </section>
-
-    {{-- Products Grid --}}
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12"
-      id="products-grid"
-      role="list"
-      aria-label="Product listing">
-      @forelse($prods as $prod)
-      <x-product-card :product="$prod" badge-type="new" />
-      @empty
-      <div class="col-span-full py-12 text-center">
-        <p class="text-gray-600 dark:text-gray-400 text-lg">No products found.</p>
+      {{-- Line 1: Breadcrumb --}}
+      <div class="py-3">
+        <x-breadcrumb title="New Arrivals" />
       </div>
-      @endforelse
+
+      {{-- Lines 2–3: Title, Tags, Filter --}}
+      <section class="pb-2" aria-labelledby="category-title">
+        <form id="filters-form" method="GET" action="{{ url()->current() }}">
+
+          {{-- Line 2: Title (left) + Tags (right) --}}
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-6 mb-3">
+            <h1 id="category-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 shrink-0">
+              New Arrivals
+            </h1>
+            <nav aria-label="Category filters">
+              <div class="flex flex-wrap gap-2" role="list">
+                <button type="submit" name="tags" value=""
+                  class="px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ empty($currentCategory) ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+                  aria-pressed="{{ empty($currentCategory) ? 'true' : 'false' }}" role="listitem">
+                  All
+                </button>
+                @foreach($tags as $tag)
+                <button type="submit" name="tags" value="{{ $tag->slug }}"
+                  class="px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ isset($currentCategory) && $currentCategory === $tag->slug ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700' }}"
+                  aria-pressed="{{ isset($currentCategory) && $currentCategory === $tag->slug ? 'true' : 'false' }}" role="listitem">
+                  {{ $tag->name }}
+                </button>
+                @endforeach
+              </div>
+            </nav>
+          </div>
+
+          {{-- Line 3: Results count (left) + Sort (right) --}}
+          <div class="flex items-center justify-between gap-4 mb-6 sm:mb-8 pb-3 border-b border-gray-200 dark:border-gray-700">
+            <span class="text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
+              <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $prods->count() }}</span> results
+            </span>
+            <div class="flex items-center gap-2 sm:gap-3">
+              <label for="sort-select" class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sort by</label>
+              <select id="sort-select" name="sort"
+                class="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-offset-gray-900 transition-colors duration-200"
+                aria-label="Sort products by" onchange="this.form.submit()">
+                @php $currentSort = request()->query('sort', 'popularity'); @endphp
+                <option value="popularity" {{ $currentSort === 'popularity' ? 'selected' : '' }}>Popularity</option>
+                <option value="price-low" {{ $currentSort === 'price-low' ? 'selected' : '' }}>Price: Low to High</option>
+                <option value="price-high" {{ $currentSort === 'price-high' ? 'selected' : '' }}>Price: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+        </form>
+      </section>
+
+      {{-- Products Grid --}}
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12"
+        id="products-grid"
+        role="list"
+        aria-label="Product listing">
+        @forelse($prods as $prod)
+        <x-product-card :product="$prod" badge-type="new" />
+        @empty
+        <div class="col-span-full py-12 text-center">
+          <p class="text-gray-600 dark:text-gray-400 text-lg">No products found.</p>
+        </div>
+        @endforelse
+      </div>
+
+      {{-- Load More Section --}}
+    <div class="py-8 sm:py-12 text-center">
+        <button id="loadMoreBtn"
+            class="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-semibold hover:bg-primary-700">
+            Load More Products
+        </button>
+
+        <p class="mt-4 text-sm text-gray-600">
+            Showing <span id="productCount">{{ $prods->count() }}</span> products
+        </p>
     </div>
 
-    {{-- Load More Section --}}
-   <div class="py-8 sm:py-12 text-center">
-    <button id="loadMoreBtn"
-        class="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-semibold hover:bg-primary-700">
-        Load More Products
-    </button>
+    </div>
 
-    <p class="mt-4 text-sm text-gray-600">
-        Showing <span id="productCount">{{ $latest_products->count() }}</span> of 48 products
-    </p>
-</div>
-
-  </div>
-
-  {{-- Join CELIGIN Promotional Banners --}}
+     {{-- Join CELIGIN Promotional Banners --}}
   <x-join-celigin-banners />
 </main>
 @endsection
-
 @section('scripts')
 @include('frontend.include.cart-wishlist-script')
 
 <script>
-   let skip = {{ $latest_products->count() }};
-let totalProducts = 48;
+    let skip = {{ $latest_products->count() }};
+    let totalProducts = 48;
 
-document.getElementById("loadMoreBtn").addEventListener("click", function () {
+   ocument.getElementById("loadMoreBtn").addEventListener("click", function () {
     fetch("{{ route('load.more.products') }}", {
         method: "POST",
         headers: {

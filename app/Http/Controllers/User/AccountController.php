@@ -179,4 +179,5 @@ class AccountController extends Controller
 
         return redirect()->route('user.account')->with('success', 'Profile updated successfully!');
     }
+    
 }

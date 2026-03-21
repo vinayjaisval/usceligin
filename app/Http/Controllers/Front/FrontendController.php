@@ -1192,6 +1192,7 @@ class FrontendController extends FrontBaseController
                 ]);
 
                 $data = json_decode($response->getBody(), true);
+                
                 \Log::info('Delhivery API raw response:', $data);
 
                 if (!empty($data[0]['total_amount']) && $data[0]['total_amount'] > 0) {
@@ -1321,7 +1322,7 @@ class FrontendController extends FrontBaseController
 
     public function terms()
     {
-        return view('frontend.terms');
+         return view('frontend.return-refund-policy');
     }
 
     public function privacy()
@@ -1329,5 +1330,11 @@ class FrontendController extends FrontBaseController
         return view('frontend.privacy');
     }
 
+     public function retun_cancellation_policy()
+    {
+        return view('frontend.return-refund-policy');
+    }
+
+    
     // LEGAL PAGES SECTION ENDS
 }

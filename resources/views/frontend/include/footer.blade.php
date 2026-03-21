@@ -78,10 +78,10 @@
       <nav aria-label="Information" class="space-y-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Information</h3>
         <ul class="space-y-2">
-          <li><a href="/track-your-order"
+          <!-- <li><a href="/track-your-order"
               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Track
-              Your Order</a></li>
-          <li><a href="/shipping"
+              Your Order</a></li> -->
+          <li><a href="{{ url('/')}}"
               class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">Shipping
               Info</a></li>
           @foreach(DB::table('pages')->where('footer', '=', 1)->get() as $data)

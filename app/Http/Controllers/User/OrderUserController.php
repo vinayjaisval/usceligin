@@ -181,7 +181,7 @@ class OrderUserController extends UserBaseController
                     foreach ($data->vendororders as $vorder) {
                         if ($uprice = User::find($vorder->user_id)) {
                             $uprice->current_balance = ($uprice->current_balance ?? 0) + ($vorder->price ?? 0);
-                            
+
                             $vorder->status = 'completed';
                             $vorder->update();
 
@@ -220,10 +220,10 @@ class OrderUserController extends UserBaseController
 
                     if (User::where('id', $data->affilate_user)->exists()) {
                         $user_referred_by = User::where('id', $data->affilate_user)->pluck('reffered_by');
-                        if(count($user_referred_by) > 0){
-                            $sub_user_reffered_by =User::where('reffered_by', $user_referred_by)->pluck('id');
+                        if (count($user_referred_by) > 0) {
+                            $sub_user_reffered_by = User::where('reffered_by', $user_referred_by)->pluck('id');
                             $product_orders = Order::whereIn('user_id', $sub_user_reffered_by)->where('status', 'completed')->pluck('user_id')->unique();
-                            if(count($product_orders) > 1){
+                            if (count($product_orders) > 1) {
                                 $auser = User::where('id', $user_referred_by)->first();
                                 $auser->affilate_income += $data->affilate_charge;
                                 $auser->update();
@@ -236,8 +236,8 @@ class OrderUserController extends UserBaseController
                             }
                         }
                     }
-                
-                    
+
+
                     if ($data->affilate_users != null) {
                         $ausers = json_decode($data->affilate_users, true);
                         foreach ($ausers as $auser) {
@@ -272,7 +272,7 @@ class OrderUserController extends UserBaseController
                     $cart = json_decode($data->cart, true);
 
                     // Restore Product Stock If Any
-                    foreach ($cart['items'] ?? []as $prod) {
+                    foreach ($cart['items'] ?? [] as $prod) {
                         $x = (string)$prod['stock'];
                         if ($x != null) {
                             $product = Product::findOrFail($prod['item']['id']);
@@ -733,39 +733,77 @@ class OrderUserController extends UserBaseController
 
         return redirect()->back()->with('success', __('Successfully Deleted From The Cart.'));
     }
-    
-    
-       public function cancelWaybill(Request $request ,$id){
 
-        
-        $order = Order::where('id',$id)->first();
-       
+
+    public function cancelWaybill(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        // ✅ Validate order
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        // ✅ Validate waybill
+        if (empty($order->third_party_delivery_tracking_id)) {
+            return response()->json(['error' => 'Waybill not found'], 400);
+        }
+
+        // ✅ Prevent double cancel
+        if ($order->shipment_status === 'cancelled') {
+            return response()->json(['message' => 'Already cancelled']);
+        }
+
         $client = new Client();
-        $url = 'https://track.delhivery.com/api/p/edit';
-        $headers = [
-            'Authorization' => 'Token 4fe90509d391df11535a3533bc932022b11f9fd4',  // Replace with your actual token
-            'Content-Type' => 'application/json',
-        ];
-        $body = [
-            'waybill' => $order->third_party_delivery_tracking_id,
-            'cancellation' => 'true',
-        ];
+
         try {
-            $response = $client->post($url, [
-                'headers' => $headers,
-                'json' => $body,
+            $response = $client->post('https://track.delhivery.com/api/p/edit', [
+                'headers' => [
+                    'Authorization' => 'Token 4fe90509d391df11535a3533bc932022b11f9fd4',
+                    'Accept' => 'application/json',
+                ],
+
+                // ✅ IMPORTANT FIX
+                'form_params' => [
+                    'waybill' => $order->third_party_delivery_tracking_id,
+                    'cancellation' => 'true',
+                ],
+
+                // ⚠️ only for local (fix SSL properly in production)
+                'verify' => false,
             ]);
-            $statusCode = $response->getStatusCode();
+
             $content = $response->getBody()->getContents();
-            Log::info($content);
-            // Handle the response as needed
+            $data = json_decode($content, true);
+
+            Log::info('Delhivery Cancel Response', $data);
+
+            // ✅ Update DB after success
+            if (!empty($data['status']) && $data['status'] === true) {
+
+                $order->update([
+                    'status' => 'declined',
+                    'shipment_status' => 'cancelled',
+                    'cancelled_at' => now(),
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Shipment cancelled successfully',
+                    'data' => $data
+                ]);
+            }
+
+            // ❌ API failed
             return response()->json([
-                'status_code' => $statusCode,
-                'content' => json_decode($content),
-            ]);
+                'success' => false,
+                'message' => 'Cancel failed',
+                'data' => $data
+            ], 400);
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
-            // Handle any errors that occur during the request
+
+            Log::error('Cancel Error: ' . $e->getMessage());
+
             return response()->json([
                 'error' => $e->getMessage(),
             ], 500);
