@@ -76,7 +76,7 @@ Stripe • Razorpay • PayPal • Mollie • Authorize.net • Instamojo • Me
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=us_devceligin_23dec25
+DB_DATABASE=uatceligin-21march26
 ```
 
 ## OTP Authentication System
@@ -307,6 +307,6 @@ CREATE TABLE addresses (
 ---
 
 **Last Updated**: 2025-12-07 (User Flow Planning Added)
-**Database**: us_devceligin_23dec25
+**Database**: uatceligin-21march26
 **PHP Version**: 8.1+
 **Laravel Version**: 10.x
