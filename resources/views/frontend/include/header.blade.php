@@ -7,6 +7,7 @@
   <meta name="description"
     content="CELIGIN - Premium cosmetics and skincare products. Discover your glow with our science-backed beauty solutions." />
   <title>CELIGIN - Premium Cosmetics & Skincare</title>
+  @yield('head_seo')
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -30,14 +31,6 @@
       max-height: 500px;
     }
 
-    .ck-content ul{
-list-style: disc;
-padding-left:20px;
-}
-
-.ck-content li{
-margin-bottom:4px;
-}
   </style>
 </head>
 <body class="bg-white dark:bg-gray-900">

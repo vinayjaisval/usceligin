@@ -1,8 +1,32 @@
+@php
+  $productDescription = Str::limit(strip_tags($productt->details ?? $productt->summary ?? ''), 160);
+  $productImage = filter_var($productt->photo, FILTER_VALIDATE_URL)
+    ? $productt->photo
+    : asset('assets/images/products/' . $productt->photo);
+  $productPrice = preg_replace('/[^\d.]/', '', $productt->showPrice());
+@endphp
+@section('head_seo')
+  <title>{{ ucfirst(mb_strtolower($productt->name)) }} | CELIGIN</title>
+  <meta name="description" content="{{ $productDescription ?: 'Premium skincare and cosmetics by CELIGIN.' }}" />
+  <link rel="canonical" href="{{ url()->current() }}" />
+  {{-- Open Graph --}}
+  <meta property="og:type" content="product" />
+  <meta property="og:title" content="{{ $productt->name }}" />
+  <meta property="og:description" content="{{ $productDescription }}" />
+  <meta property="og:image" content="{{ $productImage }}" />
+  <meta property="og:url" content="{{ url()->current() }}" />
+  <meta property="og:site_name" content="CELIGIN" />
+  {{-- Twitter Card --}}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ $productt->name }}" />
+  <meta name="twitter:description" content="{{ $productDescription }}" />
+  <meta name="twitter:image" content="{{ $productImage }}" />
+@endsection
 @extends('frontend.include.app')
 
 @section('content')
   <!-- Main Content -->
-  <main id="main-content" role="main" class="bg-white dark:bg-gray-900">
+  <main id="main-content" role="main" class="bg-white dark:bg-gray-900" itemscope itemtype="https://schema.org/Product">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 mb-16">
       <!-- Breadcrumb Navigation -->
       @include('frontend.include.breadcrumb', ['items' => [
@@ -61,7 +85,7 @@
 
           <!-- Product Information -->
           <div class="space-y-5">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight" itemprop="name">
               {{ ucfirst(mb_strtolower($productt->name)) }}
             </h1>
 
@@ -216,7 +240,7 @@
             </div>
 
             <!-- Product Accordions -->
-            <div class="border-t border-gray-200 dark:border-gray-700 pt-5">
+            <div class="divide-y divide-gray-200 dark:divide-gray-700 border-t border-b border-gray-200 dark:border-gray-700">
               @php
                 $accordionSections = [
                   [
@@ -252,19 +276,20 @@
 
               @foreach($accordionSections as $section)
                 @php $isSummary = isset($section['type']) && $section['type'] === 'summary'; @endphp
-                <div class="accordion-item border-b border-gray-200 dark:border-gray-700">
+                <div class="accordion-item group/item">
                   <button type="button"
-                    class="accordion-trigger w-full flex items-center justify-between py-4 px-1 text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-200 focus:outline-none"
-                    aria-expanded="{{ $isSummary ? 'true' : 'false' }}" data-accordion="{{ $section['id'] }}">
-                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $section['title'] }}</span>
-                    <svg class="accordion-icon w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform duration-200 flex-shrink-0"
+                    class="accordion-trigger w-full flex items-center justify-between p-5 text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-600 transition-colors duration-200"
+                    id="accordion-{{ $section['id'] }}"
+                    aria-expanded="{{ $isSummary ? 'true' : 'false' }}" aria-controls="{{ $section['id'] }}-content" data-accordion="{{ $section['id'] }}">
+                    <span class="text-base font-semibold text-gray-900 dark:text-gray-100 pr-4 leading-snug">{{ $section['title'] }}</span>
+                    <svg class="accordion-icon w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0 transition-colors duration-200"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line class="accordion-icon-vertical" x1="12" y1="5" x2="12" y2="19"></line>
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
                   </button>
 
-                  <div class="accordion-content {{ $isSummary ? '' : 'hidden' }} pb-4 text-sm text-gray-700 dark:text-gray-300" id="{{ $section['id'] }}-content">
+                  <div class="accordion-content {{ $isSummary ? '' : 'hidden' }} p-8" id="{{ $section['id'] }}-content" role="region" aria-labelledby="accordion-{{ $section['id'] }}">
 
                     {{-- Summary --}}
                     @if($isSummary)
@@ -291,27 +316,11 @@
                         @endif
                       </div>
 
-                      {{-- 2. Item details table --}}
-                      <ul class="mb-5 divide-y divide-gray-100 dark:divide-gray-700 border border-gray-100 dark:border-gray-700">
-                        <li class="flex items-center justify-between px-3 py-2.5">
-                          <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Item Form</span>
-                          <span class="text-sm text-gray-900 dark:text-gray-100 font-medium">
-                            {{ !empty($productt->size) ? $productt->size : '—' }}
-                          </span>
-                        </li>
-                        <li class="flex items-center justify-between px-3 py-2.5">
-                          <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Item Weight</span>
-                          <span class="text-sm text-gray-900 dark:text-gray-100 font-medium">
-                            {{ !empty($productt->measure) ? $productt->measure : '—' }}
-                          </span>
-                        </li>
-                      </ul>
-
-                      {{-- 3. Summary paragraph --}}
+                      {{-- 2. Summary paragraph --}}
                      @if(!empty($productt->details))
-                      <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed ck-content">
+                      <div class="rich-content" itemprop="description">
                       {!! clean($productt->details, [
-                      'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,b,strong,em,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
+                      'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,b,strong,em,i,u,s,del,mark,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height|class],blockquote,code,pre,table,thead,tbody,tfoot,tr,th[colspan|rowspan|scope],td[colspan|rowspan],hr',
                       'AutoFormat.RemoveEmpty' => true
                       ]) !!}
                       </div>
@@ -374,10 +383,12 @@
 
                     {{-- Standard HTML content --}}
                     @else
-                      {!! clean($section['content'] ?? '', [
-                          'HTML.Allowed' => 'p,br,strong,em,ul,ol,li,span',
+                      <div class="rich-content">
+                        {!! clean($section['content'] ?? '', [
+                          'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,b,i,u,s,del,mark,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height|class],blockquote,code,pre,table,thead,tbody,tfoot,tr,th[colspan|rowspan|scope],td[colspan|rowspan],hr',
                           'AutoFormat.RemoveEmpty' => true
-                      ]) !!}
+                        ]) !!}
+                      </div>
                     @endif
 
                   </div>
@@ -456,15 +467,15 @@
                 <p class="text-xs font-semibold tracking-widest uppercase text-primary-600 dark:text-primary-400 mb-3">{{ $cs['label'] }}</p>
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-snug">{{ $cs['heading'] }}</h2>
                 <div class="w-10 h-0.5 bg-primary-600 dark:bg-primary-400 mb-6"></div>
-                <div class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed" >
-               @if($cs['isHtml'])
-                {!! clean($cs['body'], [
-                    'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,b,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
-                    'AutoFormat.RemoveEmpty' => true
-                ]) !!}
-                @else
-                <p>{{ $cs['body'] }}</p>
-                @endif
+                <div class="rich-content">
+                  @if($cs['isHtml'])
+                    {!! clean($cs['body'], [
+                      'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,b,i,u,s,del,mark,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height|class],blockquote,code,pre,table,thead,tbody,tfoot,tr,th[colspan|rowspan|scope],td[colspan|rowspan],hr',
+                      'AutoFormat.RemoveEmpty' => true
+                    ]) !!}
+                  @else
+                    <p>{{ $cs['body'] }}</p>
+                  @endif
                 </div>
               </div>
 
@@ -946,29 +957,27 @@
         DOM.accordionTriggers.forEach(trigger => {
           const item = trigger.closest('.accordion-item');
           const content = item.querySelector('.accordion-content');
-          const icon = trigger.querySelector('.accordion-icon');
 
           content.classList.add('hidden');
           trigger.setAttribute('aria-expanded', 'false');
-          icon.style.transform = 'rotate(0deg)';
+          item.classList.remove('is-open');
         });
       },
 
       open(trigger) {
         const item = trigger.closest('.accordion-item');
         const content = item.querySelector('.accordion-content');
-        const icon = trigger.querySelector('.accordion-icon');
 
         content.classList.remove('hidden');
         trigger.setAttribute('aria-expanded', 'true');
-        icon.style.transform = 'rotate(45deg)';
+        item.classList.add('is-open');
       },
 
       initOpenState() {
-        // Rotate icon for any accordion already open on page load
+        // Apply open state for any accordion already open on page load
         document.querySelectorAll('.accordion-trigger[aria-expanded="true"]').forEach(trigger => {
-          const icon = trigger.querySelector('.accordion-icon');
-          if (icon) icon.style.transform = 'rotate(45deg)';
+          const item = trigger.closest('.accordion-item');
+          if (item) item.classList.add('is-open');
         });
       }
     };
@@ -1006,6 +1015,35 @@
     }
     if (textarea) textarea.value = '';
   }
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ addslashes($productt->name) }}",
+  "image": ["{{ $productImage }}"],
+  "description": "{{ addslashes(Str::limit(strip_tags($productt->details ?? $productt->summary ?? ''), 300)) }}",
+  "sku": "{{ $productt->code ?? $productt->slug ?? '' }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "CELIGIN"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ url()->current() }}",
+    "priceCurrency": "INR",
+    "price": "{{ $productPrice }}",
+    "availability": "{{ ($productt->stock && $productt->stock > 0) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' }}"
+  }
+  @if(App\Models\Rating::ratingCount($productt->id) > 0)
+  ,"aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ number_format(App\Models\Rating::ratings($productt->id), 1) }}",
+    "reviewCount": "{{ App\Models\Rating::ratingCount($productt->id) }}"
+  }
+  @endif
+}
 </script>
 
 @endSection
