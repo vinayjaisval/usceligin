@@ -1011,6 +1011,7 @@
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Add New Address</h3>
                   <form id="myAccountAddressForm" class="space-y-4">
                     @csrf
+                    <input type="hidden" name="address_category" value="delivery">
 
                     {{-- Address Type --}}
                     <div>
@@ -1050,7 +1051,7 @@
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Phone Number <span class="text-red-600">*</span>
                       </label>
-                      <input type="tel" name="phone" required maxlength="15"
+                      <input type="tel" name="phone" required maxlength="10" minlength="10" pattern="[0-9]{10}" inputmode="numeric" placeholder="10-digit number"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
 
@@ -1162,6 +1163,7 @@
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Add New Address</h3>
                   <form id="myAccountAddressForm" class="space-y-4">
                     @csrf
+                    <input type="hidden" name="address_category" value="delivery">
 
                     {{-- Address Type --}}
                     <div>
@@ -1201,7 +1203,7 @@
                       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Phone Number <span class="text-red-600">*</span>
                       </label>
-                      <input type="tel" name="phone" required maxlength="15"
+                      <input type="tel" name="phone" required maxlength="10" minlength="10" pattern="[0-9]{10}" inputmode="numeric" placeholder="10-digit number"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
                     </div>
 
@@ -1772,13 +1774,13 @@
   function editAddress(addressId) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch(`/user/addresses/${addressId}/edit`, {
+    fetch(`{{ url('/user/addresses') }}/${addressId}/edit`, {
         headers: {
           'X-CSRF-TOKEN': csrfToken,
           'Accept': 'application/json'
         }
       })
-      .then(response => response.json())
+      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
       .then(data => {
         if (data.address) {
           showEditForm(data.address);
@@ -1839,7 +1841,7 @@
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Phone Number <span class="text-red-600">*</span>
           </label>
-          <input type="tel" name="phone" value="${address.phone}" required maxlength="15"
+          <input type="tel" name="phone" value="${address.phone ?? ''}" required maxlength="10" minlength="10" pattern="[0-9]{10}" inputmode="numeric" placeholder="10-digit number"
             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
         </div>
 
@@ -1921,9 +1923,13 @@
     });
   }
 
-  // Update address
+  // Update address — PUT with JSON (PHP only parses multipart for POST, not PUT)
   function updateAddress(addressId, form) {
     const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => { if (key !== '_token') data[key] = value; });
+    data.is_default = form.querySelector('[name="is_default"]')?.checked ? 1 : 0;
+
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -1931,32 +1937,27 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Updating...';
 
-    fetch(`/user/addresses/${addressId}`, {
-        method: 'POST',
+    fetch(`{{ url('/user/addresses') }}/${addressId}`, {
+        method: 'PUT',
         headers: {
           'X-CSRF-TOKEN': csrfToken,
-          'X-HTTP-Method-Override': 'PUT',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: formData
+        body: JSON.stringify(data)
       })
-      .then(response => response.json())
+      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
       .then(data => {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
-
-        if (data.success || data.message) {
-          showToast(data.message || 'Address updated successfully', 'success');
-          setTimeout(() => window.location.reload(), 1000);
-        } else {
-          showToast(data.error || 'Failed to update address', 'error');
-        }
+        showToast(data.message || 'Address updated successfully', 'success');
+        setTimeout(() => window.location.reload(), 1000);
       })
       .catch(error => {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
-        console.error('Error:', error);
-        showToast('An error occurred while updating the address', 'error');
+        const msg = error.errors ? Object.values(error.errors).flat().join('\n') : (error.message || 'Failed to update address');
+        showToast(msg, 'error');
       });
   }
 
@@ -1968,25 +1969,21 @@
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch(`/user/addresses/${addressId}`, {
+    fetch(`{{ url('/user/addresses') }}/${addressId}`, {
         method: 'DELETE',
         headers: {
           'X-CSRF-TOKEN': csrfToken,
           'Accept': 'application/json'
         }
       })
-      .then(response => response.json())
+      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
       .then(data => {
-        if (data.success || data.message) {
-          showToast(data.message || 'Address deleted successfully', 'success');
-          setTimeout(() => window.location.reload(), 1000);
-        } else {
-          showToast(data.error || 'Failed to delete address', 'error');
-        }
+        showToast(data.message || 'Address deleted successfully', 'success');
+        setTimeout(() => window.location.reload(), 1000);
       })
       .catch(error => {
-        console.error('Error:', error);
-        showToast('An error occurred while deleting the address', 'error');
+        const msg = error.errors ? Object.values(error.errors).flat().join('\n') : (error.message || 'Failed to delete address');
+        showToast(msg, 'error');
       });
   }
 
@@ -1994,25 +1991,21 @@
   function setDefaultAddress(addressId) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch(`/user/addresses/${addressId}/set-default`, {
+    fetch(`{{ url('/user/addresses') }}/${addressId}/set-default`, {
         method: 'POST',
         headers: {
           'X-CSRF-TOKEN': csrfToken,
           'Accept': 'application/json'
         }
       })
-      .then(response => response.json())
+      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
       .then(data => {
-        if (data.success || data.message) {
-          showToast(data.message || 'Default address updated', 'success');
-          setTimeout(() => window.location.reload(), 1000);
-        } else {
-          showToast(data.error || 'Failed to update default address', 'error');
-        }
+        showToast(data.message || 'Default address updated', 'success');
+        setTimeout(() => window.location.reload(), 1000);
       })
       .catch(error => {
-        console.error('Error:', error);
-        showToast('An error occurred while updating default address', 'error');
+        const msg = error.errors ? Object.values(error.errors).flat().join('\n') : (error.message || 'Failed to update default address');
+        showToast(msg, 'error');
       });
   }
 
@@ -2034,60 +2027,58 @@
         },
         body: formData
       })
-      .then(response => response.json())
+      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
       .then(data => {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
-
-        if (data.success || data.message) {
-          showToast(data.message || 'Address saved successfully', 'success');
-          setTimeout(() => window.location.reload(), 1000);
-        } else {
-          showToast(data.error || 'Failed to save address', 'error');
-        }
+        showToast(data.message || 'Address saved successfully', 'success');
+        setTimeout(() => window.location.reload(), 1000);
       })
       .catch(error => {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
-        console.error('Error:', error);
-        showToast('An error occurred while saving the address', 'error');
+        const msg = error.errors ? Object.values(error.errors).flat().join('\n') : (error.error || error.message || 'Failed to save address');
+        showToast(msg, 'error');
       });
   }
 
-  // Fetch pincode details
+  // Fetch pincode details — shared by add and edit forms
   function fetchPincodeDetails(formId) {
     const pincodeInput = document.getElementById(`${formId}_pincode`);
-    if (!pincodeInput) return;
+    const cityInput    = document.getElementById(`${formId}_city`);
+    const stateInput   = document.getElementById(`${formId}_state`);
+
+    if (!pincodeInput || !cityInput || !stateInput) return;
 
     const pincode = pincodeInput.value.trim();
 
     if (pincode.length !== 6 || !/^\d{6}$/.test(pincode)) {
-      document.getElementById(`${formId}_city`).value = '';
-      document.getElementById(`${formId}_state`).value = '';
+      cityInput.value = '';
+      stateInput.value = '';
       return;
     }
 
-    document.getElementById(`${formId}_city`).value = 'Loading...';
-    document.getElementById(`${formId}_state`).value = 'Loading...';
+    cityInput.value  = 'Loading...';
+    stateInput.value = 'Loading...';
 
     fetch(`https://api.postalpincode.in/pincode/${pincode}`)
-      .then(response => response.json())
+      .then(r => r.json())
       .then(data => {
-        if (data[0].Status === 'Success') {
-          const post = data[0].PostOffice[0];
-          document.getElementById(`${formId}_city`).value = post.District;
-          document.getElementById(`${formId}_state`).value = post.State;
-          document.getElementById(`${formId}_country`).value = post.Country;
+        if (data[0]?.Status === 'Success') {
+          const po = data[0].PostOffice[0];
+          cityInput.value  = po.District ?? '';
+          stateInput.value = po.State    ?? '';
+          const countryInput = document.getElementById(`${formId}_country`);
+          if (countryInput) countryInput.value = po.Country ?? 'India';
         } else {
-          document.getElementById(`${formId}_city`).value = '';
-          document.getElementById(`${formId}_state`).value = '';
-          showToast('Invalid pincode', 'error');
+          cityInput.value  = '';
+          stateInput.value = '';
+          showToast('Pincode not found. Please enter city manually.', 'warning');
         }
       })
-      .catch(error => {
-        console.error('Error fetching pincode details:', error);
-        document.getElementById(`${formId}_city`).value = '';
-        document.getElementById(`${formId}_state`).value = '';
+      .catch(() => {
+        cityInput.value  = '';
+        stateInput.value = '';
         showToast('Could not fetch location details', 'error');
       });
   }
