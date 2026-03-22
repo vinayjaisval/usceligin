@@ -138,6 +138,25 @@ class CheckoutController extends FrontBaseController
             }
 
             // -----------------------------------------------------------
+            // 🔹 ORDER TOTALS (single source of truth — avoids @php in view)
+            // -----------------------------------------------------------
+            $subtotalMRP  = $cart->totalPrice;           // pre-discount cart total
+            $discountMRP  = 0;
+            $shippingCost = $subtotalMRP >= ($this->gs->free_shipping_amount ?? 500)
+                ? 0
+                : ($this->gs->shipping_cost ?? 50);
+            $taxRate      = 0.18;
+            $taxAmount    = $subtotalMRP * $taxRate;
+            $finalTotal   = $total + $shippingCost + $taxAmount;  // $total already has referral deducted
+            $points       = (int) round($user->current_balance ?? 0);
+
+            // -----------------------------------------------------------
+            // 🔹 GATEWAY FILTER (COD + Razorpay only)
+            // -----------------------------------------------------------
+            $codGateway      = $gateways->first(fn($g) => $g->checkout == 1 && strtolower($g->keyword) === 'cod');
+            $razorpayGateway = $gateways->first(fn($g) => $g->checkout == 1 && str_contains(strtolower($g->keyword), 'razorpay'));
+
+            // -----------------------------------------------------------
             // 🔹 LOAD USER ADDRESSES (Delivery & Billing separately)
             // -----------------------------------------------------------
             $deliveryAddresses = Address::where('user_id', $user->id)
@@ -166,10 +185,18 @@ class CheckoutController extends FrontBaseController
                 'products'              => $products,
                 'refferal_discount'     => $referralDiscount,
                 'totalPrice'            => $total,
+                'subtotalMRP'           => $subtotalMRP,
+                'discountMRP'           => $discountMRP,
+                'shippingCost'          => $shippingCost,
+                'taxAmount'             => $taxAmount,
+                'finalTotal'            => $finalTotal,
+                'points'                => $points,
+                'orderCount'            => $orderCount,
+                'codGateway'            => $codGateway,
+                'razorpayGateway'       => $razorpayGateway,
                 'pickups'               => $pickups,
                 'totalQty'              => $totalQuantity,
                 'gateways'              => $gateways,
-                'shipping_cost'         => 0,
                 'digital'               => 1,
                 'curr'                  => $currency,
                 'vendor_shipping_id'    => 0,
@@ -180,7 +207,7 @@ class CheckoutController extends FrontBaseController
                 'billingAddresses'      => $billingAddresses,
                 'defaultAddress'        => $defaultAddress,
                 'defaultBillingAddress' => $defaultBillingAddress,
-                'user'                  => $user
+                'user'                  => $user,
             ]);
         }
 

@@ -1,38 +1,7 @@
 @extends('frontend.include.app')
 
 @section('content')
-@php
-  // Calculate order totals
-    $user = App\Models\User::where('id', Auth::id())->select('reffered_by')->first();
-    $orderCount = App\Models\Order::where('user_id', Auth::id())->count();
-    $discountMRP =  0;
-    $points=round(Auth::user()->current_balance ?? 0) ;
-    $couponDiscount=0;
-    $cart = Session::get('cart');
-    $subtotalMRP = $cart->totalPrice;
-    $shippingCost = $subtotalMRP >= ($gs->free_shipping_amount ?? 500) ? 0 : ($gs->shipping_cost ?? 50);
-    $referralDiscount = $refferal_discount ?? 0;
-  
-  // Calculate tax based on shipping address
-  $userZip = Auth::check() ? Auth::user()->zip : '';
-  $taxRate = 0.18; // Default 18% GST
-
-  // You can customize tax rates based on ZIP code here
-  // Example: Different tax rates for different states/regions
-  if ($userZip) {
-    // Add your ZIP code based tax logic here
-    // For now using default 18% GST
-  }
-
-  $taxableAmount = $subtotalMRP - $discountMRP - $referralDiscount;
-  $taxAmount = $subtotalMRP * $taxRate;
-
-  // Final total calculation
-  $finalTotal = $totalPrice + $shippingCost + $taxAmount;
-
-  // Check if user has saved addresses
-  $userHasAddress = Auth::check() && Auth::user()->address;
-@endphp
+@php $referralDiscount = $refferal_discount ?? 0; @endphp
 <style>
   .input-field {
     @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600
@@ -140,16 +109,6 @@
             </h2>
 
             <div class="space-y-3">
-              @php
-                // Filter only COD and Razorpay
-                $codGateway = $gateways->firstWhere(function($gateway) {
-                  return $gateway->checkout == 1 && strtolower($gateway->keyword) == 'cod';
-                });
-                $razorpayGateway = $gateways->firstWhere(function($gateway) {
-                  return $gateway->checkout == 1 && str_contains(strtolower($gateway->keyword), 'razorpay');
-                });
-              @endphp
-
               @if($codGateway)
                 <!-- Cash on Delivery -->
                 <label for="payment_cod"
@@ -410,8 +369,9 @@
     }
   });
 
-  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  const hasAddresses = {{ (isset($addresses) && $addresses->count() > 0) ? 'true' : 'false' }};
+  const csrfToken     = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  const currencySign  = '{{ $gs->currency_sign ?? "₹" }}';
+  const hasAddresses  = {{ (isset($addresses) && $addresses->count() > 0) ? 'true' : 'false' }};
   let selectedAddressId = {{ isset($defaultAddress) && $defaultAddress ? $defaultAddress->id : (isset($addresses) && $addresses->count() > 0 ? $addresses->first()->id : 'null') }};
 
   // ── Checkout progressive unlock state machine ────────────────────────────
@@ -653,49 +613,12 @@
       });
   }
 
-  // Calculate tax based on ZIP code
-  function calculateTax(zipCode) {
-    if (!zipCode) return;
-
-    // Default GST rate 18%
-    let taxRate = 0.18;
-
-    // You can add ZIP code based tax logic here
-    // Example:
-    // if (zipCode.startsWith('110')) { // Delhi
-    //   taxRate = 0.18;
-    // } else if (zipCode.startsWith('400')) { // Mumbai
-    //   taxRate = 0.18;
-    // }
-
-    const subtotal = {{ $subtotalMRP }};
-    const discount = {{ $discountMRP }};
-    const referralDiscount = {{ $referralDiscount }};
-    const shipping = {{ $shippingCost }};
-
-    const taxableAmount = subtotal;
-    const taxAmount = taxableAmount * taxRate;
-    const finalTotal = taxableAmount + shipping + taxAmount;
-
-    // Update tax display
-    const taxElement = document.getElementById('tax-amount');
-    if (taxElement) {
-      taxElement.textContent = '{{ $gs->currency_sign ?? "₹" }}' + taxAmount.toFixed(2);
-    }
-
-    // Update final total
-    const totalElement = document.getElementById('final-total');
-    if (totalElement) {
-      totalElement.textContent = '{{ $gs->currency_sign ?? "₹" }}' + finalTotal.toFixed(2);
-    }
-  }
-
-  // Listen for ZIP code changes
+  // Listen for ZIP code changes — recalculate totals when pincode is filled
   document.addEventListener('DOMContentLoaded', function() {
     const zipInput = document.getElementById('zip_code');
     if (zipInput) {
       zipInput.addEventListener('blur', function() {
-        calculateTax(this.value);
+        updateTotal(0);
       });
     }
   });
@@ -744,7 +667,7 @@
 
         // Update UI
         document.getElementById('applied-coupon-display').classList.remove('hidden');
-        document.getElementById('coupon-discount-amount').textContent = '-{{ $gs->currency_sign ?? "₹" }}' + discount;
+        document.getElementById('coupon-discount-amount').textContent = '-' + currencySign + discount;
 
         // Clear input field
         document.getElementById('hidden_coupon_code').value = couponCode;
@@ -801,13 +724,13 @@
     // Update tax display
     const taxElement = document.getElementById('tax-amount');
     if (taxElement) {
-      taxElement.textContent = '{{ $gs->currency_sign ?? "₹" }}' + taxAmount.toFixed(2);
+      taxElement.textContent = currencySign + taxAmount.toFixed(2);
     }
 
     // Calculate final total
-    const newTotal = taxableAmount - existingDiscount -  couponDiscount + shipping + taxAmount;
+    const newTotal = taxableAmount - existingDiscount - couponDiscount + shipping + taxAmount;
 
-    document.getElementById('final-total').textContent = '{{ $gs->currency_sign ?? "₹" }}' + newTotal.toFixed(2);
+    document.getElementById('final-total').textContent = currencySign + newTotal.toFixed(2);
     document.getElementById('total_hidden').value = newTotal;
   }
 
