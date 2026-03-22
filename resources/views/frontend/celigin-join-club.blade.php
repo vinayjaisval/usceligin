@@ -1,16 +1,18 @@
 @extends('frontend.include.app')
 
-@section('title', 'Join Celigin Club - 3 Ways to Earn | Points, Affiliate & Seller Program')
-
-@section('meta')
-<meta name="description" content="Join Celigin Club and choose your way to earn — collect loyalty points, earn affiliate commissions up to 40%, or become a seller and grow your business with premium Korean skincare.">
-<meta name="keywords" content="celigin club, earn points, affiliate program, become a seller, korean skincare, earn commission, referral program">
-<meta property="og:title" content="Join Celigin Club - 3 Ways to Earn">
-<meta property="og:description" content="Points. Affiliate. Seller. Three powerful ways to earn with Celigin's premium Korean skincare ecosystem.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url()->current() }}">
-<meta property="og:image" content="{{ asset('assets/frontend/images/celigin-affiliate-og.jpg') }}">
-<link rel="canonical" href="{{ url()->current() }}">
+@section('head_seo')
+  <title>Join Celigin Club — 3 Ways to Earn | Points, Affiliate & Seller</title>
+  <meta name="description" content="Join Celigin Club and choose your way to earn — collect loyalty points, earn affiliate commissions up to 40%, or become a seller and grow your business with premium Korean skincare." />
+  <meta name="keywords" content="celigin club, earn points, affiliate program, become a seller, korean skincare, earn commission, referral program" />
+  <link rel="canonical" href="{{ url()->current() }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Join Celigin Club — 3 Ways to Earn" />
+  <meta property="og:description" content="Points. Affiliate. Seller. Three powerful ways to earn with Celigin's premium Korean skincare ecosystem." />
+  <meta property="og:url" content="{{ url()->current() }}" />
+  <meta property="og:image" content="{{ asset('assets/frontend/images/celigin-affiliate-og.jpg') }}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Join Celigin Club — 3 Ways to Earn" />
+  <meta name="twitter:description" content="Points. Affiliate. Seller. Three powerful ways to earn with Celigin's premium Korean skincare ecosystem." />
 @endsection
 
 @section('content')
@@ -21,12 +23,14 @@
   </a>
 
   @php
+    // visible: mobile=1 card (center only), tablet sm=3 cards, desktop lg=all 5
+    // shadow/grad_h are static strings so Tailwind scanner detects them in production build
     $videoCards = [
-      ['src' => 'brand-1.mp4', 'rotate' => '18deg', 'rotateZ' => '-2deg', 'height' => 'h-52 sm:h-64 lg:h-80', 'width' => 'w-36 sm:w-44 lg:w-52'],
-      ['src' => 'brand-2.mp4', 'rotate' => '10deg', 'rotateZ' => '-1deg', 'height' => 'h-56 sm:h-72 lg:h-[22rem]', 'width' => 'w-36 sm:w-44 lg:w-52'],
-      ['src' => 'brand-3.mp4', 'rotate' => '0deg', 'rotateZ' => '0deg', 'height' => 'h-64 sm:h-80 lg:h-96', 'width' => 'w-40 sm:w-48 lg:w-56', 'center' => true],
-      ['src' => 'brand-4.mp4', 'rotate' => '-10deg', 'rotateZ' => '1deg', 'height' => 'h-56 sm:h-72 lg:h-[22rem]', 'width' => 'w-36 sm:w-44 lg:w-52'],
-      ['src' => 'brand-5.mp4', 'rotate' => '-18deg', 'rotateZ' => '2deg', 'height' => 'h-52 sm:h-64 lg:h-80', 'width' => 'w-36 sm:w-44 lg:w-52'],
+      ['src' => 'brand-1.mp4', 'rotate' => '18deg',  'rotateZ' => '-2deg', 'height' => 'h-52 sm:h-64 lg:h-80',       'width' => 'w-36 sm:w-44 lg:w-52', 'visible' => 'hidden lg:block', 'shadow' => 'shadow-lg',  'grad_h' => 'h-20'],
+      ['src' => 'brand-2.mp4', 'rotate' => '10deg',  'rotateZ' => '-1deg', 'height' => 'h-56 sm:h-72 lg:h-[22rem]', 'width' => 'w-36 sm:w-44 lg:w-52', 'visible' => 'hidden sm:block', 'shadow' => 'shadow-lg',  'grad_h' => 'h-20'],
+      ['src' => 'brand-3.mp4', 'rotate' => '0deg',   'rotateZ' => '0deg',  'height' => 'h-72 sm:h-80 lg:h-96',       'width' => 'w-48 sm:w-48 lg:w-56', 'visible' => 'block',          'shadow' => 'shadow-xl',  'grad_h' => 'h-24', 'center' => true],
+      ['src' => 'brand-4.mp4', 'rotate' => '-10deg', 'rotateZ' => '1deg',  'height' => 'h-56 sm:h-72 lg:h-[22rem]', 'width' => 'w-36 sm:w-44 lg:w-52', 'visible' => 'hidden sm:block', 'shadow' => 'shadow-lg',  'grad_h' => 'h-20'],
+      ['src' => 'brand-5.mp4', 'rotate' => '-18deg', 'rotateZ' => '2deg',  'height' => 'h-52 sm:h-64 lg:h-80',       'width' => 'w-36 sm:w-44 lg:w-52', 'visible' => 'hidden lg:block', 'shadow' => 'shadow-lg',  'grad_h' => 'h-20'],
     ];
 
     $levels = [
@@ -44,66 +48,118 @@
       ['id' => 'faq5', 'title' => 'Can I do both Affiliate and Seller at the same time?', 'content' => '<p class="text-gray-600 dark:text-gray-400">Yes! You can combine multiple earning programs. Shop and earn points, refer customers as an affiliate, and sell your own products — all from one account.</p>'],
       ['id' => 'faq6', 'title' => 'How long does the affiliate cookie last?', 'content' => '<p class="text-gray-600 dark:text-gray-400">30 days. If someone clicks your link and buys within 30 days, you earn the commission regardless of when they complete the purchase.</p>'],
     ];
+
+    $inputClass = 'w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors';
+
+    $earningCards = [
+      [
+        'num' => '01',
+        'category' => 'Loyalty Program',
+        'title' => 'CELIGIN Points',
+        'description' => 'Earn points every time you shop or refer a friend. Redeem them for discounts on your next order.',
+        'description_html' => false,
+        'benefits' => ['Earn on every purchase', 'Refer friends &amp; earn bonus points', 'Redeem as instant discounts'],
+        'cta_label' => 'View My Points',
+        'cta_href' => route('user.account') . '#points',
+        'icon' => 'stars',
+        'scheme' => 'blue',
+        'featured' => false,
+      ],
+      [
+        'num' => '02',
+        'category' => 'Affiliate &amp; Influencer',
+        'title' => 'CELIGIN Affiliate',
+        'description' => 'Get a unique referral link, share it with your audience, and earn up to <span class="font-bold text-amber-600 dark:text-amber-400">40% commission</span> on every sale.',
+        'description_html' => true,
+        'benefits' => ['Up to 40% commission per sale', '30-day cookie tracking', 'Monthly payouts from ₹500'],
+        'cta_label' => 'Join as Affiliate',
+        'cta_href' => '#affiliate-form',
+        'icon' => 'link',
+        'scheme' => 'amber',
+        'featured' => true,
+      ],
+      [
+        'num' => '03',
+        'category' => 'Marketplace Seller',
+        'title' => 'Become a Seller',
+        'description' => 'List your products on Celigin, reach thousands of customers, and run your own online store with ease.',
+        'description_html' => false,
+        'benefits' => ['List &amp; sell your products', 'Access seller dashboard &amp; analytics', 'Grow your business online'],
+        'cta_label' => 'Start Selling',
+        'cta_href' => '/vendor/dashboard?tab=purchases',
+        'icon' => 'storefront',
+        'scheme' => 'emerald',
+        'featured' => false,
+      ],
+    ];
   @endphp
 
   {{-- ============================================
        SECTION 1: HERO
+       Mobile: video first (full-width), content below
+       Desktop: content first, video below, stats last
        ============================================ --}}
-  <section aria-labelledby="hero-heading" class="bg-gradient-to-b from-amber-50 via-orange-50/50 to-white dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 flex flex-col justify-center">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+  <section aria-labelledby="hero-heading" class="bg-gradient-to-b from-amber-50 via-orange-50/50 to-white dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div class="max-w-7xl mx-auto flex flex-col">
 
-      {{-- Badge --}}
-      <div class="flex justify-center mb-2 sm:mb-3">
-        <div class="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-200/60 dark:border-amber-700/40 rounded-full mb-4">
-          <span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" aria-hidden="true"></span>
-          <span class="text-xs font-semibold text-amber-700 dark:text-amber-300 uppercase tracking-wider">3 Ways to Earn</span>
-          <span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" aria-hidden="true"></span>
-        </div>
-      </div>
-
-      {{-- Headline --}}
-      <div class="text-center mb-2 sm:mb-3">
-        <h1 id="hero-heading" class="text-xl sm:text-2xl lg:text-4xl font-bold leading-snug">
-          <span class="text-gray-900 dark:text-white">Join the </span>
-          <span class="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 dark:from-amber-400 dark:via-orange-400 dark:to-amber-400 bg-clip-text text-transparent">Celigin Club</span>
-          <span class="text-gray-900 dark:text-white"> — Pick Your Path</span>
-        </h1>
-      </div>
-
-      {{-- Subtitle --}}
-      <div class="text-center max-w-xl mx-auto mb-3 sm:mb-4">
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-          Shop & earn points. Share & earn commissions. Sell & build your business.<br class="hidden sm:block">
-          One club, three powerful ways to grow with premium Korean skincare.
-        </p>
-      </div>
-
-      {{-- CTA Button --}}
-      <div class="flex justify-center mb-4 sm:mb-5">
-        <a href="#earn-ways"
-           class="inline-flex items-center gap-1.5 px-5 py-2 sm:px-7 sm:py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs sm:text-sm font-semibold rounded-full shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
-          Explore All Ways to Earn
-          <span class="material-icons-outlined text-base sm:text-lg" aria-hidden="true">arrow_forward</span>
-        </a>
-      </div>
-
-      {{-- Video Gallery --}}
-      <div class="relative w-full mb-4 sm:mb-6 py-4" role="region" aria-label="Brand showcase videos">
-        <div class="flex items-end justify-center gap-2 sm:gap-3 lg:gap-4 px-4 video-gallery">
+      {{-- Video Gallery — order-1 on mobile (first), order-3 on sm+ (after content) --}}
+      <div class="order-1 sm:order-3 w-full overflow-hidden sm:py-4 sm:px-6 lg:px-8" role="region" aria-label="Brand showcase videos">
+        <div class="flex items-end justify-center gap-0 sm:gap-3 lg:gap-4 sm:px-4 video-gallery">
           @foreach($videoCards as $index => $card)
-            <div class="video-card relative flex-shrink-0 {{ $card['width'] }} {{ $card['height'] }} rounded-2xl overflow-hidden shadow-{{ isset($card['center']) ? 'xl' : 'lg' }} {{ isset($card['center']) ? 'z-10' : '' }} bg-amber-50 dark:bg-gray-700"
-                 data-rotate-y="{{ $card['rotate'] }}" data-rotate-z="{{ $card['rotateZ'] }}">
-              <video class="w-full h-full object-cover" muted loop playsinline data-video-card aria-label="Brand showcase video {{ $index + 1 }}">
+            <div class="video-card relative flex-shrink-0 {{ $card['visible'] }} {{ isset($card['center']) ? 'w-full sm:w-48 lg:w-56 h-[56vw] sm:h-80 lg:h-96' : $card['width'] . ' ' . $card['height'] }} {{ $card['shadow'] }} {{ isset($card['center']) ? 'z-10' : '' }} overflow-hidden bg-amber-50 dark:bg-gray-700"
+                 data-rotate-y="{{ $card['rotate'] }}" data-rotate-z="{{ $card['rotateZ'] }}"
+                 role="img" aria-label="Celigin brand showcase video {{ $index + 1 }} of {{ count($videoCards) }}">
+              <video class="w-full h-full object-cover" muted loop playsinline data-video-card aria-hidden="true">
                 <source src="{{ asset('assets/frontend/videos/' . $card['src']) }}" type="video/mp4">
               </video>
-              <div class="absolute bottom-0 left-0 right-0 h-{{ isset($card['center']) ? '24' : '20' }} pointer-events-none video-gradient"></div>
+              <div class="absolute bottom-0 left-0 right-0 {{ $card['grad_h'] }} pointer-events-none video-gradient"></div>
             </div>
           @endforeach
         </div>
       </div>
 
-      {{-- Stats Row --}}
-      <div class="flex justify-center items-center gap-4 sm:gap-8 lg:gap-12 max-w-2xl mx-auto" role="list" aria-label="Program statistics">
+      {{-- Text content — order-2 on mobile (below video), order-1 on sm+ (first) --}}
+      <div class="order-2 sm:order-1 px-4 sm:px-6 lg:px-8 pt-6 sm:pt-4 sm:pb-0 pb-2">
+
+        {{-- Badge --}}
+        <div class="flex justify-center mb-2 sm:mb-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-200/60 dark:border-amber-700/40">
+            <span class="w-1.5 h-1.5 bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs font-semibold text-amber-700 dark:text-amber-300 uppercase tracking-wider">3 Ways to Earn</span>
+            <span class="w-1.5 h-1.5 bg-amber-500 animate-pulse" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        {{-- Headline --}}
+        <div class="text-center mb-2 sm:mb-3">
+          <h1 id="hero-heading" class="text-xl sm:text-2xl lg:text-4xl font-bold leading-snug">
+            <span class="text-gray-900 dark:text-white">Join the </span>
+            <span class="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 dark:from-amber-400 dark:via-orange-400 dark:to-amber-400 bg-clip-text text-transparent">Celigin Club</span>
+            <span class="text-gray-900 dark:text-white"> — Pick Your Path</span>
+          </h1>
+        </div>
+
+        {{-- Subtitle --}}
+        <div class="text-center max-w-xl mx-auto mb-3 sm:mb-4">
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Shop & earn points. Share & earn commissions. Sell & build your business.<br class="hidden sm:block">
+            One club, three powerful ways to grow with premium Korean skincare.
+          </p>
+        </div>
+
+        {{-- CTA Button --}}
+        <div class="flex justify-center">
+          <a href="#earn-ways"
+             class="inline-flex items-center gap-1.5 px-5 py-2 sm:px-7 sm:py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+            Explore All Ways to Earn
+            <span class="material-icons-outlined text-base sm:text-lg" aria-hidden="true">arrow_forward</span>
+          </a>
+        </div>
+
+      </div>
+
+      {{-- Stats Row — always last --}}
+      <div class="order-3 sm:order-4 px-4 sm:px-6 lg:px-8 py-5 sm:py-4 flex flex-wrap justify-center items-center gap-x-4 gap-y-3 sm:gap-x-8 lg:gap-x-12 max-w-2xl mx-auto w-full" role="list" aria-label="Program statistics">
         @php
           $stats = [
             ['value' => '3', 'label' => 'Earn Programs', 'highlight' => false],
@@ -144,158 +200,105 @@
         </p>
       </div>
 
-      {{-- Three Cards --}}
+      {{-- Earning Cards (data-driven) --}}
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
 
-        {{-- CARD 1: Points --}}
-        <div class="group relative bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 border border-blue-100 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-xl hover:shadow-blue-200/40 dark:hover:shadow-none transition-all duration-300 flex flex-col">
-          {{-- Top accent --}}
-          <div class="h-1 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
+        @foreach($earningCards as $card)
+          @php
+            $s = $card['scheme'];
+            $schemes = [
+              'blue'    => ['card'      => 'from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800',
+                            'border'    => 'border border-blue-100 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-xl hover:shadow-blue-200/40 dark:hover:shadow-none',
+                            'accent'    => 'from-blue-400 to-indigo-500',
+                            'accent_h'  => 'h-1',
+                            'icon_bg'   => 'from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 border-blue-200/50 dark:border-blue-700/30',
+                            'icon_text' => 'text-blue-600 dark:text-blue-400',
+                            'num'       => 'text-blue-100 dark:text-gray-700',
+                            'cat'       => 'text-blue-500 dark:text-blue-400',
+                            'check'     => 'text-blue-500 dark:text-blue-400',
+                            'cta'       => 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 focus:ring-blue-500',
+                            'cta_extra' => ''],
+              'amber'   => ['card'      => 'from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-800',
+                            'border'    => 'border-2 border-amber-400 dark:border-amber-600 shadow-xl shadow-amber-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-amber-300/50 dark:hover:shadow-none md:-mt-3',
+                            'accent'    => 'from-amber-400 via-orange-400 to-amber-500',
+                            'accent_h'  => 'h-1.5',
+                            'icon_bg'   => 'from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-amber-200/50 dark:border-amber-700/30',
+                            'icon_text' => 'text-amber-600 dark:text-amber-400',
+                            'num'       => 'text-amber-100 dark:text-gray-700',
+                            'cat'       => 'text-amber-600 dark:text-amber-400',
+                            'check'     => 'text-amber-500 dark:text-amber-400',
+                            'cta'       => 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 shadow-lg shadow-orange-500/30 focus:ring-amber-500',
+                            'cta_extra' => ''],
+              'emerald' => ['card'      => 'from-emerald-50 to-teal-50 dark:from-gray-800 dark:to-gray-800',
+                            'border'    => 'border border-emerald-100 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600 hover:shadow-xl hover:shadow-emerald-200/40 dark:hover:shadow-none',
+                            'accent'    => 'from-emerald-400 to-teal-500',
+                            'accent_h'  => 'h-1',
+                            'icon_bg'   => 'from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 border-emerald-200/50 dark:border-emerald-700/30',
+                            'icon_text' => 'text-emerald-600 dark:text-emerald-400',
+                            'num'       => 'text-emerald-100 dark:text-gray-700',
+                            'cat'       => 'text-emerald-600 dark:text-emerald-400',
+                            'check'     => 'text-emerald-500 dark:text-emerald-400',
+                            'cta'       => 'bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-600 focus:ring-emerald-500',
+                            'cta_extra' => ''],
+            ];
+            $sc = $schemes[$s];
+          @endphp
 
-          <div class="p-6 flex-1 flex flex-col">
-            {{-- Icon + Number --}}
-            <div class="flex items-start justify-between mb-4">
-              <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 flex items-center justify-center border border-blue-200/50 dark:border-blue-700/30">
-                <span class="material-icons-outlined text-2xl text-blue-600 dark:text-blue-400" aria-hidden="true">stars</span>
+          <article class="group relative bg-gradient-to-br {{ $sc['card'] }} {{ $sc['border'] }} transition-all duration-300 flex flex-col"
+                   aria-labelledby="card-{{ $loop->index }}-title">
+
+            {{-- Top accent bar --}}
+            <div class="{{ $sc['accent_h'] }} bg-gradient-to-r {{ $sc['accent'] }}" aria-hidden="true"></div>
+
+            {{-- Featured badge --}}
+            @if($card['featured'])
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold uppercase tracking-wider shadow-lg" role="note" aria-label="Most popular program">
+                Most Popular
               </div>
-              <span class="text-3xl font-black text-blue-100 dark:text-gray-700 select-none" aria-hidden="true">01</span>
-            </div>
+            @endif
 
-            {{-- Content --}}
-            <div class="mb-5 flex-1">
-              <div class="text-[10px] font-bold uppercase tracking-widest text-blue-500 dark:text-blue-400 mb-1">Loyalty Program</div>
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">CELIGIN Points</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-                Earn points every time you shop or refer a friend. Redeem them for discounts on your next order.
-              </p>
-
-              {{-- Key benefits --}}
-              <ul class="space-y-1.5" role="list">
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-blue-500 dark:text-blue-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  Earn on every purchase
-                </li>
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-blue-500 dark:text-blue-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  Refer friends &amp; earn bonus points
-                </li>
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-blue-500 dark:text-blue-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  Redeem as instant discounts
-                </li>
-              </ul>
-            </div>
-
-            {{-- CTA --}}
-            <a href="{{ route('user.account') }}#points"
-               class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              View My Points
-              <span class="material-icons-outlined text-base" aria-hidden="true">arrow_forward</span>
-            </a>
-          </div>
-        </div>
-
-        {{-- CARD 2: Affiliate (center, elevated) --}}
-        <div class="group relative bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 border-2 border-amber-400 dark:border-amber-600 shadow-xl shadow-amber-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-amber-300/50 dark:hover:shadow-none transition-all duration-300 flex flex-col md:-mt-3 md:mb-[-12px]">
-          {{-- Top accent --}}
-          <div class="h-1.5 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500"></div>
-
-          {{-- Popular badge --}}
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold uppercase tracking-wider shadow-lg">
-            Most Popular
-          </div>
-
-          <div class="p-6 flex-1 flex flex-col">
-            {{-- Icon + Number --}}
-            <div class="flex items-start justify-between mb-4">
-              <div class="w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 flex items-center justify-center border border-amber-200/50 dark:border-amber-700/30">
-                <span class="material-icons-outlined text-2xl text-amber-600 dark:text-amber-400" aria-hidden="true">link</span>
+            <div class="p-6 flex-1 flex flex-col">
+              {{-- Icon + Number --}}
+              <div class="flex items-start justify-between mb-4" aria-hidden="true">
+                <div class="w-12 h-12 bg-gradient-to-br {{ $sc['icon_bg'] }} flex items-center justify-center border">
+                  <span class="material-icons-outlined text-2xl {{ $sc['icon_text'] }}">{{ $card['icon'] }}</span>
+                </div>
+                <span class="text-3xl font-black {{ $sc['num'] }} select-none">{{ $card['num'] }}</span>
               </div>
-              <span class="text-3xl font-black text-amber-100 dark:text-gray-700 select-none" aria-hidden="true">02</span>
-            </div>
 
-            {{-- Content --}}
-            <div class="mb-5 flex-1">
-              <div class="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 mb-1">Affiliate & Influencer</div>
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">CELIGIN Affiliate</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-                Get a unique referral link, share it with your audience, and earn up to <span class="font-bold text-amber-600 dark:text-amber-400">40% commission</span> on every sale.
-              </p>
+              {{-- Content --}}
+              <div class="mb-5 flex-1">
+                <div class="text-[10px] font-bold uppercase tracking-widest {{ $sc['cat'] }} mb-1">{!! $card['category'] !!}</div>
+                <h3 id="card-{{ $loop->index }}-title" class="text-lg font-bold text-gray-900 dark:text-white mb-2">{{ $card['title'] }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                  @if($card['description_html'])
+                    {!! $card['description'] !!}
+                  @else
+                    {{ $card['description'] }}
+                  @endif
+                </p>
 
-              {{-- Key benefits --}}
-              <ul class="space-y-1.5" role="list">
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-amber-500 dark:text-amber-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  Up to 40% commission per sale
-                </li>
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-amber-500 dark:text-amber-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  30-day cookie tracking
-                </li>
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-amber-500 dark:text-amber-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  Monthly payouts from ₹500
-                </li>
-              </ul>
-            </div>
-
-            {{-- CTA --}}
-            <a href="#affiliate-form"
-               class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold transition-all shadow-lg shadow-orange-500/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
-              Join as Affiliate
-              <span class="material-icons-outlined text-base" aria-hidden="true">arrow_forward</span>
-            </a>
-          </div>
-        </div>
-
-        {{-- CARD 3: Seller --}}
-        <div class="group relative bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-800 dark:to-gray-800 border border-emerald-100 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600 hover:shadow-xl hover:shadow-emerald-200/40 dark:hover:shadow-none transition-all duration-300 flex flex-col">
-          {{-- Top accent --}}
-          <div class="h-1 bg-gradient-to-r from-emerald-400 to-teal-500"></div>
-
-          <div class="p-6 flex-1 flex flex-col">
-            {{-- Icon + Number --}}
-            <div class="flex items-start justify-between mb-4">
-              <div class="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 flex items-center justify-center border border-emerald-200/50 dark:border-emerald-700/30">
-                <span class="material-icons-outlined text-2xl text-emerald-600 dark:text-emerald-400" aria-hidden="true">storefront</span>
+                {{-- Benefits list --}}
+                <ul class="space-y-1.5" role="list">
+                  @foreach($card['benefits'] as $benefit)
+                    <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                      <span class="material-icons-outlined {{ $sc['check'] }} text-base flex-shrink-0" aria-hidden="true">check_circle</span>
+                      {!! $benefit !!}
+                    </li>
+                  @endforeach
+                </ul>
               </div>
-              <span class="text-3xl font-black text-emerald-100 dark:text-gray-700 select-none" aria-hidden="true">03</span>
+
+              {{-- CTA --}}
+              <a href="{{ $card['cta_href'] }}"
+                 class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 {{ $sc['cta'] }} text-white text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2">
+                {{ $card['cta_label'] }}
+                <span class="material-icons-outlined text-base" aria-hidden="true">arrow_forward</span>
+              </a>
             </div>
+          </article>
 
-            {{-- Content --}}
-            <div class="mb-5 flex-1">
-              <div class="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-1">Marketplace Seller</div>
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Become a Seller</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-                List your products on Celigin, reach thousands of customers, and run your own online store with ease.
-              </p>
-
-              {{-- Key benefits --}}
-              <ul class="space-y-1.5" role="list">
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-emerald-500 dark:text-emerald-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  List &amp; sell your products
-                </li>
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-emerald-500 dark:text-emerald-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  Access seller dashboard &amp; analytics
-                </li>
-                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span class="material-icons-outlined text-emerald-500 dark:text-emerald-400 text-base flex-shrink-0" aria-hidden="true">check_circle</span>
-                  Grow your business online
-                </li>
-              </ul>
-            </div>
-
-            {{-- CTA --}}
-            <a href="{{ url('/vendor/dashboard?tab=purchases') }}"
-               class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-600 text-white text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
-              Start Selling
-              <span class="material-icons-outlined text-base" aria-hidden="true">arrow_forward</span>
-            </a>
-          </div>
-        </div>
-
+        @endforeach
       </div>
 
       {{-- Compare note --}}
@@ -313,16 +316,16 @@
 
     {{-- Background Decorative Elements --}}
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-0 right-0 w-96 h-96 bg-amber-100/40 dark:bg-amber-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-      <div class="absolute bottom-0 left-0 w-80 h-80 bg-orange-100/40 dark:bg-orange-900/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+      <div class="absolute top-0 right-0 w-96 h-96 bg-amber-100/40 dark:bg-amber-900/10 blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 bg-orange-100/40 dark:bg-orange-900/10 blur-3xl translate-y-1/2 -translate-x-1/2"></div>
     </div>
 
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
       {{-- Section Header --}}
       <div class="text-center mb-10">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200/50 dark:border-amber-700/30 rounded-full mb-3">
-          <span class="w-1.5 h-1.5 bg-amber-500 rounded-full" aria-hidden="true"></span>
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200/50 dark:border-amber-700/30 mb-3">
+          <span class="w-1.5 h-1.5 bg-amber-500" aria-hidden="true"></span>
           <span class="text-xs font-semibold text-amber-700 dark:text-amber-300 uppercase tracking-wider">Affiliate Program</span>
         </div>
         <h2 id="affiliate-hub-heading" class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -525,7 +528,7 @@
                         <span class="sr-only">(required)</span>
                       </label>
                       <input type="text" id="name" name="name" required value="{{ old('name') }}" autocomplete="name"
-                             class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                             class="{{ $inputClass }}"
                              placeholder="Your name" />
                     </div>
 
@@ -535,7 +538,7 @@
                         <span class="sr-only">(required)</span>
                       </label>
                       <input type="email" id="email" name="email" required value="{{ old('email') }}" autocomplete="email"
-                             class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                             class="{{ $inputClass }}"
                              placeholder="you@example.com" />
                     </div>
 
@@ -545,7 +548,7 @@
                         <span class="sr-only">(required)</span>
                       </label>
                       <input type="tel" id="phone" name="phone" required value="{{ old('phone') }}" autocomplete="tel"
-                             class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                             class="{{ $inputClass }}"
                              placeholder="Your phone number" pattern="[0-9]{10,15}" />
                     </div>
 
@@ -555,7 +558,7 @@
                           Instagram <span class="text-gray-400 text-[10px]">(Optional)</span>
                         </label>
                         <input type="text" id="instagram" name="instagram_profile_link" value="{{ old('instagram_profile_link') }}"
-                               class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                               class="{{ $inputClass }}"
                                placeholder="@username" />
                       </div>
                       <div>
@@ -563,7 +566,7 @@
                           YouTube <span class="text-gray-400 text-[10px]">(Optional)</span>
                         </label>
                         <input type="text" id="youtube" name="youtube_profile_link" value="{{ old('youtube_profile_link') }}"
-                               class="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 focus:bg-white dark:focus:bg-gray-600 transition-colors"
+                               class="{{ $inputClass }}"
                                placeholder="Channel link" />
                       </div>
                     </div>
@@ -629,27 +632,56 @@
 
 {{-- Video Card Styles --}}
 <style>
+  /* Mobile/tablet: no 3D — only center card shows, display flat */
   .video-card {
     --rotate-y: 0deg;
     --rotate-z: 0deg;
     transform-style: preserve-3d;
     backface-visibility: hidden;
     transform-origin: center bottom;
-    transform: rotateY(var(--rotate-y)) rotateZ(var(--rotate-z)) scale(1);
+    transform: none;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  }
+  /* Desktop: apply fan effect */
+  @media (min-width: 1024px) {
+    .video-card {
+      transform: rotateY(var(--rotate-y)) rotateZ(var(--rotate-z)) scale(1);
+    }
+    .video-card:hover {
+      transform: rotateY(0deg) rotateZ(0deg) scale(1.08) !important;
+      z-index: 30;
+      box-shadow: 0 30px 60px -15px rgba(251, 146, 60, 0.5);
+    }
   }
   .video-card.is-playing {
     box-shadow: 0 20px 40px -10px rgba(251, 146, 60, 0.4);
-  }
-  .video-card:hover {
-    transform: rotateY(0deg) rotateZ(0deg) scale(1.08) !important;
-    z-index: 30;
-    box-shadow: 0 30px 60px -15px rgba(251, 146, 60, 0.5);
   }
   .video-gradient {
     background: linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 100%);
   }
 </style>
+
+{{-- Breadcrumb Schema for SEO --}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ url('/') }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Join Celigin Club",
+      "item": "{{ url()->current() }}"
+    }
+  ]
+}
+</script>
 
 {{-- FAQ Schema Markup for SEO --}}
 <script type="application/ld+json">

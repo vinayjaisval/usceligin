@@ -129,19 +129,3 @@
   }
 }
 
-/* ============================================================
-   Accordion — clean minimal design
-   ============================================================ */
-@layer components {
-  /* Vertical bar of the + icon fades out when open → shows − */
-  .accordion-icon-vertical {
-    transition: opacity 0.15s ease;
-  }
-  .accordion-item.is-open .accordion-icon-vertical {
-    opacity: 0;
-  }
-  /* Icon turns primary color when open */
-  .accordion-item.is-open .accordion-icon {
-    @apply text-primary-600 dark:text-primary-400;
-  }
-}

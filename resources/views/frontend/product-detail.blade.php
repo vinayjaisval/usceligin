@@ -239,162 +239,79 @@
               </div>
             </div>
 
-            <!-- Product Accordions -->
-            <div class="divide-y divide-gray-200 dark:divide-gray-700 border-t border-b border-gray-200 dark:border-gray-700">
-              @php
-                $accordionSections = [
-                  [
-                    'id' => 'summary',
-                    'title' => 'Summary',
-                    'type' => 'summary',
-                  ],
-                  [
-                    'id' => 'benefits',
-                    'title' => 'Benefits',
-                    'content' => $productt->benefits ?? '<ul class="list-disc list-inside space-y-2"><li>Deeply nourishes and hydrates skin</li><li>Reduces the appearance of fine lines</li><li>Brightens and evens skin tone</li><li>Gentle formula suitable for all skin types</li><li>Dermatologically tested</li></ul>',
-                    'isHtml' => true,
-                  ],
-                  [
-                    'id' => 'how-to-use',
-                    'title' => 'How To Use',
-                    'content' => $productt->how_to_use ?? '<ol class="list-decimal list-inside space-y-2"><li>Apply a small amount to clean, damp skin</li><li>Gently massage in circular motions until absorbed</li><li>Follow with moisturizer if needed</li><li>Use morning and evening for best results</li></ol>',
-                    'isHtml' => true,
-                  ],
-                  [
-                    'id' => 'ingredients',
-                    'title' => 'Ingredients',
-                    'content' => $productt->ingredients ?? '<p class="text-sm leading-relaxed">Aqua, Glycerin, Natural Extracts, Vitamin E, Hyaluronic Acid, Niacinamide, Aloe Vera Leaf Extract, and other premium ingredients. Full ingredient list available on product packaging.</p>',
-                    'isHtml' => true,
-                  ],
-                  [
-                    'id' => 'return-policy',
-                    'title' => 'Return / Refund Policy',
-                    'type' => 'policy',
-                  ],
-                ];
-              @endphp
+            <!-- Product Accordions — uses shared reusable accordion component -->
+            @php
+              $htmlAllowed = 'h1,h2,h3,h4,h5,h6,p,br,b,strong,em,i,u,s,del,mark,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height|class],blockquote,code,pre,table,thead,tbody,tfoot,tr,th[colspan|rowspan|scope],td[colspan|rowspan],hr';
+              $cleanOpts  = ['HTML.Allowed' => $htmlAllowed, 'AutoFormat.RemoveEmpty' => true];
 
-              @foreach($accordionSections as $section)
-                @php $isSummary = isset($section['type']) && $section['type'] === 'summary'; @endphp
-                <div class="accordion-item group/item">
-                  <button type="button"
-                    class="accordion-trigger w-full flex items-center justify-between p-5 text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-600 transition-colors duration-200"
-                    id="accordion-{{ $section['id'] }}"
-                    aria-expanded="{{ $isSummary ? 'true' : 'false' }}" aria-controls="{{ $section['id'] }}-content" data-accordion="{{ $section['id'] }}">
-                    <span class="text-base font-semibold text-gray-900 dark:text-gray-100 pr-4 leading-snug">{{ $section['title'] }}</span>
-                    <svg class="accordion-icon w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0 transition-colors duration-200"
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                      <line class="accordion-icon-vertical" x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </button>
+              $pdTags = collect(is_array($productt->tags)
+                ? $productt->tags
+                : json_decode($productt->tags ?? '[]', true)
+              )->filter()->values();
+            @endphp
 
-                  <div class="accordion-content {{ $isSummary ? '' : 'hidden' }} p-8" id="{{ $section['id'] }}-content" role="region" aria-labelledby="accordion-{{ $section['id'] }}">
+            {{-- Capture Summary content --}}
+            @php ob_start(); @endphp
+              @if($pdTags->isNotEmpty())
+                <div class="flex flex-wrap gap-2 mb-4">
+                  @foreach($pdTags as $tag)
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-xs font-medium text-green-800 dark:text-green-300">
+                      <svg class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      {{ $tag }}
+                    </span>
+                  @endforeach
+                </div>
+              @endif
+              @if(!empty($productt->details))
+                <div class="rich-content" itemprop="description">{!! clean($productt->details, $cleanOpts) !!}</div>
+              @else
+                <p class="text-sm text-gray-400 dark:text-gray-500">—</p>
+              @endif
+            @php $pdSummaryContent = ob_get_clean(); @endphp
 
-                    {{-- Summary --}}
-                    @if($isSummary)
-                      @php
-                        $tags = collect(is_array($productt->tags)
-                          ? $productt->tags
-                          : json_decode($productt->tags ?? '[]', true)
-                        )->filter()->values();
-                      @endphp
-
-                      {{-- 1. Chips --}}
-                      <div class="flex flex-wrap gap-2 mb-5">
-                        @if($tags->isNotEmpty())
-                          @foreach($tags as $tag)
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-xs font-medium text-green-800 dark:text-green-300">
-                              <svg class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                              </svg>
-                              {{ $tag }}
-                            </span>
-                          @endforeach
-                        @else
-                          <span class="text-sm text-gray-400 dark:text-gray-500">—</span>
-                        @endif
-                      </div>
-
-                      {{-- 2. Summary paragraph --}}
-                     @if(!empty($productt->details))
-                      <div class="rich-content" itemprop="description">
-                      {!! clean($productt->details, [
-                      'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,b,strong,em,i,u,s,del,mark,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height|class],blockquote,code,pre,table,thead,tbody,tfoot,tr,th[colspan|rowspan|scope],td[colspan|rowspan],hr',
-                      'AutoFormat.RemoveEmpty' => true
-                      ]) !!}
-                      </div>
-                      @else
-                      <p class="text-sm text-gray-400 dark:text-gray-500">—</p>
-                      @endif
-
-                    {{-- Return/Refund Policy --}}
-                    @elseif(isset($section['type']) && $section['type'] === 'policy')
-                      <div class="space-y-4">
-
-                        {{-- Non-returnable notice --}}
-                        <div class="flex items-start gap-3 p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800">
-                          <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
-                          <div>
-                            <p class="text-xs font-semibold text-amber-800 dark:text-amber-300 mb-0.5">Non-Returnable Item</p>
-                            <p class="text-xs text-amber-700 dark:text-amber-400">Due to the personal care nature of this product, we are unable to accept returns once the item has been opened or used.</p>
-                          </div>
-                        </div>
-
-                        {{-- Exception: damaged / wrong / defective --}}
-                        <div class="flex items-start gap-3 p-3 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
-                          <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-                          <div>
-                            <p class="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">Received a damaged, wrong, or defective item?</p>
-                            <p class="text-xs text-blue-700 dark:text-blue-400">You may raise a refund or replacement request within <strong>5 days of delivery</strong>. Visit <a href="{{ route('user.account') }}#purchases" class="underline font-semibold hover:text-blue-900 dark:hover:text-blue-200">Your Orders</a>, attach a clear photo of the item showing the issue, and submit your request — our team will review it promptly.</p>
-                          </div>
-                        </div>
-
-                        {{-- Quick summary list --}}
-                        <ul class="space-y-2 text-xs text-gray-600 dark:text-gray-400">
-                          <li class="flex items-start gap-2">
-                            <svg class="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                            Refund or replacement processed within 3–5 business days of approval
-                          </li>
-                          <li class="flex items-start gap-2">
-                            <svg class="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                            Photo evidence required via Your Orders for all claims
-                          </li>
-                          <li class="flex items-start gap-2">
-                            <svg class="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                            Claims raised after 5 days of delivery will not be accepted
-                          </li>
-                        </ul>
-
-                        {{-- Actions --}}
-                        <div class="flex flex-wrap items-center gap-3 pt-1">
-                          <a href="{{ route('user.account') }}#purchases"
-                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs font-semibold hover:bg-gray-700 dark:hover:bg-gray-300 transition-colors">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                            Request Refund via Orders
-                          </a>
-                          <a href="{{ route('front.return-refund-policy') }}"
-                            class="inline-flex items-center gap-1.5 text-xs font-medium text-primary-600 dark:text-primary-400 hover:underline">
-                            Read full policy →
-                          </a>
-                        </div>
-
-                      </div>
-
-                    {{-- Standard HTML content --}}
-                    @else
-                      <div class="rich-content">
-                        {!! clean($section['content'] ?? '', [
-                          'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,b,i,u,s,del,mark,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height|class],blockquote,code,pre,table,thead,tbody,tfoot,tr,th[colspan|rowspan|scope],td[colspan|rowspan],hr',
-                          'AutoFormat.RemoveEmpty' => true
-                        ]) !!}
-                      </div>
-                    @endif
-
+            {{-- Capture Policy content --}}
+            @php ob_start(); @endphp
+              <div class="space-y-4">
+                <div class="flex items-start gap-3 p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800">
+                  <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+                  <div>
+                    <p class="text-xs font-semibold text-amber-800 dark:text-amber-300 mb-0.5">Non-Returnable Item</p>
+                    <p class="text-xs text-amber-700 dark:text-amber-400">Due to the personal care nature of this product, we are unable to accept returns once the item has been opened or used.</p>
                   </div>
                 </div>
-              @endforeach
-            </div>
+                <div class="flex items-start gap-3 p-3 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800">
+                  <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                  <div>
+                    <p class="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">Received a damaged, wrong, or defective item?</p>
+                    <p class="text-xs text-blue-700 dark:text-blue-400">You may raise a refund or replacement request within <strong>5 days of delivery</strong>. Visit <a href="{{ route('user.account') }}#purchases" class="underline font-semibold hover:text-blue-900 dark:hover:text-blue-200">Your Orders</a>, attach a clear photo and submit your request — our team will review it promptly.</p>
+                  </div>
+                </div>
+                <ul class="space-y-2 text-xs text-gray-600 dark:text-gray-400">
+                  <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Refund or replacement processed within 3–5 business days of approval</li>
+                  <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Photo evidence required via Your Orders for all claims</li>
+                  <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Claims raised after 5 days of delivery will not be accepted</li>
+                </ul>
+                <div class="flex flex-wrap items-center gap-3 pt-1">
+                  <a href="{{ route('user.account') }}#purchases" class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs font-semibold hover:bg-gray-700 dark:hover:bg-gray-300 transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Request Refund via Orders
+                  </a>
+                  <a href="{{ route('front.return-refund-policy') }}" class="text-xs font-medium text-primary-600 dark:text-primary-400 hover:underline">Read full policy →</a>
+                </div>
+              </div>
+            @php $pdPolicyContent = ob_get_clean(); @endphp
+
+            @include('frontend.include.accordion', [
+              'id'    => 'product-detail',
+              'type'  => 'default',
+              'items' => [
+                ['id' => 'pd-summary',    'title' => 'Summary',                'content' => $pdSummaryContent, 'open' => true],
+                ['id' => 'pd-benefits',   'title' => 'Benefits',               'content' => '<div class="rich-content">' . clean($productt->benefits ?? '<ul class="list-disc list-inside space-y-2"><li>Deeply nourishes and hydrates skin</li><li>Reduces the appearance of fine lines</li><li>Brightens and evens skin tone</li><li>Gentle formula suitable for all skin types</li><li>Dermatologically tested</li></ul>', $cleanOpts) . '</div>'],
+                ['id' => 'pd-how-to-use', 'title' => 'How To Use',             'content' => '<div class="rich-content">' . clean($productt->how_to_use ?? '<ol class="list-decimal list-inside space-y-2"><li>Apply a small amount to clean, damp skin</li><li>Gently massage in circular motions until absorbed</li><li>Follow with moisturizer if needed</li><li>Use morning and evening for best results</li></ol>', $cleanOpts) . '</div>'],
+                ['id' => 'pd-ingredients','title' => 'Ingredients',            'content' => '<div class="rich-content">' . clean($productt->ingredients ?? '<p class="text-sm leading-relaxed">Aqua, Glycerin, Natural Extracts, Vitamin E, Hyaluronic Acid, Niacinamide, Aloe Vera Leaf Extract, and other premium ingredients. Full ingredient list available on product packaging.</p>', $cleanOpts) . '</div>'],
+                ['id' => 'pd-policy',     'title' => 'Return / Refund Policy', 'content' => $pdPolicyContent],
+              ]
+            ])
 
           </div>
         </div>
@@ -744,8 +661,7 @@
       mainImage: document.getElementById('main-product-image'),
       thumbnails: document.querySelectorAll('.gallery-thumbnail'),
 
-      // Options
-      accordionTriggers: document.querySelectorAll('.accordion-trigger')
+      // (accordion handled by shared toggleAccordion() from accordion include)
     };
 
     // ========================================
@@ -929,67 +845,11 @@
     };
 
     // ========================================
-    // Accordion Handler
-    // ========================================
-    const AccordionManager = {
-      init() {
-        DOM.accordionTriggers.forEach(trigger => {
-          trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggle(e.currentTarget);
-          });
-        });
-      },
-
-      toggle(trigger) {
-        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
-
-        // Close all accordions
-        this.closeAll();
-
-        // Open clicked accordion if it was closed
-        if (!isExpanded) {
-          this.open(trigger);
-        }
-      },
-
-      closeAll() {
-        DOM.accordionTriggers.forEach(trigger => {
-          const item = trigger.closest('.accordion-item');
-          const content = item.querySelector('.accordion-content');
-
-          content.classList.add('hidden');
-          trigger.setAttribute('aria-expanded', 'false');
-          item.classList.remove('is-open');
-        });
-      },
-
-      open(trigger) {
-        const item = trigger.closest('.accordion-item');
-        const content = item.querySelector('.accordion-content');
-
-        content.classList.remove('hidden');
-        trigger.setAttribute('aria-expanded', 'true');
-        item.classList.add('is-open');
-      },
-
-      initOpenState() {
-        // Apply open state for any accordion already open on page load
-        document.querySelectorAll('.accordion-trigger[aria-expanded="true"]').forEach(trigger => {
-          const item = trigger.closest('.accordion-item');
-          if (item) item.classList.add('is-open');
-        });
-      }
-    };
-
-    // ========================================
     // Initialize All Modules
     // ========================================
     QuantityManager.init();
     CartWishlistManager.init();
     GalleryManager.init();
-    AccordionManager.init();
-    AccordionManager.initOpenState();
   });
 
   function copyProductLink() {
