@@ -88,15 +88,16 @@ class AddressController extends Controller
         // ✅ Validation
         $validated = $request->validate([
             'address_category' => 'nullable|in:delivery,billing',
-            'type' => 'nullable|in:home,work,other',
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'address_line_1' => 'required|string',
-            'address_line_2' => 'nullable|string',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'pincode' => 'required|digits:6',
-            'is_default' => 'nullable|boolean',
+            'type'             => 'nullable|in:home,work,other',
+            'name'             => 'required|string|max:255',
+            'phone'            => 'required|digits:10',
+            'address_line_1'   => 'required|string',
+            'address_line_2'   => 'nullable|string',
+            'city'             => 'required|string|max:100',
+            'state'            => 'required|string|max:100',
+            'pincode'          => 'required|digits:6',
+            'country'          => 'nullable|string|max:100',
+            'is_default'       => 'nullable|boolean',
         ]);
 
         // ✅ Default category (avoid NULL issue)
@@ -107,8 +108,8 @@ class AddressController extends Controller
         $validated['user_id'] = Auth::id();
 
         // ✅ Default values
-        $validated['country'] = 'India';
-        $validated['is_default'] = $request->has('is_default') ? true : false;
+        $validated['country'] = $validated['country'] ?? 'India';
+        $validated['is_default'] = $request->boolean('is_default');
 
         // ✅ Max 3 addresses per category
         $existingCount = Address::where('user_id', Auth::id())
@@ -190,18 +191,19 @@ class AddressController extends Controller
         $address = Address::where('user_id', Auth::id())->findOrFail($id);
 
         $validated = $request->validate([
-            'type' => 'nullable|in:home,work,other',
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
+            'type'           => 'nullable|in:home,work,other',
+            'name'           => 'required|string|max:255',
+            'phone'          => 'required|digits:10',
             'address_line_1' => 'required|string',
             'address_line_2' => 'nullable|string',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'pincode' => 'required|digits:6',
-            'is_default' => 'nullable|boolean',
+            'city'           => 'required|string|max:100',
+            'state'          => 'required|string|max:100',
+            'pincode'        => 'required|digits:6',
+            'country'        => 'nullable|string|max:100',
+            'is_default'     => 'nullable|boolean',
         ]);
 
-        $validated['is_default'] = $request->has('is_default') ? true : false;
+        $validated['is_default'] = $request->boolean('is_default');
 
         // If this is set as default, unset all other defaults in the same category
         if ($validated['is_default']) {

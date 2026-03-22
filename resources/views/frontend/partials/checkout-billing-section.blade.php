@@ -141,7 +141,7 @@
             </button>
           @endif
         </div>
-        <x-address-form formId="newBillingAddressForm" :showCancel="false" />
+        <x-address-form formId="newBillingAddressForm" :showCancel="false" category="billing" />
       </div>
     @else
       <p class="text-xs text-gray-500 dark:text-gray-400">Maximum {{ $maxAddresses }} billing addresses allowed</p>

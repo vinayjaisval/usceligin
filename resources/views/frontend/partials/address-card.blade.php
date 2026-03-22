@@ -121,7 +121,7 @@
           </svg>
         </button>
       </div>
-      <x-address-form :formId="$editFormId" :address="$address" :showCancel="false" />
+      <x-address-form :formId="$editFormId" :address="$address" :showCancel="false" :category="$type" />
     </div>
   @endif
 </div>
