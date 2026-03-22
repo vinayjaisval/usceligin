@@ -159,7 +159,7 @@
       </div>
 
       {{-- Stats Row — always last --}}
-      <div class="order-3 sm:order-4 px-4 sm:px-6 lg:px-8 py-5 sm:py-4 flex flex-wrap justify-center items-center gap-x-4 gap-y-3 sm:gap-x-8 lg:gap-x-12 max-w-2xl mx-auto w-full" role="list" aria-label="Program statistics">
+      <div class="order-3 sm:order-4 px-4 sm:px-6 lg:px-8 py-5 sm:py-4 flex flex-nowrap justify-center items-center gap-x-3 sm:gap-x-8 lg:gap-x-12 max-w-2xl mx-auto w-full" role="list" aria-label="Program statistics">
         @php
           $stats = [
             ['value' => '3', 'label' => 'Earn Programs', 'highlight' => false],
