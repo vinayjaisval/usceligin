@@ -122,7 +122,17 @@
 
         <!-- Payment Method Section -->
         <section id="payment-section"
-          class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+          class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+
+          <!-- Lock overlay — shown when address not confirmed -->
+          <div id="payment-lock-overlay"
+            class="absolute inset-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-[2px] flex flex-col items-center justify-center gap-2 cursor-not-allowed">
+            <svg class="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Confirm your delivery address first</p>
+          </div>
 
           <div class="p-4 sm:p-6">
             <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
@@ -336,9 +346,11 @@
 
           <!-- Place Order Button -->
           <button
+            id="place-order-btn"
             type="button"
             onclick="placeOrder()"
-            class="w-full px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors duration-200">
+            disabled
+            class="w-full px-6 py-3 bg-primary-600 text-white text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none">
             Place your order
           </button>
 
@@ -389,14 +401,47 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+  // If the browser restores this page from bfcache (user pressed Back after
+  // a successful order), force a fresh request so the server can redirect
+  // away when the cart is empty.
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  });
+
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   const hasAddresses = {{ (isset($addresses) && $addresses->count() > 0) ? 'true' : 'false' }};
   let selectedAddressId = {{ isset($defaultAddress) && $defaultAddress ? $defaultAddress->id : (isset($addresses) && $addresses->count() > 0 ? $addresses->first()->id : 'null') }};
+
+  // ── Checkout progressive unlock state machine ────────────────────────────
+  const checkoutState = {
+    addressConfirmed: selectedAddressId !== null,
+    paymentChosen: false, // resolved on DOMContentLoaded after radios are in DOM
+  };
+
+  function updateCheckoutState() {
+    const lockOverlay   = document.getElementById('payment-lock-overlay');
+    const placeOrderBtn = document.getElementById('place-order-btn');
+
+    if (checkoutState.addressConfirmed) {
+      lockOverlay.classList.add('hidden');
+    } else {
+      lockOverlay.classList.remove('hidden');
+    }
+
+    const canOrder = checkoutState.addressConfirmed && checkoutState.paymentChosen;
+    placeOrderBtn.disabled = !canOrder;
+  }
+  // ── End state machine ────────────────────────────────────────────────────
 
   // Show address selection view
   function showAddressSelection() {
     document.getElementById('address-summary-view').classList.add('hidden');
     document.getElementById('address-selection-view').classList.remove('hidden');
+    // Lock payment while user is editing the address
+    checkoutState.addressConfirmed = false;
+    updateCheckoutState();
   }
 
   // Cancel address selection (go back to summary)
@@ -406,10 +451,14 @@
 
     // Hide add new form if open
     const newAddressForm = document.getElementById('new-address-form-container');
-
-    alert(newAddressForm);
     if (newAddressForm) {
       newAddressForm.classList.add('hidden');
+    }
+
+    // Restore payment unlock if an address is still selected
+    if (selectedAddressId) {
+      checkoutState.addressConfirmed = true;
+      updateCheckoutState();
     }
   }
 
@@ -420,8 +469,6 @@
       return;
     }
 
-    // For now, just hide the selection view
-    // In production, you might want to reload to update the summary
     showToast('Address selected successfully', 'success');
     setTimeout(() => {
       window.location.reload();
@@ -495,6 +542,20 @@
         // saveNewAddress(this);
       });
     }
+
+    // Resolve initial paymentChosen from whichever radio is pre-checked (e.g. COD)
+    checkoutState.paymentChosen = document.querySelector('input[name="payment_method"]:checked') !== null;
+
+    // Listen for payment method changes
+    document.querySelectorAll('input[name="payment_method"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        checkoutState.paymentChosen = true;
+        updateCheckoutState();
+      });
+    });
+
+    // Apply initial state
+    updateCheckoutState();
   });
 
   // Save new address via AJAX
@@ -752,23 +813,22 @@
 
   // Place order
   function placeOrder() {
+      const btn = document.getElementById('place-order-btn');
+
+      // Guard: prevent double-submission
+      if (btn.disabled) return;
+      btn.disabled = true;
+      btn.textContent = 'Placing order…';
 
       // 🔹 1. Payment method validate
       const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
       if (!paymentMethod) {
           showToast('Please select a payment method', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Place your order';
           return;
       }
 
-      // 🔹 2. Address validation
-      // if (!userHasAddress) {
-      //     const form = document.getElementById('addressForm');
-      //     if (!form.checkValidity()) {
-      //         form.reportValidity();
-      //         showToast('Please fill in all required address fields', 'error');
-      //         return;
-      //     }
-      // }
       showToast('Processing order...', 'info');
       // 🔹 3. Get selected gateway details
       const gatewayId   = paymentMethod.value;
