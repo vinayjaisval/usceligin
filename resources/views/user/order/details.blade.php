@@ -31,7 +31,7 @@
                             ? max(0, $refundDays - (int) $receivedAt->diffInDays(now()))
                             : null;
       $refundEligible    = ($order->status === 'completed') && $daysLeft > 0;
-
+     $subtotal = 0;
       $statusStep = match(true) {
         in_array($order->status, ['completed', 'refund_requested'])  => 4,
         in_array($order->status, ['on delivery', 'out for delivery']) => 3,
@@ -132,6 +132,8 @@
                   @endif
                 @endif
               </li>
+
+              @php $subtotal += ($cartItem['item_price'] ?? $cartItem['item']['price'] ?? 0) * ($order->currency_value ?? 1); @endphp
             @endforeach
           </ul>
         </section>
@@ -165,7 +167,7 @@
               <dl class="text-sm space-y-1">
                 <div class="flex gap-2">
                   <dt class="text-gray-500 dark:text-gray-400">Method:</dt>
-                  <dd class="font-medium text-gray-900 dark:text-gray-100 capitalize">{{ $order->method == 9 ? 'Online Payment' : 'Cash on Delivery' }}</dd>
+                  <dd class="font-medium text-gray-900 dark:text-gray-100 capitalize">{{ $order->method == 'online' ? 'Razorpay' : 'Cash on Delivery' }}</dd>
                 </div>
                 <div class="flex gap-2">
                   <dt class="text-gray-500 dark:text-gray-400">Status:</dt>
@@ -216,7 +218,7 @@
           </div>
           <dl class="p-5 space-y-2.5 text-sm">
             @php
-              $subtotal = $order->pay_amount
+              $subtotal1 = $order->pay_amount
                 - ($order->shipping_cost ?? 0)
                 - ($order->packing_cost ?? 0)
                 + ($order->coupon_discount ?? 0)
@@ -231,6 +233,12 @@
               <div class="flex justify-between">
                 <dt class="text-gray-600 dark:text-gray-400">Shipping{{ $order->shipping_title ? ' (' . $order->shipping_title . ')' : '' }}</dt>
                 <dd>{{ $currSign }}{{ number_format($order->shipping_cost, 2) }}</dd>
+              </div>
+            @endif
+             @if(($order->tax ?? 0) > 0)
+              <div class="flex justify-between">
+                <dt class="text-gray-600 dark:text-gray-400">Tax</dt>
+                <dd>{{ $currSign }}{{ number_format($order->tax, 2) }}</dd>
               </div>
             @endif
             @if(($order->packing_cost ?? 0) > 0)

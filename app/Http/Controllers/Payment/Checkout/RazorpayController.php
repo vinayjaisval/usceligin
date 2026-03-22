@@ -15,15 +15,23 @@ use App\Models\Reward;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Session;
-use OrderHelper;
+use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 
 use Razorpay\Api\Api;
+use Razorpay\Api\Errors\SignatureVerificationError;
 use Illuminate\Support\Str;
+use App\Helpers\OrderHelper;
 
 class RazorpayController extends CheckoutBaseControlller
 {
+    private $displayCurrency;
+    private $api;
+    private $keyId;
+    private $keySecret;
+
     public function __construct()
     {
         parent::__construct();
@@ -42,7 +50,7 @@ class RazorpayController extends CheckoutBaseControlller
         $input = $request->all();
 
 
-        
+
         // Check currency
         if ($this->curr->name !== "INR") {
             return redirect()->back()->with('unsuccess', __('Please Select INR Currency For This Payment.'));
@@ -61,7 +69,7 @@ class RazorpayController extends CheckoutBaseControlller
             return redirect()->route('front.cart')->with('success', __("You don't have any product to checkout."));
         }
 
-         $totalc = $request->subtotalMRP + $request->shippingCost + $request->taxAmount - $request->coupon_discount - $request->refferal_discount - $request->points_used;
+        $totalc = $request->subtotalMRP + $request->shippingCost + $request->taxAmount - $request->coupon_discount - $request->refferal_discount - $request->points_used;
 
         // $total = round($request->total, 2);
         $total = round($totalc, 2);
@@ -79,7 +87,7 @@ class RazorpayController extends CheckoutBaseControlller
 
         $notify_url = route('front.razorpay.notify');
 
-        \Log::info('Checkout Total: ' . $total);
+        Log::info('Checkout Total: ' . $total);
 
         // Create Razorpay order
         $razorpayOrder = $this->api->order->create([
@@ -131,23 +139,19 @@ class RazorpayController extends CheckoutBaseControlller
         }
 
         $json = json_encode($data);
-        $displayCurrency = $this->displayCurrency;
 
-
-        view()->share('langg', $this->language);
-
-        return view('frontend.razorpay-checkout', compact('data', 'displayCurrency', 'json', 'notify_url'));
+        return view('frontend.razorpay-checkout', compact('data', 'json', 'notify_url', ));
     }
 
 
-  
+
 
     public function notify(Request $request)
     {
 
 
         $input = Session::get('input_data');
-        
+
         $order_data = Session::get('order_data');
         $success_url = route('front.payment.return');
         $cancel_url = route('front.payment.cancle');
@@ -188,15 +192,15 @@ class RazorpayController extends CheckoutBaseControlller
             $couponDiscount = $input['coupon_discount'] ?? 0;
             $refferal_discount = $input['refferal_discount'] ?? 0;
 
-            $orderTotal = $cart->totalPrice + $shippingCost + $taxAmount  - $couponDiscount - $refferal_discount ;
-
+            $orderTotal = $cart->totalPrice + $shippingCost + $taxAmount  - $couponDiscount - $refferal_discount;
+           $input['selected_payment_method'] =9;
             // Create order
             $order = new Order;
             $input['cart'] = $new_cart;
             $input['user_id'] = Auth::check() ? Auth::id() : null;
             $input['billing_address_id'] = $input['billingAddress'] ?? null;
             $input['shipping_address_id'] = $input['shippingAddress'] ?? null;
-            $input['method'] = $input['selected_payment_method'] ?? null;
+           $input['method'] = ($input['selected_payment_method'] = 9) == 9 ? 'online' : null;
 
             $input['shipping_cost'] = $input['shippingCost'] ?? 0;
             $input['coupon_discount'] = $input['coupon_discount'] ?? 0;
@@ -210,7 +214,7 @@ class RazorpayController extends CheckoutBaseControlller
             $input['wallet_price'] = ($input['wallet_price'] ?? 0) / $this->curr->value;
             $input['payment_status'] = "Completed";
             $input['txnid'] = $input_data['razorpay_payment_id'];
-           
+
             $input['status'] = 'pending';
             $input['tax'] = $input['taxAmount'] ?? 0;
 
@@ -223,44 +227,6 @@ class RazorpayController extends CheckoutBaseControlller
                 $input['refferal_discount'] = $request->refferal_discount;
             }
 
-            // if (Session::has('refferel_user_id')) {
-            //     $val = (int) preg_replace('/\D/', '', $input['total']) / $this->curr->value;
-            //     $val = $val / 100;
-            //     $sub = $val * $this->gs->affilate_charge;
-            //     if ($temp_affilate_users != null) {
-            //         $t_sub = 0;
-            //         foreach ($temp_affilate_users as $t_cost) {
-            //             $t_sub += $t_cost['charge'];
-            //         }
-            //         $sub = $sub - $t_sub;
-            //     }
-            //     if ($sub > 0) {
-            //         // $user = OrderHelper::affilate_check(Session::get('refferel_user_id'), $sub, $input['dp']); // For Affiliate Checking
-            //         $input['affilate_user'] = Session::get('refferel_user_id');
-            //         $input['affilate_charge'] = $sub;
-            //     }
-            //     Session::forget('refferel_user_id');
-            // }
-            // if (Session::has('affilate')) {
-            //     $val = $input['total'] / $this->curr->value;
-            //     $val = $val / 100;
-            //     $sub = $val * $this->gs->affilate_charge;
-            //     if ($temp_affilate_users != null) {
-            //         $t_sub = 0;
-            //         foreach ($temp_affilate_users as $t_cost) {
-            //             $t_sub += $t_cost['charge'];
-            //         }
-            //         $sub = $sub - $t_sub;
-            //     }
-            //     if ($sub > 0) {
-            //         $user = OrderHelper::affilate_check(Session::get('affilate'), $sub, $input['dp']); // For Affiliate Checking
-            //         $input['affilate_user'] = Session::get('affilate');
-            //         $input['affilate_charge'] = $sub;
-            //     }
-            //     Session::forget('affilate');
-            // }
-
-            // Affiliate/referral check
             foreach (['refferel_user_id', 'affilate'] as $key) {
                 if (Session::has($key)) {
                     $val = (float) preg_replace('/[^\d.]/', '', $input['total']); // Keep decimal
@@ -325,30 +291,50 @@ class RazorpayController extends CheckoutBaseControlller
                     }
                 }
 
-                if (isset($closest['reward'])) {
-                    Auth::user()->increment('reward', $closest['reward']->reward);
+                if (isset($closest['reward']) && Auth::check()) {
+                    $user = Auth::user();
+                    $user->reward += $closest['reward']->reward;
+                    $user->save();
                 }
             }
 
-            // Send emails
+
             $mailer = new GeniusMailer();
 
-            // $mailer->sendAutoOrderMail([
-            //     'to'       => $order->customer_email,
-            //     'type'     => "new_order",
-            //     'cname'    => $order->customer_name,
-            //     'oamount'  => "",
-            //     'aname'    => "",
-            //     'aemail'   => "",
-            //     'wtitle'   => "",
-            //     'onumber'  => $order->order_number,
-            // ], $order->id);
+            $htmlBody = View::make('emails.order', [
+                'name'       => $order->customer_name,
+                'headline'   => 'Your order is confirmed and we are getting it ready.',
+                'order_id'   => $order->order_number,
+                'status'   => $order->status,
+                'payment_method'   => $order->method,
+                'order_date'   => $order->created_at->toDayDateTimeString(),
 
-            $mailer->sendCustomMail([
-                'to'      => $this->ps->contact_email,
-                'subject' => "New Order Recieved!!",
-                'body'    => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ". Please login to your panel to check.<br>Thank you.",
-            ]);
+                'total'      => $order->pay_amount,
+                'subject'    => "Order $order->order_number confirmed — thanks!",
+                'cta_label'  => 'Visit Website',
+                'cta_url'    => url('/')
+            ])->render();
+
+            if (empty($htmlBody)) {
+                Log::error('❌ Email body empty');
+            }
+
+            $data = [
+                'to'      => 'vinay.jaisval2015@gmail.com' ?? Auth::user()->email,
+                'subject' => "Order $order->order_number confirmed — thanks!",
+                'body'    => $htmlBody
+            ];
+
+            $result = $mailer->sendCustomMail($data);
+            // Send emails
+            // $mailer = new GeniusMailer();
+
+
+            // $mailer->sendCustomMail([
+            //     'to'      => $this->ps->contact_email,
+            //     'subject' => "New Order Recieved!!",
+            //     'body'    => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ". Please login to your panel to check.<br>Thank you.",
+            // ]);
 
             return redirect($success_url);
         }

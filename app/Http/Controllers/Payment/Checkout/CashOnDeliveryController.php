@@ -80,7 +80,9 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         $input['totalQty'] = $totalQuantity;
         $input['billing_address_id'] = $request->billingAddress ?? null;
         $input['shipping_address_id'] = $request->shippingAddress ?? null;
-        $input['method'] = $request->selected_payment_method ?? null;
+        $input['method'] = $request->selected_payment_method == 1
+            ? 'COD'
+            : ($request->selected_payment_method == 9 ? 'online' : null);
         $input['coupon_discount'] = $request->coupon_discount ?? 0;
         $input['shipping_cost'] = $request->shippingCost ?? 0;
         $input['affilate_users'] = $affilate_users ??  Auth::user()->affiliated_by;
@@ -142,7 +144,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         $order->tracks()->create(['title' => 'Pending', 'text' => 'You have successfully placed your order.']);
         $order->notifications()->create();
 
-         ShippedToDelivery::dispatch($input['order_number']);
+        ShippedToDelivery::dispatch($input['order_number']);
 
 
         if ($input['coupon_code'] != "") {
@@ -178,24 +180,9 @@ class CashOnDeliveryController extends CheckoutBaseControlller
             OrderHelper::add_to_transaction($order, $order->wallet_price); // Store To Transactions
         }
 
-        //Sending Email To Buyer
-        // $data = [
-        //     'to' => $order->customer_email,
-        //     'type' => "new_order",
-        //     'cname' => $order->customer_name,
-        //     'oamount' => "",
-        //     'aname' => "",
-        //     'aemail' => "",
-        //     'wtitle' => "",
-        //     'onumber' => $order->order_number,
-        // ]; 
 
         try {
 
-            // Log::info('📧 Mail start', [
-            //     'order_id' => $order->order_number,
-            //     'email' => $this->ps->contact_email
-            // ]);
 
             $mailer = new GeniusMailer();
 
@@ -203,6 +190,9 @@ class CashOnDeliveryController extends CheckoutBaseControlller
                 'name'       => $order->customer_name,
                 'headline'   => 'Your order is confirmed and we are getting it ready.',
                 'order_id'   => $order->order_number,
+                'status'   => $order->status,
+                'payment_method'   => $order->method,
+                'order_date'   => $order->created_at->toDayDateTimeString(),
                 'total'      => $order->pay_amount,
                 'subject'    => "Order $order->order_number confirmed — thanks!",
                 'cta_label'  => 'Visit Website',
@@ -218,11 +208,11 @@ class CashOnDeliveryController extends CheckoutBaseControlller
                 'subject' => "Order $order->order_number confirmed — thanks!",
                 'body'    => $htmlBody
             ];
-        //      $data = [
-        //     'to' => $this->ps->contact_email,
-        //     'subject' => "New Order Recieved!!",
-        //     'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
-        // ];
+            //      $data = [
+            //     'to' => $this->ps->contact_email,
+            //     'subject' => "New Order Recieved!!",
+            //     'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
+            // ];
 
             // Log::info('📧 Sending mail...', $data);
 
