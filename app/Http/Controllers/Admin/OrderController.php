@@ -443,6 +443,9 @@ class OrderController extends AdminBaseController
                     'headline'   => 'Great news — your order is on its way!',
                     'order_id'   => $order->order_number,
                     'total'      => $order->pay_amount,
+                    'status'   => $order->status,
+                    'payment_method'   => $order->method,
+                    'order_date'   => $order->created_at->toDayDateTimeString(),
                     'subject'    => " Your order -  $order->order_number has shipped!",
                     'cta_label'  => 'Visit Website',
                     'cta_url'    => url('/')

@@ -307,6 +307,7 @@
                       {{ App\Models\Product::convertPrice($taxAmount) }}
                   </span>
               </div>
+              @if($points > 0)
                <div class="flex justify-between items-center mt-3">
                   <label class="text-gray-600 dark:text-gray-400">
                       Use Celigin Points (Available: {{ $points }})
@@ -320,6 +321,7 @@
                         class="w-24 border rounded px-2 py-1 text-right"
                   />
               </div>
+              @endif
 
 
           </div>

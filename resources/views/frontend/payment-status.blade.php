@@ -88,7 +88,7 @@
     ['icon' => 'tag',         'label' => 'Order Number',   'value' => $order['order_number']],
     ['icon' => 'calendar',    'label' => 'Order Date',     'value' => $order['created_at'] ?? ($order['order_date'] ?? 'N/A')],
     ['icon' => 'credit-card', 'label' => 'Payment Method', 'value' => isset($order['method'])
-      ? ($order['method'] == 1 ? 'COD' : ($order['method'] == 9 ? 'Razorpay' : 'Unknown'))
+      ? ($order['method'] == 'COD' ? 'COD' : ($order['method'] == 'online' ? 'Razorpay' : 'Unknown'))
       : ($order['payment_method'] ?? 'N/A')],
     ['icon' => 'user', 'label' => 'Customer', 'value' => $billingAddress['name']],
   ];
@@ -282,7 +282,8 @@
           </dl>
         </section>
 
-      </div>{{-- / left column --}}
+      </div>
+      {{-- / left column --}}
 
 
       {{-- ── RIGHT COLUMN ──────────────────────────────────────── --}}

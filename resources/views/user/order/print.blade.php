@@ -80,7 +80,7 @@
                         @endif
                     </span><br>
                     @endif
-                    <span> <strong>{{ __('Payment Method') }} :</strong> {{$order->method}}</span>
+                    <span> <strong>{{ __('Payment Method') }} :</strong> {{ $order->method == 'online' ? 'Razorpay' : 'Cash on Delivery' }}</span>
                 </div>
             </div>
         </div>
@@ -218,17 +218,11 @@
                                 @endif
                                 @endif
 
-                                {{-- @if($order->tax != 0)
-                                        <tr class="no-border">
-                                            <td colspan="1"></td>
-                                            <td>{{ __('Tax') }} </td>
-                                <td>{{ \PriceHelper::showOrderCurrencyPrice((($order->tax) / $order->currency_value),$order->currency_sign) }}</td>
-                                </tr>
-                                @endif --}}
-                                @if($order->coupon_discount != null)
+                               
+                                @if($order->coupon_discount != 0)
                                 <tr class="no-border">
                                     <td colspan="1"></td>
-                                    <td><strong>{{ __('Coupon Discount') }}({{$order->currency_sign}})</strong></td>
+                                    <td><strong>{{ __('Coupon Discount') }}</strong></td>
                                     <td>₹{{ \PriceHelper::showOrderCurrencyPrice($order->coupon_discount,$order->currency_sign) }}</td>
                                 </tr>
                                 @endif
@@ -255,6 +249,15 @@
                                     <td><strong>{{ __('Shipping cost') }}</strong></td>
                                     <td>₹ {{
                                             \PriceHelper::showOrderCurrencyPrice($order->shipping_cost,$order->currency_sign)
+                                            }}
+
+                                    </td>
+                                </tr>
+                                 <tr class="semi-border">
+                                    <td colspan="1"></td>
+                                    <td><strong>{{ __('Tax') }}</strong></td>
+                                    <td>₹ {{
+                                            \PriceHelper::showOrderCurrencyPrice($order->tax,$order->currency_sign)
                                             }}
 
                                     </td>

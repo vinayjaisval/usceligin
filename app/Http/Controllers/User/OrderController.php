@@ -159,7 +159,7 @@ class OrderController extends UserBaseController
     public function cancel_order(Request $request, $id)
     {
         $order = Order::findOrFail($id);
-       
+
 
         $this->cancelWaybill($request, $id);
 
@@ -210,6 +210,11 @@ class OrderController extends UserBaseController
             'headline' => "Your order $order->order_number has been cancelled as requested.",
             'total'    => "$order->pay_amount will be credited back to your original payment method within 5–7 business days.",
             'subject'  => "Order $order->order_number has been cancelled",
+             'status'   => $order->status,
+              'order_id'   => $order->order_number,
+            'payment_method'   => $order->method,
+            'order_date'   => $order->created_at->toDayDateTimeString(),
+
             'cta_label' => 'Visit Website',
             'cta_url'  => url('/')
         ])->render();
@@ -226,9 +231,9 @@ class OrderController extends UserBaseController
 
         $mailer->sendCustomMail($mailData);
         return response()->json([
-        'success' => true,
-        'message' => 'Order cancelled successfully'
-          ]);
+            'success' => true,
+            'message' => 'Order cancelled successfully'
+        ]);
 
         // return redirect()->back()->with('message', 'Order Canceled Successfully');
     }
@@ -276,7 +281,7 @@ class OrderController extends UserBaseController
 
     public function cancelWaybill(Request $request, $id)
     {
-       
+
         $order = Order::find($id);
 
         // ✅ Validate order

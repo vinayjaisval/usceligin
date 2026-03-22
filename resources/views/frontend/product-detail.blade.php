@@ -311,9 +311,11 @@
                      @if(!empty($productt->details))
                       <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed ck-content">
                       {!! clean($productt->details, [
-                      'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,b,strong,em,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
-                      'AutoFormat.RemoveEmpty' => true
-                      ]) !!}
+                            'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,b,strong,em,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
+                            'HTML.AllowedAttributes' => 'span.style,div.style,img.src,img.alt,img.width,img.height,a.href,a.title,a.target',
+                            'URI.AllowedSchemes' => ['http' => true, 'https' => true, 'data' => true],
+                            'AutoFormat.RemoveEmpty' => true
+                        ]) !!}
                       </div>
                       @else
                       <p class="text-sm text-gray-400 dark:text-gray-500">—</p>
@@ -374,10 +376,12 @@
 
                     {{-- Standard HTML content --}}
                     @else
-                      {!! clean($section['content'] ?? '', [
-                          'HTML.Allowed' => 'p,br,strong,em,ul,ol,li,span',
-                          'AutoFormat.RemoveEmpty' => true
-                      ]) !!}
+                   {!! clean($section['content'] ?? '', [
+                        'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,ul,ol,li,span,img',
+                        'HTML.AllowedAttributes' => 'span.style,img.src,img.alt,img.width,img.height',
+                        'URI.AllowedSchemes' => ['http' => true, 'https' => true, 'data' => true],
+                        'AutoFormat.RemoveEmpty' => true
+                    ]) !!}
                     @endif
 
                   </div>
@@ -458,10 +462,12 @@
                 <div class="w-10 h-0.5 bg-primary-600 dark:bg-primary-400 mb-6"></div>
                 <div class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed" >
                @if($cs['isHtml'])
-                {!! clean($cs['body'], [
-                    'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,b,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
-                    'AutoFormat.RemoveEmpty' => true
-                ]) !!}
+                  {!! clean($cs['body'], [
+                      'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p,br,strong,em,b,i,u,ul,ol,li,span,div,a[href|title|target],img[src|alt|width|height]',
+                      'HTML.AllowedAttributes' => 'span.style,div.style,img.src,img.alt,img.width,img.height,a.href,a.title,a.target',
+                      'URI.AllowedSchemes' => ['http' => true, 'https' => true, 'data' => true],
+                      'AutoFormat.RemoveEmpty' => true
+                  ]) !!}
                 @else
                 <p>{{ $cs['body'] }}</p>
                 @endif
