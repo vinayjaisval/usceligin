@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Generalsetting;
 use Closure;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +15,7 @@ class MaintenanceMode
             return DB::table('generalsettings')->first();
         });
 
-
-        if ($gs->is_maintain == 1) {
+        if ($gs && $gs->is_maintain == 1) {
             return redirect()->route('front-maintenance');
         }
 

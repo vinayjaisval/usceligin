@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        Cache::flush();
         Paginator::useBootstrap();
         view()->composer('*', function ($settings) {
 
@@ -37,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
             $settings->with('seo', cache()->remember('seotools', now()->addDay(), function () {
                 return DB::table('seotools')->first();
             }));
+
             $settings->with('socialsetting', cache()->remember('socialsettings', now()->addDay(), function () {
                 return DB::table('socialsettings')->first();
             }));
@@ -57,8 +57,7 @@ class AppServiceProvider extends ServiceProvider
                 $settings->with('langg', Language::where('is_default', '=', 1)->first());
             }
 
-            
-            $settings->with('footer_blogs', DB::table('blogs')->orderby('id','desc')->limit(3)->get());
+            $settings->with('footer_blogs', DB::table('blogs')->orderby('id', 'desc')->limit(3)->get());
         });
     }
 

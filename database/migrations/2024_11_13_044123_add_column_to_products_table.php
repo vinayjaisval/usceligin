@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('expiry_date')->nullable();
-        });
+        if (Schema::hasTable('products') && !Schema::hasColumn('products', 'expiry_date')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->string('expiry_date')->nullable();
+            });
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('expiry_date');
-        });
+        if (Schema::hasTable('products') && Schema::hasColumn('products', 'expiry_date')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn('expiry_date');
+            });
+        }
     }
 };

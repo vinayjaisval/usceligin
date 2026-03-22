@@ -15,20 +15,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('addresses', function (Blueprint $table) {
-            $table->string('address_category', 20)->default('delivery')->after('user_id');
-            $table->index(['user_id', 'address_category']);
-        });
+        if (Schema::hasTable('addresses') && !Schema::hasColumn('addresses', 'address_category')) {
+            Schema::table('addresses', function (Blueprint $table) {
+                $table->string('address_category', 20)->default('delivery')->after('user_id');
+                $table->index(['user_id', 'address_category']);
+            });
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('addresses', function (Blueprint $table) {
-            $table->dropIndex(['user_id', 'address_category']);
-            $table->dropColumn('address_category');
-        });
+        if (Schema::hasTable('addresses') && Schema::hasColumn('addresses', 'address_category')) {
+            Schema::table('addresses', function (Blueprint $table) {
+                $table->dropIndex(['user_id', 'address_category']);
+                $table->dropColumn('address_category');
+            });
+        }
     }
 };

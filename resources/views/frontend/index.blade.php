@@ -80,6 +80,7 @@
     </section>
  @endif
     <!-- Category Banners -->
+    @if($ps->arrival_section == 1 && count($arrivals) >= 3)
     <section class="py-12 lg:py-16 bg-white dark:bg-gray-900" aria-labelledby="category-banners-title" role="region">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 id="category-banners-title"
@@ -190,6 +191,7 @@
         </div>
       </div>
     </section>
+    @endif
 
     @if($ps->best_sellers == 1)
       <section class="py-12 lg:py-16 bg-neutral-50 dark:bg-gray-800" aria-labelledby="bestsellers-title" role="region">

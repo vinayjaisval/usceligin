@@ -1734,175 +1734,132 @@
     }
   });
 
+  // ─── Address Management: shared config & helpers ─────────────────────────────
+  const _addr = {
+    url:   '{{ url('/user/addresses') }}',
+    csrf:  () => document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    delay: 1000,
+  };
+
+  // Generic fetch: JSON body for non-GET, throws parsed error on non-2xx
+  async function _addrFetch(url, method = 'GET', data = null) {
+    const opts = { method, headers: { 'X-CSRF-TOKEN': _addr.csrf(), 'Accept': 'application/json' } };
+    if (data !== null) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(data); }
+    const r = await fetch(url, opts);
+    const d = await r.json();
+    if (!r.ok) throw d;
+    return d;
+  }
+
+  // Extract user-friendly message from an API error response
+  function _addrMsg(err, fallback) {
+    return err?.errors ? Object.values(err.errors).flat().join('\n') : (err?.error || err?.message || fallback);
+  }
+
+  // Disable submit button with loading text; returns a restore function
+  function _addrBtn(btn, loadingText) {
+    const orig = btn.textContent.trim();
+    btn.disabled = true; btn.textContent = loadingText;
+    return () => { btn.disabled = false; btn.textContent = orig; };
+  }
+
   // Toggle add address form
   function toggleAddAddressForm() {
-    const form = document.getElementById('add-address-form');
+    const form     = document.getElementById('add-address-form');
     const editForm = document.getElementById('edit-address-form');
-
-    // Hide edit form if open
-    if (editForm && !editForm.classList.contains('hidden')) {
-      editForm.classList.add('hidden');
-    }
-
-    // Toggle add form
+    if (editForm && !editForm.classList.contains('hidden')) editForm.classList.add('hidden');
     if (form) {
       form.classList.toggle('hidden');
-      if (!form.classList.contains('hidden')) {
-        const nameInput = document.getElementById('myAccountAddressForm_name');
-        if (nameInput) nameInput.focus();
-      }
+      if (!form.classList.contains('hidden')) document.getElementById('myAccountAddressForm_name')?.focus();
     }
   }
 
   // Cancel address form
   function cancelAddressForm() {
-    const addForm = document.getElementById('add-address-form');
+    const addForm  = document.getElementById('add-address-form');
     const editForm = document.getElementById('edit-address-form');
-
     if (addForm && !addForm.classList.contains('hidden')) {
       addForm.classList.add('hidden');
-      const form = document.getElementById('myAccountAddressForm');
-      if (form) form.reset();
+      document.getElementById('myAccountAddressForm')?.reset();
     }
+    editForm?.classList.add('hidden');
+  }
 
-    if (editForm && !editForm.classList.contains('hidden')) {
-      editForm.classList.add('hidden');
+  // Edit address — fetch data then render inline edit form
+  async function editAddress(addressId) {
+    try {
+      const data = await _addrFetch(`${_addr.url}/${addressId}/edit`);
+      if (data.address) showEditForm(data.address);
+    } catch (err) {
+      showToast(_addrMsg(err, 'Failed to load address details'), 'error');
     }
   }
 
-  // Edit address
-  function editAddress(addressId) {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch(`{{ url('/user/addresses') }}/${addressId}/edit`, {
-        headers: {
-          'X-CSRF-TOKEN': csrfToken,
-          'Accept': 'application/json'
-        }
-      })
-      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
-      .then(data => {
-        if (data.address) {
-          showEditForm(data.address);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        showToast('Failed to load address details', 'error');
-      });
-  }
-
-  // Show edit form
+  // Render inline edit form pre-filled with address data
   function showEditForm(address) {
-    const addForm = document.getElementById('add-address-form');
-    const editFormContainer = document.getElementById('edit-address-form');
-    const editFormContent = document.getElementById('edit-address-form-content');
+    document.getElementById('add-address-form')?.classList.add('hidden');
+    const container = document.getElementById('edit-address-form');
+    const content   = document.getElementById('edit-address-form-content');
 
-    // Hide add form
-    if (addForm) addForm.classList.add('hidden');
+    const inputCls  = 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors';
+    const readonlyCls = 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300';
+    const radioOpts = ['home', 'work', 'other'].map(v => `
+      <label class="flex items-center space-x-2 cursor-pointer">
+        <input type="radio" name="type" value="${v}" ${address.type === v ? 'checked' : ''}
+          class="w-4 h-4 text-primary-600 border-gray-300 focus:ring-primary-600" />
+        <span class="text-sm text-gray-700 dark:text-gray-300">${v.charAt(0).toUpperCase() + v.slice(1)}</span>
+      </label>`).join('');
 
-    // Create edit form with populated data
-    editFormContent.innerHTML = `
+    content.innerHTML = `
       <form id="editAddressForm" class="space-y-4">
         <input type="hidden" name="address_id" value="${address.id}">
-
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Address Type <span class="text-red-600">*</span>
-          </label>
-          <div class="flex gap-4">
-            <label class="flex items-center space-x-2 cursor-pointer">
-              <input type="radio" name="type" value="home" ${address.type === 'home' ? 'checked' : ''}
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-              <span class="text-sm text-gray-700 dark:text-gray-300">Home</span>
-            </label>
-            <label class="flex items-center space-x-2 cursor-pointer">
-              <input type="radio" name="type" value="work" ${address.type === 'work' ? 'checked' : ''}
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-              <span class="text-sm text-gray-700 dark:text-gray-300">Work</span>
-            </label>
-            <label class="flex items-center space-x-2 cursor-pointer">
-              <input type="radio" name="type" value="other" ${address.type === 'other' ? 'checked' : ''}
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-              <span class="text-sm text-gray-700 dark:text-gray-300">Other</span>
-            </label>
-          </div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Address Type <span class="text-red-600">*</span></label>
+          <div class="flex gap-4">${radioOpts}</div>
         </div>
-
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Full Name <span class="text-red-600">*</span>
-          </label>
-          <input type="text" name="name" value="${address.name}" required
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name <span class="text-red-600">*</span></label>
+          <input type="text" name="name" value="${address.name}" required class="${inputCls}" />
         </div>
-
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Phone Number <span class="text-red-600">*</span>
-          </label>
-          <input type="tel" name="phone" value="${address.phone ?? ''}" required maxlength="10" minlength="10" pattern="[0-9]{10}" inputmode="numeric" placeholder="10-digit number"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number <span class="text-red-600">*</span></label>
+          <input type="tel" name="phone" value="${address.phone ?? ''}" required maxlength="10" minlength="10" pattern="[0-9]{10}" inputmode="numeric" placeholder="10-digit number" class="${inputCls}" />
         </div>
-
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Address Line 1 <span class="text-red-600">*</span>
-          </label>
-          <input type="text" name="address_line_1" value="${address.address_line_1}" required
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address Line 1 <span class="text-red-600">*</span></label>
+          <input type="text" name="address_line_1" value="${address.address_line_1}" required class="${inputCls}" />
         </div>
-
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Address Line 2
-          </label>
-          <input type="text" name="address_line_2" value="${address.address_line_2 || ''}"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address Line 2</label>
+          <input type="text" name="address_line_2" value="${address.address_line_2 || ''}" class="${inputCls}" />
         </div>
-
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Pincode <span class="text-red-600">*</span>
-            </label>
-            <input type="text" name="pincode" value="${address.pincode}" required maxlength="6" pattern="[0-9]{6}"
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pincode <span class="text-red-600">*</span></label>
+            <input type="text" id="editAddressForm_pincode" name="pincode" value="${address.pincode}" required maxlength="6" pattern="[0-9]{6}" inputmode="numeric"
+              onblur="fetchPincodeDetails('editAddressForm')" class="${inputCls}" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              City <span class="text-red-600">*</span>
-            </label>
-            <input type="text" name="city" value="${address.city}" required readonly
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City <span class="text-red-600">*</span></label>
+            <input type="text" id="editAddressForm_city" name="city" value="${address.city}" required readonly class="${readonlyCls}" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              State <span class="text-red-600">*</span>
-            </label>
-            <input type="text" name="state" value="${address.state}" required readonly
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">State <span class="text-red-600">*</span></label>
+            <input type="text" id="editAddressForm_state" name="state" value="${address.state}" required readonly class="${readonlyCls}" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Country <span class="text-red-600">*</span>
-            </label>
-            <input type="text" name="country" value="India" readonly
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country <span class="text-red-600">*</span></label>
+            <input type="text" id="editAddressForm_country" name="country" value="India" readonly class="${readonlyCls}" />
           </div>
         </div>
-
         <div class="flex items-start space-x-2">
           <input type="checkbox" name="is_default" value="1" ${address.is_default ? 'checked' : ''}
-            class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-          <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-            Make this my default address
-          </label>
+            class="mt-1 w-4 h-4 text-primary-600 border-gray-300 focus:ring-primary-600" />
+          <label class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Make this my default address</label>
         </div>
-
         <div class="flex gap-3">
           <button type="submit"
-            class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            class="px-6 py-2 bg-primary-800 text-white text-sm font-semibold hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-600 transition-colors">
             Update Address
           </button>
           <button type="button" onclick="cancelAddressForm()"
@@ -1910,13 +1867,9 @@
             Cancel
           </button>
         </div>
-      </form>
-    `;
+      </form>`;
 
-    // Show edit form
-    editFormContainer.classList.remove('hidden');
-
-    // Attach submit handler
+    container.classList.remove('hidden');
     document.getElementById('editAddressForm').addEventListener('submit', function(e) {
       e.preventDefault();
       updateAddress(address.id, this);
@@ -1924,122 +1877,62 @@
   }
 
   // Update address — PUT with JSON (PHP only parses multipart for POST, not PUT)
-  function updateAddress(addressId, form) {
-    const formData = new FormData(form);
-    const data = {};
-    formData.forEach((value, key) => { if (key !== '_token') data[key] = value; });
+  async function updateAddress(addressId, form) {
+    const data = Object.fromEntries([...new FormData(form).entries()].filter(([k]) => k !== '_token'));
     data.is_default = form.querySelector('[name="is_default"]')?.checked ? 1 : 0;
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Updating...';
-
-    fetch(`{{ url('/user/addresses') }}/${addressId}`, {
-        method: 'PUT',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
-      .then(data => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-        showToast(data.message || 'Address updated successfully', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      })
-      .catch(error => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-        const msg = error.errors ? Object.values(error.errors).flat().join('\n') : (error.message || 'Failed to update address');
-        showToast(msg, 'error');
-      });
+    const restore = _addrBtn(form.querySelector('button[type="submit"]'), 'Updating...');
+    try {
+      const res = await _addrFetch(`${_addr.url}/${addressId}`, 'PUT', data);
+      restore();
+      showToast(res.message || 'Address updated successfully', 'success');
+      setTimeout(() => window.location.reload(), _addr.delay);
+    } catch (err) {
+      restore();
+      showToast(_addrMsg(err, 'Failed to update address'), 'error');
+    }
   }
 
   // Delete address
-  function deleteAddress(addressId) {
-    if (!confirm('Are you sure you want to delete this address?')) {
-      return;
+  async function deleteAddress(addressId) {
+    if (!confirm('Are you sure you want to delete this address?')) return;
+    try {
+      const res = await _addrFetch(`${_addr.url}/${addressId}`, 'DELETE');
+      showToast(res.message || 'Address deleted successfully', 'success');
+      setTimeout(() => window.location.reload(), _addr.delay);
+    } catch (err) {
+      showToast(_addrMsg(err, 'Failed to delete address'), 'error');
     }
-
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch(`{{ url('/user/addresses') }}/${addressId}`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken,
-          'Accept': 'application/json'
-        }
-      })
-      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
-      .then(data => {
-        showToast(data.message || 'Address deleted successfully', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      })
-      .catch(error => {
-        const msg = error.errors ? Object.values(error.errors).flat().join('\n') : (error.message || 'Failed to delete address');
-        showToast(msg, 'error');
-      });
   }
 
   // Set default address
-  function setDefaultAddress(addressId) {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch(`{{ url('/user/addresses') }}/${addressId}/set-default`, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken,
-          'Accept': 'application/json'
-        }
-      })
-      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
-      .then(data => {
-        showToast(data.message || 'Default address updated', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      })
-      .catch(error => {
-        const msg = error.errors ? Object.values(error.errors).flat().join('\n') : (error.message || 'Failed to update default address');
-        showToast(msg, 'error');
-      });
+  async function setDefaultAddress(addressId) {
+    try {
+      const res = await _addrFetch(`${_addr.url}/${addressId}/set-default`, 'POST');
+      showToast(res.message || 'Default address updated', 'success');
+      setTimeout(() => window.location.reload(), _addr.delay);
+    } catch (err) {
+      showToast(_addrMsg(err, 'Failed to update default address'), 'error');
+    }
   }
 
-  // Save new address
-  function saveNewAddress(form) {
-    const formData = new FormData(form);
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Saving...';
-
-    fetch('{{ route("user.addresses.store") }}', {
+  // Save new address (POST with FormData — multipart is fine for POST)
+  async function saveNewAddress(form) {
+    const restore = _addrBtn(form.querySelector('button[type="submit"]'), 'Saving...');
+    try {
+      const r = await fetch('{{ route("user.addresses.store") }}', {
         method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken,
-          'Accept': 'application/json'
-        },
-        body: formData
-      })
-      .then(async r => { const d = await r.json(); if (!r.ok) throw d; return d; })
-      .then(data => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-        showToast(data.message || 'Address saved successfully', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-      })
-      .catch(error => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-        const msg = error.errors ? Object.values(error.errors).flat().join('\n') : (error.error || error.message || 'Failed to save address');
-        showToast(msg, 'error');
+        headers: { 'X-CSRF-TOKEN': _addr.csrf(), 'Accept': 'application/json' },
+        body: new FormData(form)
       });
+      const res = await r.json();
+      if (!r.ok) throw res;
+      restore();
+      showToast(res.message || 'Address saved successfully', 'success');
+      setTimeout(() => window.location.reload(), _addr.delay);
+    } catch (err) {
+      restore();
+      showToast(_addrMsg(err, 'Failed to save address'), 'error');
+    }
   }
 
   // Fetch pincode details — shared by add and edit forms
@@ -2051,15 +1944,12 @@
     if (!pincodeInput || !cityInput || !stateInput) return;
 
     const pincode = pincodeInput.value.trim();
-
     if (pincode.length !== 6 || !/^\d{6}$/.test(pincode)) {
-      cityInput.value = '';
-      stateInput.value = '';
+      cityInput.value = ''; stateInput.value = '';
       return;
     }
 
-    cityInput.value  = 'Loading...';
-    stateInput.value = 'Loading...';
+    cityInput.value = 'Loading...'; stateInput.value = 'Loading...';
 
     fetch(`https://api.postalpincode.in/pincode/${pincode}`)
       .then(r => r.json())
@@ -2071,14 +1961,12 @@
           const countryInput = document.getElementById(`${formId}_country`);
           if (countryInput) countryInput.value = po.Country ?? 'India';
         } else {
-          cityInput.value  = '';
-          stateInput.value = '';
+          cityInput.value = ''; stateInput.value = '';
           showToast('Pincode not found. Please enter city manually.', 'warning');
         }
       })
       .catch(() => {
-        cityInput.value  = '';
-        stateInput.value = '';
+        cityInput.value = ''; stateInput.value = '';
         showToast('Could not fetch location details', 'error');
       });
   }
