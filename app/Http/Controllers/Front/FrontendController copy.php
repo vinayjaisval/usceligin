@@ -864,8 +864,8 @@ class FrontendController extends FrontBaseController
         // Logic Section Ends
 
         // Redirect Section
-        return response()->json(__('Success! Thanks for contacting us, we will get back to you shortly.'));
-    }
+       return redirect()->back()->with('success', 'Success! Thanks for contacting us, we will get back to you shortly.');
+        }
 
     // Refresh Capcha Code
     public function refresh_code()

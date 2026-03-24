@@ -39,7 +39,7 @@
               <th scope="col">{{ __('Total Qty') }}</th>
               <th scope="col">{{ __('Total Cost') }}</th>
               <th scope="col">{{ __('Total Commission') }}</th>
-              <th scope="col">{{ __('Order Status') }}</th>
+              <th scope="col">{{ __('Payment Status') }}</th>
               <th scope="col">{{ __('Options') }}</th>
             </tr>
           </thead>

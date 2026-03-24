@@ -346,7 +346,7 @@
                            a7.5 7.5 0 1115 0z"/>
                 </svg>
                 <address class="not-italic text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {{ $ps->address ?? '123 Commerce Street, Andheri West, Mumbai — 400 053, India' }}
+                  {{  $ps->street  ?? '123 Commerce Street, Andheri West, Mumbai — 400 053, India' }}
                 </address>
               </div>
 
