@@ -719,7 +719,8 @@ class OrderCreateController extends VendorBaseController
     public function createPaymentLink($amount, $customer_email, $customer_phone, $order_id)
     {
         try {
-            $api = new \Razorpay\Api\Api('rzp_test_nyTqNRxl8rWhmi', 'TFhnDfnlSG8gZawU15zboKGH');
+            // $api = new \Razorpay\Api\Api('rzp_test_nyTqNRxl8rWhmi', 'TFhnDfnlSG8gZawU15zboKGH');
+            $api = new \Razorpay\Api\Api('rzp_live_yM1TPikGKea2AP', '7plQZKzfYPWXg2xxA5b1Qxwl');
 
             $paymentLink = $api->paymentLink->create([
                 'amount'         => $amount * 100,
