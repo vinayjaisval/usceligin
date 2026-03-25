@@ -652,7 +652,7 @@
 
     const totalPrice = parseFloat('{{ $totalPrice }}');
 
-    fetch(`/celigin/carts/coupon/check?code=${encodeURIComponent(couponCode)}&total=${totalPrice}`, {
+    fetch(`/carts/coupon/check?code=${encodeURIComponent(couponCode)}&total=${totalPrice}`, {
       method: 'GET',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
