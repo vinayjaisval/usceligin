@@ -7,11 +7,14 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\PaymentGateway;
 use App\Models\Address;
+use App\Helpers\PriceHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 use Illuminate\Support\Facades\DB;
+
 
 class UserController extends UserBaseController
 {
@@ -63,7 +66,7 @@ return redirect()->route('front.index');
                 return response()->json(array('errors' => ['Image format not supported']));
             }
 
-            $name = \PriceHelper::ImageCreateName($file);
+            $name = PriceHelper::ImageCreateName($file);
             $file->move('assets/images/users/', $name);
             if ($data->photo != null) {
                 if (file_exists(public_path() . '/assets/images/users/' . $data->photo)) {
