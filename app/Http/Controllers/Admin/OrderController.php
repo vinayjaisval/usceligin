@@ -325,7 +325,7 @@ class OrderController extends AdminBaseController
     }
 
 
-    public function update(Request $request, $id)
+    public function update_old(Request $request, $id)
     {
        
         $order = Order::findOrFail($id);
@@ -339,8 +339,23 @@ class OrderController extends AdminBaseController
 
             if ($newStatus === 'completed') {
 
+               if (!empty($order->seller_id) && $order->seller_commission !== null) {
+                    $seller = User::find($order->seller_id);
+
+                    if ($seller) {
+                        $seller->current_balance += $order->seller_commission;
+
+                        if (isset($seller->affilate_income)) {
+                            $seller->affilate_income += $order->seller_commission;
+                        }
+
+                        $seller->save();
+                    }
+                }
+
 
                 if ($order->affilate_user) {
+                    
                     $userRefBy = User::where('id', $order->affilate_user)->pluck('reffered_by');
                     if ($userRefBy->count() > 0) {
                         $subUsers = User::where('reffered_by', $userRefBy)->pluck('id');
@@ -377,6 +392,8 @@ class OrderController extends AdminBaseController
                         \Log::warning('Invalid affiliate_users format', ['value' => $order->affilate_users]);
                     }
                 }
+
+
             }
             // Handle if status is being updated to 'declined'
             elseif ($newStatus === 'declined') {
@@ -512,6 +529,8 @@ class OrderController extends AdminBaseController
                             }
                         }
                     }
+
+                   
                 }
             }
 
@@ -522,6 +541,206 @@ class OrderController extends AdminBaseController
         $order->update($input);
         return redirect()->back()->with('success', __('Data Updated Successfully.'));
     }
+
+
+    public function update(Request $request, $id)
+{
+    $order = Order::findOrFail($id);
+    $input = $request->all();
+
+    if ($request->has('status')) {
+
+        $newStatus = $input['status'];
+        $currentStatus = $order->status;
+
+        // ✅ COMPLETED STATUS (RUN ONLY ONCE)
+        if ($newStatus === 'completed' && $currentStatus !== 'completed') {
+
+            // ✅ Seller commission
+            if (!empty($order->seller_id) && $order->seller_commission !== null) {
+                $seller = User::find($order->seller_id);
+
+                if ($seller) {
+                    $seller->current_balance += $order->seller_commission;
+
+                    if (isset($seller->affilate_income)) {
+                        $seller->affilate_income += $order->seller_commission;
+                    }
+
+                    $seller->save();
+                }
+            }
+
+            // ✅ Affiliate logic
+            if ($order->affilate_user) {
+
+                $userRefBy = User::where('id', $order->affilate_user)->pluck('reffered_by');
+
+                if ($userRefBy->count() > 0) {
+
+                    $subUsers = User::where('reffered_by', $userRefBy)->pluck('id');
+
+                    $productOrders = Order::whereIn('user_id', $subUsers)
+                        ->where('status', 'completed')
+                        ->pluck('user_id')
+                        ->unique();
+
+                    if ($productOrders->count() > 1) {
+
+                        $auser = User::find($userRefBy);
+
+                        if ($auser) {
+                            $auser->affilate_income += $order->affilate_charge;
+                            $auser->save();
+
+                            $bonus = new AffliateBonus();
+                            $bonus->refer_id = $auser->id;
+                            $bonus->bonus = $order->affilate_charge;
+                            $bonus->type = 'Order';
+                            $bonus->user_id = $order->user_id;
+                            $bonus->save();
+                        }
+                    }
+                }
+            }
+
+            // ✅ Multiple affiliate users
+            if (!empty($order->affilate_users)) {
+                $ausers = json_decode($order->affilate_users, true);
+
+                if (is_array($ausers)) {
+                    foreach ($ausers as $auser) {
+                        $user = User::find($auser['user_id']);
+                        if ($user) {
+                            $user->affilate_income += $auser['charge'];
+                            $user->save();
+                        }
+                    }
+                }
+            }
+        }
+
+        // ❌ DECLINED STATUS
+        elseif ($newStatus === 'declined') {
+
+            if ($order->user_id != 0 && $order->wallet_price != 0) {
+                $user = User::find($order->user_id);
+
+                if ($user) {
+                    $user->balance += $order->wallet_price;
+                    $user->save();
+                }
+            }
+
+            $cart = json_decode($order->cart, true);
+
+            foreach ($cart['items'] ?? [] as $prod) {
+                $product = Product::find($prod['item']['id']);
+
+                if ($product) {
+                    $product->stock += $prod['qty'] ?? 0;
+                    $product->save();
+
+                    if (!empty($prod['size_qty']) && isset($prod['size_key'])) {
+                        $temp = $product->size_qty;
+                        $temp[$prod['size_key']] = (int)$prod['size_qty'];
+                        $product->size_qty = implode(',', $temp);
+                        $product->save();
+                    }
+                }
+            }
+
+            // Mail
+            $mailer = new GeniusMailer();
+
+            $htmlBody = View::make('emails.order_cancel', [
+                'name' => $order->customer_name,
+                'headline' => "Your order $order->order_number has been cancelled.",
+                'total' => "$order->pay_amount will be refunded in 5–7 days.",
+                'subject' => "Order $order->order_number cancelled",
+                'cta_label' => 'Visit Website',
+                'cta_url' => url('/')
+            ])->render();
+
+            $data = [
+                'to' => $order->customer_email ?? Auth::user()->email,
+                'subject' => "Order $order->order_number Declined",
+                'body' => $htmlBody
+            ];
+
+            $mailer->sendCustomMail($data);
+        }
+
+        // 🚚 ON DELIVERY
+        elseif ($newStatus === 'on delivery') {
+
+            $mailer = new GeniusMailer();
+
+            $htmlBody = View::make('emails.order_ship', [
+                'name' => $order->customer_name,
+                'headline' => 'Your order is on the way!',
+                'order_id' => $order->order_number,
+                'total' => $order->pay_amount,
+                'status' => $order->status,
+                'payment_method' => $order->method,
+                'order_date' => $order->created_at->toDayDateTimeString(),
+                'subject' => "Order $order->order_number shipped",
+                'cta_label' => 'Visit Website',
+                'cta_url' => url('/')
+            ])->render();
+
+            $data = [
+                'to' => $order->customer_email ?? Auth::user()->email,
+                'subject' => "Order $order->order_number shipped",
+                'body' => $htmlBody
+            ];
+
+            $mailer->sendCustomMail($data);
+        }
+
+        // ✅ SAVE STATUS
+        $order->update($input);
+
+        // Track order
+        if ($request->track_text) {
+            $title = ucwords($newStatus);
+            $track = OrderTrack::firstOrNew(['order_id' => $id, 'title' => $title]);
+            $track->text = $request->track_text;
+            $track->save();
+        }
+
+        // 🎯 Referral logic (only first order)
+        if (User::where('id', $order->user_id)->exists()) {
+
+            $orderCount = Order::where('user_id', $order->user_id)
+                ->where('status', 'completed')
+                ->count();
+
+            if ($orderCount == 1) {
+
+                $user = User::find($order->user_id);
+
+                if ($user && $user->reffered_by) {
+                    $referrer = User::find($user->reffered_by);
+
+                    if ($referrer) {
+                        $referrer->referral_income += 250;
+                        $referrer->current_balance += 250;
+                        $referrer->reffered_times += 1;
+                        $referrer->save();
+                    }
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', __('Data Updated Successfully.'));
+    }
+
+    // Non-status update
+    $order->update($input);
+
+    return redirect()->back()->with('success', __('Data Updated Successfully.'));
+}
 
 
     public function product_submit(Request $request)

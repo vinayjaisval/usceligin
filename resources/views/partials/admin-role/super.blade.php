@@ -145,9 +145,9 @@
         </li>
     </ul>
 </li> -->
-<li>
+<!-- <li>
     <a href="{{ route('cosmatic-combo') }}"><i class="icofont-cart"></i>{{ __('Celigin Combo') }}</a>
-</li>
+</li> -->
 <li>
     <a href="#affiliateprod" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="icofont-opencart"></i>{{ __('Affiliate Products') }}
@@ -214,7 +214,7 @@
 
 
 
-
+<!-- 
 <li>
     <a href="#customerDeposit" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="icofont-money"></i>{{ __('Customer Deposits') }}
@@ -230,7 +230,7 @@
             <a href="{{ route('admin-trans-index') }}"><span>{{ __('Transactions') }}</span></a>
         </li>
     </ul>
-</li>
+</li> -->
 
 
 

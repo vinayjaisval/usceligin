@@ -9,8 +9,8 @@ use App\{
 use App\Http\Controllers\Controller;
 use App\Services\WishlistMergeService;
 use Illuminate\Http\Request;
-use Auth;
-use Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
@@ -155,11 +155,11 @@ class LoginController extends Controller
         'body' => $htmlBody
       ];
       
-      \Log::info("OTP sent to email {$identifier}: {$otp}");
+      Log::info("OTP sent to email {$identifier}: {$otp}");
       $mailer->sendCustomMail($mailData);
     } elseif ($method === 'phone') {
-      \Log::info("OTP sent to phone {$identifier}: {$otp}");
-      // $this->resend_otp($identifier, $otp); // Replace with actual SMS logic
+      Log::info("OTP sent to phone {$identifier}: {$otp}");
+       $this->resend_otp($identifier, $otp); // Replace with actual SMS logic
     }
 
     return response()->json(['message' => 'OTP sent successfully!', 'otp' => $otp]);

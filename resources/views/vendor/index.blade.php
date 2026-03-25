@@ -24,9 +24,9 @@
 
     $datas = App\Models\Order::where('seller_id', Auth::user()->id);
     $totalPrice = $datas->count() > 0 ? $datas->sum('pay_amount') : 0;
-    $discountOrCalculation = $totalPrice > 20000 ? $totalPrice * 0.05 : $totalPrice * 0.02;
-
-    $statsCards[] = ['label' => 'Total Earning',       'value' => $discountOrCalculation, 'icon' => 'trending_up', 'color' => 'teal',   'isCurrency' => true];
+    {{ $discountOrCalculation = $totalPrice > 20000 ? $totalPrice * 0.05 : $totalPrice * 0.02; }}
+    $discountOrCalculation = $totalPrice > 0 ? $totalPrice * 0.05 : 0;
+    $statsCards[] = ['label' => 'Total Earning',       'value' => App\Models\Product::vendorConvertPrice($discountOrCalculation), 'icon' => 'trending_up', 'color' => 'teal',   'isCurrency' => true];
     $statsCards[] = ['label' => 'Pending Commission',  'value' => App\Models\Product::vendorConvertPrice($user->admin_commission), 'icon' => 'payments', 'color' => 'orange', 'isCurrency' => true];
     $statsCards[] = ['label' => 'Total Customers',     'value' => App\Models\Order::where('seller_id', Auth::user()->id)->count('seller_id'), 'icon' => 'people', 'color' => 'indigo'];
 

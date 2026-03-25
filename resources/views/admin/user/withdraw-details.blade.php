@@ -53,10 +53,10 @@
                                                     <th>{{ __("Email") }} :</th>
                                                     <td>{{$withdraw->acc_email}}</td>
                                                 </tr>
-                                                @if($withdraw->upi_id)
+                                                @if($withdraw->acc_email)
                                                 <tr>
                                                     <th>{{ __("Upi Id") }}:</th>
-                                                    <td>{{$withdraw->upi_id}}</td>
+                                                    <td>{{$withdraw->acc_email}}</td>
                                                 </tr>
                                                 @endif
                                             @else 

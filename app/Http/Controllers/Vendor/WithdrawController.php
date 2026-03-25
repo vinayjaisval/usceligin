@@ -10,7 +10,7 @@ class WithdrawController extends VendorBaseController
 
     public function index()
     {
-        $withdraws = Withdraw::where('user_id', '=', $this->user->id)->where('type', '=', 'vendor')->latest('id')->get();
+        $withdraws = Withdraw::where('user_id', '=', $this->user->id)->where('type', '=', 'user')->latest('id')->get();
         $sign = $this->curr;
         return view('vendor.withdraw.index', compact('withdraws', 'sign'));
     }
@@ -61,14 +61,19 @@ class WithdrawController extends VendorBaseController
                 $newwithdraw['reference'] = $request->reference;
                 $newwithdraw['amount'] = $finalamount;
                 $newwithdraw['fee'] = $fee;
-                $newwithdraw['type'] = 'vendor';
+                $newwithdraw['type'] = 'user';
                 $newwithdraw->save();
 
-                return response()->json(__('Withdraw Request Sent Successfully.'));
+               return redirect()->back()
+                ->with('success', __('Withdraw Request Sent Successfully.'));
             } else {
-                return response()->json(array('errors' => [0 => __('Insufficient Balance.')]));
+
+              return redirect()->back()
+            ->with('error', __('Insufficient Balance.'));
+            
             }
         }
-        return response()->json(array('errors' => [0 => __('Please enter a valid amount.')]));
+        return redirect()->back()
+    ->with('error', __('Please enter a valid amount.'));
     }
 }

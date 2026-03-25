@@ -71,7 +71,7 @@
           @if($start_date != '' && $end_date != '') — @endif
           @if($end_date != '') {{ $end_date->format('d M Y') }} @endif
           :
-          <span class="text-xl">{{ $total }}</span>
+          <span class="text-xl">₹{{ $total }}</span>
         </p>
       </div>
     </div>
@@ -84,7 +84,7 @@
       </div>
       <div>
         <p class="text-sm text-gray-500 dark:text-gray-400">Total Earning (All Time)</p>
-        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $total }}</p>
+        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">₹{{ $total }}</p>
       </div>
     </div>
   </div>
@@ -118,7 +118,7 @@
                 </a>
               </td>
               <td class="font-medium text-teal-600 dark:text-teal-400">
-                {{ round($data->seller_commission, 2) }}
+                ₹ {{ round($data->seller_commission, 2) }}
               </td>
               <td>{{ $data->method }}</td>
               <td class="text-gray-500 dark:text-gray-400 text-xs">{{ $data->txnid }}</td>
