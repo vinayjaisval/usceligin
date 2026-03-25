@@ -43,7 +43,7 @@
 @endphp
 
 <a href="javascript:void(0);"
-   class="add-to-cart-btn inline-flex items-center justify-center gap-1.5 {{ $buttonSize }} bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 {{ $attributes->get('class', '') }}"
+   class="add-to-cart-btn inline-flex items-center justify-center gap-1.5 {{ $buttonSize }} bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 {{ $attributes->get('class', '') }}"
    data-id="{{ $productId }}"
    data-quantity="{{ $quantity }}"
    aria-label="Add to cart"

@@ -216,7 +216,7 @@
                             'num'       => 'text-blue-100 dark:text-gray-700',
                             'cat'       => 'text-blue-500 dark:text-blue-400',
                             'check'     => 'text-blue-500 dark:text-blue-400',
-                            'cta'       => 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 focus:ring-blue-500',
+                            'cta'       => 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800 dark:bg-primary-500 dark:hover:bg-primary-600 focus:ring-primary-600',
                             'cta_extra' => ''],
               'amber'   => ['card'      => 'from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-800',
                             'border'    => 'border-2 border-amber-400 dark:border-amber-600 shadow-xl shadow-amber-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-amber-300/50 dark:hover:shadow-none md:-mt-3',

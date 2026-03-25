@@ -117,8 +117,8 @@
   <div class="flex items-center space-x-2 p-2.5 sm:p-3 border-t border-gray-200 dark:border-gray-700">
     @if($showCart)
       {{-- Wide Add to Cart Button --}}
-      <a href="javascript:void(0);"
-         class="add-to-cart-btn flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+      <x-btn href="javascript:void(0);"
+         class="add-to-cart-btn flex-1 !justify-center !px-2 sm:!px-3 !py-2 !text-sm"
          data-id="{{ $product->id }}"
          role="button"
          tabindex="0"
@@ -130,7 +130,7 @@
         </svg>
         <span class="hidden sm:inline">Add to Cart</span>
         <span class="sm:hidden">Cart</span>
-      </a>
+      </x-btn>
     @endif
 
     @if($showWishlist)

@@ -30,6 +30,7 @@ export default {
           300: '#B6CCF7', // Background only
           200: '#D4E5FB', // Background only
           100: '#EAF2FE', // Background only
+          50:  '#F5F8FF', // Ultra-light tint — ghost/outline button hover
         },
 
         // Neutral Gray System

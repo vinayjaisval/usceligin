@@ -182,7 +182,7 @@
 
               <!-- Add to Cart Button -->
               <a href="#" id="add-to-cart-btn" data-product-id="{{ $productt->id }}"
-                class="block w-full flex items-center justify-center px-4 py-4 bg-blue-600 text-white text-base font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                class="block w-full flex items-center justify-center px-4 py-4 bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white text-base font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 transition-colors duration-200"
                 role="button" tabindex="0" aria-label="Add {{ $productt->name }} to cart">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   class="mr-2" aria-hidden="true" focusable="false">
@@ -576,7 +576,7 @@
                     <div class="px-3 sm:px-4 pb-3 sm:pb-4">
                       <div class="flex items-center space-x-2">
                         <a href="#"
-                          class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
+                          class="flex-1 flex items-center justify-center px-2 sm:px-3 py-2 bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 transition-colors duration-200 add-to-cart-btn"
                           data-id="{{ $prod->id }}" role="button" tabindex="0"
                           aria-label="Add {{ $prod->name }} to shopping cart">
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 sm:mr-2" aria-hidden="true" focusable="false">

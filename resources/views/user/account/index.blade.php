@@ -797,11 +797,9 @@
 
               {{-- Update Button --}}
               <div class="flex gap-3">
-                <button
-                  type="submit"
-                  class="flex-1 sm:flex-none sm:px-8 py-3 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
+                <x-btn type="submit" class="flex-1 sm:flex-none sm:!px-8 !py-3">
                   Update Profile
-                </button>
+                </x-btn>
               </div>
             </form>
           </div>
@@ -815,15 +813,12 @@
                   <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage your delivery and billing addresses (Maximum 3 addresses)</p>
                 </div>
                 @if($addresses->count() < 3)
-                  <button
-                  type="button"
-                  onclick="toggleAddAddressForm()"
-                  class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                  </svg>
-                  Add New Address
-                  </button>
+                  <x-btn type="button" class="hidden sm:inline-flex" onclick="toggleAddAddressForm()">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add New Address
+                  </x-btn>
                   @endif
               </div>
             </div>
@@ -832,15 +827,14 @@
               @if($addresses->count() > 0)
               {{-- Mobile Add Button --}}
               @if($addresses->count() < 3)
-                <button
-                type="button"
-                onclick="toggleAddAddressForm()"
-                class="sm:hidden w-full mb-4 flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-dashed border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                Add New Address
-                </button>
+                <x-btn type="button" variant="outline" :full="true"
+                  class="sm:hidden mb-4 !border-dashed"
+                  onclick="toggleAddAddressForm()">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg>
+                  Add New Address
+                </x-btn>
                 @endif
 
                 {{-- Address Cards Grid --}}
@@ -850,7 +844,7 @@
 
                     {{-- Default Badge (Top Right) --}}
                     @if($address->is_default)
-                    <div class="absolute -top-2 -right-2 bg-blue-600 dark:bg-blue-500 text-white px-3 py-1 text-xs font-semibold shadow-md">
+                    <div class="absolute -top-2 -right-2 bg-primary-600 dark:bg-primary-500 text-white px-3 py-1 text-xs font-semibold shadow-md">
                       DEFAULT
                     </div>
                     @endif
@@ -889,15 +883,13 @@
                     {{-- Actions --}}
                     <div class="flex flex-wrap gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
                       @if(!$address->is_default)
-                      <button
-                        type="button"
-                        onclick="setDefaultAddress({{ $address->id }})"
-                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 border border-blue-200 dark:border-blue-700 transition-colors">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <x-btn type="button" variant="ghost" size="xs"
+                        onclick="setDefaultAddress({{ $address->id }})">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                         Set as default
-                      </button>
+                      </x-btn>
                       @endif
 
                       <button
@@ -1035,14 +1027,8 @@
 
                     {{-- Buttons --}}
                     <div class="flex gap-3">
-                      <button type="submit"
-                        class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                        Save Address
-                      </button>
-                      <button type="button" onclick="cancelAddressForm()"
-                        class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
-                        Cancel
-                      </button>
+                      <x-btn type="submit">Save Address</x-btn>
+                      <x-btn type="button" variant="dark" onclick="cancelAddressForm()">Cancel</x-btn>
                     </div>
                   </form>
                 </div>
@@ -1064,15 +1050,12 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
                       Add your delivery address to make checkout faster and easier. You can save up to 3 addresses.
                     </p>
-                    <button
-                      type="button"
-                      onclick="toggleAddAddressForm()"
-                      class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors shadow-md">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <x-btn type="button" size="lg" onclick="toggleAddAddressForm()">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                       </svg>
                       Add Your First Address
-                    </button>
+                    </x-btn>
                   </div>
                 </div>
 
@@ -1187,14 +1170,8 @@
 
                     {{-- Buttons --}}
                     <div class="flex gap-3">
-                      <button type="submit"
-                        class="px-6 py-2 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                        Save Address
-                      </button>
-                      <button type="button" onclick="cancelAddressForm()"
-                        class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
-                        Cancel
-                      </button>
+                      <x-btn type="submit">Save Address</x-btn>
+                      <x-btn type="button" variant="dark" onclick="cancelAddressForm()">Cancel</x-btn>
                     </div>
                   </form>
                 </div>
