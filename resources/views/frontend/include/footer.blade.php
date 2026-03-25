@@ -436,7 +436,7 @@
       viewAllItem.appendChild(textSpan);
 
       viewAllItem.addEventListener('click', function() {
-         window.location.href = "{{ url('/item') }}/" + encodeURIComponent(query);
+         window.location.href = "{{ url('/new-arrivals') }}/";
 
         
       });

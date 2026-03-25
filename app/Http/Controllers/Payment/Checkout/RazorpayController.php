@@ -320,7 +320,7 @@ class RazorpayController extends CheckoutBaseControlller
             }
 
             $data = [
-                'to'      => 'vinay.jaisval2015@gmail.com' ?? Auth::user()->email,
+                'to' => Auth::user()->email ?? 'vinay.jaisval2015@gmail.com',
                 'subject' => "Order $order->order_number confirmed — thanks!",
                 'body'    => $htmlBody
             ];

@@ -72,7 +72,7 @@
             <td class="header-td" style="background-color: #ffffff; padding: 28px 40px 24px 40px;
                        border-bottom: 1px solid #EBEBEB;">
               <img class="logo-img"
-                   src="https://www.celiginglobal.com/assets/img/logo.png"
+                   src="https://www.celiginglobal.com/public/assets/images/173312170817321071811721843042celigin-logopngpngpng.png"
                    alt="Celigin" width="120" height="auto"
                    style="width: 120px; height: auto; display: block;" />
             </td>
