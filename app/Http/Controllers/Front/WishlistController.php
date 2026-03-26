@@ -6,7 +6,7 @@ use App\{
     Models\Cart,
     Models\Product,
     Models\Tag,
-    
+
 
     // Models\Tag // Removed - tags table doesn't exist
 };
@@ -24,22 +24,83 @@ use Illuminate\Support\Facades\Auth;
 class WishlistController extends FrontBaseController
 {
 
-    public function wishlist(Request $request)
-    {   
-        
-        $tags = Tag::all();
-        
-        $user = Auth::user();
+    // public function wishlist(Request $request)
+    // {
 
+    //     $tags = Tag::all();
+
+
+    //     $tag_data = Tag::where('slug', $request->tags)->first('id');
+
+    //     $tag_id = $tag_data->id ?? '';
+
+    //     $user = Auth::user();
+
+    //     if ($user) {
+    //         // LOGIN USER → DB wishlist → normalize
+    //         $oldCart = Wishlist::where('user_id', $user->id)
+    //             ->with('product')
+    //             ->get()
+    //             ->map(function ($item) {
+    //                 if (!$item->product) {
+    //                     return null;
+    //                 }
+
+    //                 return [
+    //                     'id'    => $item->product->id,
+    //                     'name'  => $item->product->name,
+    //                     'slug'  => $item->product->slug,
+    //                     'price' => $item->product->price,
+    //                     'photo' => $item->product->photo,
+    //                 ];
+    //             })
+    //             ->filter()
+    //             ->values();
+    //     } else {
+    //         // GUEST USER → Session wishlist
+    //         $oldCart = collect(Session::get('wishlist', []));
+    //     }
+
+    //     if ($request->ajax()) {
+    //         return view('frontend.my-wishlist', compact('oldCart', 'tags'));
+    //     }
+
+    //     return view('frontend.my-wishlist', compact('oldCart', 'tags'));
+    // }
+
+
+    public function wishlist(Request $request)
+    {
+        $tags = Tag::all();
+        $tag_data = Tag::where('slug', $request->tags)->first();
+        $tag_id = $tag_data->id ?? null;
+        $user = Auth::user();
         if ($user) {
-            // LOGIN USER → DB wishlist → normalize
-            $oldCart = Wishlist::where('user_id', $user->id)
-                ->with('product')
-                ->get()
-                ->map(function ($item) {
-                    if (!$item->product) {
-                        return null;
+            $query = Wishlist::where('user_id', $user->id)
+                ->with(['product' => function ($q) use ($tag_id, $request) {
+
+                    // 🔹 Filter by tag (if selected)
+                    if ($tag_id) {
+                        $q->whereHas('tags', function ($sub) use ($tag_id) {
+                            $sub->where('tags.id', $tag_id);
+                        });
                     }
+
+                    // 🔹 Sorting
+                    if ($request->sort == 'popularity') {
+                        $q->orderBy('views', 'desc'); // adjust column as per your DB
+                    } elseif ($request->sort == 'price_low') {
+                        $q->orderBy('price', 'asc');
+                    } elseif ($request->sort == 'price_high') {
+                        $q->orderBy('price', 'desc');
+                    } else {
+                        $q->latest();
+                    }
+                }]);
+
+            $oldCart = $query->get()
+                ->map(function ($item) {
+                    if (!$item->product) return null;
 
                     return [
                         'id'    => $item->product->id,
@@ -52,8 +113,31 @@ class WishlistController extends FrontBaseController
                 ->filter()
                 ->values();
         } else {
-            // GUEST USER → Session wishlist
-            $oldCart = collect(Session::get('wishlist', []));
+
+            // Guest user (Session)
+            $oldCart = collect(Session::get('wishlist', []))
+                ->filter(function ($item) use ($tag_id, $request) {
+
+                    // Optional: apply filters if your session has product data
+                    // if ($tag_id && (!isset($item['tags']) || !in_array($tag_id, $item['tags']))) {
+                    //     return false;
+                    // }
+
+                    return true;
+                })
+                ->sortByDesc(function ($item) use ($request) {
+
+                    if ($request->sort == 'popularity') {
+                        return $item['views'] ?? 0;
+                    } elseif ($request->sort == 'price_low') {
+                        return $item['price'] ?? 0;
+                    } elseif ($request->sort == 'price_high') {
+                        return - ($item['price'] ?? 0);
+                    }
+
+                    return $item['id'];
+                })
+                ->values();
         }
 
         if ($request->ajax()) {
@@ -97,99 +181,99 @@ class WishlistController extends FrontBaseController
         return view('frontend.ajax.cart-page', compact('products', 'totalPrice', 'mainTotal'));
     }
 
-   public function addwishlist($id)
-{
-    // Product fetch
-    $product = Product::select(
-        'id',
-        'user_id',
-        'slug',
-        'name',
-        'photo',
-        'price',
-        'stock',
-        'type',
-        'tags'
-    )->find($id);
+    public function addwishlist($id)
+    {
+        // Product fetch
+        $product = Product::select(
+            'id',
+            'user_id',
+            'slug',
+            'name',
+            'photo',
+            'price',
+            'stock',
+            'type',
+            'tags'
+        )->find($id);
 
-    if (!$product) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Product not found.'
-        ]);
-    }
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product not found.'
+            ]);
+        }
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | LOGIN USER → SAVE IN DATABASE
     |--------------------------------------------------------------------------
     */
-    if (Auth::check()) {
+        if (Auth::check()) {
 
-        $userId = Auth::id();
+            $userId = Auth::id();
+
+            // Duplicate check
+            $alreadyExists = Wishlist::where('user_id', $userId)
+                ->where('product_id', $product->id)
+                ->exists();
+
+            if ($alreadyExists) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product is already in your wishlist.'
+                ]);
+            }
+
+            // Save in DB
+            Wishlist::create([
+                'user_id'    => $userId,
+                'product_id' => $product->id,
+            ]);
+
+            // Total wishlist count (DB)
+            $wishlistCount = Wishlist::where('user_id', $userId)->count();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully added to wishlist.',
+                'wishlist_count' => $wishlistCount
+            ]);
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | GUEST USER → SAVE IN SESSION
+    |--------------------------------------------------------------------------
+    */
+
+        $wishlist = Session::get('wishlist', []);
 
         // Duplicate check
-        $alreadyExists = Wishlist::where('user_id', $userId)
-            ->where('product_id', $product->id)
-            ->exists();
-
-        if ($alreadyExists) {
+        if (isset($wishlist[$id])) {
             return response()->json([
                 'success' => false,
                 'message' => 'Product is already in your wishlist.'
             ]);
         }
 
-        // Save in DB
-        Wishlist::create([
-            'user_id'    => $userId,
-            'product_id' => $product->id,
-        ]);
+        // Add to session
+        $wishlist[$id] = [
+            'id'    => $product->id,
+            'name'  => $product->name,
+            'slug'  => $product->slug,
+            'photo' => $product->photo,
+            'price' => $product->price,
+            'tags'  => $product->tags,
+        ];
 
-        // Total wishlist count (DB)
-        $wishlistCount = Wishlist::where('user_id', $userId)->count();
+        Session::put('wishlist', $wishlist);
 
         return response()->json([
             'success' => true,
             'message' => 'Successfully added to wishlist.',
-            'wishlist_count' => $wishlistCount
+            'wishlist_count' => count($wishlist)
         ]);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | GUEST USER → SAVE IN SESSION
-    |--------------------------------------------------------------------------
-    */
-
-    $wishlist = Session::get('wishlist', []);
-
-    // Duplicate check
-    if (isset($wishlist[$id])) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Product is already in your wishlist.'
-        ]);
-    }
-
-    // Add to session
-    $wishlist[$id] = [
-        'id'    => $product->id,
-        'name'  => $product->name,
-        'slug'  => $product->slug,
-        'photo' => $product->photo,
-        'price' => $product->price,
-        'tags'  => $product->tags,
-    ];
-
-    Session::put('wishlist', $wishlist);
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Successfully added to wishlist.',
-        'wishlist_count' => count($wishlist)
-    ]);
-}
 
     public function addtowishlist($id)
     {
@@ -913,26 +997,21 @@ class WishlistController extends FrontBaseController
 
     public function multiAddTowishlist(Request $request)
     {
+        
         $ids = $request->input('ids');
-
         if (!$ids || !is_array($ids)) {
             return response()->json(['success' => false, 'message' => 'Invalid product IDs provided.']);
         }
-
         $curr = $this->curr;
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = Cart::restoreCart($oldCart);
-
         $outOfStockProducts = [];
         $addedProducts = [];
-
         foreach ($ids as $id) {
             $id = (int)$id;
             $qty = 1;
             $prod = Product::find($id);
-
             if (!$prod) continue;
-
             $availableStock = ($prod->stock_check == 1) ? ($prod->size_qty[0] ?? 0) : $prod->stock;
             if ($availableStock < $qty) {
                 $outOfStockProducts[] = $prod->name;
@@ -941,7 +1020,6 @@ class WishlistController extends FrontBaseController
             $cart->addnum($prod, $prod->id, $qty, '', '', 0, 0, '', '', '', 0);
             $addedProducts[] = $prod->name;
         }
-
         $cart->totalPrice = array_sum(array_map(function ($item) {
             return $item['price'] * $item['qty'];
         }, $cart->items));
@@ -961,7 +1039,6 @@ class WishlistController extends FrontBaseController
             'outOfStock' => $outOfStockProducts,
             'message' => implode(' ', $messages)
         ]);
-        //    return redirect()->route('front.how-to-use')->with('success', __('Successfully Added To Cart.'));
-
+        //return redirect()->route('front.how-to-use')->with('success', __('Successfully Added To Cart.'));   
     }
 }
