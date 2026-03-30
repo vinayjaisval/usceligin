@@ -247,7 +247,7 @@ class CatalogController extends FrontBaseController
   public function new_arrivals(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null)
   {
 
-    // dd($request->all());
+   
 
     $tags = Tag::all();
 
@@ -279,7 +279,7 @@ class CatalogController extends FrontBaseController
     $tag_data = Tag::where('slug', $tag)->first('id');
 
     $tag_id = $tag_data->id ?? '';
-  
+
 
 
     // Tag functionality disabled - tags table doesn't exist
@@ -418,12 +418,12 @@ class CatalogController extends FrontBaseController
 
 
     $prods = $prods->where('status', 1)
-    ->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
+      ->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
 
-$prods->getCollection()->transform(function ($item) {
-    $item->price = $item->vendorSizePrice();
-    return $item;
-});
+    $prods->getCollection()->transform(function ($item) {
+      $item->price = $item->vendorSizePrice();
+      return $item;
+    });
     $data['prods'] = $prods;
     $data['tags'] = []; // Empty tags array - tags functionality disabled
 
@@ -975,11 +975,11 @@ $prods->getCollection()->transform(function ($item) {
       ->map(function ($item) {
         $item->price = $item->vendorSizePrice();
 
-       
+
         return $item;
       })->paginate(isset($pageby) ? $pageby : $this->gs->page_count);
 
-  
+
     $data['prods'] = $prods;
     $data['tags'] = []; // Empty tags array - tags functionality disabled
 

@@ -183,7 +183,7 @@
 
     </div>
   </section>
-
+ @if(Auth::check())
   {{-- ============================================
        SECTION 2: THREE WAYS TO EARN
        ============================================ --}}
@@ -300,6 +300,8 @@
 
         @endforeach
       </div>
+
+     
 
       {{-- Compare note --}}
       <p class="text-center text-xs text-gray-400 dark:text-gray-500 mt-6">
@@ -601,7 +603,7 @@
       </div>
     </div>
   </section>
-
+ @endif
   {{-- ============================================
        SECTION 4: FAQ
        ============================================ --}}

@@ -24,124 +24,97 @@ use Illuminate\Support\Facades\Auth;
 class WishlistController extends FrontBaseController
 {
 
-    // public function wishlist(Request $request)
-    // {
-
-    //     $tags = Tag::all();
-
-
-    //     $tag_data = Tag::where('slug', $request->tags)->first('id');
-
-    //     $tag_id = $tag_data->id ?? '';
-
-    //     $user = Auth::user();
-
-    //     if ($user) {
-    //         // LOGIN USER → DB wishlist → normalize
-    //         $oldCart = Wishlist::where('user_id', $user->id)
-    //             ->with('product')
-    //             ->get()
-    //             ->map(function ($item) {
-    //                 if (!$item->product) {
-    //                     return null;
-    //                 }
-
-    //                 return [
-    //                     'id'    => $item->product->id,
-    //                     'name'  => $item->product->name,
-    //                     'slug'  => $item->product->slug,
-    //                     'price' => $item->product->price,
-    //                     'photo' => $item->product->photo,
-    //                 ];
-    //             })
-    //             ->filter()
-    //             ->values();
-    //     } else {
-    //         // GUEST USER → Session wishlist
-    //         $oldCart = collect(Session::get('wishlist', []));
-    //     }
-
-    //     if ($request->ajax()) {
-    //         return view('frontend.my-wishlist', compact('oldCart', 'tags'));
-    //     }
-
-    //     return view('frontend.my-wishlist', compact('oldCart', 'tags'));
-    // }
 
 
     public function wishlist(Request $request)
     {
         $tags = Tag::all();
+
         $tag_data = Tag::where('slug', $request->tags)->first();
         $tag_id = $tag_data->id ?? null;
+
+        $sort = $request->sort ?? null;
+
         $user = Auth::user();
+
         if ($user) {
-            $query = Wishlist::where('user_id', $user->id)
-                ->with(['product' => function ($q) use ($tag_id, $request) {
 
-                    // 🔹 Filter by tag (if selected)
+            $wishlistQuery = Wishlist::where('user_id', $user->id)
+                ->whereHas('product', function ($q) use ($tag_id) {
                     if ($tag_id) {
-                        $q->whereHas('tags', function ($sub) use ($tag_id) {
-                            $sub->where('tags.id', $tag_id);
-                        });
+                        $q->whereRaw("FIND_IN_SET(?, tags)", [$tag_id]);
                     }
-
-                    // 🔹 Sorting
-                    if ($request->sort == 'popularity') {
-                        $q->orderBy('views', 'desc'); // adjust column as per your DB
-                    } elseif ($request->sort == 'price_low') {
-                        $q->orderBy('price', 'asc');
-                    } elseif ($request->sort == 'price_high') {
-                        $q->orderBy('price', 'desc');
-                    } else {
-                        $q->latest();
+                })
+                ->with(['product' => function ($q) use ($tag_id) {
+                    if ($tag_id) {
+                        $q->whereRaw("FIND_IN_SET(?, tags)", [$tag_id]);
                     }
                 }]);
 
-            $oldCart = $query->get()
-                ->map(function ($item) {
-                    if (!$item->product) return null;
+            // 🔥 GET DATA
+            $collection = $wishlistQuery->get()
+                ->filter(function ($item) {
+                    return $item->product != null;
+                });
 
-                    return [
-                        'id'    => $item->product->id,
-                        'name'  => $item->product->name,
-                        'slug'  => $item->product->slug,
-                        'price' => $item->product->price,
-                        'photo' => $item->product->photo,
-                    ];
-                })
-                ->filter()
-                ->values();
+
+            if ($sort == 'price-low') {
+                $collection = $collection->sortBy(fn($item) => $item->product->price ?? 0);
+            } elseif ($sort == 'price-high') {
+                $collection = $collection->sortByDesc(fn($item) => $item->product->price ?? 0);
+            } elseif ($sort == 'date_asc') {
+                $collection = $collection->sortBy(fn($item) => $item->product->id ?? 0);
+            } else {
+                $collection = $collection->sortByDesc(fn($item) => $item->product->id ?? 0);
+            }
+
+
+            $oldCart = $collection->map(function ($item) {
+                return [
+                    'id'    => $item->product->id,
+                    'name'  => $item->product->name,
+                    'slug'  => $item->product->slug,
+                    'price' => $item->product->price,
+                    'photo' => $item->product->photo,
+                    'views' => $item->product->views ?? 0,
+                ];
+            })->values();
         } else {
 
-            // Guest user (Session)
-            $oldCart = collect(Session::get('wishlist', []))
-                ->filter(function ($item) use ($tag_id, $request) {
+            // ✅ Guest wishlist
+            $wishlist = collect(Session::get('wishlist', []));
+            $productIds = $wishlist->pluck('id')->filter()->toArray();
 
-                    // Optional: apply filters if your session has product data
-                    // if ($tag_id && (!isset($item['tags']) || !in_array($tag_id, $item['tags']))) {
-                    //     return false;
-                    // }
-
-                    return true;
+            $products = \App\Models\Product::query()
+                ->when($tag_id, function ($q) use ($tag_id) {
+                    $q->whereRaw("FIND_IN_SET(?, tags)", [$tag_id]);
                 })
-                ->sortByDesc(function ($item) use ($request) {
-
-                    if ($request->sort == 'popularity') {
-                        return $item['views'] ?? 0;
-                    } elseif ($request->sort == 'price_low') {
-                        return $item['price'] ?? 0;
-                    } elseif ($request->sort == 'price_high') {
-                        return - ($item['price'] ?? 0);
+                ->when($sort, function ($q) use ($sort) {
+                    if ($sort == 'date_desc') {
+                        $q->latest('id');
+                    } elseif ($sort == 'date_asc') {
+                        $q->oldest('id');
+                    } elseif ($sort == 'price-high') {
+                        $q->orderBy('price', 'desc');
+                    } elseif ($sort == 'price-low') {
+                        $q->orderBy('price', 'asc');
+                    } else {
+                        $q->latest('id');
                     }
-
-                    return $item['id'];
                 })
-                ->values();
-        }
+                ->whereIn('id', $productIds)
+                ->get();
 
-        if ($request->ajax()) {
-            return view('frontend.my-wishlist', compact('oldCart', 'tags'));
+            $oldCart = $products->map(function ($product) {
+                return [
+                    'id'    => $product->id,
+                    'name'  => $product->name,
+                    'slug'  => $product->slug,
+                    'price' => $product->price,
+                    'photo' => $product->photo,
+                    'views' => $product->views ?? 0,
+                ];
+            })->values();
         }
 
         return view('frontend.my-wishlist', compact('oldCart', 'tags'));
@@ -997,7 +970,7 @@ class WishlistController extends FrontBaseController
 
     public function multiAddTowishlist(Request $request)
     {
-        
+
         $ids = $request->input('ids');
         if (!$ids || !is_array($ids)) {
             return response()->json(['success' => false, 'message' => 'Invalid product IDs provided.']);

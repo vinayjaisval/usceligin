@@ -791,4 +791,10 @@ class Product extends Model
     {
         static::addGlobalScope(new FilterByLanguageScope);
     }
+
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class,  'tags');
+    }
 }

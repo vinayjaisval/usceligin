@@ -351,7 +351,7 @@
 
     {{-- Bottom toolbar (duplicate for convenience) --}}
     <div class="no-print flex justify-end gap-3 mt-6">
-      <button type="button" onclick="window.print()"
+      <button type="button" onclick="window.printt()"
         class="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 dark:border-gray-600 text-sm font-semibold text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600">
         <span class="material-icons-outlined text-base" aria-hidden="true">print</span>
         Print
