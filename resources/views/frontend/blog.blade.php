@@ -37,7 +37,7 @@
               <a href="{{ route('front.blogshow',$blog->slug) }}" class="block">
                 <div class="aspect-[16/10] md:aspect-auto md:h-52 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
                   <img
-                    src="{{ $blog->photo ? asset('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}"
+                    src="{{ $blog->photo ? url('assets/images/blogs/'.$blog->photo):asset('assets/images/noimage.png')}}"
                     alt="{{ $blog->title }}"
                     class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     loading="lazy" />

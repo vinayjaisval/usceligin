@@ -672,14 +672,17 @@
             aria-label="Latest blog posts">
 
             @foreach($blogs as $blog)
+
+        
               <article
                 class="bg-white dark:bg-gray-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 group border border-gray-200 dark:border-gray-700">
                 <a href="{{ route('front.blogshow', $blog->slug) }}" class="block">
                   <div class="aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-700">
-                    <img src="{{ $blog->photo ? asset('assets/images/blogs/' . $blog->photo) : asset('assets/images/noimage.png')}}"
+                    <img src="{{ $blog->photo ? url('assets/images/blogs/' . $blog->photo) : asset('assets/images/noimage.png')}}"
                       alt="{{ $blog->title }}" width="300" height="225"
                       class="w-full h-full object-fill group-hover:scale-105 transition-transform duration-500" />
-                  </div>
+               
+                    </div>
                   <div class="p-4 flex flex-col">
                     <h3 class="text-base font-bold text-neutral-900 dark:text-gray-100 mb-4 h-12 flex items-center leading-tight">
                       {{ Str::limit($blog->title, 60) }}</h3>

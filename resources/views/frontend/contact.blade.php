@@ -52,12 +52,12 @@
             <a href="tel:+919876543210"
               class="block text-base font-bold text-gray-900 dark:text-white
                       hover:opacity-70 transition-opacity">
-              +91 98765 43210
+              {{ $ps->phone ?? '+91 98765 43210' }}
             </a>
             <a href="mailto:support@celigin.com"
               class="block text-sm text-gray-500 dark:text-gray-400
                       hover:opacity-70 transition-opacity mt-0.5">
-              support@celigin.com
+              support@celiginglobal.com
             </a>
           </div>
         </div>
@@ -88,12 +88,12 @@
             <a href="tel:+919876543210"
               class="block text-base font-bold text-gray-900 dark:text-white
                       hover:opacity-70 transition-opacity">
-              +91 98765 43210
+               {{ $ps->phone ?? '+91 98765 43210' }}
             </a>
             <a href="mailto:marketing@celigin.com"
               class="block text-sm text-gray-500 dark:text-gray-400
                       hover:opacity-70 transition-opacity mt-0.5">
-              marketing@celigin.com
+              marketing@celiginglobal.com
             </a>
           </div>
         </div>
@@ -120,12 +120,12 @@
             <a href="tel:+919876543210"
               class="block text-base font-bold text-gray-900 dark:text-white
                       hover:opacity-70 transition-opacity">
-              +91 98765 43210
+               {{ $ps->phone ?? '+91 98765 43210' }}
             </a>
             <a href="mailto:hello@celigin.com"
               class="block text-sm text-gray-500 dark:text-gray-400
                       hover:opacity-70 transition-opacity mt-0.5">
-              hello@celigin.com
+              hello@celiginglobal.com
             </a>
           </div>
         </div>
