@@ -108,7 +108,7 @@
           <a href="{{ route('front.blogshow',$reblog->slug) }}" class="block">
             <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-700">
               <img
-                src="{{ asset('assets/images/blogs/'.$reblog->photo) }}"
+                src="{{ url('assets/images/blogs/'.$reblog->photo) }}"
                 alt="{{ $reblog->title }}"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
             </div>
