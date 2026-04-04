@@ -1209,7 +1209,7 @@
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Email Support</h3>
                   <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Get help via email within 24 hours</p>
                   <a href="mailto:support@celigin.com" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
-                    support@celigin.com
+                    support@celiginglobal.com
                   </a>
                 </div>
               </div>
@@ -1221,8 +1221,8 @@
                 <div>
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Phone Support</h3>
                   <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Talk to our support team</p>
-                  <a href="tel:+911234567890" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
-                    +91 123 456 7890
+                  <a href="tel:+919667054665" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-semibold">
+                    +91 96670 54665
                   </a>
                 </div>
               </div>

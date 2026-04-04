@@ -39,7 +39,7 @@
         <!-- Hero Image -->
         <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-700 mb-8">
           <img
-            src="{{ asset('assets/images/blogs/'.$blog->photo) }}"
+            src="{{ url('assets/images/blogs/'.$blog->photo) }}"
             alt="{{ $blog->title }}"
             itemprop="image"
             class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
