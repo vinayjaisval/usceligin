@@ -486,7 +486,7 @@ Celigin affiliate withdrawal {amount} processing.
 > **Amount**: {amount}
 > **Status**: Processing
 >
-> You'll receive the funds within 3–5 business days. Thanks for being part of the Celigin affiliate community!
+> You'll receive the funds within 3–5 business days. Thanks for being part of the    Celigin affiliate community!
 
 ---
 

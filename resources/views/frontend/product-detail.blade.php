@@ -253,14 +253,14 @@
             {{-- Capture Summary content --}}
             @php ob_start(); @endphp
               @if($pdTags->isNotEmpty())
-                <div class="flex flex-wrap gap-2 mb-4">
+                {{--  <div class="flex flex-wrap gap-2 mb-4">
                   @foreach($pdTags as $tag)
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-xs font-medium text-green-800 dark:text-green-300">
                       <svg class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      {{ $tag }}
+                    
                     </span>
                   @endforeach
-                </div>
+                </div> --}}
               @endif
               @if(!empty($productt->details))
                 <div class="rich-content" itemprop="description">{!! clean($productt->details, $cleanOpts) !!}</div>
