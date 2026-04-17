@@ -34,15 +34,7 @@
 
   </style>
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BGQ2ZPSVE1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-BGQ2ZPSVE1');
-</script>
+@include('frontend.include.tagmanager')
 </head>
 <body class="bg-white dark:bg-gray-900">
  
