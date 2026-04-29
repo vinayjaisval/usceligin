@@ -189,24 +189,24 @@ class ProductController extends AdminBaseController
         list(, $image) = explode(',', $image);
         $image = base64_decode($image);
         $image_name = time() . Str::random(8) . '.png';
-        $path = 'assets/images/products/' . $image_name;
+        $path = 'public/assets/images/products/' . $image_name;
         file_put_contents($path, $image);
         if ($data->photo != null) {
-            if (file_exists(public_path() . '/assets/images/products/' . $data->photo)) {
-                unlink(public_path() . '/assets/images/products/' . $data->photo);
+            if (file_exists(public_path() . '/public/assets/images/products/' . $data->photo)) {
+                unlink(public_path() . '/public/assets/images/products/' . $data->photo);
             }
         }
         $input['photo'] = $image_name;
         $data->update($input);
         if ($data->thumbnail != null) {
-            if (file_exists(public_path() . '/assets/images/thumbnails/' . $data->thumbnail)) {
-                unlink(public_path() . '/assets/images/thumbnails/' . $data->thumbnail);
+            if (file_exists(public_path() . '/public/assets/images/thumbnails/' . $data->thumbnail)) {
+                unlink(public_path() . '/public/assets/images/thumbnails/' . $data->thumbnail);
             }
         }
 
-        $img = Image::make('assets/images/products/' . $data->photo)->resize(285, 285);
+        $img = Image::make('public/assets/images/products/' . $data->photo)->resize(285, 285);
         $thumbnail = time() . Str::random(8) . '.jpg';
-        $img->save('assets/images/thumbnails/' . $thumbnail);
+        $img->save('public/assets/images/thumbnails/' . $thumbnail);
         $data->thumbnail = $thumbnail;
         $data->update();
         return response()->json(['status' => true, 'file_name' => $image_name]);
@@ -246,7 +246,7 @@ class ProductController extends AdminBaseController
         list(, $image) = explode(',', $image);
         $image = base64_decode($image);
         $image_name = time() . Str::random(8) . '.png';
-        $path = 'assets/images/products/' . $image_name;
+        $path = 'public/assets/images/products/' . $image_name;
         file_put_contents($path, $image);
         $input['photo'] = $image_name;
 

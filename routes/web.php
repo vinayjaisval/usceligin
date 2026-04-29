@@ -1922,7 +1922,7 @@ Route::group(['middleware' => 'maintenance'], function () {
     });
 
     // ************************************ PAYMENT SUBMISSION SECTION (Protected) **********************************************
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'throttle:5,1'])->group(function () {
         // Paypal
         Route::post('/checkout/payment/paypal/submit', 'Payment\Checkout\PaypalController@store')->name('front.paypal.submit');
         Route::get('/checkout/payment/paypal-notify', 'Payment\Checkout\PaypalController@notify')->name('front.paypal.notify');
