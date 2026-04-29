@@ -477,9 +477,9 @@ class ProductController extends AdminBaseController
         }
 
         // Set Thumbnail
-        $img = Image::make('assets/images/products/' . $prod->photo)->resize(285, 285);
+        $img = Image::make('public/assets/images/products/' . $prod->photo)->resize(285, 285);
         $thumbnail = time() . Str::random(8) . '.jpg';
-        $img->save('assets/images/thumbnails/' . $thumbnail);
+        $img->save('public/assets/images/thumbnails/' . $thumbnail);
         $prod->thumbnail = $thumbnail;
         $prod->update();
 
@@ -490,7 +490,7 @@ class ProductController extends AdminBaseController
                 if (in_array($key, $request->galval)) {
                     $gallery = new Gallery;
                     $name = time() . \Str::random(8) . str_replace(' ', '', $file->getClientOriginalExtension());
-                    $file->move('assets/images/galleries', $name);
+                    $file->move('public/assets/images/galleries', $name);
                     $gallery['photo'] = $name;
                     $gallery['product_id'] = $lastid;
                     $gallery->save();
@@ -1034,8 +1034,8 @@ class ProductController extends AdminBaseController
         $data = Product::findOrFail($id);
         if ($data->galleries->count() > 0) {
             foreach ($data->galleries as $gal) {
-                if (file_exists(public_path() . '/assets/images/galleries/' . $gal->photo)) {
-                    unlink(public_path() . '/assets/images/galleries/' . $gal->photo);
+                if (file_exists(public_path() . '/public/assets/images/galleries/' . $gal->photo)) {
+                    unlink(public_path() . '/public/assets/images/galleries/' . $gal->photo);
                 }
                 $gal->delete();
             }
@@ -1076,20 +1076,20 @@ class ProductController extends AdminBaseController
 
         if (!filter_var($data->photo, FILTER_VALIDATE_URL)) {
             if ($data->photo) {
-                if (file_exists(public_path() . '/assets/images/products/' . $data->photo)) {
-                    unlink(public_path() . '/assets/images/products/' . $data->photo);
+                if (file_exists(public_path() . '/public/assets/images/products/' . $data->photo)) {
+                    unlink(public_path() . '/public/assets/images/products/' . $data->photo);
                 }
             }
 
         }
 
-        if (file_exists(public_path() . '/assets/images/thumbnails/' . $data->thumbnail) && $data->thumbnail != "") {
-            unlink(public_path() . '/assets/images/thumbnails/' . $data->thumbnail);
+        if (file_exists(public_path() . '/public/assets/images/thumbnails/' . $data->thumbnail) && $data->thumbnail != "") {
+            unlink(public_path() . '/public/assets/images/thumbnails/' . $data->thumbnail);
         }
 
         if ($data->file != null) {
-            if (file_exists(public_path() . '/assets/files/' . $data->file)) {
-                unlink(public_path() . '/assets/files/' . $data->file);
+            if (file_exists(public_path() . '/public/assets/files/' . $data->file)) {
+                unlink(public_path() . '/public/assets/files/' . $data->file);
             }
         }
         $data->delete();

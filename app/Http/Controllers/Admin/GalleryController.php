@@ -41,7 +41,7 @@ class GalleryController extends Controller
 
         $img = Image::make($file->getRealPath())->resize(800, 800);
         $thumbnail = time().Str::random(8).'.jpg';
-        $img->save('assets/images/galleries/'.$thumbnail);
+        $img->save('public/assets/images/galleries/'.$thumbnail);
 
                     $gallery['photo'] = $thumbnail;
                     $gallery['product_id'] = $lastid;
@@ -58,8 +58,8 @@ class GalleryController extends Controller
 
         $id = $_GET['id'];
         $gal = Gallery::findOrFail($id);
-            if (file_exists('assets/images/galleries/'.$gal->photo)) {
-                unlink('assets/images/galleries/'.$gal->photo);
+            if (file_exists('public/assets/images/galleries/'.$gal->photo)) {
+                unlink('public/assets/images/galleries/'.$gal->photo);
             }
         $gal->delete();
             
