@@ -168,7 +168,7 @@
             ['value' => 'Free', 'label' => 'To Join', 'highlight' => false],
           ];
         @endphp
-        @foreach($stats as $index => $stat)
+        <!-- @foreach($stats as $index => $stat)
           @if($index > 0)
             <div class="w-px h-8 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent" aria-hidden="true"></div>
           @endif
@@ -178,7 +178,7 @@
             </div>
             <div class="text-xs text-gray-500 dark:text-gray-400">{{ $stat['label'] }}</div>
           </div>
-        @endforeach
+        @endforeach -->
       </div>
 
     </div>
