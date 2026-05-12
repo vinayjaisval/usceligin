@@ -28,7 +28,7 @@
                     <!-- Heading -->
                     <h1
                       class="text-base md:text-lg lg:text-3xl xl:text-4xl font-bold text-neutral-900 dark:text-gray-100 lg:dark:text-white mb-1 md:mb-2 lg:mb-3 xl:mb-4 leading-tight min-h-[2.5rem] md:min-h-[3rem] lg:min-h-[5rem] xl:min-h-[6rem]">
-                       {{$data->subtitle_text}},<br class="hidden md:inline" />{{$data->title_text}}
+                       {{$data->subtitle_text}}<br class="hidden md:inline" />{{$data->title_text}}
                     </h1>
 
                     <!-- Description -->
