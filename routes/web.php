@@ -6,7 +6,6 @@
 
 use App\Http\Controllers\User\AccountController;
 use App\Http\Controllers\WhatsAppController;
-use App\Http\Controllers\User\OrderController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/sign-in', 'Auth\OtpController@showLoginForm')->name('otp.login.form');
@@ -1447,7 +1446,7 @@ Route::group(['middleware' => 'maintenance'], function () {
         // User Wishlist Ends
 
         // User Review
-        Route::post('/review/submit', 'User\UserController@reviewsubmit')->name('front.review.user.submit');
+        Route::post('/review/submit', 'User\UserController@reviewsubmit')->name('front.review.submit');
         // User Review Ends
 
         // User Orders
@@ -1464,8 +1463,8 @@ Route::group(['middleware' => 'maintenance'], function () {
      Route::post('/order/cancel/{id}', 'User\OrderController@cancel_order')
     ->name('user-order-cancel');
         // user refund request
-        Route::post('/order/{id}/refund-request', [OrderController::class, 'refund_request'])
-    ->name('user.order.refund-request');
+        Route::post('/order/{id}/refund-request', 'User\OrderController@refund_request')->name('user.order.refund-request');
+
         // User Orders Ends
 
         // USER SUBSCRIPTION

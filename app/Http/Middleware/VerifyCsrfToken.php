@@ -36,8 +36,8 @@ class VerifyCsrfToken extends Middleware
         '/user/api/paytm-callback',
         '/user/api/razorpay-callback',
         '/user/api/ssl/notify',
-        'api/webhook',
-        '/razorpay/whatsapp/webhook'
+         'api/webhook',
+          '/razorpay/whatsapp/webhook'
 
     ];
 }
