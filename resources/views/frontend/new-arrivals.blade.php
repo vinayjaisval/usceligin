@@ -75,7 +75,7 @@
       </div>
 
       {{-- Load More Section --}}
-    <div class="py-8 sm:py-12 text-center">
+    <!-- <div class="py-8 sm:py-12 text-center">
         <button id="loadMoreBtn"
             class="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-semibold hover:bg-primary-700">
             Load More Products
@@ -84,7 +84,7 @@
         <p class="mt-4 text-sm text-gray-600">
             Showing <span id="productCount">{{ $prods->count() }}</span> products
         </p>
-    </div>
+    </div> -->
 
     </div>
 

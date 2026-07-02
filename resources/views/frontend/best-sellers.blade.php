@@ -77,7 +77,7 @@
     </div>
 
     {{-- Load More Section --}}
-    <div class="py-8 sm:py-12 text-center border-t border-gray-200 dark:border-gray-700">
+    <!-- <div class="py-8 sm:py-12 text-center border-t border-gray-200 dark:border-gray-700">
       <button
         type="button"
         class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-primary-600 text-white text-sm sm:text-base font-semibold hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -87,7 +87,7 @@
       <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
         Showing <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $prods->count() }}</span> products
       </p>
-    </div>
+    </div> -->
 
   </div>
 

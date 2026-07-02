@@ -5,6 +5,11 @@
     : asset('assets/images/products/' . $productt->photo);
   $productPrice = preg_replace('/[^\d.]/', '', $productt->showPrice());
 @endphp
+   @php
+      $reviews    = App\Models\Rating::where('product_id', $productt->id)->orderBy('id', 'desc')->get();
+      $avgRating  = App\Models\Rating::where('product_id', $productt->id)->avg('rating') ?? 0;
+      $reviewCount = (int) App\Models\Rating::ratingCount($productt->id);
+    @endphp
 @section('head_seo')
   <title>{{ ucfirst(mb_strtolower($productt->name)) }} | CELIGIN</title>
   <meta name="description" content="{{ $productDescription ?: 'Premium skincare and cosmetics by CELIGIN.' }}" />
@@ -120,7 +125,8 @@
                   @endif
                 @endfor
               </div>
-              <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ number_format($rating, 1) }}</span>
+              
+              <!-- <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ number_format($avgRating, 1) }}</span> -->
               <a href="#reviews"
                 class="text-sm text-primary-700 dark:text-primary-400 hover:underline">({{ App\Models\Rating::ratingCount($productt->id) }})
                 Reviews</a>
@@ -403,12 +409,8 @@
     @endif
 
     <!-- Reviews Section -->
-    @php
-      $reviews    = App\Models\Rating::where('product_id', $productt->id)->orderBy('id', 'desc')->get();
-      $avgRating  = App\Models\Rating::where('product_id', $productt->id)->avg('rating') ?? 0;
-      $reviewCount = (int) App\Models\Rating::ratingCount($productt->id);
-    @endphp
-    <section class="border-t border-gray-100 dark:border-gray-800">
+ 
+    <section id="reviews" class="border-t border-gray-100 dark:border-gray-800">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
 
         <div class="mb-8">
@@ -474,8 +476,10 @@
         </div>
 
         @auth
-          <form class="mb-10 max-w-2xl" onsubmit="submitComment(event, {{ $productt->id }})">
+          <form id="commentForm" class="mb-10 max-w-2xl" onsubmit="submitComment(event, {{ $productt->id }})">
             @csrf
+            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+           
             <textarea name="comment" rows="4"
               class="w-full px-4 py-3 text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
               placeholder="Share your thoughts about this product..."></textarea>
@@ -862,19 +866,53 @@
     });
   }
 
-  function submitComment(e, productId) {
+function submitComment(e, productId) {
+
     e.preventDefault();
-    var form = e.target;
-    var textarea = form.querySelector('textarea[name="comment"]');
-    var text = textarea ? textarea.value.trim() : '';
-    if (!text) return;
-    // Placeholder — integrate with your comments endpoint when ready
-    var list = document.getElementById('comments-list');
-    if (list) {
-      list.innerHTML = '<p class="text-xs text-gray-500 dark:text-gray-400 py-2">Comment submitted. It will appear after approval.</p>';
+
+    let form = e.target;
+    let token = form.querySelector('[name="_token"]').value;
+    let user_id = form.querySelector('[name="user_id"]').value;
+
+    let comment = form.querySelector('[name="comment"]').value.trim();
+
+    if(comment == ''){
+        alert('Please enter comment');
+        return;
     }
-    if (textarea) textarea.value = '';
-  }
+
+    fetch("{{ route('front.review.submit') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": token,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            comment: comment,
+            user_id: user_id,
+
+            rating: 5
+        })
+    })
+    .then(response => response.json())
+.then(res => {
+
+    if (res.status === true) {
+        alert(res.message);
+        form.reset();
+        location.reload();
+    } else {
+        alert(res?.error?.message || 'Something went wrong');
+    }
+
+})
+    .catch(err => {
+        console.log(err);
+        alert('Server error occurred');
+    });
+}
 </script>
 
 <script type="application/ld+json">

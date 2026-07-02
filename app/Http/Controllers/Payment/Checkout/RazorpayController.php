@@ -9,6 +9,7 @@ use App\{
     Classes\GeniusMailer,
     Jobs\PaymentGetways
 };
+use App\Models\WhatsappCart;
 use App\Helpers\PriceHelper;
 use App\Models\Country;
 use App\Models\Reward;

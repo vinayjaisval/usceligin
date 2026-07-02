@@ -44,10 +44,10 @@
           <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-black dark:text-white">
             Cell For Education
           </h3>
-          <x-btn href="{{ url('celigin-join-club') }}" size="sm"
+          <!-- <x-btn href="{{ url('celigin-join-club') }}" size="sm"
             aria-label="Learn more about Cell For Education program">
             Read More
-          </x-btn>
+          </x-btn> -->
         </div>
       </div>
     </div>

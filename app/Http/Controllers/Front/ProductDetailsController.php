@@ -257,13 +257,27 @@ class ProductDetailsController extends FrontBaseController
 
     // ------------------ Rating SECTION --------------------
 
-    public function reviewsubmit(Request $request)
-    {
-        $ck = 0;
-        $orders = Order::where('user_id', '=', $request->user_id)->where('status', '=', 'completed')->get();
+ public function reviewsubmit(Request $request)
+{
+  
+    $request->validate([
+        'product_id' => 'required',
+        'comment' => 'required',
+        'rating' => 'required',
+    ]);
 
-        foreach ($orders as $order) {
-            $cart = json_decode($order->cart, true);
+    $user = Auth::user();
+
+    $ck = 0;
+
+    $orders = Order::where('user_id', $user->id)
+        ->where('status', 'completed')
+        ->get();
+
+    foreach ($orders as $order) {
+        $cart = json_decode($order->cart, true);
+
+        if (!empty($cart['items'])) {
             foreach ($cart['items'] as $product) {
                 if ($request->product_id == $product['item']['id']) {
                     $ck = 1;
@@ -271,26 +285,44 @@ class ProductDetailsController extends FrontBaseController
                 }
             }
         }
-        if ($ck == 1) {
-            $user = Auth::user();
-            $prev_reviewer = Rating::where('product_id', '=', $request->product_id)->where('user_id', '=', $user->id)->first();
-            if (isset($prev_reviewer)) {
-                $input = $request->all();
-                $input['review_date'] = date('Y-m-d H:i:s');
-                $prev_reviewer->update($input);
-                $data = __('Your Rating Submitted Successfully.');
-                return response()->json($data);
-            }
-            $Rating = new Rating;
-            $Rating->fill($request->all());
-            $Rating['review_date'] = date('Y-m-d H:i:s');
-            $Rating->save();
-            $data = __('Your Rating Submitted Successfully.');
-            return response()->json($data);
-        } else {
-            return response()->json(array('errors' => [0 => __('Buy This Product First')]));
-        }
     }
+
+    if ($ck != 1) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Buy This Product First'
+        ]);
+    }
+
+    $rating = Rating::where('product_id', $request->product_id)
+        ->where('user_id', $user->id)
+        ->first();
+
+    if ($rating) {
+        $rating->review = $request->comment;
+        $rating->rating = $request->rating;
+        $rating->review_date = now();
+        $rating->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Rating Updated Successfully'
+        ]);
+    }
+
+    Rating::create([
+        'product_id' => $request->product_id,
+        'user_id' => $user->id,
+        'review' => $request->comment,
+        'rating' => $request->rating,
+        'review_date' => now(),
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Rating Submitted Successfully'
+    ]);
+}
 
     public function reviews($id)
     {
