@@ -897,17 +897,18 @@ function submitComment(e, productId) {
         })
     })
     .then(response => response.json())
-.then(res => {
+    .then(res => {
 
-    if (res.status === true) {
-        alert(res.message);
-        form.reset();
-        location.reload();
-    } else {
-        alert(res?.error?.message || 'Something went wrong');
-    }
+        if (res.status === true) {
+            alert(res.message);
+            form.reset();
+            location.reload();
+        } else {
+          console.log(res);
+            alert(res.message || 'Something went wrong');
+        }
 
-})
+    })
     .catch(err => {
         console.log(err);
         alert('Server error occurred');
