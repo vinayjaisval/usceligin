@@ -1463,7 +1463,7 @@ Route::group(['middleware' => 'maintenance'], function () {
      Route::post('/order/cancel/{id}', 'User\OrderController@cancel_order')
     ->name('user-order-cancel');
         // user refund request
-        Route::post('/user/order/{id}/refund-request', 'User\OrderController@refund_request')->name('user.order.refund-request');
+        Route::post('/order/{id}/refund-request', 'User\OrderController@refund_request')->name('user.order.refund-request');
 
         // User Orders Ends
 
