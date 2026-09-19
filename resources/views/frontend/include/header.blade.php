@@ -108,8 +108,9 @@
           <!-- Center: Logo -->
           <div class="flex justify-center">
             <a href="{{ route('front.index') }}" aria-label="CELIGIN - Go to homepage">
-              <img src="{{ asset('assets/images/' . $gs->logo) }}" alt="CELIGIN - Premium Cosmetics & Skincare"
+              <img src="{{ $gs->logo ? url('/assets/images/'.$gs->logo) : url('/assets/images/noimage.png') }}" alt="CELIGIN - Premium Cosmetics & Skincare"
                 class="h-10 w-auto" />
+                
             </a>
           </div>
 

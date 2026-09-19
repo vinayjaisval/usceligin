@@ -9,6 +9,7 @@ use App\{
     Jobs\ShippedToDelivery
 };
 use App\Helpers\PriceHelper;
+use App\Models\Address;
 use App\Models\Country;
 
 use App\Models\Package;
@@ -43,6 +44,23 @@ class CashOnDeliveryController extends CheckoutBaseControlller
 
             return redirect()->route('front.cart')->with('success', __("You don't have any product to checkout."));
         }
+
+        // ---- Address is required and must belong to the logged-in user ----
+        $request->validate(['shipping_address_id' => 'required|integer']);
+
+        $shippingAddress = Address::where('id', $request->shipping_address_id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if (!$shippingAddress) {
+            return redirect()->back()->with('unsuccess', __('Please select a valid delivery address.'));
+        }
+
+        $billingAddress = $request->billing_address_id
+            ? Address::where('id', $request->billing_address_id)->where('user_id', Auth::id())->first()
+            : null;
+        $billingAddress = $billingAddress ?: $shippingAddress;
+
         $totalQuantity = 0;
         $oldCart = Session::get('cart');
 
@@ -65,44 +83,59 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         $temp_affilate_users = OrderHelper::product_affilate_check($cart); // For Product Based Affilate Checking
         $affilate_users = $temp_affilate_users == null ? null : json_encode($temp_affilate_users);
 
-        $orderTotal = $t_cart->totalPrice
-            - ($input['coupon_discount'] ?? 0)
-            - ($input['refferal_discount'] ?? 0)
-            + ($input['shippingCost'] ?? 0)
-            + ($input['taxAmount'] ?? 0);
+        $user = Auth::user();
+
+        // ---- All amounts recalculated server-side; client-submitted totals are never trusted ----
+        $totals = OrderHelper::buildOrderTotals($request, $t_cart, $user, $this->gs, $this->curr);
+
         $order = new Order;
 
 
         $success_url = route('front.payment.return');
         // $success_url=route('user-orders') ;
-        $input['user_id'] = Auth::check() ? Auth::user()->id : NULL;
+        $input['user_id'] = $user->id;
         $input['cart'] = $new_cart;
         $input['totalQty'] = $totalQuantity;
-        $input['billing_address_id'] = $request->billingAddress ?? null;
-        $input['shipping_address_id'] = $request->shippingAddress ?? null;
+
+        // ---- Address/contact fields populated from the authoritative Address record, not raw request text ----
+        $input['shipping_address_id'] = $shippingAddress->id;
+        $input['billing_address_id'] = $billingAddress->id;
+        $input['customer_name'] = $shippingAddress->name;
+        $input['customer_phone'] = $shippingAddress->phone;
+        $input['customer_email'] = $user->email;
+        $input['customer_address'] = trim($shippingAddress->address_line_1 . ' ' . $shippingAddress->address_line_2);
+        $input['customer_city'] = $shippingAddress->city;
+        $input['customer_state'] = $shippingAddress->state;
+        $input['customer_zip'] = $shippingAddress->pincode;
+        $input['customer_country'] = $shippingAddress->country;
+        $input['shipping_name'] = $billingAddress->name;
+        $input['shipping_phone'] = $billingAddress->phone;
+        $input['shipping_address'] = trim($billingAddress->address_line_1 . ' ' . $billingAddress->address_line_2);
+        $input['shipping_city'] = $billingAddress->city;
+        $input['shipping_state'] = $billingAddress->state;
+        $input['shipping_zip'] = $billingAddress->pincode;
+        $input['shipping_country'] = $billingAddress->country;
+
         $input['method'] = $request->selected_payment_method == 1
             ? 'COD'
             : ($request->selected_payment_method == 9 ? 'online' : null);
-        $input['coupon_discount'] = $request->coupon_discount ?? 0;
-        $input['shipping_cost'] = $request->shippingCost ?? 0;
-        $input['affilate_users'] = $affilate_users ??  Auth::user()->affiliated_by;
-        $input['pay_amount'] = $orderTotal;
+
+        // ---- Recalculated totals (server-derived, not client-submitted) ----
+        $input['coupon_code'] = $totals['coupon_code'];
+        $input['coupon_discount'] = $totals['coupon_discount'];
+        $input['refferal_discount'] = $totals['referral_discount'];
+        $input['shipping_cost'] = $totals['shipping_cost'];
+        $input['tax'] = $totals['tax_amount'];
+        $input['points_used'] = $totals['points_used'];
+        $input['pay_amount'] = $totals['pay_amount'];
+
+        $input['affilate_users'] = $affilate_users ?? $user->affiliated_by;
         $input['order_number'] = Str::random(4) . time();
         $input['wallet_price'] = $request->wallet_price / $this->curr->value;
 
 
-        if ($request->refferal_discount) {
-            $input['refferal_discount'] = $request->refferal_discount;
-        }
-        $tax = 0;
-        foreach ($cart->items as $data) {
-            $tax += isset($data['price']) && isset($data['item']['product_tax']) ? $data['price'] * $data['item']['product_tax'] / 100 : 0;
-        }
-        $input['tax'] = $request->taxAmount ?? $tax;
-
-
         if (Session::has('refferel_user_id')) {
-            $val =  preg_replace('/\D/', '', $request->total) / $this->curr->value;
+            $val = $totals['subtotal'] / $this->curr->value;
             $val = $val / 100;
             $sub = $val * $this->gs->affilate_charge;
             if ($temp_affilate_users != null) {
@@ -121,7 +154,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         }
 
         if (Session::has('affilate')) {
-            $val = $request->total / $this->curr->value;
+            $val = $totals['subtotal'] / $this->curr->value;
             $val = $val / 100;
             $sub = $val * $this->gs->affilate_charge;
             if ($temp_affilate_users != null) {
@@ -147,7 +180,7 @@ class CashOnDeliveryController extends CheckoutBaseControlller
         ShippedToDelivery::dispatch($input['order_number']);
 
 
-        if ($input['coupon_code'] != "") {
+        if (!empty($input['coupon_code'])) {
             OrderHelper::coupon_check($input['coupon_code']); // For Coupon Checking
         }
         if (Auth::check()) {

@@ -98,6 +98,7 @@ class GeneralSettingController extends AdminBaseController
     // Genereal Settings All post requests will be done in this method
     public function generalupdate(Request $request)
     {
+       
         //--- Validation Section
         $validator = Validator::make($request->all(), $this->rules);
 
@@ -113,6 +114,7 @@ class GeneralSettingController extends AdminBaseController
             if ($file = $request->file('logo'))
             {
                 $name = \PriceHelper::ImageCreateName($file);
+               
                 $data->upload($name,$file,$data->logo);
                 $input['logo'] = $name;
             }

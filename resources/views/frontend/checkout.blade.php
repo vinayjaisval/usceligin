@@ -342,6 +342,9 @@
           <input type="hidden" name="coupon_code" id="hidden_coupon_code" value="">
           <input type="hidden" name="coupon_discount" id="hidden_coupon_discount" value="">
 
+          <input type="hidden" name="shipping_address_id" id="hidden_shipping_address_id" value="{{ $defaultAddress->id ?? '' }}">
+          <input type="hidden" name="billing_address_id" id="hidden_billing_address_id" value="{{ $defaultBillingAddress->id ?? '' }}">
+
           @if($orderCount == 0 && $user && $user->reffered_by)
           <input type="hidden" id="refferal_discount" name="refferal_discount" value="{{ $refferal_discount ?? '0' }}">
           @endif
@@ -754,6 +757,15 @@
           return;
       }
 
+      // 🔹 2. Delivery address validate
+      if (!document.getElementById('hidden_shipping_address_id').value) {
+          showToast('Please select a delivery address', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Place your order';
+          document.getElementById('address-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+      }
+
       showToast('Processing order...', 'info');
       // 🔹 3. Get selected gateway details
       const gatewayId   = paymentMethod.value;
@@ -774,9 +786,9 @@
       // 🔹 COD FLOW (DIRECT SUBMIT)
       // =============================
 
-      if (checkoutUrl.includes('cod')) {      
+      if (checkoutUrl.includes('cod')) {
           document.getElementById('checkoutForm').action = checkoutUrl;
-          document.getElementById('checkoutForm').submit();
+          document.getElementById('checkoutForm').requestSubmit();
           return;
       }
 
@@ -784,9 +796,9 @@
       // 🔹 ONLINE PAYMENT FLOW
       // =============================
 
-      if (checkoutUrl.includes('razorpay')) {                
+      if (checkoutUrl.includes('razorpay')) {
           document.getElementById('checkoutForm').action = checkoutUrl;
-          document.getElementById('checkoutForm').submit();
+          document.getElementById('checkoutForm').requestSubmit();
           return;
       }
 
@@ -794,7 +806,7 @@
       // 🔹 OTHER GATEWAYS
       // =============================
       document.getElementById('checkoutForm').action = checkoutUrl;
-      document.getElementById('checkoutForm').submit();
+      document.getElementById('checkoutForm').requestSubmit();
   }
   // Show toast notification
   function showToast(message, type = 'success') {
@@ -954,7 +966,7 @@ function initiateRazorpay(checkoutUrl) {
             const form = document.getElementById('checkoutForm');
             form.action = checkoutUrl;
             form.method = "POST";
-            form.submit();
+            form.requestSubmit();
         },
 
         prefill: {

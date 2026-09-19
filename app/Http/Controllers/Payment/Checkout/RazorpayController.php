@@ -10,6 +10,7 @@ use App\{
     Jobs\PaymentGetways
 };
 use App\Helpers\PriceHelper;
+use App\Models\Address;
 use App\Models\Country;
 use App\Models\Reward;
 use App\Models\State;
@@ -69,10 +70,29 @@ class RazorpayController extends CheckoutBaseControlller
             return redirect()->route('front.cart')->with('success', __("You don't have any product to checkout."));
         }
 
-        $totalc = $request->subtotalMRP + $request->shippingCost + $request->taxAmount - $request->coupon_discount - $request->refferal_discount - $request->points_used;
+        // ---- Address is required and must belong to the logged-in user ----
+        $request->validate(['shipping_address_id' => 'required|integer']);
 
-        // $total = round($request->total, 2);
-        $total = round($totalc, 2);
+        $shippingAddress = Address::where('id', $request->shipping_address_id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if (!$shippingAddress) {
+            return redirect()->back()->with('unsuccess', __('Please select a valid delivery address.'));
+        }
+
+        $billingAddress = $request->billing_address_id
+            ? Address::where('id', $request->billing_address_id)->where('user_id', Auth::id())->first()
+            : null;
+        $billingAddress = $billingAddress ?: $shippingAddress;
+
+        $cart = Cart::restoreCart(Session::get('cart'));
+        $user = Auth::user();
+
+        // ---- Amount recalculated server-side; client-submitted totals are never trusted ----
+        $totals = OrderHelper::buildOrderTotals($request, $cart, $user, $this->gs, $this->curr);
+        $total = round($totals['pay_amount'], 2);
+
         // Minimum order amount check
         if ($total < 1) {
             return redirect()->back()->with('unsuccess', __('Minimum order amount must be at least ₹1.'));
@@ -97,10 +117,15 @@ class RazorpayController extends CheckoutBaseControlller
             'payment_capture' => 1,
         ]);
 
-        // Store session data
+        // Persist the validated address IDs + server-computed totals for notify() to reuse —
+        // guarantees the amount charged by Razorpay is exactly what gets saved on the Order.
+        $input['shipping_address_id'] = $shippingAddress->id;
+        $input['billing_address_id'] = $billingAddress->id;
+
         Session::put('input_data', $input);
         Session::put('order_data', $order);
         Session::put('order_payment_id', $razorpayOrder['id']);
+        Session::put('order_totals', $totals);
 
         $amount = $razorpayOrder['amount'];
         $displayAmount = $amount;
@@ -119,12 +144,12 @@ class RazorpayController extends CheckoutBaseControlller
             "name"        => $order['item_name'],
             "description" => $order['item_name'],
             "prefill"     => [
-                "name"    => $request->customer_name,
-                "email"   => $request->customer_email,
-                "contact" => $request->customer_phone,
+                "name"    => $shippingAddress->name,
+                "email"   => $user->email,
+                "contact" => $shippingAddress->phone,
             ],
             "notes"       => [
-                "address"           => $request->customer_address,
+                "address"           => $shippingAddress->address_line_1,
                 "merchant_order_id" => $order['item_number'],
             ],
             "theme"       => [
@@ -151,6 +176,7 @@ class RazorpayController extends CheckoutBaseControlller
 
 
         $input = Session::get('input_data');
+        $totals = Session::get('order_totals');
 
         $order_data = Session::get('order_data');
         $success_url = route('front.payment.return');
@@ -158,22 +184,39 @@ class RazorpayController extends CheckoutBaseControlller
         $input_data = $request->all();
         //  dd($input_data);
         $payment_id = Session::get('order_payment_id');
-        $success = true;
+        $success = false;
 
-        if (!empty($input_data['razorpay_payment_id'])) {
+        if (!empty($input_data['razorpay_payment_id']) && !empty($input_data['razorpay_signature'])) {
             try {
                 $attributes = [
                     'razorpay_order_id'   => $payment_id,
                     'razorpay_payment_id' => $input_data['razorpay_payment_id'],
                     'razorpay_signature'  => $input_data['razorpay_signature'],
                 ];
-                // $this->api->utility->verifyPaymentSignature($attributes);
+                $this->api->utility->verifyPaymentSignature($attributes);
+                $success = true;
             } catch (SignatureVerificationError $e) {
                 $success = false;
             }
         }
 
-        if ($success === true) {
+        if ($success === true && $totals && !empty($input['shipping_address_id']) && Auth::check()) {
+            $user = Auth::user();
+
+            // Re-fetch the address by ID (defense in depth — don't trust the session-cached text fields)
+            $shippingAddress = Address::where('id', $input['shipping_address_id'])
+                ->where('user_id', $user->id)
+                ->first();
+
+            if (!$shippingAddress) {
+                return redirect($cancel_url)->with('unsuccess', __('Delivery address could not be verified.'));
+            }
+
+            $billingAddress = !empty($input['billing_address_id'])
+                ? Address::where('id', $input['billing_address_id'])->where('user_id', $user->id)->first()
+                : null;
+            $billingAddress = $billingAddress ?: $shippingAddress;
+
             $cart = Cart::restoreCart(Session::get('cart'));
             $new_cart = json_encode([
                 'totalQty'   => $cart->totalQty,
@@ -185,51 +228,56 @@ class RazorpayController extends CheckoutBaseControlller
 
             $affilate_users = $temp_affilate_users ? json_encode($temp_affilate_users) : null;
 
-            // Calculate final order total
-            $shippingCost = $input['shippingCost'] ?? 0;
-            $taxAmount = $input['taxAmount'] ?? 0;
-
-            $couponDiscount = $input['coupon_discount'] ?? 0;
-            $refferal_discount = $input['refferal_discount'] ?? 0;
-
-            $orderTotal = $cart->totalPrice + $shippingCost + $taxAmount  - $couponDiscount - $refferal_discount;
-           $input['selected_payment_method'] =9;
             // Create order
             $order = new Order;
             $input['cart'] = $new_cart;
-            $input['user_id'] = Auth::check() ? Auth::id() : null;
-            $input['billing_address_id'] = $input['billingAddress'] ?? null;
-            $input['shipping_address_id'] = $input['shippingAddress'] ?? null;
-           $input['method'] = ($input['selected_payment_method'] = 9) == 9 ? 'online' : null;
+            $input['user_id'] = $user->id;
 
-            $input['shipping_cost'] = $input['shippingCost'] ?? 0;
-            $input['coupon_discount'] = $input['coupon_discount'] ?? 0;
-            $input['coupon_code'] = $input['coupon_code'] ?? null;
+            // ---- Address/contact fields from the authoritative Address record ----
+            $input['shipping_address_id'] = $shippingAddress->id;
+            $input['billing_address_id'] = $billingAddress->id;
+            $input['customer_name'] = $shippingAddress->name;
+            $input['customer_phone'] = $shippingAddress->phone;
+            $input['customer_email'] = $user->email;
+            $input['customer_address'] = trim($shippingAddress->address_line_1 . ' ' . $shippingAddress->address_line_2);
+            $input['customer_city'] = $shippingAddress->city;
+            $input['customer_state'] = $shippingAddress->state;
+            $input['customer_zip'] = $shippingAddress->pincode;
+            $input['customer_country'] = $shippingAddress->country;
+            $input['shipping_name'] = $billingAddress->name;
+            $input['shipping_phone'] = $billingAddress->phone;
+            $input['shipping_address'] = trim($billingAddress->address_line_1 . ' ' . $billingAddress->address_line_2);
+            $input['shipping_city'] = $billingAddress->city;
+            $input['shipping_state'] = $billingAddress->state;
+            $input['shipping_zip'] = $billingAddress->pincode;
+            $input['shipping_country'] = $billingAddress->country;
+
+            $input['method'] = 'online';
+
+            // ---- Recalculated totals, computed once server-side in store() and reused here
+            //      so the amount saved matches exactly what Razorpay charged ----
+            $input['shipping_cost'] = $totals['shipping_cost'];
+            $input['coupon_discount'] = $totals['coupon_discount'];
+            $input['coupon_code'] = $totals['coupon_code'];
+            $input['refferal_discount'] = $totals['referral_discount'];
+            $input['tax'] = $totals['tax_amount'];
+            $input['points_used'] = $totals['points_used'];
+            $input['pay_amount'] = $totals['pay_amount'];
+
             $input['totalQty'] =  $cart->totalQty;
-            $input['affilate_user'] = $affilate_users ?? Auth::user()->reffered_by;
-            $input['affilate_users'] = $affilate_users ?? Auth::user()->affiliated_by;
+            $input['affilate_user'] = $affilate_users ?? $user->reffered_by;
+            $input['affilate_users'] = $affilate_users ?? $user->affiliated_by;
 
-            $input['pay_amount'] = $orderTotal;
             $input['order_number'] = $order_data['item_number'];
             $input['wallet_price'] = ($input['wallet_price'] ?? 0) / $this->curr->value;
             $input['payment_status'] = "Completed";
             $input['txnid'] = $input_data['razorpay_payment_id'];
 
             $input['status'] = 'pending';
-            $input['tax'] = $input['taxAmount'] ?? 0;
-
-            $input['points_used'] = $input['points_used'] ?? 0;
-
-
-
-            // dd($input);
-            if ($request->filled('refferal_discount')) {
-                $input['refferal_discount'] = $request->refferal_discount;
-            }
 
             foreach (['refferel_user_id', 'affilate'] as $key) {
                 if (Session::has($key)) {
-                    $val = (float) preg_replace('/[^\d.]/', '', $input['total']); // Keep decimal
+                    $val = $totals['subtotal'] / $this->curr->value;
                     $percentage = $this->gs->affilate_charge; // e.g., 10
                     $sub = $val * ($percentage / 100); // convert to decimal
 
@@ -260,8 +308,8 @@ class RazorpayController extends CheckoutBaseControlller
 
             PaymentGetways::dispatch($order_data['item_number']);
 
-            if (!empty($input['coupon_id'])) {
-                OrderHelper::coupon_check($input['coupon_id']);
+            if (!empty($input['coupon_code'])) {
+                OrderHelper::coupon_check($input['coupon_code']);
             }
 
             OrderHelper::size_qty_check($cart);
@@ -271,7 +319,7 @@ class RazorpayController extends CheckoutBaseControlller
             // Clear cart & coupon session
             Session::put('temporder', $order);
             Session::put('tempcart', $cart);
-            Session::forget(['cart', 'already', 'coupon', 'coupon_total', 'coupon_total1', 'coupon_percentage']);
+            Session::forget(['cart', 'already', 'coupon', 'coupon_total', 'coupon_total1', 'coupon_percentage', 'order_totals']);
 
             // Wallet transaction
             if ($order->user_id && $order->wallet_price > 0) {

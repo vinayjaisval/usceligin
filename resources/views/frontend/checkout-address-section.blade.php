@@ -321,6 +321,13 @@ const AddressManager = {
    */
   selectDeliveryAddress(addressId) {
     this.updateCardSelection('selected_address_id', 'address-card-', addressId);
+    this.syncHiddenField('hidden_shipping_address_id', addressId);
+
+    // If billing mirrors shipping, keep it in sync too
+    const sameAsShipping = document.getElementById('same-as-shipping');
+    if (!sameAsShipping || sameAsShipping.checked) {
+      this.syncHiddenField('hidden_billing_address_id', addressId);
+    }
   },
 
   /**
@@ -330,6 +337,7 @@ const AddressManager = {
     document.getElementById('billing-from-delivery').checked = true;
     this.toggleBillingSource('delivery');
     this.updateBillingCardSelection(addressId, 'billing-delivery-card-');
+    this.syncHiddenField('hidden_billing_address_id', addressId);
   },
 
   /**
@@ -339,6 +347,16 @@ const AddressManager = {
     document.getElementById('billing-separate').checked = true;
     this.toggleBillingSource('billing');
     this.updateBillingCardSelection(addressId, 'billing-card-');
+    this.syncHiddenField('hidden_billing_address_id', addressId);
+  },
+
+  /**
+   * Mirror the selected address id into the real checkoutForm hidden input
+   * that actually gets submitted to the server.
+   */
+  syncHiddenField(hiddenId, addressId) {
+    const field = document.getElementById(hiddenId);
+    if (field) field.value = addressId;
   },
 
   /**
@@ -450,6 +468,12 @@ const AddressManager = {
 
     if (checkbox && section) {
       section.classList.toggle('hidden', checkbox.checked);
+
+      // When mirroring shipping, keep the submitted billing_address_id in sync with it
+      if (checkbox.checked) {
+        const shippingId = document.getElementById('hidden_shipping_address_id')?.value || '';
+        this.syncHiddenField('hidden_billing_address_id', shippingId);
+      }
     }
   },
 

@@ -178,9 +178,11 @@
           <!-- Center Column: Company Logo -->
           <div class="flex justify-start lg:justify-center">
             <a href="{{ route('front.index') }}" aria-label="CELIGIN - Go to homepage" class="block">
-              <img src="{{ asset('assets/images/' . $gs->logo) }}" alt="CELIGIN - Premium Cosmetics & Skincare"
+              <img src="{{ $gs->logo ? url('/assets/images/'.$gs->logo) : url('/assets/images/noimage.png') }}" alt="CELIGIN - Premium Cosmetics & Skincare"
                 class="h-5 w-auto opacity-80 hover:opacity-100 transition-opacity duration-200" />
-            </a>
+           
+           
+              </a>
           </div>
 
           <!-- Right Column: Payment Methods -->

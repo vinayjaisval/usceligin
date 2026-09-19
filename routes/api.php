@@ -197,15 +197,18 @@ Route::group(['prefix' => 'front'], function () {
 
     //------------ Checkout Controller ------------
 
-    Route::post('/checkout','Api\Front\CheckoutController@checkout');
-   
     Route::get('/get-shipping-packaging','Api\Front\CheckoutController@getShippingPackaging');
     Route::get('/vendor/wise/shipping-packaging','Api\Front\CheckoutController@VendorWisegetShippingPackaging');
     Route::get('/order/details','Api\Front\CheckoutController@orderDetails');
     Route::get('/get/coupon-code','Api\Front\CheckoutController@getCoupon');
-    Route::post('/checkout/update/{id}','Api\Front\CheckoutController@update');
-    Route::get('/checkout/delete/{id}','Api\Front\CheckoutController@delete');
     Route::get('/get/countries','Api\Front\CheckoutController@countries');
+
+    // Order create/update/delete require an authenticated user (previously fully public)
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('/checkout','Api\Front\CheckoutController@checkout');
+        Route::post('/checkout/update/{id}','Api\Front\CheckoutController@update');
+        Route::get('/checkout/delete/{id}','Api\Front\CheckoutController@delete');
+    });
     //------------ Checkout Controller ------------
     // Get shipping cost 
     Route::post('getPinCodeDetails', 'Api\Front\FrontendController@getPinCodeDetails');

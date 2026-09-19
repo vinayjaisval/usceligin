@@ -6,6 +6,7 @@ use App\{
     Models\Cart,
     Models\User,
     Models\Coupon,
+    Models\Order,
     Models\Product,
     Models\Transaction,
     Models\VendorOrder,
@@ -15,6 +16,7 @@ use App\{
 use App\Models\AffliateBonus;
 use Auth;
 use Session;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class OrderHelper
@@ -146,13 +148,13 @@ class OrderHelper
         }
     }
 
-    public static function coupon_check($id)
+    public static function coupon_check($code)
     {
-      
         try {
-            $coupon = Coupon::where('coupon_code', $id)->first();
-           
-            dd($coupon);
+            $coupon = Coupon::where('code', $code)->first();
+            if (!$coupon) {
+                return;
+            }
             $coupon->used++;
             if ($coupon->times != null) {
                 $i = (int)$coupon->times;
@@ -162,6 +164,77 @@ class OrderHelper
             $coupon->update();
         } catch (\Exception $e) {
         }
+    }
+
+    /**
+     * Recalculate every order total server-side from trusted sources (cart, Coupon
+     * model, general settings, user wallet) instead of trusting client-submitted
+     * hidden-field amounts. Mirrors the formulas used to render the checkout page
+     * in Front\CheckoutController::checkout() and Front\CouponController::couponcheck().
+     */
+    public static function buildOrderTotals(Request $request, $cart, $user, $gs, $curr)
+    {
+        $subtotal = (float) $cart->totalPrice;
+
+        // ---- Coupon discount: always re-derived from the Coupon model, never from the request ----
+        $couponCode = trim((string) $request->coupon_code);
+        $couponDiscount = 0;
+        $appliedCouponCode = null;
+
+        if ($couponCode !== '') {
+            $coupon = Coupon::where('code', $couponCode)
+                ->where('status', 1)
+                ->whereDate('start_date', '<=', now())
+                ->whereDate('end_date', '>=', now())
+                ->first();
+
+            $alreadyUsed = $coupon && $user
+                ? Order::where('coupon_code', $couponCode)->where('user_id', $user->id)->exists()
+                : false;
+
+            if ($coupon && !$alreadyUsed) {
+                if ((int) $coupon->type === 0) {
+                    $percent = min(max((float) $coupon->price, 0), 100);
+                    $couponDiscount = round($subtotal * $percent / 100, 2);
+                } else {
+                    $couponDiscount = round(min((float) $coupon->price * (float) $curr->value, $subtotal), 2);
+                }
+                $appliedCouponCode = $coupon->code;
+            }
+        }
+
+        // ---- Referral discount: server-side rule, first order only ----
+        $referralDiscount = 0;
+        if ($user) {
+            $orderCount = Order::where('user_id', $user->id)->count();
+            if ($orderCount === 0 && $user->reffered_by) {
+                $referralDiscount = round($subtotal * (($gs->referral_bonus ?? 0) / 100), 2);
+            }
+        }
+
+        // ---- Shipping cost: same flat rule already used to render the checkout page ----
+        $shippingCost = $subtotal >= ($gs->free_shipping_amount ?? 500)
+            ? 0
+            : ($gs->shipping_cost ?? 50);
+
+        // ---- Tax ----
+        $taxAmount = round($subtotal * 0.18, 2);
+
+        // ---- Reward-points redemption, clamped to the user's actual wallet balance ----
+        $pointsUsed = min(max((float) $request->points_used, 0), (float) ($user->current_balance ?? 0));
+
+        $payAmount = max(0, $subtotal - $couponDiscount - $referralDiscount + $shippingCost + $taxAmount - $pointsUsed);
+
+        return [
+            'subtotal' => $subtotal,
+            'coupon_code' => $appliedCouponCode,
+            'coupon_discount' => $couponDiscount,
+            'referral_discount' => $referralDiscount,
+            'shipping_cost' => $shippingCost,
+            'tax_amount' => $taxAmount,
+            'points_used' => $pointsUsed,
+            'pay_amount' => round($payAmount, 2),
+        ];
     }
 
     public static function size_qty_check($cart)

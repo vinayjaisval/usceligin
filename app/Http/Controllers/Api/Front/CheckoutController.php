@@ -170,7 +170,7 @@ class CheckoutController extends Controller
 
             $order = new Order;
 
-            $input['user_id'] = $request->user_id ? $request->user_id : null;
+            $input['user_id'] = Auth::guard('api')->id();
 
             $input['cart'] = $new_cart;
             $input['affilate_users'] = $affilate_users;
@@ -299,6 +299,10 @@ class CheckoutController extends Controller
         try {
             //--- Logic Section
             $data = Order::find($id);
+
+            if (!$data || $data->user_id !== Auth::guard('api')->id()) {
+                return response()->json(['status' => false, 'data' => [], 'error' => ['message' => 'Order Not Found']]);
+            }
 
             $input = $request->all();
             if ($data->status == "completed") {
@@ -438,7 +442,7 @@ class CheckoutController extends Controller
         try {
             //--- Logic Section
             $data = Order::find($id);
-            if ($data) {
+            if ($data && $data->user_id === Auth::guard('api')->id()) {
                 $data->delete();
 
                 //--- Redirect Section

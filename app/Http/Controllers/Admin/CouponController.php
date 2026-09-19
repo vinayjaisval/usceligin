@@ -59,8 +59,17 @@ class CouponController extends AdminBaseController
     public function store(Request $request)
     {
         //--- Validation Section
-        $rules = ['code' => 'unique:coupons'];
-        $customs = ['code.unique' => __('This code has already been taken.')];
+        $rules = [
+            'code' => 'required|unique:coupons',
+            'type' => 'required|in:0,1',
+            'price' => 'required|numeric|min:0' . ($request->type == 0 ? '|max:100' : ''),
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ];
+        $customs = [
+            'code.unique' => __('This code has already been taken.'),
+            'price.max' => __('A percentage discount cannot exceed 100.'),
+        ];
         $validator = Validator::make($request->all(), $rules, $customs);
 
         if ($validator->fails()) {
@@ -108,8 +117,17 @@ class CouponController extends AdminBaseController
     {
         //--- Validation Section
 
-        $rules = ['code' => 'unique:coupons,code,' . $id];
-        $customs = ['code.unique' => __('This code has already been taken.')];
+        $rules = [
+            'code' => 'required|unique:coupons,code,' . $id,
+            'type' => 'required|in:0,1',
+            'price' => 'required|numeric|min:0' . ($request->type == 0 ? '|max:100' : ''),
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ];
+        $customs = [
+            'code.unique' => __('This code has already been taken.'),
+            'price.max' => __('A percentage discount cannot exceed 100.'),
+        ];
         $validator = Validator::make($request->all(), $rules, $customs);
 
         if ($validator->fails()) {
